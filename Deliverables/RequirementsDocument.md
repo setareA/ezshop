@@ -40,8 +40,17 @@ EZShop is a software application to:
 
 
 | Stakeholder name  | Description | 
-| ----------------- |:-----------:|
-|   Stakeholder x..     |             | 
+| ----------------- |-----------|
+| Customers |People who buy products | 
+| Fidelity card owners | They enjoy privileges such as, for example, discounts and collection of points.|
+| Manager/Owner | In charge of handling various operational aspects such as managing inventories, budgeting, ordering products, and analyzing sales performance. |
+| Accountants | Persons who manage money flow. <br> Prepare and examine financial records. |
+| Cashier | They perform transactions, take coupons, make change, provide receipts, and perform a host of related tasks. |
+| Stocker | A person who refills the store shelves . He/she uses a barcode reader to notify products delivered by the supplier to the software. ( he/she then has just to input the number of product) |
+| Customer Service Representative | Customer service representatives assist shoppers with questions, sell products that aren’t available in the aisles, and address customer complaints. |
+| Developer | Responsible for creating or working on the development of the project. |
+| Maintainer ||
+| Supplier ||
 
 # Context Diagram and interfaces
 
