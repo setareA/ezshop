@@ -156,11 +156,10 @@ EZShop is a software application to:
 \<concepts are used consistently all over the document, ex in use cases, requirements etc>
 
 # System Design
-\<describe here system design>
 
-\<must be consistent with Context diagram>
+![](Images/system_design.png)
 
 # Deployment Diagram 
 
-\<describe here deployment diagram >
+![](Images/deployment_dg.png)
 
