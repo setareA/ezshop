@@ -158,35 +158,111 @@ She would like a digital database with all sold products that can scroll and fil
 
 ### Use case 1, UC1
 
-| Actors Involved  |                                                                      |
-| ---------------- | :------------------------------------------------------------------: |
-| Precondition     | \<Boolean expression, must evaluate to true before the UC can start> |
-| Post condition   |  \<Boolean expression, must evaluate to true after UC is finished>   |
-| Nominal Scenario |         \<Textual description of actions executed by the UC>         |
-| Variants         |              \<other executions, ex in case of errors>               |
+Handle sale transactions between cashier and customer
 
-##### Scenario 1.1
+| Actors Involved  | Cashier, Products customer                                                                                                                                                                                                         |
+| ---------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Precondition     | - The cashier is in the cash register location and the cash register is unlocked by authentication <br>- No ongoing transaction in the current cash register. <br>- The POS is working. <br>- The cash register shouldn’t be empty |
+| Post condition   | - The transaction is terminated.                                                                                                                                                                                                   |
+| Nominal Scenario | Scenario 1.1.1 1.1.2                                                                                                                                                                                                               |
+| Variants         | Scenario 1.2 1.3 1.4                                                                                                                                                                                                               |
 
-\<describe here scenarios instances of UC1>
+##### Scenario 1.1.1
 
-\<a scenario is a sequence of steps that corresponds to a particular execution of one use case>
+Transaction between the cashier and the customer without fidelity card
 
-\<a scenario is a more formal description of a story>
+| Scenario 1.1.1 |                                                                                                                                                                                                                                    |
+| -------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Precondition   | - The cashier is in the cash register location and the cash register is unlocked by authentication <br>- No ongoing transaction in the current cash register. <br>- The POS is working. <br>- The cash register shouldn’t be empty |
+| Post condition | - The amount in cash after transaction = amount in cash before transaction + T <br>- The transaction is recorded by the software <br>- All the products are scanned by the barcode reader. <br>- The inventory is updated          |
+| Step#          | Description                                                                                                                                                                                                                        |
+| 1              | Start the transaction                                                                                                                                                                                                              |
+| 2              | Retrieve name and price by reading barcode of a product                                                                                                                                                                            |
+| 3              | Repeat step 2 for all products                                                                                                                                                                                                     |
+| 4              | Compute total T                                                                                                                                                                                                                    |
+| 5              | Choose between cash or credit card payment                                                                                                                                                                                         |
+| 6              | Manage payment and cash amount T                                                                                                                                                                                                   |
+| 7              | Print receipt                                                                                                                                                                                                                      |
+| 8              | Register the transaction in the software                                                                                                                                                                                           |
+| 9              | Close transaction                                                                                                                                                                                                                  |
 
-\<only relevant scenarios should be described>
+##### Scenario 1.1.2
 
-| Scenario 1.1   |                                                                            |
-| -------------- | :------------------------------------------------------------------------: |
-| Precondition   | \<Boolean expression, must evaluate to true before the scenario can start> |
-| Post condition |  \<Boolean expression, must evaluate to true after scenario is finished>   |
-| Step#          |                                Description                                 |
-| 1              |                                                                            |
-| 2              |                                                                            |
-| ...            |                                                                            |
+Transaction between the cashier and the customer with fidelity card
+
+| Scenario 1.1.2 |                                                                                                                                                                                                                                                                          |
+| -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Precondition   | - The cashier is in the cash register location and the cash register is unlocked by authentication <br>- No ongoing transaction in the current cash register. <br>- The POS is working. <br>- The cash register shouldn’t be empty <br>- The customer have fidelity card |
+| Post condition | - The amount in cash after transaction = amount in cash before transaction + T <br>- The transaction is recorded by the software <br>- All the products are scanned by the barcode reader. <br>- The inventory is updated                                                |
+| Step#          | Description                                                                                                                                                                                                                                                              |
+| 1              | Start the transaction                                                                                                                                                                                                                                                    |
+| 2              | Read barcode of fidelity card                                                                                                                                                                                                                                            |
+| 3              | Retrieve name and price by reading barcode of a product                                                                                                                                                                                                                  |
+| 4              | Apply discount for fidelity card                                                                                                                                                                                                                                         |
+| 5              | Repeat step 3 and 4 for all products                                                                                                                                                                                                                                     |
+| 6              | Compute total T                                                                                                                                                                                                                                                          |
+| 7              | Choose between cash or credit card payment                                                                                                                                                                                                                               |
+| 8              | Add points to the fidelity card                                                                                                                                                                                                                                          |
+| 9              | Manage payment and cash amount T                                                                                                                                                                                                                                         |
+| 10             | Print receipt                                                                                                                                                                                                                                                            |
+| 11             | Register the transaction in the software                                                                                                                                                                                                                                 |
+| 12             | Close transaction                                                                                                                                                                                                                                                        |
 
 ##### Scenario 1.2
 
-##### Scenario 1.x
+The transaction is aborted.
+| Scenario 1.2 | |
+| -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Precondition | - The cashier is in the cash register location and the cash register is unlocked by authentication <br>- No ongoing transaction in the current cash register. <br>- The POS is working. <br>- The cash register shouldn’t be empty|
+| Post condition | - The transaction is aborted |
+| Step# | Description |
+| 1 | Start the transaction |
+| 2 | Retrieve name and price by reading barcode of a product |
+| 3 | Repeat step 2 for all products |
+| 4 | The cashier asks to abort the transaction T |
+| 5 | Close transaction |
+
+##### Scenario 1.3
+
+Transaction between the cashier and the customer but some product is deleted during the transaction
+| Scenario 1.3| |
+| -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Precondition | - The cashier is in the cash register location and the cash register is unlocked by authentication <br>- No ongoing transaction in the current cash register. <br>- The POS is working. <br>- The cash register shouldn’t be empty |
+| Post condition | - The amount in cash after transaction = amount in cash before transaction + T <br>- The transaction is recorded by the software <br>- All the products are scanned by the barcode reader. <br>- The inventory is updated |
+| Step# | Description |
+| 1 | Start the transaction |
+| 2 | Retrieve name and price by reading barcode of a product |
+| 3 | Repeat step 2 for all products |
+| 4 | The barcode of to be removed product is read |
+| 5 | The product is removed from the list of transaction |
+| 6 | Repeat steps 4 and 5 for all the products to be removed|
+| 7 | Compute total amount T|
+| 8 | Choose between cash or credit card payment |
+| 9 | Manage payment and cash amount T |
+| 10 | Print receipt |
+| 11 | Register the transaction in the software |
+| 12 | Close transaction |
+
+##### Scenario 1.4
+
+Transaction between the cashier and the customer but some barcode is not readable
+| Scenario 1.4 | |
+| -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Precondition | - The cashier is in the cash register location and the cash register is unlocked by authentication <br>- No ongoing transaction in the current cash register. <br>- The POS is working. <br>- The cash register shouldn’t be empty
+| Post condition | - The amount in cash after transaction = amount in cash before transaction + T <br>- The transaction is recorded by the software <br>- All the products are scanned by the barcode reader. <br>- The inventory is updated |
+| Step# | Description |
+| 1 | Start the transaction |
+| 2 | Retrieve name and price by reading barcode of a product |
+| 3 | Repeat step 2 for all products |
+| 4 | Input the barcode of the product manually|
+| 5 | Repeat step 6 for all products which can’t be read by the barcode reader|
+| 6 | Compute total T |
+| 7 | Choose between cash or credit card payment |
+| 8 | Add points to the fidelity card |
+| 9 | Manage payment and cash amount T |
+| 10 | Print receipt |
+| 11 | Register the transaction in the software |
+| 12 | Close transaction |
 
 ### Use case 2, UC2
 
