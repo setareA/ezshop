@@ -93,11 +93,51 @@ She would like a digital database with all sold products that can scroll and fil
 
 \<they match to high level use cases>
 
-| ID    | Description |
-| ----- | :---------: |
-| FR1   |             |
-| FR2   |             |
-| FRx.. |             |
+| ID                        | Description                                                                                                                                |
+| ------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
+| **FR1**                   | Handle sale transaction between customer and stationery store                                                                              |
+| &emsp;FR1.1               | Read the barcode (of the products, the fidelity card, ID card)                                                                             |
+| &emsp;FR1.2               | Applying the discount on the price                                                                                                         |
+| &emsp;FR1.3               | Supporting two different payment method(cash and credit card)                                                                              |
+| &emsp;FR1.4               | End the purchase                                                                                                                           |
+| &emsp;&emsp;&emsp;FR1.4.1 | Update Statistics of available products according to the changes in the amount of each product sold                                        |
+| &emsp;&emsp;&emsp;FR1.4.2 | Check if new alarms must be activated in order to add more products in the shelves and warehouse (according to pre established thresholds) |
+| **FR2**                   | Handle sale transaction between supplier and stationery store                                                                              |
+| &emsp;FR2.1               | Check correctness of the transaction                                                                                                       |
+| &emsp;&emsp;&emsp;FR2.1.1 | Count quantity in the package                                                                                                              |
+| &emsp;&emsp;&emsp;FR2.1.2 | Display quantity ordered                                                                                                                   |
+| &emsp;FR2.2               | End the transaction                                                                                                                        |
+| &emsp;&emsp;&emsp;FR2.2.1 | Update Statistics according to the new amount of each product                                                                              |
+| **FR3**                   | Authorize and authenticate                                                                                                                 |
+| &emsp;FR3.1               | Define and edit account                                                                                                                    |
+| &emsp;&emsp;&emsp;FR3.1.1 | Send automatically the credentials for logging when a profile is created                                                                   |
+| &emsp;&emsp;&emsp;FR3.1.2 | Option for retrieving the forgotten password                                                                                               |
+| &emsp;FR3.2               | Authenticate the manager ( multi-factor authentication)                                                                                    |
+| &emsp;FR3.3               | Authenticate the rest of the employees                                                                                                     |
+| &emsp;&emsp;&emsp;FR3.3.1 | Authenticate through username and password                                                                                                 |
+| &emsp;&emsp;&emsp;FR3.3.2 | Authenticate through the ID card                                                                                                           |
+| &emsp;FR3.4               | Log out                                                                                                                                    |
+| **FR4**                   | Show statistics of the stationery store                                                                                                    |
+| &emsp;FR4.1               | Filtering data by different features                                                                                                       |
+| &emsp;&emsp;&emsp;FR4.1.1 | Report sales                                                                                                                               |
+| &emsp;&emsp;&emsp;FR4.1.2 | Report supplies                                                                                                                            |
+| **FR5**                   | Show organizational information                                                                                                            |
+| &emsp;FR5.1               | Show information about employees                                                                                                           |
+| &emsp;FR5.2               | Show information about suppliers                                                                                                           |
+| **FR6**                   | Manage fidelity card policy                                                                                                                |
+| &emsp;FR6.1               | Possibility to add and edit discounts to products for fidelity card owners                                                                 |
+| &emsp;FR6.2               | Add points to the products                                                                                                                 |
+| &emsp;FR6.3               | Link a specific price for each point                                                                                                       |
+| &emsp;FR6.4               | Create,edit and delete a fidelity card for a customer (including information of Customer)                                                  |
+| **FR7**                   | Control the location of products                                                                                                           |
+| &emsp;FR7.1               | Create a map that represents the location of the products in the shelves                                                                   |
+| &emsp;FR7.2               | Edit a map that represents the location of the products in the shelves                                                                     |
+| &emsp;FR7.3               | Display map that represents the location of the products in the shelves                                                                    |
+| &emsp;FR7.4               | Relocation of products from warehouse to shelves                                                                                           |
+| **FR8**                   | Create and modify products record                                                                                                          |
+| **FR9**                   | Manage threshold for quantity of products in warehouse and shelves                                                                         |
+| &emsp;FR9.1               | Set threshold                                                                                                                              |
+| &emsp;FR9.2               | Send alarms for products reaching their threshold in the warehouse and shelves                                                             |
 
 ## Non Functional Requirements
 
