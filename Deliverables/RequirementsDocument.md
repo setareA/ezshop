@@ -60,10 +60,6 @@ EZshop is supported by a web application (accessible via PC), with different lev
 
 ## Interfaces
 
-\<describe here each interface in the context diagram>
-
-\<GUIs will be described graphically in a separate document>
-
 | Actor         | Logical Interface     | Physical Interface                      |
 | ------------- | --------------------- | --------------------------------------- |
 | Cashier       | GUI + ID barcode      | Barcode reader + monitor,keyboard (POS) |
@@ -105,14 +101,12 @@ She would like a digital database with all sold products that can scroll and fil
 
 ## Non Functional Requirements
 
-\<Describe constraints on functional requirements>
-
-| ID      | Type (efficiency, reliability, ..) | Description | Refers to |
-| ------- | :--------------------------------: | :---------: | --------: |
-| NFR1    |                                    |             |           |
-| NFR2    |                                    |             |           |
-| NFR3    |                                    |             |           |
-| NFRx .. |                                    |             |           |
+| ID   | Type (efficiency, reliability, ..) | Description                                                                              |
+| ---- | ---------------------------------- | ---------------------------------------------------------------------------------------- |
+| NFR1 | Security                           | Access to the software only through local network                                        |
+| NFR2 | Usability                          | In 30 minutes a new cashier can learn how to use the software                            |
+| NFR3 | Security                           | Access to the software only through authentication                                       |
+| NFR4 | Usability                          | Time between product barcode scan and name of the product showed in monitor/display < 1s |
 
 # Use case diagram and use cases
 
