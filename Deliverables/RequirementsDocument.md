@@ -432,7 +432,7 @@ Show statistics of the stationery store
 
 # Scenario 4.1
 
-authentication of manager ( two authentication)
+Show statistics of sales
 
 | Scenario 3.1   |                                                                                       |
 | -------------- | ------------------------------------------------------------------------------------- |
@@ -823,7 +823,7 @@ Add new product to inventory
 
 ### Use case 12, UC12
 
-Add/modify or delete a product record
+Creating alarm for products reaching their threshold in quantity
 
 | Actors Involved  | Manager, Clerk                                                                 |
 | ---------------- | ------------------------------------------------------------------------------ |
@@ -834,9 +834,9 @@ Add/modify or delete a product record
 
 # Scenario 12.1
 
-Out of stocks product raise an alert to the manager
+Soon to be out of stocks product raise an alert to the manager
 
-| Scenario 11.1  |                                                  |
+| Scenario 12.1  |                                                  |
 | -------------- | ------------------------------------------------ |
 | Precondition   | - The manager is authenticated                   |
 | Post condition | - The soon to be out of stock products is showed |
@@ -847,9 +847,9 @@ Out of stocks product raise an alert to the manager
 
 # Scenario 12.2
 
-Out of stocks product raise an alert to the manager
+Soon to be out of stock products in the shelf raise an alert to the clerk
 
-| Scenario 11.1  |                                                |
+| Scenario 12.2  |                                                |
 | -------------- | ---------------------------------------------- |
 | Precondition   | - The clerk authenticated                      |
 | Post condition | - The soon to be out of shelf product is shown |
