@@ -138,12 +138,12 @@ She would like a digital database with all sold products that can scroll and fil
 
 ## Non Functional Requirements
 
-| ID   | Type (efficiency, reliability, ..) | Description                                                                              |
+| ID   | Type (efficiency, reliability, ..) | Description                                                                              | Refers to|
 | ---- | ---------------------------------- | ---------------------------------------------------------------------------------------- |
-| NFR1 | Security                           | Access to the software only through local network                                        |
-| NFR2 | Usability                          | In 30 minutes a new cashier can learn how to use the software                            |
-| NFR3 | Security                           | Access to the software only through authentication                                       |
-| NFR4 | Usability                          | Time between product barcode scan and name of the product showed in monitor/display < 1s |
+| NFR1 | Security                           | Access to the software only through local network                                        |FR3|
+| NFR2 | Usability                          | In 30 minutes a new cashier can learn how to use the software                            |FR1|
+| NFR3 | Security                           | Access to the software only through authentication                                       |FR3|
+| NFR4 | Usability                          | Time between product's barcode is scanned and name of the product shown in monitor < 1s  |FR1,FR2
 
 # Use case diagram and use cases
 
