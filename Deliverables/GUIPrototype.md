@@ -318,11 +318,6 @@ Manager edits one map
 
 Location of products is showed to clerk
 
-Soon to be out of stocks product raise an alert through the bell icon to the manager<br>
-![](Images/GUI/manager.png)
-
-<br>
-- Soon to be out of stock products in the shelf raise an alert through the bell icon to the clerk<br>
 # Scenario 9.1
 
 Display map
@@ -330,7 +325,6 @@ Display map
 ![](Images/GUI/clerk_main_page.png)
 
 <br>
-- The products are shown<br>
 
 ![](Images/GUI/display_map.png)
 
