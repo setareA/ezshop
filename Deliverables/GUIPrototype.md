@@ -357,3 +357,61 @@ Show information of employees
 - Then comes back and clicks save<br>
 
 ![](Images/GUI/Supplier%20record.png)
+
+# Scenario 10.4
+
+Create a new supplier
+
+![](Images/GUI/manager.png)
+
+<br>
+
+![](Images/GUI/Edit%20Suppliers.png)
+
+<br>
+
+![](Images/GUI/New%20Supplier%20record%20.png)
+
+<br>
+
+![](Images/GUI/choose_product.png)
+
+# Scenario 10.5
+
+Show all the trasaction
+![](Images/GUI/manager.png)
+
+<br>
+
+![](Images/GUI/Order_Menu.png)
+
+<br>
+
+![](Images/GUI/List%20item%20of%20orde.png)
+
+# Scenario 10.6
+
+Create an order from a supplier
+![](Images/GUI/manager.png)
+
+<br>
+
+![](Images/GUI/Order_Menu.png)
+
+<br>
+
+![](Images/GUI/Create%20Order.png)
+
+- The manager chooses the supplier , searching it by code and name
+- The manager clicks on choose item
+
+<br>
+
+![](Images/GUI/Choose%20Item.png)
+
+- The manager modifies only the “input quantity” values of the needed products
+- The manager clicks on “ create order”
+
+<br>
+
+![](Images/GUI/Order_Menu.png)
