@@ -62,7 +62,7 @@ EZshop is supported by a web application (accessible via PC), with different lev
 
 | Actor         | Logical Interface     | Physical Interface                      |
 | ------------- | --------------------- | --------------------------------------- |
-| Cashier       | GUI + ID barcode      | Barcode reader + monitor,keyboard (POS) |
+| Cashier       | GUI + ID barcode      | Barcode reader + monitor |
 | Clerk         | GUI+barcode           | Barcode reader + monitor                |
 | Manager/Owner | GUI                   | Manager Device                          |
 | Accountant    | GUI                   | Accountant Device                       |
