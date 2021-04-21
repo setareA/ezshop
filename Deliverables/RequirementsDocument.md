@@ -432,7 +432,7 @@ Show statistics of the stationery store
 
 # Scenario 4.1
 
-authentication of manager ( two authentication)
+Show statistics of sales
 
 | Scenario 3.1   |                                                                                       |
 | -------------- | ------------------------------------------------------------------------------------- |
