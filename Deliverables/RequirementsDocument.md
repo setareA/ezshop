@@ -860,9 +860,7 @@ Out of stocks product raise an alert to the manager
 
 # Glossary
 
-\<use UML class diagram to define important terms, or concepts in the domain of the system, and their relationships>
-
-\<concepts are used consistently all over the document, ex in use cases, requirements etc>
+![](Images/glossary.png)
 
 # System Design
 
