@@ -543,13 +543,13 @@ Create fidelity card
 
 ### Use case 7, UC7
 
-Define and edit accounts
+Define, edit and delete accounts
 
 | Actors Involved  | Manager                        |
 | ---------------- | ------------------------------ |
 | Precondition     | - The manager is authenticated |
 | Post condition   | - Accounts are defined         |
-| Nominal Scenario | Scenario 7.1, 7.2          |
+| Nominal Scenario | Scenario 7.1, 7.2, 7.3          |
 | Variants         |
 
 # Scenario 7.1
@@ -562,11 +562,11 @@ Create a new account
 | Post condition | - A new account is created                                          |
 | Step#          | Description                                                         |
 | 1              | The manager clicks on the green “+” on EMPLOYEES section            |
-| 2              | He fills the form                                                   |
-| 3              | He chooses a photo of the employee                                  |
-| 4              | He click on “schedule”                                              |
-| 5              | He sets the weekly schedule of the employee                         |
-| 6              | He comes back to the previous page and he click “ save “ to save it |
+| 2              | The Manager fills the form                                                   |
+| 3              | The Manager chooses a photo of the employee                                  |
+| 4              | The Manager clicks on “schedule”                                              |
+| 5              | The Manager sets the weekly schedule of the employee                         |
+| 6              | The Manager comes back to the previous page and he click “ save “ to save it |
 
 # Scenario 7.2
 
@@ -577,10 +577,22 @@ Edit account
 | Precondition   | - The user is authenticated as a manager                            |
 | Post condition | - The account is edited                                             |
 | Step#          | Description                                                         |
-| 1              | The manager clicks on the green “+” on EMPLOYEES section            |
-| 2              | He clicks on “schedule”                                             |
-| 3              | He changes the weekly schedule of the employee                      |
-| 4              | He comes back to the previous page and he click “ save “ to save it |
+| 1              | The Manager clicks in an employee photograph                        |
+| 2              | The Manager clicks in “schedule”                                             |
+| 3              | The Manager changes the weekly schedule of the employee                      |
+| 4              | The Manager comes back to the previous page and clicks in  “ save “ to save it |
+
+# Scenario 7.3
+
+Delete account
+
+| Scenario 7.3   |                                                                     |
+| -------------- | ------------------------------------------------------------------- |
+| Precondition   | - The user is authenticated as a manager                            |
+| Post condition | - The account is deleted                                             |
+| Step#          | Description                                                         |
+| 1              | The Manager clicks in an employee photograph                        |
+| 2              | The Manager clicks in trash that says "Delete Employee"                                             |
 
 ### Use case 8, UC8
 
