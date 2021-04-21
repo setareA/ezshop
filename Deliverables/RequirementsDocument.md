@@ -187,7 +187,7 @@ Transaction between the cashier and the customer with fidelity card
 
 | Scenario 1.1.2 |                                                                                                                                                                                                                                                                          |
 | -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| Precondition   | - The cashier is in the cash register location and the cash register is unlocked by authentication <br>- No ongoing transaction in the current cash register. <br>- The POS is working. <br>- The cash register shouldn’t be empty <br>- The customer have fidelity card |
+| Precondition   | - The cashier is in the cash register location and the cash register is unlocked by authentication <br>- No ongoing transaction in the current cash register. <br>- The POS is working. <br>- The cash register shouldn’t be empty <br>- The customer has a fidelity card |
 | Post condition | - The amount in cash after transaction = amount in cash before transaction + T <br>- The transaction is recorded by the software <br>- All the products are scanned by the barcode reader. <br>- The inventory is updated                                                |
 | Step#          | Description                                                                                                                                                                                                                                                              |
 | 1              | Start the transaction                                                                                                                                                                                                                                                    |
@@ -228,7 +228,7 @@ Transaction between the cashier and the customer but some product is deleted dur
 | 1 | Start the transaction |
 | 2 | Retrieve name and price by reading barcode of a product |
 | 3 | Repeat step 2 for all products |
-| 4 | The barcode of to be removed product is read |
+| 4 | The barcode of the product to be removed product is read |
 | 5 | The product is removed from the list of transaction |
 | 6 | Repeat steps 4 and 5 for all the products to be removed|
 | 7 | Compute total amount T|
@@ -265,7 +265,7 @@ Handle sale transaction between supplier and stationery shop
 
 | Actors Involved  | Clerk, Products                                                                  |
 | ---------------- | -------------------------------------------------------------------------------- |
-| Precondition     | - Authentication of the clerk <br>- The barcode reader and the keypad is working |
+| Precondition     | - Authentication of the clerk <br>- The barcode reader and monitor are working |
 | Post condition   | - The transaction is terminated <br>- The clerk is logged out.                   |
 | Nominal Scenario | Scenario 2.1                                                                     |
 | Variants         | Scenario 2.2                                                                 |
@@ -326,9 +326,9 @@ authentication of manager ( two authentication)
 | Scenario 3.1   |                                                                                                                |
 | -------------- | -------------------------------------------------------------------------------------------------------------- |
 | Precondition   |                                                                                                                |
-| Post condition | The manager gains access to the software in different modes                                                    |
+| Post condition | The manager gains access to the software in different mode                                                    |
 | Step#          | Description                                                                                                    |
-| 1              | The manager clicks on the “login with username and password” button.                                           |
+| 1              | The manager clicks in the “login with username and password” button.                                           |
 | 2              | Manager inputs the username and password in the login page of the software                                     |
 | 3              | The software checks the username and password                                                                  |
 | 4              | The software is directed to a new page which asks to enter the 6 digit code sent to the manager's mobile phone |
@@ -337,7 +337,7 @@ authentication of manager ( two authentication)
 
 # Scenario 3.2.1
 
-authentication of others (except manager)( one way authentication)
+Authentication of others (except manager)( one way authentication)
 we authenticate a cashier and the clerk by their ID card
 
 | Scenario 3.2.1 |                                                          |
@@ -345,21 +345,21 @@ we authenticate a cashier and the clerk by their ID card
 | Precondition   |                                                          |
 | Post condition | - Cashier and clerk gain access to the software          |
 | Step#          | Description                                              |
-| 1              | The employee clicks on the “use ID card” button.         |
-| 2              | The employee slides his ID card through a ID card reader |
+| 1              | The employee clicks in the “use ID card” button.         |
+| 2              | The employee scans their ID card through an ID card reader |
 | 3              | The software recognizes the employee ID code             |
 | 4              | Authentication is done                                   |
 
 # Scenario 3.2.2
 
-we authenticate the accountant by ID+password through a GUI
+Authenticate the accountant by ID+password through a GUI
 
 | Scenario 3.2.2 |                                                                           |
 | -------------- | ------------------------------------------------------------------------- |
 | Precondition   |                                                                           |
 | Post condition | - Accountant gains access to the software                                 |
 | Step#          | Description                                                               |
-| 1              | The accountant clicks on the “login with username and password” button.   |
+| 1              | The accountant clicks in the “login with username and password” button.   |
 | 2              | Accountant enters username and password in the login page of the software |
 | 3              | The software checks the username and password                             |
 | 4              | Authentication is done                                                    |
@@ -373,8 +373,8 @@ The software doesn’t recognise the code of the ID card
 | Precondition   |                                                          |
 | Post condition | - Employee is not authenticated                          |
 | Step#          | Description                                              |
-| 1              | The employee clicks on the “login with ID card” button.  |
-| 2              | The employee slides his ID card through a ID card reader |
+| 1              | The employee clicks in the “login with ID card” button.  |
+| 2              | The employee scans their ID card through an ID card reader |
 | 3              | The software doesn’t recognise the ID code               |
 | 4              | The authentication fails                                 |
 
@@ -390,9 +390,9 @@ Manager/accountant inputs wrong credential
 | 1              | Accountant/ manager clicks on the “use username and password” button                            |
 | 2              | Accountant/manager enters username and password in the login page of the software               |
 | 3              | The software check username and password and displays an error message for the wrong password   |
-| 4              | accountant/manager clicks on “I forgot my password”’                                            |
-| 5              | The software displays a message which asks to check the new email sent to the accountant/manage |
-| 6              | accountant/manager retrieve the password from the email                                         |
+| 4              | Accountant/manager clicks on “I forgot my password”’                                            |
+| 5              | The software displays a message which asks to check the new email sent to the accountant/manager |
+| 6              | Accountant/manager retrieves the password from the email                                         |
 | 7              | Accountant/manager enters username and password in login page                                   |
 | 8              | Software checks the username and password                                                       |
 | 9              | Authentication is done                                                                          |
@@ -418,9 +418,9 @@ Show statistics of sales
 |                |
 | Post condition | - Data is showed                                                                      |
 | Step#          | Description                                                                           |
-| 1              | From the main page they click on “ report sales”                                      |
+| 1              | From the main page they click in “ report sales”                                      |
 | 2              | In the document they set filters to the table and they retrieve financial information |
-| 3              | The user saves the report in his own laptop clicking on “Print report”                |
+| 3              | The user saves the report in their own laptop by clicking in “Print report”                |
 
 # Scenario 4.2
 
@@ -430,11 +430,11 @@ Show statistics of supplies
 | -------------- | -------------------------------------------------------------------------- |
 | Precondition   | - The User is authenticated as a Manager or a accountant                   |
 |                |
-| Post condition | - Data is showed                                                           |
+| Post condition | - Data is shown                                                           |
 | Step#          | Description                                                                |
-| 1              | From the main page they click on “ report supplies”                        |
+| 1              | From the main page they click in “ report supplies”                        |
 | 2              | From the table they check the cost of each product ,they search by filters |
-| 3              | The user saves the report in his own laptop clicking on “Print report      |
+| 3              | The user saves the report in their own laptop clicking on “Print report      |
 
 ### Use case 5, UC5
 
@@ -456,11 +456,11 @@ Adding new discount
 | Precondition   | - Manager is authenticated                                               |
 | Post condition | - A new discount is added                                                |
 | Step#          | Description                                                              |
-| 1              | Manager clicks on” discount policy”                                      |
-| 2              | Manager clicks on “ add new discount”                                    |
+| 1              | Manager clicks in” discount policy”                                      |
+| 2              | Manager clicks in “ add new discount”                                    |
 | 3              | Manager chooses a product from the list                                  |
 | 4              | The Product is added in the list                                         |
-| 5              | Manager insert manually in the list the discount and the point requested |
+| 5              | Manager inserts manually in the list the discount and the points requested |
 
 # Scenario 5.2
 
@@ -471,8 +471,8 @@ Edit discount
 | Precondition   | - Manager is authenticated                                               |
 | Post condition | - A discount is edited                                                   |
 | Step#          | Description                                                              |
-| 1              | Manager clicks on” discount policy”                                      |
-| 2              | Manager insert directly in the table the new discount and points request |
+| 1              | Manager clicks in” discount policy”                                      |
+| 2              | Manager inserts directly in the table the new discount and points request |
 
 # Scenario 5.3
 
@@ -483,9 +483,9 @@ Change points policy
 | Precondition   | - Manager is authenticated                                             |
 | Post condition | - The point policy is changed                                                |
 | Step#          | Description                                                            |
-| 1              | Manager clicks on” discount policy”                                    |
-| 2              | Manager insert directly in the bottom part of the window the new value |
-| 3              | Manager save the value clicking on save                                |
+| 1              | Manager clicks in” discount policy”                                    |
+| 2              | Manager inserts directly in the bottom part of the window the new value |
+| 3              | Manager saves the value by clicking on save                                |
 
 ### Use case 6, UC6
 
@@ -507,9 +507,9 @@ Show the fidelity card lists and their owner
 | Precondition   | - Manager is authenticated                      |
 | Post condition | - Fidelity card list and owners are shown       |
 | Step#          | Description                                     |
-| 1              | Manager clicks on” fidelity card menu”          |
-| 2              | The list of all the fidelity card is showed     |
-| 3              | The manager clicks on see customer profile item |
+| 1              | Manager clicks in” fidelity card menu”          |
+| 2              | The list of all the fidelity cards is shown     |
+| 3              | The manager clicks oi see customer profile item |
 
 # Scenario 6.2
 
@@ -520,11 +520,11 @@ Edit information of fidelity card owner
 | Precondition   | - Manager is authenticated                             |
 | Post condition | - Information of fidelity card owner is edited         |
 | Step#          | Description                                            |
-| 1              | Manager clicks on” fidelity card menu”                 |
-| 2              | The list of all the fidelity card is showed            |
-| 3              | The manager clicks on see customer profile item        |
-| 4              | He modify the fields of the profile and save           |
-| 5              | He click on the delete icon and delete a fidelity card |
+| 1              | Manager clicks in” fidelity card menu”                 |
+| 2              | The list of all the fidelity cards is showed            |
+| 3              | The manager clicks in see customer profile item        |
+| 4              | The Manager modifies the fields of the profile and save           |
+| 5              | The Manager clicks in the delete icon and delete a fidelity card |
 
 # Scenario 6.3
 
@@ -535,11 +535,11 @@ Create fidelity card
 | Precondition   | - Manager is authenticated                                         |
 | Post condition | - A fidelity card is created                                       |
 | Step#          | Description                                                        |
-| 1              | Manager clicks on” fidelity card menu”                             |
-| 2              | The list of all the fidelity card is showed                        |
-| 3              | The manager clicks on “create fidelity card”                       |
-| 4              | He enters the fields of the profile and save                       |
-| 5              | The new fidelity card owner is registerd and is showed in the list |
+| 1              | Manager clicks in ” fidelity card menu”                             |
+| 2              | The list of all the fidelity card is shown                       |
+| 3              | The manager clicks in “create fidelity card”                       |
+| 4              | The Manager enters the fields of the profile and saves                      |
+| 5              | The new fidelity card owner is registerd and is shown in the list |
 
 ### Use case 7, UC7
 
@@ -561,12 +561,12 @@ Create a new account
 | Precondition   | - The user is authenticates as a manager                            |
 | Post condition | - A new account is created                                          |
 | Step#          | Description                                                         |
-| 1              | The manager clicks on the green “+” on EMPLOYEES section            |
+| 1              | The manager clicks in the green “+” on EMPLOYEES section            |
 | 2              | The Manager fills the form                                                   |
 | 3              | The Manager chooses a photo of the employee                                  |
-| 4              | The Manager clicks on “schedule”                                              |
+| 4              | The Manager clicks in “schedule”                                              |
 | 5              | The Manager sets the weekly schedule of the employee                         |
-| 6              | The Manager comes back to the previous page and he click “ save “ to save it |
+| 6              | The Manager comes back to the previous page and he clicks “ save “ to save it |
 
 # Scenario 7.2
 
@@ -578,9 +578,10 @@ Edit account
 | Post condition | - The account is edited                                             |
 | Step#          | Description                                                         |
 | 1              | The Manager clicks in an employee photograph                        |
-| 2              | The Manager clicks in “schedule”                                             |
-| 3              | The Manager changes the weekly schedule of the employee                      |
-| 4              | The Manager comes back to the previous page and clicks in  “ save “ to save it |
+| 2              | The Manager changes the fields of the employee                        |
+| 3              | The Manager clicks in “schedule”                                             |
+| 4              | The Manager changes the weekly schedule of the employee                      |
+| 5              | The Manager comes back to the previous page and clicks in  “ save “ to save it |
 
 # Scenario 7.3
 
@@ -607,19 +608,19 @@ Location of the products is set by manager
 
 # Scenario 8.1
 
-Manager create a map of the shop with the location of the product
+Manager creates a map of the shop with the location of the product
 
 | Scenario 8.1   |                                                          |
 | -------------- | -------------------------------------------------------- |
-| Precondition   | - The user is authenticates as a manager                 |
+| Precondition   | - The user is authenticated as a manager                 |
 | Post condition | - A new map is created                                   |
 | Step#          | Description                                              |
-| 1              | The manager clicks on “ create new map”                  |
-| 2              | He chooses a name for the new map                        |
-| 3              | He creates a new shelves clicking on” Add shelf”         |
-| 4              | He associates product to the shelf and he click “submit” |
-| 5              | He repeats steps 3 and 4                                 |
-| 6              | He saves the new map clicking on submit                  |
+| 1              | The manager clicks in “ create new map”                  |
+| 2              | The Manager chooses a name for the new map                        |
+| 3              | The Manager creates a new shelves clicking on” Add shelf”         |
+| 4              | The Manager associates product to the shelf and  clicks “submit” |
+| 5              | The Manager repeats steps 3 and 4                                 |
+| 6              | The Manager saves the new map clicking on submit                  |
 | 6              | The map is loaded in the system                          |
 
 # Scenario 8.2
@@ -631,14 +632,14 @@ Manager edits one map
 | Precondition   | - The user is authenticated as a manager               |
 | Post condition | - A map is edited                                      |
 | Step#          | Description                                            |
-| 1              | The manager clicks on “edit map”                       |
-| 2              | The manager clicks on the modify icon                  |
-| 3              | He makes a new association for the product             |
-| 4              | He clicks on the trash icon and delete one association |
+| 1              | The Manager clicks on “edit map”                       |
+| 2              | The Manager clicks on the modify icon                  |
+| 3              | The Manager makes a new association for the product             |
+| 4              | The Manager clicks in the trash icon and deletes one association |
 
 ### Use case 9, UC9
 
-Location of products is showed to clerk
+Location of products is shown to clerk
 
 | Actors Involved  | Clerk                    |
 | ---------------- | ------------------------ |
@@ -679,9 +680,9 @@ Show information of employees
 | Precondition   | - The manager is authenticated                                                 |
 | Post condition | - Information of employee is shown                                             |
 | Step#          | Description                                                                    |
-| 1              | The manager clicks on the the name of the employee in the “ EMPLOYEES” section |
+| 1              | The manager clicks in the the name of the employee in the “ EMPLOYEES” section |
 | 2              | The schedule of the employee is showed                                         |
-| 3              | He clicks on schedule                                                          |
+| 3              | The Manager clicks on schedule                                                          |
 | 4              | The schedule of the selected employee is shown                                 |
 
 # Scenario 10.2
@@ -693,10 +694,10 @@ Show information of suppliers
 | Precondition   | - The manager is authenticated                                  |
 | Post condition | - Information about orders is shown                             |
 | Step#          | Description                                                     |
-| 1              | The manager goes to supplier section and click “edit suppliers” |
-| 2              | A list of all the suppliers is showed                           |
-| 3              | The manager click on the supplier editor icon                   |
-| 4              | All the information about the supplier is showed                |
+| 1              | The manager goes to supplier section and clicks “edit suppliers” |
+| 2              | A list of all the suppliers is shown                          |
+| 3              | The manager clicks in the supplier editor icon                   |
+| 4              | All the information about the supplier is shown                |
 
 # Scenario 10.3
 
@@ -707,12 +708,12 @@ Edit information of suppliers
 | Precondition   | - The manager is authenticated                                  |
 | Post condition | - Information about orders is edited                            |
 | Step#          | Description                                                     |
-| 1              | The manager goes to supplier section and click “edit suppliers” |
-| 2              | The manager click on the supplier editor icon                   |
-| 3              | The manager modify the editable fields “ code is not editable)  |
-| 4              | He clicks on “ add product “                                    |
-| 5              | He chooses the product that the supplier will delivery          |
-| 6              | He comes back and save                                          |
+| 1              | The Manager goes to supplier section and clicks “edit suppliers” |
+| 2              | The Manager clicks in the supplier editor icon                   |
+| 3              | The Manager modifies the editable fields “ code is not editable)  |
+| 4              | The Manager clicks on “ add product “                                    |
+| 5              | The Manager chooses the product that the supplier will deliver          |
+| 6              | The Manager comes back and saves                                          |
 
 # Scenario 10.4
 
@@ -723,8 +724,8 @@ Create a new supplier
 | Precondition   | - The manager is authenticated                                        |
 | Post condition | - A supplier is created                                               |
 | Step#          | Description                                                           |
-| 1              | The manager goes to supplier section and click “edit suppliers”       |
-| 2              | The manager clicks on “ create new supplier”                          |
+| 1              | The manager goes to supplier section and clicks “edit suppliers”       |
+| 2              | The manager clicks in “ create new supplier”                          |
 | 3              | The manager fills all the fields with the information of the supplier |
 | 4              | The manager adds the products that the supplier will deliver          |
 | 4              | The manager saves the changes                                         |
@@ -738,10 +739,10 @@ Show all the trasaction
 | Precondition   | - The manager is authenticated                                                |
 | Post condition | - Transaction is shown                                                        |
 | Step#          | Description                                                                   |
-| 1              | The manager goes to supplier section and click on “ show orders menu”         |
-| 2              | The list of all the transaction is showed ( it can be sorted for each column) |
-| 3              | The manager click on item list icon                                           |
-| 4              | The list of all the product delivered by this transaction is showed           |
+| 1              | The manager goes to supplier section and clicks in “ show orders menu”         |
+| 2              | The list of all the transaction is shown ( it can be sorted for each column) |
+| 3              | The manager clicks in item list icon                                           |
+| 4              | The list of all the delivered products by this transaction is shown           |
 
 # Scenario 10.6
 
@@ -752,12 +753,12 @@ Create an order from a supplier
 | Precondition   | - The manager is authenticated                                               |
 | Post condition | - A new order is added                                                       |
 | Step#          | Description                                                                  |
-| 1              | The manager goes to supplier section and click on “ show orders menu”        |
-| 2              | The manager clicks on “ create order”                                        |
+| 1              | The manager goes to supplier section and clicks in “ show orders menu”        |
+| 2              | The manager clicks in “ create order”                                        |
 | 3              | The manager chooses the supplier , searching it by code and name             |
-| 4              | The manager clicks on choose item                                            |
+| 4              | The manager clicks in choose item                                            |
 | 5              | The manager modifies only the “input quantity” values of the needed products |
-| 6              | The manager clicks on “ create order”                                        |
+| 6              | The manager clicks in “ create order”                                        |
 | 7              | The order is added to the list                                               |
 
 ### Use case 11, UC11
@@ -780,9 +781,9 @@ Show the inventory
 | Precondition   | - The manager is authenticated                                    |
 | Post condition | - The inventory is shown                                          |
 | Step#          | Description                                                       |
-| 1              | The manager goes to inventory station and clicks on Show glossary |
-| 2              | The manager click on item record icon                             |
-| 3              | The details of the product is showed                              |
+| 1              | The manager goes to inventory station and clicks in Show glossary |
+| 2              | The manager clicks in item record icon                             |
+| 3              | The details of the product are shown                              |
 
 # Scenario 11.2
 
@@ -793,10 +794,10 @@ Modify threshold of the inventory
 | Precondition   | - The manager is authenticated                                    |
 | Post condition | - The threshold of the inventory is modified                      |
 | Step#          | Description                                                       |
-| 1              | The manager goes to inventory station and clicks on Show glossary |
-| 2              | The manager click on the green “+” button in threshold columns    |
-| 3              | The manager set the threshold and click on OK                     |
-| 4              | The new threshold is showed                                       |
+| 1              | The manager goes to inventory station and clicks in Show glossary |
+| 2              | The manager clicks in the green “+” button in threshold columns    |
+| 3              | The manager sets the threshold and clicks in OK                     |
+| 4              | The new threshold is shown                                       |
 
 # Scenario 11.3
 
@@ -807,45 +808,45 @@ Add new product to inventory
 | Precondition   | - The manager is authenticated                                    |
 | Post condition | - A new product is added to the inventory                         |
 | Step#          | Description                                                       |
-| 1              | The manager goes to inventory station and clicks on Show glossary |
-| 2              | The manager clicks on the green “Add item ” button                |
-| 3              | The manager fills the document and save                           |
+| 1              | The manager goes to inventory station and clicks in Show glossary |
+| 2              | The manager clicks in the green “Add item ” button                |
+| 3              | The manager fills the document and saves                          |
 
 ### Use case 12, UC12
 
-Creating alarm for products reaching their threshold in quantity
+Creating an alarm for products reaching their threshold in quantity
 
 | Actors Involved  | Manager, Clerk                                                                 |
 | ---------------- | ------------------------------------------------------------------------------ |
 | Precondition     | - Manager/clerk is authenticated                                               |
-| Post condition   | - The “soon to be out of stock” & “ soon to be out of shelf “ product is shown |
+| Post condition   | - The “soon to be out of stock” & “ soon to be out of shelf “ product are shown |
 | Nominal Scenario | Scenario 12.1,12.2                                                             |
 | Variants         |
 
 # Scenario 12.1
 
-Soon to be out of stocks product raise an alert to the manager
+The "Soon to be out of products" (one of them) raises an alert to the manager
 
 | Scenario 12.1  |                                                  |
 | -------------- | ------------------------------------------------ |
 | Precondition   | - The manager is authenticated                   |
-| Post condition | - The soon to be out of stock products is showed |
+| Post condition | - The soon to be out of  products is shown |
 | Step#          | Description                                      |
 | 1              | The manager notices a red bell on his main menu  |
-| 2              | He clicks on it                                  |
+| 2              | The Manager clicks in it                                  |
 | 3              | The products are shown                           |
 
 # Scenario 12.2
 
-Soon to be out of stock products in the shelf raise an alert to the clerk
+The "Soon to be out of products" (one of them) raises an alert to the clerk
 
 | Scenario 12.2  |                                                |
 | -------------- | ---------------------------------------------- |
-| Precondition   | - The clerk authenticated                      |
-| Post condition | - The soon to be out of shelf product is shown |
+| Precondition   | - The clerk is authenticated                      |
+| Post condition | - The soon to be out of products is shown |
 | Step#          | Description                                    |
 | 1              | The clerk notices a red bell on his main menu  |
-| 2              | He clicks on it                                |
+| 2              | The clerk clicks on it                                |
 | 3              | The products are shown                         |
 
 # Glossary
