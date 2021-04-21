@@ -644,11 +644,11 @@ Manager edits one map
 
 Location of products is shown to clerk
 
-| Actors Involved  | Clerk                    |
-| ---------------- | ------------------------ |
-| Precondition     | - Clerk is authenticated |
-| Post condition   | - Locations are shown    |
-| Nominal Scenario | Scenario 9.1             |
+| Actors Involved  | Clerk                                                |
+| ---------------- | ---------------------------------------------------- |
+| Precondition     | - Clerk is authenticated                             |
+| Post condition   | - Locations are shown <br>- The clerk is logged out. |
+| Nominal Scenario | Scenario 9.1                                         |
 | Variants         |
 
 # Scenario 9.1
@@ -658,7 +658,7 @@ Display map
 | Scenario 9.1   |                                                          |
 | -------------- | -------------------------------------------------------- |
 | Precondition   | - The user is authenticated as a clerk                   |
-| Post condition | - The map is shown                                       |
+| Post condition | - The map is shown <br>- The clerk is logged out.        |
 | Step#          | Description                                              |
 | 1              | Clicks on “display map” button                           |
 | 2              | The map which displays the location of products is shown |
