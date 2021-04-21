@@ -132,9 +132,13 @@ Adding new discount
 
 <br>
 
+Manager chooses a product from the list
+
 ![](Images/GUI/choose_product.png)
 
 <br>
+
+Manager insert manually in the list the discount and the point requested
 
 ![](Images/GUI/Discount%20policy.png)
 
@@ -145,6 +149,8 @@ Edit discount
 ![](Images/GUI/manager.png)
 
 <br>
+
+Manager insert directly in the table the new discount and points request
 
 ![](Images/GUI/Discount%20policy.png)
 
@@ -170,6 +176,8 @@ Show the fidelity card lists and their owner
 
 <br>
 
+The manager clicks on see customer profile item
+
 ![](Images/GUI/Fidelity%20card%20menu.png)
 
 <br>
@@ -184,11 +192,21 @@ Edit information of fidelity card owner
 
 <br>
 
+The manager clicks on see customer profile item
+
 ![](Images/GUI/Fidelity%20card%20menu.png)
 
 <br>
 
+He modify the fields of the profile and save
+
 ![](Images/GUI/Costumer%20Profile.png)
+
+<br>
+
+He click on the delete icon and delete a fidelity card
+
+![](Images/GUI/Fidelity%20card%20menu.png)
 
 # Scenario 6.3
 
@@ -201,6 +219,8 @@ Create fidelity card
 ![](Images/GUI/Fidelity%20card%20menu.png)
 
 <br>
+
+He enters the fields of the profile and save
 
 ![](Images/GUI/Costumer%20Profile.png)
 
@@ -216,13 +236,19 @@ Define and edit accounts
 
 Create a new account
 
+The manager clicks on the green “+” on EMPLOYEES section
+
 ![](Images/GUI/manager.png)
 
 <br>
 
+He fills the form
+
 ![](Images/GUI/Employee%20profile.png)
 
 <br>
+
+He sets the weekly schedule of the employee
 
 ![](Images/GUI/Schedule.png)
 

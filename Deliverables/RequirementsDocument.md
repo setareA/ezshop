@@ -402,7 +402,7 @@ The software doesn’t recognise the code of the ID card
 
 # Scenario 3.2.4
 
-The software doesn’t recognise the code of the ID card
+Manager/accountant inputs wrong credential
 
 | Scenario 3.2.4 |                                                                                                 |
 | -------------- | ----------------------------------------------------------------------------------------------- |
@@ -427,14 +427,14 @@ Show statistics of the stationery store
 | ---------------- | ------------------------------------------ |
 | Precondition     | - Manager and accountant are authenticated |
 | Post condition   | - The statistics are displayed.            |
-| Nominal Scenario | Scenario 4.1                               |
+| Nominal Scenario | Scenario 4.1  4.2                          |
 | Variants         |
 
 # Scenario 4.1
 
 Show statistics of sales
 
-| Scenario 3.1   |                                                                                       |
+| Scenario 4.1   |                                                                                       |
 | -------------- | ------------------------------------------------------------------------------------- |
 | Precondition   | - The User is authenticated as a Manager or a accountant                              |
 |                |
@@ -448,7 +448,7 @@ Show statistics of sales
 
 Show statistics of supplies
 
-| Scenario 3.1   |                                                                            |
+| Scenario 4.2  |                                                                            |
 | -------------- | -------------------------------------------------------------------------- |
 | Precondition   | - The User is authenticated as a Manager or a accountant                   |
 |                |
@@ -503,7 +503,7 @@ Change points policy
 | Scenario 5.3   |                                                                        |
 | -------------- | ---------------------------------------------------------------------- |
 | Precondition   | - Manager is authenticated                                             |
-| Post condition | - A discount is edited                                                 |
+| Post condition | - The point policy is changed                                                |
 | Step#          | Description                                                            |
 | 1              | Manager clicks on” discount policy”                                    |
 | 2              | Manager insert directly in the bottom part of the window the new value |
@@ -524,7 +524,7 @@ Create and edit fidelity cards
 
 Show the fidelity card lists and their owner
 
-| Scenario 5.1   |                                                 |
+| Scenario 6.1   |                                                 |
 | -------------- | ----------------------------------------------- |
 | Precondition   | - Manager is authenticated                      |
 | Post condition | - Fidelity card list and owners are shown       |
@@ -571,12 +571,12 @@ Define and edit accounts
 | ---------------- | ------------------------------ |
 | Precondition     | - The manager is authenticated |
 | Post condition   | - Accounts are defined         |
-| Nominal Scenario | Scenario 6.1, 6.2 6.3          |
+| Nominal Scenario | Scenario 7.1, 7.2          |
 | Variants         |
 
 # Scenario 7.1
 
-Show the fidelity card lists and their owner
+Create a new account
 
 | Scenario 7.1   |                                                                     |
 | -------------- | ------------------------------------------------------------------- |
@@ -612,7 +612,7 @@ Location of the products is set by manager
 | ---------------- | ---------------------------------- |
 | Precondition     | - The manager is authenticated     |
 | Post condition   | - Location of the products are set |
-| Nominal Scenario | Scenario 7.1 7.2                   |
+| Nominal Scenario | Scenario 8.1,8.2                   |
 | Variants         |
 
 # Scenario 8.1
@@ -684,7 +684,7 @@ Show, Edit and create organizational information
 
 Show information of employees
 
-| Scenario 8.1   |                                                                                |
+| Scenario 10.1   |                                                                                |
 | -------------- | ------------------------------------------------------------------------------ |
 | Precondition   | - The manager is authenticated                                                 |
 | Post condition | - Information of employee is shown                                             |
@@ -798,7 +798,7 @@ Show the inventory
 
 Modify threshold of the inventory
 
-| Scenario 11.1  |                                                                   |
+| Scenario 11.2  |                                                                   |
 | -------------- | ----------------------------------------------------------------- |
 | Precondition   | - The manager is authenticated                                    |
 | Post condition | - The threshold of the inventory is modified                      |
@@ -812,7 +812,7 @@ Modify threshold of the inventory
 
 Add new product to inventory
 
-| Scenario 11.1  |                                                                   |
+| Scenario 11.3  |                                                                   |
 | -------------- | ----------------------------------------------------------------- |
 | Precondition   | - The manager is authenticated                                    |
 | Post condition | - A new product is added to the inventory                         |
