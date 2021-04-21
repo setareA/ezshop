@@ -441,3 +441,24 @@ Create an order from a supplier
 <br>
 
 ![](Images/GUI/Order_Menu.png)
+
+### Use case 12, UC12
+
+Creating alarm for products reaching their threshold in quantity
+
+# Scenario 12.1 and Scenario 12.2
+
+Soon to be out of stocks product raise an alert through the bell icon to the manager
+![](Images/GUI/manager.png)
+
+<br>
+- Soon to be out of stock products in the shelf raise an alert through the bell icon to the clerk
+
+![](Images/GUI/clerk_main_page.png)
+
+<br>
+- The products are shown
+
+![](Images/GUI/alarms.png)
+
+<br>
