@@ -1,11 +1,10 @@
 # Graphical User Interface Prototype
 
-Authors: Setareh Askarifirouzjaei s288485  Ressa Eugenio s281642 Daniel Peña López s286489
+Authors: Setareh Askarifirouzjaei s288485 Ressa Eugenio s281642 Daniel Peña López s286489
 
 Date: 21/04/2021
 
 Version: 1
-
 
 ### Use case 1, UC1
 
@@ -23,16 +22,15 @@ Handle sale transactions between cashier and customer
 ![](Images/GUI/payment.png)
 
 - If the cashier chooses credit card, he/she will be redirected to the next view, where he/she will see the amount of money that will have to enter into the credit card reader. <br>
-- Until the cashier does not click in new purchase, the ticket will not be printed and the transaction will not be registered  <br>
+- Until the cashier does not click in new purchase, the ticket will not be printed and the transaction will not be registered <br>
 - The cashier can also come back to the on going purchase by clicking in "come back"<br>
 
 ![](Images/GUI/credit_card.png)
 
 - If the cashier chooses cash, he/she will see the next view where it is possible to see the amount of money the cashier has to give back <br>
-- Like in the previous case, once the button new purchase is clicked, the ticket will be printed and the purchase registered <br>
+- Like in the previous case, once the button "new purchase" is clicked, the ticket will be printed and the purchase registered <br>
 
 ![](Images/GUI/cash.png)
-
 
 # Scenario 1.1.2
 
@@ -41,8 +39,6 @@ Handle sale transactions between cashier and customer
 - By clicking in Ok, the cashier can come back to the purchase.<br>
 
 ![](Images/GUI/fidelity.png)
-
-
 
 # Scenario 1.2
 
@@ -59,17 +55,15 @@ Handle sale transactions between cashier and customer
 # Scenario 1.4
 
 - If a product is not readable, the customer can enter manually the number of the product.<br>
-- To access the view that allows you to enter the number, the cashier has to clicked in the plus in their main page .<br>
+- To access the view that allows you to enter the number, the cashier has to click in the plus in their main page .<br>
 
 ![](Images/GUI/Cashier_main.png)
 
 ![](Images/GUI/Product_Number.png)
 
-
-
 ### Use case 2, UC2
 
-Handle sale transaction between supplier  and  stationery shop
+Handle sale transaction between supplier and stationery shop
 
 # Scenario 2.1
 
@@ -81,8 +75,7 @@ Handle sale transaction between supplier  and  stationery shop
 
 ![](Images/GUI/select_supplier_transaction.png)
 
-
--In the next view, the clerk can add the actual quantity that is in the received package and compare it to the one ordered.<br>
+- In the next view, the clerk can add the actual quantity that is in the received package and compare it to the one ordered.<br>
 
 ![](Images/GUI/supplier_transaction.png)
 
@@ -90,12 +83,10 @@ Handle sale transaction between supplier  and  stationery shop
 
 # Scenario 2.2
 
-- The clerk can abort the transaction just by clicking the "Cancel Transaction" button  <br>
+- The clerk can abort the transaction just by clicking the "Cancel Transaction" button <br>
 
 ![](Images/GUI/supplier_transaction.png)
 
-
- 
 ### Use case 3, UC3
 
 Authorize and authenticate
@@ -274,7 +265,7 @@ Show the fidelity card lists and their owner (Manager clicks in Fidelity card me
 
 <br>
 
-The manager clicks on see customer profile item
+The manager clicks on "see customer profile" item
 
 ![](Images/GUI/Fidelity%20card%20menu.png)
 
@@ -290,7 +281,7 @@ Edit information of fidelity card owner (Manager clicks in Fidelity card menu)
 
 <br>
 
-The manager clicks on see customer profile item
+The manager clicks on "see customer profile" item
 
 ![](Images/GUI/Fidelity%20card%20menu.png)
 
@@ -468,7 +459,8 @@ Also, the manager can see the information about the schedule by clicking in the 
 ![](Images/GUI/Edit%20Suppliers.png)
 
 <br>
-- All the information about the suppliers is shown  <br>
+
+- All the information about the suppliers is shown <br>
 
 ![](Images/GUI/Supplier%20record.png)
 
@@ -511,8 +503,8 @@ Show all the trasactions (by clicking in show orders menu)
 
 <br>
 The Manager can see the items of one transaction by clicking in the arrow on the left<br>
-![](Images/GUI/Order_Menu.png)
 
+![](Images/GUI/Order_Menu.png)
 
 ![](Images/GUI/List%20item%20of%20orde.png)
 
@@ -529,7 +521,6 @@ Then, the manager can click in create order<br>
 - The manager clicks on choose item
 
 <br>
-
 
 ![](Images/GUI/Create%20Order.png)
 
@@ -552,31 +543,30 @@ Add/modify or delete a product record
 
 ![](Images/GUI/manager.png)
 
-
 - In the inventory page below, the manager can just click in the item record icon to see the details of a certain product record<br>
 
 ![](Images/GUI/Inventory.png)
 
 # Scenario 11.2
+
 Modify threshold of the inventory
 
 - The manager can see from the inventory page the threshold of a certain product that will set an alarm. In order to change this threshold, the manager just have to click in the corresponding "+".<br>
-![](Images/GUI/Inventory.png)
+  ![](Images/GUI/Inventory.png)
 - In the next view, the manager will be able to change the threshold. <br>
 
 ![](Images/GUI/Threshold.png)
 
 # Scenario 11.3
+
 Add new product to inventory
 
 - To add a new product to the inventory, the manager has just to click in the "Add item" button in the inventory menu.<br>
-![](Images/GUI/Inventory.png)
+  ![](Images/GUI/Inventory.png)
 
 - In the next view, the manager will be able to enter the information about the new item and save it. <br>
 
 ![](Images/GUI/Item_record.png)
-
-
 
 ### Use case 12, UC12
 
