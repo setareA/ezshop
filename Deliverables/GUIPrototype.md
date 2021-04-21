@@ -1,11 +1,10 @@
 # Graphical User Interface Prototype
 
-Authors:
+Authors: Setareh Askarifirouzjaei s288485  Ressa Eugenio s281642 Daniel Peña López s286489
 
-Date:
+Date: 21/04/2021
 
-Version:
-
+Version: 1
 
 
 ### Use case 1, UC1
@@ -537,8 +536,20 @@ Add/modify or delete a product record
 ![](Images/GUI/inventory.png)
 
 # Scenario 11.2
-- The manager can see from the inventory page the threshold of a certain product that will set a alarm. In order to change this threshold, the manager just have to click in the corresponding "+".<br>
-- The next
+Modify threshold of the inventory
+
+- The manager can see from the inventory page the threshold of a certain product that will set an alarm. In order to change this threshold, the manager just have to click in the corresponding "+".<br>
+- In the next view, the manager will be able to click the threshold. <br>
+
+![](Images/GUI/Threshold.png)
+
+# Scenario 11.3
+Add new product to inventory
+
+- To add a new product to the inventory, the manager has just to click in the "Add item" button in the inventory menu.<br>
+- In the next view, the manager will be able to enter the information about the new item and save it. <br>
+
+![](Images/GUI/Item record.png)
 
 
 
