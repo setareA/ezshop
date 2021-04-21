@@ -92,6 +92,162 @@ Accountant/manager forget the password
 
 ![](Images/GUI/ID+pass_login.png)
 
+### Use case 4
+
+Show statistics of the stationery store
+
+# Scenario 4.1
+
+Show statistics of sales
+
+![](Images/GUI/manager.png)
+
+<br>
+
+![](Images/GUI/Report%20Sales.png)
+
+# Scenario 4.2
+
+Show statistics of supplies
+
+![](Images/GUI/manager.png)
+
+<br>
+
+![](Images/GUI/Report%20Supplies.png)
+
+### Use case 5, UC5
+
+Manage discount for fidelity card
+
+# Scenario 5.1
+
+Adding new discount
+
+![](Images/GUI/manager.png)
+
+<br>
+
+![](Images/GUI/Discount%20policy.png)
+
+<br>
+
+![](Images/GUI/choose_product.png)
+
+<br>
+
+![](Images/GUI/Discount%20policy.png)
+
+# Scenario 5.2
+
+Edit discount
+
+![](Images/GUI/manager.png)
+
+<br>
+
+![](Images/GUI/Discount%20policy.png)
+
+# Scenario 5.3
+
+Change Points Policy
+
+![](Images/GUI/manager.png)
+
+<br>
+
+![](Images/GUI/Discount%20policy.png)
+
+### Use case 6, UC6
+
+Create and edit fidelity cards
+
+# Scenario 6.1
+
+Show the fidelity card lists and their owner
+
+![](Images/GUI/manager.png)
+
+<br>
+
+![](Images/GUI/Fidelity%20card%20menu.png)
+
+<br>
+
+![](Images/GUI/Costumer%20Profile.png)
+
+# Scenario 6.2
+
+Edit information of fidelity card owner
+
+![](Images/GUI/manager.png)
+
+<br>
+
+![](Images/GUI/Fidelity%20card%20menu.png)
+
+<br>
+
+![](Images/GUI/Costumer%20Profile.png)
+
+# Scenario 6.3
+
+Create fidelity card
+
+![](Images/GUI/manager.png)
+
+<br>
+
+![](Images/GUI/Fidelity%20card%20menu.png)
+
+<br>
+
+![](Images/GUI/Costumer%20Profile.png)
+
+<br>
+
+![](Images/GUI/Fidelity%20card%20menu.png)
+
+### Use case 7, UC7
+
+Define and edit accounts
+
+# Scenario 7.1
+
+Create a new account
+
+![](Images/GUI/manager.png)
+
+<br>
+
+![](Images/GUI/Employee%20profile.png)
+
+<br>
+
+![](Images/GUI/Schedule.png)
+
+<br>
+
+![](Images/GUI/Employee%20profile.png)
+
+# Scenario 7.2
+
+Edit account
+
+![](Images/GUI/manager.png)
+
+<br>
+
+![](Images/GUI/Employee%20profile.png)
+
+<br>
+
+![](Images/GUI/Schedule.png)
+
+<br>
+
+![](Images/GUI/Employee%20profile.png)
+
 ### Use case 8, UC8
 
 Location of the products is set by the manager
@@ -132,24 +288,25 @@ Manager edits one map
 
 <br>
 
-### Use case 12, UC12
+### Use case 9, UC9
 
-Creating alarm for products reaching their threshold in quantity
-
-# Scenario 12.1 and Scenario 12.2
+Location of products is showed to clerk
 
 Soon to be out of stocks product raise an alert through the bell icon to the manager<br>
 ![](Images/GUI/manager.png)
 
 <br>
 - Soon to be out of stock products in the shelf raise an alert through the bell icon to the clerk<br>
+# Scenario 9.1
+
+Display map
 
 ![](Images/GUI/clerk_main_page.png)
 
 <br>
 - The products are shown<br>
 
-![](Images/GUI/alarms.png)
+![](Images/GUI/display_map.png)
 
 <br>
 
