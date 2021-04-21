@@ -30,13 +30,13 @@ In order to maintain a stationary shop(cartoleria) a lot of paperwork is needed.
 EZshop is a service that allows a stationery shop to monitor all the activity that is carried out in the shop virtually without using tons of paper and wasting time.
 In particular, the application can:
 
-- Store information about employees in the shop, orders to suppliers. Also, the application provides easy access to this information.
-- See statistics about the sales of the shop
+- Store information about employees in the shop and orders to suppliers. Also, the application provides easy access to this information.
+- See statistics about the sales of the shop and the orders made to suppliers.
 - Register the sales automatically in the system when a purchase is performed.
 - Keep track of the amount of products that are present in the shelves of the shop and warehouse.
 - Manage a fidelity card system that the customers can use in order to get discounts.
 
-EZshop is supported by a web application (accessible via PC), with different levels of access to functionality depending on your role in the shop.
+EZshop is supported by a web application (accessible via PC), with different levels of access depending on your role in the shop.
 
 # Stakeholders
 
@@ -44,13 +44,13 @@ EZshop is supported by a web application (accessible via PC), with different lev
 | ---------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Customer         | Person who buys and may own a fidelity card.                                                                                                                                                                                                                                      |
 | Product          | Item that is sold in the shop.                                                                                                                                                                                                                                                    |
-| Manager/Owner    | In charge of handling various operational aspects such as managing inventories, budgeting, ordering products, and analyzing sales performance.                                                                                                                                    |
-| Accountant       | Persons who manage money flow. <br> Prepare and examine financial records.                                                                                                                                                                                                        |
-| Cashier          | They perform transactions, take coupons, make change, provide receipts, and perform a host of related tasks.                                                                                                                                                                      |
-| Clerk            | A person who refills the store shelves . He/she uses a barcode reader to notify products delivered by the supplier to the software. ( he/she then has just to input the number of product) <br> He/she is also in charge of helping the customers to find their desired products. |
-| Developer        | Responsible for creating or working on the development of the project.                                                                                                                                                                                                            |
-| Maintainer       | Responsible of keeping working properly the software (solving bugs, adding new features)                                                                                                                                                                                          |
-| Supplier         | They provide us new goods for the supermarket warehouse.                                                                                                                                                                                                                          |
+| Manager/Owner    | Person who is charge of handling various operational aspects such as managing inventories, budgeting, ordering products, analyzing sales performance and organizational information|
+| Accountant       | Person who manag money flow. <br> Prepare and examine financial records.                                                                                                                                                                                                        |
+| Cashier          | Person who performs transactions between the stationary shop and the customer.                                                                                                                                                                      |
+| Clerk            | Person who is in charge of the procedure from receiving the packages from the suppliers to refills the store shelves. This includes keep track of the amount of products that are in the packages received, organize them in the warehouse and colocate a product in a shelf in base of a map of the shop that was created by the Manager <br>This person is also in charge of helping the customers to find their desired products. |
+| Developer        | Responsible for creating and working in the development of the project.                                                                                                                                                                                                            |
+| Maintainer       | Responsible of controlling that the software works correctly (solving bugs, adding new features)                                                                                                                                                                                          |
+| Supplier         | Entity that supplies new goods for the shop.                                                                                                                                                                                                                          |
 
 # Context Diagram and interfaces
 
@@ -77,9 +77,9 @@ EZshop is supported by a web application (accessible via PC), with different lev
 <br> Tom is a 30 years old man who is a new cashier in the stationer’s shop. He is very nervous because he does not know how to use the software of the POS. Another cashier explained to him quickly how to use the device but he was so nervous that he could not understand the explanation properly. His turn has just started and his first client starts putting the products in the table. The customer is in a hurry and Tom only wants to be guided through the process by the POS. <br><br>
 **TIM**
 <br> Tim at age 35 is a clerk at the stationer’s shop. A truck from the supplier has arrived at the warehouse. So, he goes there and receives the new products. He wants to enter the information of the new products quickly and without mistakes. He scans each product one by one. <br>
-Some hours later a customer is asking for the location of Stabilo pencils. Tom goes to the location of Stabilo pencils and notices that Stabilo pencils shelf is empty. He goes directly to the warehouse, picks some amount of Stabilo pencils. Then he returns to the shop and fills the shelf. <br><br>
+Some hours later a customer is asking for the location of Stabilo pencils. Tom goes to the location of Stabilo pencils and notices that the Stabilo pencils shelf is empty. He goes directly to the warehouse, picks some amount of Stabilo pencils. Then he returns to the shop and fills the shelf. <br><br>
 **SARA**
-<br>Sara, 40, is an accountant at a stationer’s shop. Today is a working day and her task is to check the financial performance of the supermarket.She has to check several papers to do his work and it is very time-consuming. Sometimes, because of this mess, she makes errors and has a wrong financial record.
+<br>Sara, 40, is an accountant at a stationer’s shop. Today is a working day and her task is to check the financial performance of the stationary shop.She has to check several papers to do her work and it is very time-consuming. Sometimes, because of this mess, she makes errors and has a wrong financial record.
 She would like a digital database with all sold products that can scroll and filter in order to create good financial records. <br><br>
 
 **PAOLO**
@@ -91,9 +91,9 @@ She would like a digital database with all sold products that can scroll and fil
 
 | ID                        | Description                                                                                                                                |
 | ------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
-| **FR1**                   | Handle sale transaction between customer and stationery store                                                                              |
+| **FR1**                   | Handle sale transaction between customer and stationery shop                                                                              |
 | &emsp;FR1.1               | Read the barcode (of the products, the fidelity card, ID card)                                                                             |
-| &emsp;FR1.2               | Applying the discount on the price                                                                                                         |
+| &emsp;FR1.2               | Applying the discount to the price                                                                                                         |
 | &emsp;FR1.3               | Supporting two different payment method(cash and credit card)                                                                              |
 | &emsp;FR1.4               | End the purchase                                                                                                                           |
 | &emsp;&emsp;&emsp;FR1.4.1 | Update Statistics of available products according to the changes in the amount of each product sold                                        |
@@ -124,7 +124,7 @@ She would like a digital database with all sold products that can scroll and fil
 | **FR6**                   | Manage fidelity card policy                                                                                                                |
 | &emsp;FR6.1               | Possibility to add and edit discounts to products for fidelity card owners                                                                 |
 | &emsp;FR6.2               | Add points to the products                                                                                                                 |
-| &emsp;FR6.3               | Link a specific price for each point                                                                                                       |
+| &emsp;FR6.3               | Link a specific reward (amount of money) for each point                                                                                                       |
 | &emsp;FR6.4               | Create,edit and delete a fidelity card for a customer (including information of Customer)                                                  |
 | **FR7**                   | Control the location of products                                                                                                           |
 | &emsp;FR7.1               | Create a map that represents the location of the products in the shelves                                                                   |
@@ -134,7 +134,7 @@ She would like a digital database with all sold products that can scroll and fil
 | **FR8**                   | Create and modify products record                                                                                                          |
 | **FR9**                   | Manage threshold for quantity of products in warehouse and shelves                                                                         |
 | &emsp;FR9.1               | Set threshold                                                                                                                              |
-| &emsp;FR9.2               | Send alarms for products reaching their threshold in the warehouse and shelves                                                             |
+| &emsp;FR9.2               | Send alarms for products reaching their threshold                                                            |
 
 ## Non Functional Requirements
 
@@ -357,7 +357,7 @@ authentication of manager ( two authentication)
 | 5              | The manager enters the code.                                                                                   |
 | 6              | Authentication is done                                                                                         |
 
-# Scenario 3.2
+# Scenario 3.2.1
 
 authentication of others (except manager)( one way authentication)
 we authenticate a cashier and the clerk by their ID card
