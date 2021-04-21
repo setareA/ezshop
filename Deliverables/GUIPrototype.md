@@ -6,6 +6,90 @@ Date:
 
 Version:
 
+
+
+### Use case 1, UC1
+
+Handle sale transactions between cashier and customer
+
+# Scenario 1.1.1
+
+- To start a purchase, the cashier has just to start scanning products in their main page. <br>
+
+![](Images/GUI/Cashier_main.png)
+
+- Once all the products are scanned, the cashier only will have to enter the amount of money that is going to paid (the cash given if cash of the exact amount purchased if credit card) and click in "Pay"<br>
+- Then the cashier will have to choose the method of payment (credit card or cash) in the next view.<br>
+
+![](Images/GUI/payment.png)
+
+- If the cashier chooses credit card, he/she will be redirected to the next view, where he/she will see the amount of money that will have to enter into the credit card reader. <br>
+- Until the cashier does not click in new purchase, the ticket will not be printed and the transaction will not be registered  <br>
+- The cashier can also come back to the on going purchase by clicking in "come back"<br>
+
+![](Images/GUI/credit_card.png)
+
+- If the cashier chooses cash, he/she will see the next view where it is possible to see the amount of money the cashier has to give back <br>
+- Like in the previous case, once the button new purchase is clicked, the ticket will be printed and the purchase registered <br>
+
+![](Images/GUI/cash.png)
+
+
+# Scenario 1.1.2
+
+- For performing a purchase with fidelity card, the cashier has an option in their main page: "Fidelity Card".<br>
+- The process is exactly the same as in the last scenario, the cashier only has to click in the "fidelity card" button in any moment during the purchase and ask the customer to scan it or also, the cashier can enter the Number of the card manually in the next view.<br>
+- By clicking in Ok, the cashier can come back to the purchase.<br>
+
+![](Images/GUI/fidelity.png)
+
+
+
+# Scenario 1.2
+
+- In the main page, The cashier has the button "Cancel purchase" in the main. This way, he/she can easyly abort the transaction in any moment he/she desires. After clicking, he/she will be redirected to the main page again.<br>
+
+# Scenario 1.3
+
+- In the main page, the cashier can click in the little "trash" next to each product in order to delete a specific product from the purchase.<br>
+
+# Scenarion 1.4
+
+- If a product is not readable, the customer can enter manually the number of the product in the next view.<br>
+
+![](Images/GUI/Product_Number.png)
+
+
+Handle sale transaction between supplier  and  stationery shop
+
+
+### Use case 1, UC1
+
+Handle sale transaction between supplier  and  stationery shop
+
+# Scenario 2.1
+
+- The clerk is in their main page and clicks in start transaction.<br>
+
+![](Images/GUI/clerk_main_page.png)
+
+- The clerk chooses from the transaction list, the transaction (between shop and supplier) that he/she is going to check and registered.<br>
+
+![](Images/GUI/select_supplier_transaction.png)
+
+
+-In the next view, the clerk can add the actual quantity that is in the received package and compare it to the one ordered.<br>
+
+- When the transaction is finished the clerk can click in submit, a certification will be printed and the clerk will be logget out <br>
+
+# Scenario 2.2
+
+- The clerk can abort the transaction just by clicking the "Cancel Transaction" button  <br>
+
+![](Images/GUI/supplier_transaction.png)
+
+
+ 
 ### Use case 3, UC3
 
 Authorize and authenticate
@@ -435,6 +519,28 @@ Create an order from a supplier
 <br>
 
 ![](Images/GUI/Order_Menu.png)
+
+### Use case 11, UC11
+
+Add/modify or delete a product record
+
+# Scenario 11.1
+
+- The manager can see the "Show Glossary option" to see the inventory from the main page below<br>
+- The manager can just click in the item record icon to see the details of a certain product record<br>
+
+![](Images/GUI/manager.png)
+
+
+- In the inventory page below, the manager can just click in the item record icon to see the details of a certain product record<br>
+
+![](Images/GUI/inventory.png)
+
+# Scenario 11.2
+- The manager can see from the inventory page the threshold of a certain product that will set a alarm. In order to change this threshold, the manager just have to click in the corresponding "+".<br>
+- The next
+
+
 
 ### Use case 12, UC12
 

@@ -268,7 +268,7 @@ Handle sale transaction between supplier and stationery shop
 | Precondition     | - Authentication of the clerk <br>- The barcode reader and the keypad is working |
 | Post condition   | - The transaction is terminated <br>- The clerk is logged out.                   |
 | Nominal Scenario | Scenario 2.1                                                                     |
-| Variants         | Scenario 2.2,2.3                                                                 |
+| Variants         | Scenario 2.2                                                                 |
 
 # Scenario 2.1
 
@@ -290,28 +290,6 @@ Good transaction
 | 9              | End transaction                                                                                                |
 
 # Scenario 2.2
-
-Transaction done but some product was removed
-
-| Scenario 2.2   |                                                                                                              |
-| -------------- | ------------------------------------------------------------------------------------------------------------ |
-| Precondition   | - Authentication of the clerk <br> - The monitor is working                                                  |
-| Post condition | The transaction is terminated <br> -The transaction is recorded by the software<br> -The clerk is logged out |
-| Step#          | Description                                                                                                  |
-| 1              | Start transaction                                                                                            |
-| 2              | Choose from transaction list                                                                                 |
-| 3              | Retrieve name from the list of transaction’s product                                                         |
-| 4              | Input the quantity of the product                                                                            |
-| 5              | Repeat step 2 and 3 for each product                                                                         |
-| 6              | Change the quantity                                                                                          |
-| 7              | Delete a product                                                                                             |
-| 8              | Repeat step 5 and 6 for all to be changed products                                                           |
-| 9              | End insertion of products                                                                                    |
-| 10             | Register the transaction in the software                                                                     |
-| 11             | Print a certification                                                                                        |
-| 12             | End transaction                                                                                              |
-
-# Scenario 2.3
 
 Transaction done but some product was removed
 
