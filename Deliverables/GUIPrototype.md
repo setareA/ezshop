@@ -138,17 +138,65 @@ Creating alarm for products reaching their threshold in quantity
 
 # Scenario 12.1 and Scenario 12.2
 
-Soon to be out of stocks product raise an alert through the bell icon to the manager
+Soon to be out of stocks product raise an alert through the bell icon to the manager<br>
 ![](Images/GUI/manager.png)
 
 <br>
-- Soon to be out of stock products in the shelf raise an alert through the bell icon to the clerk
+- Soon to be out of stock products in the shelf raise an alert through the bell icon to the clerk<br>
 
 ![](Images/GUI/clerk_main_page.png)
 
 <br>
-- The products are shown
+- The products are shown<br>
 
 ![](Images/GUI/alarms.png)
 
 <br>
+
+### Use case 10, UC10
+
+Show, Edit and create organizational information
+
+# Scenario 10.1
+
+Show information of employees
+
+![](Images/GUI/manager.png)
+
+<br>
+
+![](Images/GUI/Employee%20profile.png)
+
+<br>
+
+![](Images/GUI/Schedule.png)
+
+# Scenario 10.2 and Scenario 10.3
+
+- Show information of suppliers
+- Edit information of suppliers
+
+![](Images/GUI/manager.png)
+
+<br>
+
+![](Images/GUI/Edit%20Suppliers.png)
+
+<br>
+- All the information about the suppliers is shown  <br>
+
+![](Images/GUI/Supplier%20record.png)
+
+**Edit information of suppliers**
+
+- The manager clicks on the supplier editor icon and modify the editable fields.<br>
+
+![](Images/GUI/Supplier%20record.png)
+
+- Then clicks on "add product" <br>
+
+![](Images/GUI/choose_product.png)
+
+- Then comes back and clicks save<br>
+
+![](Images/GUI/Supplier%20record.png)
