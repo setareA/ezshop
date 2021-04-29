@@ -48,6 +48,10 @@ The design must satisfy the Official Requirements document, notably functional a
 
 ![](Images/design/7.4.png)
 
+- Scenario 9.1
+
+![](Images/design/9.1.png)
+
 - Scenario 10.1
 
 ![](Images/design/10.1.png)
