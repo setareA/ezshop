@@ -1,12 +1,10 @@
-# Design Document 
+# Design Document
 
-
-Authors: 
+Authors:
 
 Date:
 
 Version:
-
 
 # Contents
 
@@ -19,45 +17,20 @@ Version:
 
 The design must satisfy the Official Requirements document, notably functional and non functional requirements
 
-# High level design 
+# High level design
 
 <discuss architectural styles used, if any>
 <report package diagram>
-
-
-
-
-
 
 # Low level design
 
 <for each package, report class diagram>
 
-
-
-
-
-
-
-
-
 # Verification traceability matrix
 
 \<for each functional requirement from the requirement document, list which classes concur to implement it>
 
-
-
-
-
-
-
-
-
-
-
-# Verification sequence diagrams 
-
-
+# Verification sequence diagrams
 
 - Scenario 7.1
 
@@ -74,3 +47,11 @@ The design must satisfy the Official Requirements document, notably functional a
 - Scenario 7.4
 
 ![](Images/design/7.4.png)
+
+- Scenario 10.1
+
+![](Images/design/10.1.png)
+
+- Scenario 10.2
+
+![](Images/design/10.2.png)
