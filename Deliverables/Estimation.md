@@ -72,23 +72,23 @@ Version:
 ### 
 |         Activity name    | Estimated effort (person hours)   |             
 | ----------- | ------------------------------- | 
-|1. Requirement Document|55|
-|   1.1 Planning|5|
+|1. Requirement Document|60|
+|   1.1 Planning|10|
 |   1.2 Development|35|
 |   1.3 V&V|15|
-|2. GUI|60|
+|2. GUI|65|
 |   2.1 Planning|10|
 |   2.2 Development|30|
-|   2.3 V&V|20|
+|   2.3 V&V|25|
 |3. Design|50|
-|   2.3 Class diagram|20|
-|   2.3 Low Level|10|
-|   2.3 High Level|10|
-|   2.3 V&V|10|
-|4. Coding|80|
-|   2.3 Classes|60|
-|   2.3 DB|20|
-|5. Testing|15|
+|   3.1 Class diagram|20|
+|   3.2 Low Level|10|
+|   3.3 High Level|10|
+|   3.4 V&V|10|
+|4. Coding|90|
+|   4.1 Classes|70|
+|   4.2 DB|20|
+|5. Testing|20|
 |6. Integration|20|
 
 ###
