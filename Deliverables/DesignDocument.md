@@ -23,11 +23,11 @@ The design must satisfy the Official Requirements document, notably functional a
 
 # Low level design
 
-![](Images/design/class_diagram.png)
+![](Images/design/class_diagram..png)
 
 # Verification traceability matrix
 
-\<for each functional requirement from the requirement document, list which classes concur to implement it>
+![](Images/design/matrix.png)
 
 # Verification sequence diagrams
 
