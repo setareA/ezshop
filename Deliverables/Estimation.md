@@ -91,4 +91,4 @@ Version:
 |5. Testing|20|
 |6. Integration|20|
 
-![](Images/design/7.1.png)
+![](Images/design/gantt.png)
