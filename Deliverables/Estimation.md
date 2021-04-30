@@ -91,5 +91,4 @@ Version:
 |5. Testing|20|
 |6. Integration|20|
 
-###
-Insert here Gantt chart with above activities
+![](Images/design/7.1.png)
