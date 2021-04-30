@@ -23,7 +23,7 @@ The design must satisfy the Official Requirements document, notably functional a
 
 # Low level design
 
-![](Images/design/class_diagram..png)
+![](Images/design/class_diagram.png)
 
 # Verification traceability matrix
 
