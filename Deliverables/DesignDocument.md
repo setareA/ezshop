@@ -19,8 +19,7 @@ The design must satisfy the Official Requirements document, notably functional a
 
 # High level design
 
-<discuss architectural styles used, if any>
-<report package diagram>
+![](Images/design/high_level.png)
 
 # Low level design
 
