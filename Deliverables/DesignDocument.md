@@ -24,7 +24,7 @@ The design must satisfy the Official Requirements document, notably functional a
 
 # Low level design
 
-<for each package, report class diagram>
+![](Images/design/class_diagram.png)
 
 # Verification traceability matrix
 
