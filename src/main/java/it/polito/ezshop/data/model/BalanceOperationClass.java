@@ -1,11 +1,9 @@
 package it.polito.ezshop.data.model;
 
 import it.polito.ezshop.data.BalanceOperation;
-<<<<<<< HEAD
+
 import java.time.LocalDate;
 
-=======
->>>>>>> 55acf98ca3af201bf7a5069365462cce04471aaa
 
 public class BalanceOperationClass implements BalanceOperation {
 	
