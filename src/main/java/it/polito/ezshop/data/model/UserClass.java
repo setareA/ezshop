@@ -8,6 +8,7 @@ public class UserClass implements User {
     private String username;
     private String password;
     private String role;
+    private String salt;
 
     @Override
     public Integer getId() {
