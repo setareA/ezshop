@@ -41,6 +41,7 @@ public class CustomerClass implements Customer {
     @Override
     public Integer getPoints() {
        // get it from customer repository
+        return 0;
     }
 
     @Override
