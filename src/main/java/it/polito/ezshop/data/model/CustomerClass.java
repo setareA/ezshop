@@ -1,4 +1,4 @@
 package it.polito.ezshop.data.model;
 
-public class LoyaltyCard {
+public class CustomerClass {
 }
