@@ -1,19 +1,14 @@
 package it.polito.ezshop.data.model;
 
-<<<<<<< HEAD
-<<<<<<< HEAD:src/main/java/it/polito/ezshop/data/model/Order.java
-public class Order  {
-=======
-public class UserClass {
->>>>>>> 55acf98ca3af201bf7a5069365462cce04471aaa:src/main/java/it/polito/ezshop/data/model/UserClass.java
-=======
 import it.polito.ezshop.data.User;
+
 
 public class UserClass implements User {
     private Integer id;
     private String username;
     private String password;
     private String role;
+
     @Override
     public Integer getId() {
         return this.id;
@@ -54,5 +49,5 @@ public class UserClass implements User {
     public void setRole(String role) {
         this.role = role;
     }
->>>>>>> e7871d5136647ca5f05131141461d333ffe0002f
+
 }
