@@ -1,4 +1,4 @@
 package it.polito.ezshop.data.model;
 
-public class User {
+public class UserClass {
 }
