@@ -1,4 +1,4 @@
 package it.polito.ezshop.data.model;
 
-public class Credit {
+public class CreditClass {
 }
