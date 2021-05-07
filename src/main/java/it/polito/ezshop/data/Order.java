@@ -1,6 +1,6 @@
 package it.polito.ezshop.data;
 
-public interface Order {
+public interface Order  {
 
     Integer getBalanceId();
 
