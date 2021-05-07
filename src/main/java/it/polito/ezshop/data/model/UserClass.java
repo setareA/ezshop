@@ -10,6 +10,14 @@ public class UserClass implements User {
     private String role;
     private String salt;
 
+    public UserClass(Integer id, String username, String password, String role, String salt) {
+        this.id = id;
+        this.username = username;
+        this.password = password;
+        this.role = role;
+        this.salt = salt;
+    }
+
     @Override
     public Integer getId() {
         return this.id;
@@ -50,5 +58,14 @@ public class UserClass implements User {
     public void setRole(String role) {
         this.role = role;
     }
+
+    public String getSalt() {
+        return salt;
+    }
+
+    public void setSalt(String salt) {
+        this.salt = salt;
+    }
+
 
 }
