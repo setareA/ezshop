@@ -7,6 +7,7 @@ public class CustomerClass implements Customer {
     private Integer id;
     private String customerName;
     private String customerCard;
+    private Integer points;
 
     @Override
     public String getCustomerName() {
@@ -41,11 +42,11 @@ public class CustomerClass implements Customer {
     @Override
     public Integer getPoints() {
        // get it from customer repository
-        return 0;
+        return this.points;
     }
 
     @Override
     public void setPoints(Integer points) {
-         // set the point in repository and ....
-    }
+    	this.points = points;
+}
 }
