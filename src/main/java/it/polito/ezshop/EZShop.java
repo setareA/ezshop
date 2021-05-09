@@ -16,8 +16,8 @@ public class EZShop {
         UserRepository userRepository =  UserRepository.getInstance();
         try {
             userRepository.initialize();
-           // UserClass newUser = new UserClass(1,"haha", "tt","manager","yte");
-          //  userRepository.addNewUser(newUser);
+           // UserClass newUser = new UserClass(1,"haha", "tt","yte","manager");
+           // userRepository.addNewUser(newUser);
         } catch (SQLException e) {
             e.printStackTrace();
         }

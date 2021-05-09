@@ -10,7 +10,7 @@ public class UserClass implements User {
     private String role;
     private String salt;
 
-    public UserClass(Integer id, String username, String password, String role, String salt) {
+    public UserClass(Integer id, String username, String password, String salt, String role) {
         this.id = id;
         this.username = username;
         this.password = password;

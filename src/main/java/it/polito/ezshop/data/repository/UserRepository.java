@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 
-public class UserRepository extends Mapper<UserClass, Integer>{
+public class UserRepository {
     private static UserRepository ourInstance = new UserRepository();
 
     public static UserRepository getInstance() {
@@ -71,7 +71,7 @@ public class UserRepository extends Mapper<UserClass, Integer>{
                 String[] passAndSalt = HashGenerator.getPasswordHashAndSalt(password);
                 String hashedPassword = passAndSalt[0];
                 String salt = passAndSalt[1];
-                System.out.println("pass : " + hashedPassword + ", salt :" + salt);
+
                 prp.setString(j + 1, hashedPassword);
                 prp.setString(j + 2, salt);
                 j = j + 1;
@@ -84,15 +84,11 @@ public class UserRepository extends Mapper<UserClass, Integer>{
         prp.close();
         con.close();
     }
-
-    @Override
     protected String getFindStatement() {
         return "SELECT " + COLUMNS +
                 " FROM user" +
                 " WHERE id = ?";
     }
-
-    @Override
     protected UserClass convertResultSetToDomainModel(ResultSet rs) throws SQLException {
         return new UserClass(Integer.parseInt(rs.getString(1)),
                 rs.getString(2),
