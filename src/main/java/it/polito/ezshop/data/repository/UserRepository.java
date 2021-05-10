@@ -19,11 +19,12 @@ public class UserRepository {
     }
 
     private static final String COLUMNS = "id, username, password, salt, role";
+    private static  final String TABLE_NAME = "user";
 
     public void initialize() throws SQLException{
         Connection con = DBCPDBConnectionPool.getConnection();
         Statement st = con.createStatement();
-        st.executeUpdate("CREATE TABLE IF NOT EXISTS " + "user" + " " + "(id INTEGER PRIMARY KEY, username TEXT, password TEXT, salt TEXT, role TEXT)");
+        st.executeUpdate("CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " " + "(id INTEGER PRIMARY KEY, username TEXT, password TEXT, salt TEXT, role TEXT)");
         st.close();
         con.close();
     }
