@@ -23,12 +23,12 @@ public class ProductTypeRepository {
     private ProductTypeRepository() {
     }
     
-    private static final String COLUMNS = "id, quantity, location, note, produtDescription, barCode , pricePerUnit , discountRate , warning ";
+    private static final String COLUMNS = "id, quantity, location, note, productDescription, barCode , pricePerUnit , discountRate , warning ";
 
     public void initialize() throws SQLException{
         Connection con = DBCPDBConnectionPool.getConnection();
         Statement st = con.createStatement();
-        st.executeUpdate("CREATE TABLE IF NOT EXISTS " + "product type" + " " + "(id INTEGER PRIMARY KEY, quantity INTEGER , location TEXT, note TEXT, productDescription TEXT, barCode TEXT ,pricePerUnit DOUBLE , discountRate DOUBLE , warning TEXT)");
+        st.executeUpdate("CREATE TABLE IF NOT EXISTS " + "productType" + " " + "(id INTEGER PRIMARY KEY, quantity INTEGER , location TEXT, note TEXT, productDescription TEXT, barCode TEXT ,pricePerUnit DOUBLE , discountRate DOUBLE , warning TEXT)");
         st.close();
         con.close();
     }
@@ -77,7 +77,7 @@ public class ProductTypeRepository {
         Connection con = DBCPDBConnectionPool.getConnection();
         ArrayList<String> attrs = getAttrs();
         System.out.println("adding new product type");
-        String sqlCommand = insertCommand("product type", attrs);
+        String sqlCommand = insertCommand("productType", attrs);
         PreparedStatement prp = con.prepareStatement(sqlCommand);
         for (int j = 0; j < attrs.size(); j++) {
                 prp.setString(j + 1, userData.get(attrs.get(j)));
@@ -90,7 +90,7 @@ public class ProductTypeRepository {
     
     protected String getFindStatement() {
         return "SELECT " + COLUMNS +
-                " FROM product type" +
+                " FROM productType" +
                 " WHERE id = ?";
     }
     
@@ -118,7 +118,7 @@ public class ProductTypeRepository {
     }
     
     private String getAllProductTypeStatement() {
-        String sqlCommand = "SELECT * FROM product type";
+        String sqlCommand = "SELECT * FROM productType";
         return sqlCommand;
     }
 

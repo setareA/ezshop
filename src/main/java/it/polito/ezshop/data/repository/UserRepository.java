@@ -10,6 +10,7 @@ import java.util.HashMap;
 
 public class UserRepository {
     private static UserRepository ourInstance = new UserRepository();
+    
 
     public static UserRepository getInstance() {
         return ourInstance;
@@ -19,13 +20,12 @@ public class UserRepository {
     }
 
     private static final String COLUMNS = "id, username, password, salt, role";
-    private static  final String TABLE_NAME = "user";
     private UserClass loggedUser ;
     
     public void find( String username ) {
     	
     }
-    public  UserClass login(String username , String password ) {
+    public  UserClass login(String username , String password ) {// @ TODO : check if user is null or not  
     	UserClass u = UserRepository.getUserByUsername(username);
     	String ps[] = HashGenerator.getPasswordHashAndSalt(password);
     	if(u.getPassword()==ps[0] && u.getSalt()==ps[1]) {
@@ -38,7 +38,7 @@ public class UserRepository {
     public void initialize() throws SQLException{
         Connection con = DBCPDBConnectionPool.getConnection();
         Statement st = con.createStatement();
-        st.executeUpdate("CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " " + "(id INTEGER PRIMARY KEY, username TEXT, password TEXT, salt TEXT, role TEXT)");
+        st.executeUpdate("CREATE TABLE IF NOT EXISTS " + "user" + " " + "(id INTEGER PRIMARY KEY, username TEXT, password TEXT, salt TEXT, role TEXT)");
         st.close();
         con.close();
     }

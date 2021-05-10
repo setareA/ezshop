@@ -9,6 +9,13 @@ public class CustomerClass implements Customer {
     private String customerCard;
     private Integer points;
 
+    public CustomerClass(Integer id, String customerName, String customerCard, Integer points){
+        this.id = id;
+        this.customerName = customerName;
+        this.customerCard = customerCard;
+        this.points = points;
+    }
+
     @Override
     public String getCustomerName() {
         return this.customerName;
