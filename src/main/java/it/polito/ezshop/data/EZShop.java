@@ -1,5 +1,6 @@
 package it.polito.ezshop.data;
 
+import it.polito.ezshop.data.model.UserClass;
 import it.polito.ezshop.exceptions.*;
 
 import java.time.LocalDate;
@@ -16,6 +17,7 @@ public class EZShop implements EZShopInterface {
 
     @Override
     public Integer createUser(String username, String password, String role) throws InvalidUsernameException, InvalidPasswordException, InvalidRoleException {
+    		UserClass newUser = new UserClass(0,username, password,"",role);
         return null;
     }
 

@@ -10,6 +10,7 @@ import java.util.HashMap;
 
 public class UserRepository {
     private static UserRepository ourInstance = new UserRepository();
+    private static Integer nextId = 0;
     
 
     public static UserRepository getInstance() {
@@ -25,6 +26,8 @@ public class UserRepository {
         Connection con = DBCPDBConnectionPool.getConnection();
         Statement st = con.createStatement();
         st.executeUpdate("CREATE TABLE IF NOT EXISTS " + "user" + " " + "(id INTEGER PRIMARY KEY, username TEXT, password TEXT, salt TEXT, role TEXT)");
+        // We look for the highest ID in the database
+        nextId = ourInstance.getHighestId();
         st.close();
         con.close();
     }
@@ -55,7 +58,7 @@ public class UserRepository {
     public void addNewUser(UserClass user) throws SQLException{
 
         HashMap<String, String> userData = new HashMap<>();
-        userData.put("id", user.getId().toString());
+        userData.put("id",nextId.toString());
         userData.put("username", user.getUsername());
         userData.put("password", user.getPassword());
         userData.put("salt", user.getSalt());
@@ -91,7 +94,8 @@ public class UserRepository {
                 " WHERE id = ?";
     }
     protected UserClass convertResultSetToDomainModel(ResultSet rs) throws SQLException {
-        return new UserClass(Integer.parseInt(rs.getString(1)),
+        return new UserClass(
+        		Integer.parseInt(rs.getString(1)),
                 rs.getString(2),
                 rs.getString(3),
                 rs.getString(4),
@@ -108,6 +112,8 @@ public class UserRepository {
         }
         return result;
     }
+    
+    
 
     public ArrayList<UserClass> getAllUsers(){
         try {
@@ -125,10 +131,30 @@ public class UserRepository {
         return null;
     }
 
+    public Integer getHighestId(){
+        try {
+            String sqlCommand = getMaxIdStatement();
+            Connection con = DBCPDBConnectionPool.getConnection();
+            PreparedStatement prps = con.prepareStatement(sqlCommand);
+            ResultSet rs = prps.executeQuery();
+            Integer highestId = rs.getInt(1);
+            prps.close();
+            con.close();
+            return highestId;
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+    
     private String geAllUsersStatement() {
         String sqlCommand = "SELECT * FROM user";
         return sqlCommand;
     }
-
+    private String getMaxIdStatement() {
+        String sqlCommand = "SELECT MAX(id) FROM user";
+        return sqlCommand;
+    }
+    
 
 }
