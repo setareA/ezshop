@@ -7,7 +7,7 @@ import java.time.LocalDate;
 
 public class BalanceOperationClass implements BalanceOperation {
 	
-	protected Integer balanceId ; // protected because sub class can acces them
+	protected Integer balanceId ; // protected because sub class can access them
 	protected LocalDate localDate ;
 	protected double money ;
 	protected String type;
@@ -21,7 +21,7 @@ public class BalanceOperationClass implements BalanceOperation {
 
 	
 	@Override
-	public int getBalanceId() {
+	public Integer getBalanceId() {
 		// TODO Auto-generated method stub
 		return this.balanceId;
 	}

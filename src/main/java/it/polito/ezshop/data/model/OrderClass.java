@@ -24,7 +24,7 @@ public class OrderClass extends DebitClass implements Order  {
 		this.orderId = orderId;
 	}
 
-	// undestand how to implement it
+	// understand how to implement it
 	@Override
     public Integer getBalanceId() {
         return null;

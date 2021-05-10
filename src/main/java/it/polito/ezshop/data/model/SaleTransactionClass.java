@@ -1,5 +1,7 @@
 package it.polito.ezshop.data.model;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import it.polito.ezshop.data.SaleTransaction;
@@ -8,12 +10,22 @@ import it.polito.ezshop.data.TicketEntry;
 public class SaleTransactionClass extends CreditClass implements SaleTransaction{
 	
 	private Integer ticketNumber;
-	private List<TicketEntry> entries ;
+	private ArrayList<TicketEntry> entries ;
 	private double discountRate;
 	private double price;
-	
-	
-	
+
+
+	public SaleTransactionClass(Integer balanceId, LocalDate localDate, double money, String type, Integer ticketNumber,
+								ArrayList<TicketEntry> entries, double discountRate, double price) {
+		super(balanceId, localDate, money, type);
+		this.ticketNumber = ticketNumber;
+		this.entries = new ArrayList<>(entries);
+		this.discountRate = discountRate;
+		this.price = price;
+	}
+
+
+
 	@Override
 	public Integer getTicketNumber() {
 		// TODO Auto-generated method stub
@@ -35,7 +47,7 @@ public class SaleTransactionClass extends CreditClass implements SaleTransaction
 	@Override
 	public void setEntries(List<TicketEntry> entries) {
 		// TODO Auto-generated method stub
-		this.entries = entries;
+		this.entries = new ArrayList<>(entries);
 	}
 
 	@Override
