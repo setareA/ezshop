@@ -1,5 +1,17 @@
 package it.polito.ezshop.data.repository;
 
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import it.polito.ezshop.data.model.CustomerClass;
+
+import java.util.Arrays;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 public class CustomerRepository {
     private static CustomerRepository ourInstance = new CustomerRepository();
 
@@ -57,7 +69,7 @@ public class CustomerRepository {
             String sqlCommand = insertCommand("customer", attrs);
             PreparedStatement prp = con.prepareStatement(sqlCommand);
             for (int j = 0; j < attrs.size(); j++) {
-                    prp.setString(j + 1, CustomerData.get(attrs.get(j)));
+                    prp.setString(j + 1, customerData.get(attrs.get(j)));
             }
 
             prp.executeUpdate();
