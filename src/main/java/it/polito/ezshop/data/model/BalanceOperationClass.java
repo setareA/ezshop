@@ -21,7 +21,7 @@ public class BalanceOperationClass implements BalanceOperation {
 
 	
 	@Override
-	public int getBalanceId() {
+	public Integer getBalanceId() {
 		// TODO Auto-generated method stub
 		return this.balanceId;
 	}
