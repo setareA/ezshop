@@ -1,7 +1,9 @@
 package it.polito.ezshop.data;
 
+import it.polito.ezshop.data.model.UserClass;
 import it.polito.ezshop.data.repository.CustomerRepository;
 import it.polito.ezshop.data.repository.UserRepository;
+import it.polito.ezshop.data.util.HashGenerator;
 import it.polito.ezshop.exceptions.*;
 
 import java.sql.SQLException;
@@ -59,7 +61,12 @@ public class EZShop implements EZShopInterface {
         if ( password == null) {
         	throw new InvalidPasswordException();
         }
-        return userRepository.login(username,password);
+    	UserClass u = UserRepository.getUserByUsername(username);
+    	if (u == null)         return null;
+    	if(HashGenerator.passwordMatches(u.getPassword(), password, u.getSalt())) {
+    		userRepository.setLoggedUser(u);
+    		return u;
+    	}else return null;
          
     	
     }

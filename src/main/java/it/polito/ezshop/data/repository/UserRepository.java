@@ -25,15 +25,13 @@ public class UserRepository {
     public void find( String username ) {
     	
     }
-    public  UserClass login(String username , String password ) {// @ TODO : check if user is null or not  
-    	UserClass u = UserRepository.getUserByUsername(username);
-    	String ps[] = HashGenerator.getPasswordHashAndSalt(password);
-    	if(u.getPassword()==ps[0] && u.getSalt()==ps[1]) {
-    		loggedUser = u;
-    		return u;
-    	}else {return null;}
-    		
+    public  UserClass getLoggedUser( ) {// @ TODO : check if user is null or not  
+    	return loggedUser;
     	
+    }
+    public  void setLoggedUser(UserClass loggeduser ) {// @ TODO : check if user is null or not  
+    	
+    	this.loggedUser = loggeduser;
     }
     public void initialize() throws SQLException{
         Connection con = DBCPDBConnectionPool.getConnection();
@@ -146,6 +144,8 @@ public class UserRepository {
     	}
     	return null;
     }
+    
+    
     public ArrayList<UserClass> getAllUsers(){
         try {
             String sqlCommand = geAllUsersStatement();
