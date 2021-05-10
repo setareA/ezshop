@@ -13,7 +13,21 @@ public class ProductTypeClass implements ProductType {
     private Double discountRate;
     private Integer warning;
 
-    public Double getDiscountRate() {
+    public ProductTypeClass(Integer id, Integer quantity, String location, String note, String productDescription,
+			String barCode, Double pricePerUnit, Double discountRate, Integer warning) {
+		super();
+		this.id = id;
+		this.quantity = quantity;
+		this.location = location;
+		this.note = note;
+		this.productDescription = productDescription;
+		this.barCode = barCode;
+		this.pricePerUnit = pricePerUnit;
+		this.discountRate = discountRate;
+		this.warning = warning;
+	}
+
+	public Double getDiscountRate() {
         return this.discountRate;
     }
 
