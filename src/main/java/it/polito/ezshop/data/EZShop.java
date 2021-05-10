@@ -1,16 +1,28 @@
 package it.polito.ezshop.data;
 
 import it.polito.ezshop.data.model.UserClass;
+import it.polito.ezshop.data.repository.CustomerRepository;
+import it.polito.ezshop.data.repository.UserRepository;
 import it.polito.ezshop.exceptions.*;
 
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.List;
 
 
 public class EZShop implements EZShopInterface {
+ 
+	 private static UserRepository userRepository =  UserRepository.getInstance();
+     private static CustomerRepository customerRepository = CustomerRepository.getInstance();
+     
 
+    public EZShop() throws SQLException { 
+		super();
+		  userRepository.initialize();
+          customerRepository.initialize();
+	}
 
-    @Override
+	@Override
     public void reset() {
 
     }
@@ -43,7 +55,15 @@ public class EZShop implements EZShopInterface {
 
     @Override
     public User login(String username, String password) throws InvalidUsernameException, InvalidPasswordException {
-        return null;
+        if ( username == null ) {
+        	throw new InvalidUsernameException();
+        	}
+        if ( password == null) {
+        	throw new InvalidPasswordException();
+        }
+        return userRepository.login(username,password);
+         
+    	
     }
 
     @Override

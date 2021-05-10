@@ -13,20 +13,16 @@ import java.sql.SQLException;
 public class EZShop {
 
     public static void main(String[] args){
-        EZShopInterface ezShop = new it.polito.ezshop.data.EZShop();
-        EZShopGUI gui = new EZShopGUI(ezShop);
-        UserRepository userRepository =  UserRepository.getInstance();
-        CustomerRepository customerRepository = CustomerRepository.getInstance();
+     
+       
         try {
-            userRepository.initialize();
-            customerRepository.initialize();
-            CustomerClass newCustomer = new CustomerClass(1,"Dani","asdf",23);
-            customerRepository.addNewCustomer(newCustomer);
-           // UserClass newUser = new UserClass(1,"haha", "tt","yte","manager");
-           // userRepository.addNewUser(newUser);
+           EZShopInterface ezShop = new it.polito.ezshop.data.EZShop();
+        EZShopGUI gui = new EZShopGUI(ezShop);
+          
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        
     }
 
 }
