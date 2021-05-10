@@ -23,23 +23,22 @@ public class UserRepository {
     private static final String COLUMNS = "id, username, password, salt, role";
     private UserClass loggedUser ;
     
-    public void find( String username ) {
-    	
-    }
+
     public  UserClass getLoggedUser( ) {// @ TODO : check if user is null or not  
     	return loggedUser;
     	
     }
-    public  void setLoggedUser(UserClass loggeduser ) {// @ TODO : check if user is null or not  
-    	
-    	this.loggedUser = loggeduser;
+
+    public void setLoggedUser(UserClass loggedUser) {// @ TODO : check if user is null or not
+
+        this.loggedUser = loggedUser;
     }
     public void initialize() throws SQLException{
         Connection con = DBCPDBConnectionPool.getConnection();
         Statement st = con.createStatement();
         st.executeUpdate("CREATE TABLE IF NOT EXISTS " + "user" + " " + "(id INTEGER PRIMARY KEY, username TEXT, password TEXT, salt TEXT, role TEXT)");
         // We look for the highest ID in the database
-        nextId = ourInstance.getHighestId();
+        nextId = ourInstance.getHighestId() + 1;
         st.close();
         con.close();
     }
@@ -173,10 +172,13 @@ public class UserRepository {
             Connection con = DBCPDBConnectionPool.getConnection();
             PreparedStatement prps = con.prepareStatement(sqlCommand);
             ResultSet rs = prps.executeQuery();
+            rs.next();
             Integer highestId = rs.getInt(1);
             prps.close();
             con.close();
-            return highestId;
+            if (highestId != null)
+                return highestId;
+            else return 0;
         }catch(SQLException e){
             e.printStackTrace();
         }

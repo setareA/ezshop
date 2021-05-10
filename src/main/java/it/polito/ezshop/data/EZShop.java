@@ -12,25 +12,25 @@ import java.util.List;
 
 
 public class EZShop implements EZShopInterface {
- 
-	 private static UserRepository userRepository =  UserRepository.getInstance();
-     private static CustomerRepository customerRepository = CustomerRepository.getInstance();
-     
 
-    public EZShop() throws SQLException { 
-		super();
-		  userRepository.initialize();
-          customerRepository.initialize();
-	}
+    private static UserRepository userRepository = UserRepository.getInstance();
+    private static CustomerRepository customerRepository = CustomerRepository.getInstance();
 
-	@Override
+
+    public EZShop() throws SQLException {
+        super();
+        userRepository.initialize();
+        customerRepository.initialize();
+    }
+
+    @Override
     public void reset() {
 
     }
 
     @Override
     public Integer createUser(String username, String password, String role) throws InvalidUsernameException, InvalidPasswordException, InvalidRoleException {
-    		UserClass newUser = new UserClass(0,username, password,"",role);
+        UserClass newUser = new UserClass(0, username, password, "", role);
         return null;
     }
 
@@ -56,20 +56,20 @@ public class EZShop implements EZShopInterface {
 
     @Override
     public User login(String username, String password) throws InvalidUsernameException, InvalidPasswordException {
-        if ( username == null ) {
-        	throw new InvalidUsernameException();
-        	}
-        if ( password == null) {
-        	throw new InvalidPasswordException();
+        if (username == null) {
+            throw new InvalidUsernameException();
         }
-    	UserClass u = UserRepository.getUserByUsername(username);
-    	if (u == null)         return null;
-    	if(HashGenerator.passwordMatches(u.getPassword(), password, u.getSalt())) {
-    		userRepository.setLoggedUser(u);
-    		return u;
-    	}else return null;
-         
-    	
+        if (password == null) {
+            throw new InvalidPasswordException();
+        }
+        UserClass u = UserRepository.getUserByUsername(username);
+        if (u == null) return null;
+        if (HashGenerator.passwordMatches(u.getPassword(), password, u.getSalt())) {
+            userRepository.setLoggedUser(u);
+            return u;
+        } else return null;
+
+
     }
 
     @Override

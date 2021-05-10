@@ -1,9 +1,7 @@
 package it.polito.ezshop;
 
 import it.polito.ezshop.data.EZShopInterface;
-import it.polito.ezshop.data.model.CustomerClass;
 import it.polito.ezshop.data.model.UserClass;
-import it.polito.ezshop.data.repository.CustomerRepository;
 import it.polito.ezshop.data.repository.UserRepository;
 import it.polito.ezshop.view.EZShopGUI;
 
@@ -17,8 +15,10 @@ public class EZShop {
        
         try {
            EZShopInterface ezShop = new it.polito.ezshop.data.EZShop();
-        EZShopGUI gui = new EZShopGUI(ezShop);
-          
+           EZShopGUI gui = new EZShopGUI(ezShop);
+           //UserRepository userRepository = UserRepository.getInstance();
+            // userRepository.addNewUser(new UserClass(100, "paserAmmeZaa", "abc", "", "clerk"));
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
