@@ -113,7 +113,7 @@ public class UserRepository {
                 " WHERE username = ?"  ;
     }
     protected static UserClass convertResultSetToDomainModel(ResultSet rs) throws SQLException {
-        return new UserClass(Integer.parseInt(rs.getString(1)),
+        return new UserClass(rs.getInt(1),
                 rs.getString(2),
                 rs.getString(3),
                 rs.getString(4),
