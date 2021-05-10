@@ -20,7 +20,21 @@ public class UserRepository {
 
     private static final String COLUMNS = "id, username, password, salt, role";
     private static  final String TABLE_NAME = "user";
-
+    private UserClass loggedUser ;
+    
+    public void find( String username ) {
+    	
+    }
+    public  UserClass login(String username , String password ) {
+    	UserClass u = UserRepository.getUserByUsername(username);
+    	String ps[] = HashGenerator.getPasswordHashAndSalt(password);
+    	if(u.getPassword()==ps[0] && u.getSalt()==ps[1]) {
+    		loggedUser = u;
+    		return u;
+    	}else {return null;}
+    		
+    	
+    }
     public void initialize() throws SQLException{
         Connection con = DBCPDBConnectionPool.getConnection();
         Statement st = con.createStatement();
@@ -90,7 +104,12 @@ public class UserRepository {
                 " FROM user" +
                 " WHERE id = ?";
     }
-    protected UserClass convertResultSetToDomainModel(ResultSet rs) throws SQLException {
+    protected static String getFindByUsernameStatement() {
+        return "SELECT " + COLUMNS +
+                " FROM user" +
+                " WHERE username = ?"  ;
+    }
+    protected static UserClass convertResultSetToDomainModel(ResultSet rs) throws SQLException {
         return new UserClass(Integer.parseInt(rs.getString(1)),
                 rs.getString(2),
                 rs.getString(3),
@@ -109,6 +128,24 @@ public class UserRepository {
         return result;
     }
 
+    public static UserClass getUserByUsername(String username)
+    {
+    	try {
+    		String sqlCommand = getFindByUsernameStatement();
+    		Connection con = DBCPDBConnectionPool.getConnection();
+            PreparedStatement prps = con.prepareStatement(sqlCommand);
+            prps.setString(1, username);
+            ResultSet rs = prps.executeQuery();
+            rs.next();
+            UserClass u = convertResultSetToDomainModel(rs);
+            prps.close();
+            con.close();
+            return u;
+    	}catch (SQLException e) {
+            e.printStackTrace();
+    	}
+    	return null;
+    }
     public ArrayList<UserClass> getAllUsers(){
         try {
             String sqlCommand = geAllUsersStatement();
