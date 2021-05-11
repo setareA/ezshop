@@ -11,6 +11,8 @@ import java.util.HashMap;
 public class UserRepository {
     private static UserRepository ourInstance = new UserRepository();
     private static Integer nextId = 0;
+    private static final String COLUMNS = "id, username, password, salt, role";
+    private UserClass loggedUser ;
     
 
     public static UserRepository getInstance() {
@@ -20,11 +22,16 @@ public class UserRepository {
     private UserRepository() {
     }
 
-    private static final String COLUMNS = "id, username, password, salt, role";
-    private UserClass loggedUser ;
     
 
     public  UserClass getLoggedUser( ) {// @ TODO : check if user is null or not  
+    	
+    	// DANI SAYS: I THINK THAT IT IS NOT NECCESARY TO CHECK HERE IF IT IS NULL OR NOT.
+    	// FOR EXAMPLE, IN THE METHOD deleteUser I HAVE CALLED THIS METHOD AND JUST
+    	// CHECK THERE IF THE LOGGEDUSER IS NULL. WE COULD DO THIS IN ALL THE METHODS
+    	// THAT REQUIRE TO KNOW IF THE LOGGEDUSER IS NULL OR NOT
+    	
+    	
     	return loggedUser;
     	
     }
@@ -34,26 +41,10 @@ public class UserRepository {
         this.loggedUser = loggedUser;
     }
     
-    public boolean checkIfManager () {
-    	if(this.loggedUser.getRole()=="ShopManager")
-    		return true;
-    	else return false;
-    }
-    public boolean checkIfCashier () {
-    	if(this.loggedUser.getRole()=="Cashier")
-    		return true;
-    	else return false;
-    }
-    public boolean checkIfAdministrator() {
-    	if(this.loggedUser.getRole()=="Administrator")
-    		return true;
-    	else return false;
-    }
-    
     public void initialize() throws SQLException{
         Connection con = DBCPDBConnectionPool.getConnection();
         Statement st = con.createStatement();
-        st.executeUpdate("CREATE TABLE IF NOT EXISTS " + "user" + " " + "(id INTEGER PRIMARY KEY, username TEXT, password TEXT, salt TEXT, role TEXT)");
+        st.executeUpdate("CREATE TABLE IF NOT EXISTS " + "user" + " " + "(id INTEGER PRIMARY KEY, username TEXT UNIQUE, password TEXT, salt TEXT, role TEXT)");
         // We look for the highest ID in the database
         nextId = ourInstance.getHighestId() + 1;
         st.close();
@@ -82,8 +73,15 @@ public class UserRepository {
         sqlCommand += ");";
         return sqlCommand;
     }
+    
+    private static String deleteCommand(String tableName, String columnName){
+    	//DELETE FROM user WHERE id = ?
+        String sqlCommand = "DELETE FROM " + tableName + " WHERE " + columnName + "= ?;";
+        return sqlCommand;
+    }
+    
 
-    public void addNewUser(UserClass user) throws SQLException{
+    public Integer addNewUser(UserClass user) throws SQLException{
 
         HashMap<String, String> userData = new HashMap<>();
         userData.put("id",nextId.toString());
@@ -115,7 +113,21 @@ public class UserRepository {
         prp.executeUpdate();
         prp.close();
         con.close();
+        return nextId;
     }
+    
+    public void deleteUserFromDB(Integer id) throws SQLException {
+    	// This method assumes that the id that you are passing is already checked
+    	Connection con = DBCPDBConnectionPool.getConnection();
+    	System.out.println("deleting a user");
+    	String sqlCommand = deleteCommand("user","id");
+    	PreparedStatement prp = con.prepareStatement(sqlCommand);
+    	prp.setString(1, id.toString());
+        prp.executeUpdate();
+        prp.close();
+        con.close();;
+    }
+    
     protected String getFindStatement() {
         return "SELECT " + COLUMNS +
                 " FROM user" +
@@ -144,8 +156,6 @@ public class UserRepository {
         }
         return result;
     }
-    
-    
 
     public  UserClass getUserByUsername(String username)
     {
@@ -193,14 +203,17 @@ public class UserRepository {
             Integer highestId = rs.getInt(1);
             prps.close();
             con.close();
-            if (highestId != null)
+            if (highestId != null) {
                 return highestId;
-            else return 0;
+            } else {
+            	return 0;
+            }
         }catch(SQLException e){
             e.printStackTrace();
         }
         return null;
     }
+    
     
     private String geAllUsersStatement() {
         String sqlCommand = "SELECT * FROM user";
@@ -210,6 +223,5 @@ public class UserRepository {
         String sqlCommand = "SELECT MAX(id) FROM user";
         return sqlCommand;
     }
-    
 
 }

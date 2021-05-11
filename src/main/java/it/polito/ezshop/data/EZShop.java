@@ -11,6 +11,8 @@ import it.polito.ezshop.exceptions.*;
 
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -33,13 +35,56 @@ public class EZShop implements EZShopInterface {
 
     @Override
     public Integer createUser(String username, String password, String role) throws InvalidUsernameException, InvalidPasswordException, InvalidRoleException {
-        UserClass newUser = new UserClass(0, username, password, "", role);
-        return null;
+    	// Checks InvalidUsernameException: Username (empty or null)
+    	if(username == null || username.equals("")) {
+    		throw new InvalidUsernameException();
+    	}
+    	// Checks InvalidPasswordException: Password (empty or null)
+    	if(password == null || password.equals("")) {
+    		throw new InvalidPasswordException();
+    	}
+    	// Checks InvalidRoleException: Role (empty, null or not one of the values of the list below)
+    	ArrayList<String> roles = new ArrayList<String>(Arrays.asList("Administrator","Cashier","ShopManager"));
+    	if(role == null || role.equals("") || !roles.contains(role)) {
+    		throw new InvalidPasswordException();
+    	}
+    	
+    	// Creation of the user that will be added to the Repository
+        UserClass newUser = new UserClass(1, username, password, "", role);
+        try {
+        // Add the user to the repository, assign it a unique id and throws an error
+        // if the username is not unique since, it is indicated in DB that username must be unique
+        return userRepository.addNewUser(newUser);
+    	}catch (SQLException e) {
+            e.printStackTrace();
+            return -1;
+    	}
     }
+    
+    
 
     @Override
     public boolean deleteUser(Integer id) throws InvalidUserIdException, UnauthorizedException {
-        return false;
+    	// Check InvalidUserIdException (id is null or id has an invalid value (<=0))
+    	if(id==null || id<=0) {
+    		throw new InvalidUserIdException();
+    	}
+        // Check UnauthorizedException (there is a login user and this user is an Administrator)
+    	//if(userRepository.getLoggedUser() != null || !userRepository.checkIfAdministrator()) {
+    	//	throw new UnauthorizedException();
+    	//}
+    	
+		// If the User can be added to the Database correctly, the method
+		// returns true
+		// If there is an error, the error is caught and false is returned
+    	try {
+    		userRepository.deleteUserFromDB(id);
+    		return true;
+    	}catch(SQLException e){
+    		e.printStackTrace();
+    	}
+    	
+    	return false;
     }
 
     @Override
@@ -298,4 +343,21 @@ public class EZShop implements EZShopInterface {
     public double computeBalance() throws UnauthorizedException {
         return 0;
     }
+
+    public boolean checkIfManager () {
+        if("ShopManager".equals(userRepository.getLoggedUser().getRole()))
+            return true;
+        else return false;
+    }
+    public boolean checkIfCashier () {
+        if("Cashier".equals(userRepository.getLoggedUser().getRole()))
+            return true;
+        else return false;
+    }
+    public boolean checkIfAdministrator() {
+        if("Administrator".equals(userRepository.getLoggedUser().getRole()))
+            return true;
+        else return false;
+    }
+
 }
