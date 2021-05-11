@@ -8,8 +8,17 @@ public class TicketEntryClass implements TicketEntry {
 	private String productDescription;
 	private int amount ;
 	private double pricePerUnit;
-	private double dicountRate;
-	@Override
+	private double discountRate;
+
+    public TicketEntryClass(String barCode, String productDescription, int amount, double pricePerUnit, double discountRate) {
+        this.barCode = barCode;
+        this.productDescription = productDescription;
+        this.amount = amount;
+        this.pricePerUnit = pricePerUnit;
+        this.discountRate = discountRate;
+    }
+
+    @Override
 	public String getBarCode() {
 		// TODO Auto-generated method stub
 		return barCode;
@@ -60,13 +69,13 @@ public class TicketEntryClass implements TicketEntry {
 	@Override
 	public double getDiscountRate() {
 		// TODO Auto-generated method stub
-		return this.dicountRate;
+		return this.discountRate;
 	}
 
 	@Override
 	public void setDiscountRate(double discountRate) {
 		// TODO Auto-generated method stub
-		this.dicountRate = discountRate;
+		this.discountRate = discountRate;
 	}
 
 }
