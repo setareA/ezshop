@@ -304,4 +304,21 @@ public class EZShop implements EZShopInterface {
     public double computeBalance() throws UnauthorizedException {
         return 0;
     }
+
+    public boolean checkIfManager () {
+        if("ShopManager".equals(userRepository.getLoggedUser().getRole()))
+            return true;
+        else return false;
+    }
+    public boolean checkIfCashier () {
+        if("Cashier".equals(userRepository.getLoggedUser().getRole()))
+            return true;
+        else return false;
+    }
+    public boolean checkIfAdministrator() {
+        if("Administrator".equals(userRepository.getLoggedUser().getRole()))
+            return true;
+        else return false;
+    }
+
 }

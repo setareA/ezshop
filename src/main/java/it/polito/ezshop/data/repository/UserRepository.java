@@ -10,7 +10,7 @@ import java.util.HashMap;
 
 public class UserRepository {
     private static UserRepository ourInstance = new UserRepository();
-    private static Integer nextId = 1;
+    private static Integer nextId = 0;
     
 
     public static UserRepository getInstance() {
@@ -33,23 +33,7 @@ public class UserRepository {
 
         this.loggedUser = loggedUser;
     }
-    
-    public boolean checkIfManager () {
-    	if(this.loggedUser.getRole()=="ShopManager")
-    		return true;
-    	else return false;
-    }
-    public boolean checkIfCashier () {
-    	if(this.loggedUser.getRole()=="Cashier")
-    		return true;
-    	else return false;
-    }
-    public boolean checkIfAdministrator() {
-    	if(this.loggedUser.getRole()=="Administrator")
-    		return true;
-    	else return false;
-    }
-    
+
     public void initialize() throws SQLException{
         Connection con = DBCPDBConnectionPool.getConnection();
         Statement st = con.createStatement();
@@ -187,13 +171,14 @@ public class UserRepository {
             Connection con = DBCPDBConnectionPool.getConnection();
             PreparedStatement prps = con.prepareStatement(sqlCommand);
             ResultSet rs = prps.executeQuery();
+            rs.next();
             Integer highestId = rs.getInt(1);
             prps.close();
             con.close();
             if (highestId != null) {
                 return highestId;
             } else {
-            	return 1;
+            	return 0;
             }
         }catch(SQLException e){
             e.printStackTrace();
