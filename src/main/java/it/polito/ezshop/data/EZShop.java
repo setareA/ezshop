@@ -30,8 +30,29 @@ public class EZShop implements EZShopInterface {
 
     @Override
     public Integer createUser(String username, String password, String role) throws InvalidUsernameException, InvalidPasswordException, InvalidRoleException {
-        UserClass newUser = new UserClass(0, username, password, "", role);
-        return null;
+    	if(username == null || username.equals("")) {
+    		throw new InvalidUsernameException();
+    	}
+    	if(password == null || password.equals("")) {
+    		throw new InvalidPasswordException();
+    	}
+    	if(role == null || role.equals("")) { // We need to still check if the role is inside the admitted ones
+    		throw new InvalidPasswordException();
+    	}
+    	
+        UserClass newUser = new UserClass(1, username, password, "", role);
+        try {
+        userRepository.addNewUser(newUser);
+    	}catch (SQLException e) {
+            e.printStackTrace();
+            return -1;
+    	}
+        // I see two options
+        // 1. to call the database and get the Id of the user with
+        // username = (the username which is parameter in this method)
+        // 2. what I have written below, which is to get the highest Id,
+        // which should be the one of the username that has been just created
+        return userRepository.getHighestId();
     }
 
     @Override

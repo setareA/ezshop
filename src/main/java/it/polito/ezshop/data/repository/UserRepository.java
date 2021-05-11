@@ -10,7 +10,7 @@ import java.util.HashMap;
 
 public class UserRepository {
     private static UserRepository ourInstance = new UserRepository();
-    private static Integer nextId = 0;
+    private static Integer nextId = 1;
     
 
     public static UserRepository getInstance() {
@@ -36,7 +36,7 @@ public class UserRepository {
     public void initialize() throws SQLException{
         Connection con = DBCPDBConnectionPool.getConnection();
         Statement st = con.createStatement();
-        st.executeUpdate("CREATE TABLE IF NOT EXISTS " + "user" + " " + "(id INTEGER PRIMARY KEY, username TEXT, password TEXT, salt TEXT, role TEXT)");
+        st.executeUpdate("CREATE TABLE IF NOT EXISTS " + "user" + " " + "(id INTEGER PRIMARY KEY, username TEXT UNIQUE, password TEXT, salt TEXT, role TEXT)");
         // We look for the highest ID in the database
         nextId = ourInstance.getHighestId() + 1;
         st.close();
@@ -127,8 +127,6 @@ public class UserRepository {
         }
         return result;
     }
-    
-    
 
     public static UserClass getUserByUsername(String username)
     {
@@ -172,18 +170,20 @@ public class UserRepository {
             Connection con = DBCPDBConnectionPool.getConnection();
             PreparedStatement prps = con.prepareStatement(sqlCommand);
             ResultSet rs = prps.executeQuery();
-            rs.next();
             Integer highestId = rs.getInt(1);
             prps.close();
             con.close();
-            if (highestId != null)
+            if (highestId != null) {
                 return highestId;
-            else return 0;
+            } else {
+            	return 1;
+            }
         }catch(SQLException e){
             e.printStackTrace();
         }
         return null;
     }
+    
     
     private String geAllUsersStatement() {
         String sqlCommand = "SELECT * FROM user";
