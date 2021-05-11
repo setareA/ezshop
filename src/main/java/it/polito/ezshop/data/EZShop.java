@@ -27,7 +27,11 @@ public class EZShop implements EZShopInterface {
 
     @Override
     public void reset() {
-
+    	// @TODO: this must be done
+    }
+    
+    public UserRepository getUserRepository() {
+    	return userRepository;
     }
 
     @Override
@@ -41,9 +45,8 @@ public class EZShop implements EZShopInterface {
     		throw new InvalidPasswordException();
     	}
     	// Checks InvalidRoleException: Role (empty, null or not one of the values of the list below)
-    	ArrayList<String> roles = new ArrayList<String>(Arrays.asList("Administrator","Cashier","ShopManager"));
-    	if(role == null || role.equals("") || !roles.contains(role)) {
-    		throw new InvalidPasswordException();
+    	if(!checkIfValidRole(role)) {
+    		throw new InvalidRoleException();
     	}
     	
     	// Creation of the user that will be added to the Repository
@@ -66,49 +69,85 @@ public class EZShop implements EZShopInterface {
     	if(id==null || id<=0) {
     		throw new InvalidUserIdException();
     	}
-        // Check UnauthorizedException (there is a login user and this user is an Administrator)
-    	//if(userRepository.getLoggedUser() != null || !userRepository.checkIfAdministrator()) {
-    	//	throw new UnauthorizedException();
-    	//}
-    	
+        //Check UnauthorizedException (there is a login user and this user is an Administrator)
+        if(checkIfAdministrator()) {
+    		throw new UnauthorizedException();
+    	}
 		// If the User can be added to the Database correctly, the method
 		// returns true
 		// If there is an error, the error is caught and false is returned
     	try {
-    		userRepository.deleteUserFromDB(id);
-    		return true;
+    		return userRepository.deleteUserFromDB(id);
     	}catch(SQLException e){
     		e.printStackTrace();
+    		return false;
     	}
-    	
-    	return false;
     }
 
     @Override
     public List<User> getAllUsers() throws UnauthorizedException {
-        return null;
+    	// Check UnauthorizedException (there is a login user and this user is an Administrator)
+        if(checkIfAdministrator()) {
+    		throw new UnauthorizedException();
+    	}
+        return userRepository.getAllUsers();
     }
 
     @Override
     public User getUser(Integer id) throws InvalidUserIdException, UnauthorizedException {
-        return null;
+    	// Check InvalidUserIdException (id is null or id has an invalid value (<=0))
+    	if(id==null || id<=0) {
+    		throw new InvalidUserIdException();
+    	}
+    	// Check UnauthorizedExcepti6on (there is a login user and this user is an Administrator)
+        if(checkIfAdministrator()) {
+    		throw new UnauthorizedException();
+    	}
+        // Return the user with the id passed as a parameter or null if it does not exist
+        return userRepository.getUserById(id);
     }
 
     @Override
     public boolean updateUserRights(Integer id, String role) throws InvalidUserIdException, InvalidRoleException, UnauthorizedException {
-        return false;
+    	// Check InvalidUserIdException (id is null or id has an invalid value (<=0))
+    	if(id==null || id<=0) {
+    		throw new InvalidUserIdException();
+    	}
+    	// Check UnauthorizedException (there is a login user and this user is an Administrator)
+        if(checkIfAdministrator()) {
+    		throw new UnauthorizedException();
+    	}
+    	// Checks InvalidRoleException: Role (empty, null or not one of the values of the list below)
+    	if(!checkIfValidRole(role)) {
+    		throw new InvalidRoleException();
+    	}
+    	// Change the Role of the User in the DB (return True).
+    	// In case of an error during the change (return False).
+    	try {
+    		userRepository.changeRoleOfAUser(id, role);
+    		return true;
+    	}catch(SQLException e) {
+    		e.printStackTrace();
+    		return false;
+    	}
+    	
     }
 
     @Override
     public User login(String username, String password) throws InvalidUsernameException, InvalidPasswordException {
-        if (username == null) {
-            throw new InvalidUsernameException();
-        }
-        if (password == null) {
-            throw new InvalidPasswordException();
-        }
+    	// Checks InvalidUsernameException: Username (empty or null)
+    	if(username == null || username.equals("")) {
+    		throw new InvalidUsernameException();
+    	}
+    	// Checks InvalidPasswordException: Password (empty or null)
+    	if(password == null || password.equals("")) {
+    		throw new InvalidPasswordException();
+    	}
+    	// Try to get the UserClass corresponding to username (in case of errors in db, u will be null)
         UserClass u = UserRepository.getUserByUsername(username);
         if (u == null) return null;
+        // Check if the entered password matches the password of the instance of Userclass obtained
+        // In case correct : return the UserClass. In case incorrect: return null
         if (HashGenerator.passwordMatches(u.getPassword(), password, u.getSalt())) {
             userRepository.setLoggedUser(u);
             return u;
@@ -119,6 +158,8 @@ public class EZShop implements EZShopInterface {
 
     @Override
     public boolean logout() {
+    	// In order to log out, we just set the loggedUser to null
+    	userRepository.setLoggedUser(null);
         return false;
     }
 
@@ -328,21 +369,36 @@ public class EZShop implements EZShopInterface {
     public double computeBalance() throws UnauthorizedException {
         return 0;
     }
-
+    
+    public boolean checkIfValidRole (String role) {
+       	ArrayList<String> roles = new ArrayList<String>(Arrays.asList("Administrator","Cashier","ShopManager"));
+    	if(role == null || role.equals("") || !roles.contains(role)) {
+    		return false;
+    	}else {
+    		return true;
+    	}
+    }
+    
     public boolean checkIfManager () {
-        if("ShopManager".equals(userRepository.getLoggedUser().getRole()))
-            return true;
-        else return false;
+        if(userRepository.getLoggedUser() != null && "ShopManager".equals(userRepository.getLoggedUser().getRole())) {
+    	   return true;
+		} else {
+			return false;
+		}
     }
     public boolean checkIfCashier () {
-        if("Cashier".equals(userRepository.getLoggedUser().getRole()))
+        if(userRepository.getLoggedUser() != null && "Cashier".equals(userRepository.getLoggedUser().getRole())) {
             return true;
-        else return false;
+        }else {
+        	return false;
+        }
     }
     public boolean checkIfAdministrator() {
-        if("Administrator".equals(userRepository.getLoggedUser().getRole()))
+        if(userRepository.getLoggedUser() != null && "Administrator".equals(userRepository.getLoggedUser().getRole())) {
             return true;
-        else return false;
+        } else {
+        	return false;
+        }
     }
 
 }

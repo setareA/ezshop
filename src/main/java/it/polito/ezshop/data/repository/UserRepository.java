@@ -1,5 +1,6 @@
 package it.polito.ezshop.data.repository;
 
+import it.polito.ezshop.data.User;
 import it.polito.ezshop.data.model.UserClass;
 import it.polito.ezshop.data.util.HashGenerator;
 
@@ -7,6 +8,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 
 public class UserRepository {
     private static UserRepository ourInstance = new UserRepository();
@@ -44,7 +46,7 @@ public class UserRepository {
     public void initialize() throws SQLException{
         Connection con = DBCPDBConnectionPool.getConnection();
         Statement st = con.createStatement();
-        st.executeUpdate("CREATE TABLE IF NOT EXISTS " + "user" + " " + "(id INTEGER PRIMARY KEY, username TEXT UNIQUE, password TEXT, salt TEXT, role TEXT)");
+        st.executeUpdate("CREATE TABLE IF NOT EXISTS " + "user" + " " + "(id INTEGER PRIMARY KEY, username TEXT NOT NULL UNIQUE, password TEXT, salt TEXT, role TEXT)");
         // We look for the highest ID in the database
         nextId = ourInstance.getHighestId() + 1;
         st.close();
@@ -77,6 +79,14 @@ public class UserRepository {
     private static String deleteCommand(String tableName, String columnName){
     	//DELETE FROM user WHERE id = ?
         String sqlCommand = "DELETE FROM " + tableName + " WHERE " + columnName + "= ?;";
+        return sqlCommand;
+    }
+    
+    private static String updateCommand(String tableName, String columnToChange, String valueToAssign, String columnOfCondition, String valueOfCondition){
+    	//UPDATE user SET role = role WHERE id = id
+        String sqlCommand = "UPDATE " + tableName + " SET " + columnToChange + " = '" + valueToAssign;
+        sqlCommand += "' WHERE " + columnOfCondition + " = '" + valueOfCondition + "';";
+        System.out.println(sqlCommand);
         return sqlCommand;
     }
     
@@ -116,13 +126,26 @@ public class UserRepository {
         return nextId;
     }
     
-    public void deleteUserFromDB(Integer id) throws SQLException {
+    public boolean deleteUserFromDB(Integer id) throws SQLException {
     	// This method assumes that the id that you are passing is already checked
     	Connection con = DBCPDBConnectionPool.getConnection();
     	System.out.println("deleting a user");
     	String sqlCommand = deleteCommand("user","id");
     	PreparedStatement prp = con.prepareStatement(sqlCommand);
     	prp.setString(1, id.toString());
+        int count = prp.executeUpdate();
+        prp.close();
+        con.close();
+        return count>0;
+    }
+    
+    public void changeRoleOfAUser(Integer id, String role) throws SQLException {
+    	// This method assumes that the id that you are passing is already checked
+    	// This method assumes that the role that you are passing is already checked
+    	Connection con = DBCPDBConnectionPool.getConnection();
+    	System.out.println("updating role of a user");
+    	String sqlCommand = updateCommand("user","role",role,"id", id.toString());
+    	PreparedStatement prp = con.prepareStatement(sqlCommand);
         prp.executeUpdate();
         prp.close();
         con.close();;
@@ -138,6 +161,13 @@ public class UserRepository {
                 " FROM user" +
                 " WHERE username = ?"  ;
     }
+    
+    protected static String getFindByIdStatement() {
+        return "SELECT " + COLUMNS +
+                " FROM user" +
+                " WHERE id = ?"  ;
+    }
+    
     protected static UserClass convertResultSetToDomainModel(ResultSet rs) throws SQLException {
         return new UserClass(rs.getInt(1),
                 rs.getString(2),
@@ -147,9 +177,9 @@ public class UserRepository {
         );
     }
 
-    private ArrayList<UserClass> loadAll(ResultSet rs) throws SQLException{
+    private List<User> loadAll(ResultSet rs) throws SQLException{
 
-        ArrayList <UserClass> result = new ArrayList<>();
+        List<User> result = new ArrayList<>();
         while(rs.next()) {
             UserClass u = convertResultSetToDomainModel(rs);
             result.add(u);
@@ -176,14 +206,33 @@ public class UserRepository {
     	return null;
     }
     
+    public UserClass getUserById(Integer id)
+    {
+    	try {
+    		String sqlCommand = getFindByIdStatement();
+    		Connection con = DBCPDBConnectionPool.getConnection();
+            PreparedStatement prps = con.prepareStatement(sqlCommand);
+            prps.setString(1, id.toString());
+            ResultSet rs = prps.executeQuery();
+            rs.next();
+            UserClass u = convertResultSetToDomainModel(rs);
+            prps.close();
+            con.close();
+            return u;
+    	}catch (SQLException e) {
+            e.printStackTrace();
+    	}
+    	return null;
+    }
     
-    public ArrayList<UserClass> getAllUsers(){
+    
+    public List<User> getAllUsers(){
         try {
             String sqlCommand = geAllUsersStatement();
             Connection con = DBCPDBConnectionPool.getConnection();
             PreparedStatement prps = con.prepareStatement(sqlCommand);
             ResultSet rs = prps.executeQuery();
-            ArrayList<UserClass> users = loadAll(rs);
+            List<User> users = loadAll(rs);
             prps.close();
             con.close();
             return users;

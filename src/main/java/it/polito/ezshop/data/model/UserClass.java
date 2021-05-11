@@ -36,6 +36,12 @@ public class UserClass implements User {
     }
 
     @Override
+	public String toString() {
+		return "UserClass [id=" + id + ", username=" + username + ", password=" + password + ", role=" + role
+				+ ", salt=" + salt + "]";
+	}
+
+	@Override
     public void setUsername(String username) {
         this.username = username;
     }
