@@ -1,8 +1,11 @@
 package it.polito.ezshop.data;
 
+import it.polito.ezshop.data.model.ProductTypeClass;
 import it.polito.ezshop.data.model.UserClass;
 import it.polito.ezshop.data.repository.CustomerRepository;
+import it.polito.ezshop.data.repository.ProductTypeRepository;
 import it.polito.ezshop.data.repository.UserRepository;
+import it.polito.ezshop.data.repository.ProductTypeRepository;
 import it.polito.ezshop.data.util.HashGenerator;
 import it.polito.ezshop.exceptions.*;
 
@@ -15,7 +18,7 @@ public class EZShop implements EZShopInterface {
 
     private static UserRepository userRepository = UserRepository.getInstance();
     private static CustomerRepository customerRepository = CustomerRepository.getInstance();
-
+    private static ProductTypeRepository productTypeRepository = ProductTypeRepository.getInstance();
 
     public EZShop() throws SQLException {
         super();
@@ -62,7 +65,7 @@ public class EZShop implements EZShopInterface {
         if (password == null) {
             throw new InvalidPasswordException();
         }
-        UserClass u = UserRepository.getUserByUsername(username);
+        UserClass u = userRepository.getUserByUsername(username);
         if (u == null) return null;
         if (HashGenerator.passwordMatches(u.getPassword(), password, u.getSalt())) {
             userRepository.setLoggedUser(u);
@@ -78,10 +81,22 @@ public class EZShop implements EZShopInterface {
     }
 
     @Override
-    public Integer createProductType(String description, String productCode, double pricePerUnit, String note) throws InvalidProductDescriptionException, InvalidProductCodeException, InvalidPricePerUnitException, UnauthorizedException {
-        
+    public Integer createProductType(String description, String productCode, double pricePerUnit, String note) throws InvalidProductDescriptionException, InvalidProductCodeException, InvalidPricePerUnitException, UnauthorizedException,SQLException { 
+        if(this.userRepository.checkIfAdministrator() | this.userRepository.checkIfManager()) { // loggedUser check
+        	if(description.isBlank() | description == null) throw new InvalidProductDescriptionException(); // descriptor != null check
+        	else if(!ProductTypeClass.checkValidityProductcode(productCode)) throw new InvalidProductCodeException(); // barcode check
+        	else if (pricePerUnit <= 0 ) throw new InvalidPricePerUnitException(); // price per unit check
+        	else if (! productTypeRepository.checkUniqueBarcode(productCode) ) return -1;
+        	else { 
+        		
+        		productTypeRepository.addNewProductType(new ProductTypeClass(productTypeRepository.getLastId() + 1 , 0, "" , note , description , productCode, pricePerUnit, 0.0, 0)); // ERROR CAUSED BY INTEFACE THAT NOT THROS SQLECXEPTION
+        		productTypeRepository.setLastId(productTypeRepository.getLastId() + 1);
+        		return productTypeRepository.getLastId();
+        	}
+        }else {
+        	throw new UnauthorizedException();
+        }
     	
-    	return null;
     }
 
     @Override

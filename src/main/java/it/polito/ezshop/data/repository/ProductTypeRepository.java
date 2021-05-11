@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 
 import it.polito.ezshop.data.model.ProductTypeClass;
@@ -15,20 +16,44 @@ import it.polito.ezshop.data.util.HashGenerator;
 
 public class ProductTypeRepository {
     private static ProductTypeRepository ourInstance = new ProductTypeRepository();
+    private static int lastId = 1 ;
+    private static final String COLUMNS = "id, quantity, location, note, productDescription, barCode , pricePerUnit , discountRate , warning ";
 
-    public static ProductTypeRepository getInstance() {
+   
+	public static ProductTypeRepository getInstance() {
         return ourInstance;
     }
 
     private ProductTypeRepository() {
     }
     
-    private static final String COLUMNS = "id, quantity, location, note, productDescription, barCode , pricePerUnit , discountRate , warning ";
+    public boolean checkUniqueBarcode(String barcode) {
+    	if(!this.getAllProductType().isEmpty()) {
+            ArrayList<String> tmp = new ArrayList <String>();
+            this.getAllProductType().forEach((k) -> tmp.add(k.getBarCode()));
+            if(tmp.contains(barcode)) return false;
+            else return true ;
+    	}
+    	return true;
+    }
 
+    public  int getLastId() {
+ 		return lastId;
+ 	}
+
+ 	public  void setLastId(int lastId) {
+ 		this.lastId = lastId;
+ 	}
+ 	
     public void initialize() throws SQLException{
         Connection con = DBCPDBConnectionPool.getConnection();
         Statement st = con.createStatement();
         st.executeUpdate("CREATE TABLE IF NOT EXISTS " + "productType" + " " + "(id INTEGER PRIMARY KEY, quantity INTEGER , location TEXT, note TEXT, productDescription TEXT, barCode TEXT ,pricePerUnit DOUBLE , discountRate DOUBLE , warning TEXT)");
+        if(!this.getAllProductType().isEmpty()) {
+        ArrayList<Integer> tmp = new ArrayList <Integer>();
+        this.getAllProductType().forEach((k) -> tmp.add(k.getId()));
+        this.lastId = Collections.max(tmp);
+        }
         st.close();
         con.close();
     }

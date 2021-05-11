@@ -119,4 +119,9 @@ public class ProductTypeClass implements ProductType {
         this.id = id;
 
     }
+
+	public static boolean checkValidityProductcode(String productCode) {
+		// TODO Auto-generated method stub
+		return true;
+	}
 }

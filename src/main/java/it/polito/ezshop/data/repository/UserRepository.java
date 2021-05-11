@@ -147,7 +147,7 @@ public class UserRepository {
     
     
 
-    public static UserClass getUserByUsername(String username)
+    public  UserClass getUserByUsername(String username)
     {
     	try {
     		String sqlCommand = getFindByUsernameStatement();
