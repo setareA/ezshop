@@ -27,11 +27,12 @@ public class OrderClass extends DebitClass implements Order  {
 	// understand how to implement it
 	@Override
     public Integer getBalanceId() {
-        return null;
+        return balanceId;
     }
 
     @Override
     public void setBalanceId(Integer balanceId) {
+        this.balanceId = balanceId;
 
     }
 

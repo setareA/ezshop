@@ -19,10 +19,20 @@ public class SaleTransactionClass extends CreditClass implements SaleTransaction
 								ArrayList<TicketEntry> entries, double discountRate, double price) {
 		super(balanceId, localDate, money, type);
 		this.ticketNumber = ticketNumber;
-		this.entries = new ArrayList<>(entries);
+		this.entries = entries;
 		this.discountRate = discountRate;
 		this.price = price;
 	}
+
+
+	public SaleTransactionClass(Integer balanceId, LocalDate localDate, double money, String type, Integer ticketNumber
+								, double discountRate, double price) {
+		super(balanceId, localDate, money, type);
+		this.ticketNumber = ticketNumber;
+		this.discountRate = discountRate;
+		this.price = price;
+	}
+
 
 
 
