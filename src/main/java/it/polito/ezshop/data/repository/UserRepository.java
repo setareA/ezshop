@@ -33,6 +33,23 @@ public class UserRepository {
 
         this.loggedUser = loggedUser;
     }
+    
+    public boolean checkIfManager () {
+    	if(this.loggedUser.getRole()=="ShopManager")
+    		return true;
+    	else return false;
+    }
+    public boolean checkIfCashier () {
+    	if(this.loggedUser.getRole()=="Cashier")
+    		return true;
+    	else return false;
+    }
+    public boolean checkIfAdministrator() {
+    	if(this.loggedUser.getRole()=="Administrator")
+    		return true;
+    	else return false;
+    }
+    
     public void initialize() throws SQLException{
         Connection con = DBCPDBConnectionPool.getConnection();
         Statement st = con.createStatement();
