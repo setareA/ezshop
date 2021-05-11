@@ -58,7 +58,7 @@ public class EZShop implements EZShopInterface {
     	}
     }
     
-
+    
 
     @Override
     public boolean deleteUser(Integer id) throws InvalidUserIdException, UnauthorizedException {
@@ -67,9 +67,9 @@ public class EZShop implements EZShopInterface {
     		throw new InvalidUserIdException();
     	}
         // Check UnauthorizedException (there is a login user and this user is an Administrator)
-    	if(userRepository.getLoggedUser() != null || !userRepository.checkIfAdministrator()) {
-    		throw new UnauthorizedException();
-    	}
+    	//if(userRepository.getLoggedUser() != null || !userRepository.checkIfAdministrator()) {
+    	//	throw new UnauthorizedException();
+    	//}
     	
 		// If the User can be added to the Database correctly, the method
 		// returns true
@@ -328,4 +328,21 @@ public class EZShop implements EZShopInterface {
     public double computeBalance() throws UnauthorizedException {
         return 0;
     }
+
+    public boolean checkIfManager () {
+        if("ShopManager".equals(userRepository.getLoggedUser().getRole()))
+            return true;
+        else return false;
+    }
+    public boolean checkIfCashier () {
+        if("Cashier".equals(userRepository.getLoggedUser().getRole()))
+            return true;
+        else return false;
+    }
+    public boolean checkIfAdministrator() {
+        if("Administrator".equals(userRepository.getLoggedUser().getRole()))
+            return true;
+        else return false;
+    }
+
 }
