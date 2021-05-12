@@ -32,8 +32,8 @@ public class BalanceOperationRepository {
         Statement st = con.createStatement();
         st.executeUpdate("CREATE TABLE IF NOT EXISTS " + "orderTable" + " " + "(balanceId INTEGER PRIMARY KEY, localDate DATE, money DOUBLE, type TEXT, productCode TEXT, pricePerUnit DOUBLE, quantity INTEGER, status TEXT, orderId INTEGER)");
         st.executeUpdate("CREATE TABLE IF NOT EXISTS " + "sale" + " " + "(balanceId INTEGER PRIMARY KEY, localDate DATE, money DOUBLE, type TEXT, ticketNumber INTEGER, discountRate DOUBLE, price DOUBLE)");
-        st.executeUpdate("CREATE TABLE IF NOT EXISTS " + "return" + " " + "(balanceId INTEGER PRIMARY KEY, localDate DATE, money DOUBLE, type TEXT)");
-        st.executeUpdate("CREATE TABLE IF NOT EXISTS " + "ticket" + " " + "(INTEGER PRIMARY KEY AUTOINCREMENT, barcode TEXT, productDescription TEXT, amount INTEGER , pricePerUnit DOUBLE, discountRate DOUBLE, saleId INTEGER, returnId INTEGER, FOREIGN KEY (saleId) references sale(balanceId), FOREIGN KEY (returnId) references return(balanceId))");
+        st.executeUpdate("CREATE TABLE IF NOT EXISTS " + "returnTable" + " " + "(balanceId INTEGER PRIMARY KEY, localDate DATE, money DOUBLE, type TEXT)");
+        st.executeUpdate("CREATE TABLE IF NOT EXISTS " + "ticket" + " " + "(id INTEGER PRIMARY KEY AUTOINCREMENT, barcode TEXT, productDescription TEXT, amount INTEGER , pricePerUnit DOUBLE, discountRate DOUBLE, saleId INTEGER, returnId INTEGER, FOREIGN KEY (saleId) references sale(balanceId), FOREIGN KEY (returnId) references returnTable(balanceId))");
 
         st.close();
         con.close();
@@ -139,7 +139,7 @@ public class BalanceOperationRepository {
         Connection con = DBCPDBConnectionPool.getConnection();
         ArrayList<String> attrs = getAttrsReturn();
         System.out.println("adding new return");
-        String sqlCommand = insertCommand("return", attrs);
+        String sqlCommand = insertCommand("returnTable", attrs);
         PreparedStatement prp = con.prepareStatement(sqlCommand);
         for (int j = 0; j < attrs.size(); j++) {
             prp.setString(j + 1, returnData.get(attrs.get(j)));
@@ -292,7 +292,7 @@ public class BalanceOperationRepository {
     }
     public ArrayList<ReturnTransactionClass> getAllReturns(){
         try {
-            String sqlCommand = geAllTransStatement("return");
+            String sqlCommand = geAllTransStatement("returnTable");
             Connection con = DBCPDBConnectionPool.getConnection();
             PreparedStatement prps = con.prepareStatement(sqlCommand);
             ResultSet rs = prps.executeQuery();

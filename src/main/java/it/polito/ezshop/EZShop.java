@@ -39,8 +39,8 @@ public class EZShop {
         	   //System.out.println(b);
         	   //User s = ezShop.getUser(1);
         	   //System.out.println(s);
-        	   boolean a = ezShop.deleteUser(3);
-        	   System.out.println(a);
+        	//   boolean a = ezShop.deleteUser(3);
+        	//   System.out.println(a);
         	   
         	   
            }catch(Exception e){           

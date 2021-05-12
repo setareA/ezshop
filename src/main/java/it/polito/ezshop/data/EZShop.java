@@ -1,7 +1,9 @@
 package it.polito.ezshop.data;
 
 import it.polito.ezshop.data.model.UserClass;
+import it.polito.ezshop.data.repository.BalanceOperationRepository;
 import it.polito.ezshop.data.repository.CustomerRepository;
+import it.polito.ezshop.data.repository.ProductTypeRepository;
 import it.polito.ezshop.data.repository.UserRepository;
 import it.polito.ezshop.data.util.HashGenerator;
 import it.polito.ezshop.exceptions.*;
@@ -17,12 +19,15 @@ public class EZShop implements EZShopInterface {
 
     private static UserRepository userRepository = UserRepository.getInstance();
     private static CustomerRepository customerRepository = CustomerRepository.getInstance();
-    
+    private static ProductTypeRepository productTypeRepository = ProductTypeRepository.getInstance();
+    private static BalanceOperationRepository balanceOperationRepository = BalanceOperationRepository.getInstance();
 
     public EZShop() throws SQLException {
         super();
         userRepository.initialize();
         customerRepository.initialize();
+        productTypeRepository.initialize();
+        balanceOperationRepository.initialize();
         
     }
 
