@@ -26,6 +26,7 @@ public class EZShop implements EZShopInterface {
         super();
         userRepository.initialize();
         customerRepository.initialize();
+        productTypeRepository.initialize();
     }
 
     @Override
@@ -115,26 +116,27 @@ public class EZShop implements EZShopInterface {
         if (HashGenerator.passwordMatches(u.getPassword(), password, u.getSalt())) {
             userRepository.setLoggedUser(u);
             return u;
-        } else return null;
-
-
+        } else return null; 
     }
 
-    @Override
+                                                                                            
+     @Override
     public boolean logout() {
-        return false;
+        return false;                                   
     }
 
     @Override
-    public Integer createProductType(String description, String productCode, double pricePerUnit, String note) throws InvalidProductDescriptionException, InvalidProductCodeException, InvalidPricePerUnitException, UnauthorizedException,SQLException { 
-        if(this.userRepository.checkIfAdministrator() | this.userRepository.checkIfManager()) { // loggedUser check
+    public Integer createProductType(String description, String productCode, double pricePerUnit, String note) throws InvalidProductDescriptionException, InvalidProductCodeException, InvalidPricePerUnitException, UnauthorizedException { 
+        if(this.checkIfAdministrator() | this.checkIfManager()) { // loggedUser check
         	if(description.isBlank() | description == null) throw new InvalidProductDescriptionException(); // descriptor != null check
         	else if(!ProductTypeClass.checkValidityProductcode(productCode)) throw new InvalidProductCodeException(); // barcode check
         	else if (pricePerUnit <= 0 ) throw new InvalidPricePerUnitException(); // price per unit check
         	else if (! productTypeRepository.checkUniqueBarcode(productCode) ) return -1;
         	else { 
-        		
+        		try {
         		productTypeRepository.addNewProductType(new ProductTypeClass(productTypeRepository.getLastId() + 1 , 0, "" , note , description , productCode, pricePerUnit, 0.0, 0)); // ERROR CAUSED BY INTEFACE THAT NOT THROS SQLECXEPTION
+        		}
+        		catch (SQLException e) { return -1;}
         		productTypeRepository.setLastId(productTypeRepository.getLastId() + 1);
         		return productTypeRepository.getLastId();
         	}
@@ -146,7 +148,17 @@ public class EZShop implements EZShopInterface {
 
     @Override
     public boolean updateProduct(Integer id, String newDescription, String newCode, double newPrice, String newNote) throws InvalidProductIdException, InvalidProductDescriptionException, InvalidProductCodeException, InvalidPricePerUnitException, UnauthorizedException {
-        return false;
+        if(this.checkIfAdministrator() | this.checkIfManager()) { // loggedUser check
+        	if(id <= 0 | id == null) throw new InvalidProductIdException();
+        	if(newDescription.isEmpty() | newDescription == null) throw new InvalidProductDescriptionException();
+        	if(!ProductTypeClass.checkValidityProductcode(newCode)) throw new InvalidProductCodeException();
+        	if(newPrice <= 0) throw new InvalidPricePerUnitException();
+        	if(!productTypeRepository.checkUniqueBarcode(newCode)) return false;
+        	
+        }else {
+        	throw new UnauthorizedException();
+        }
+    	return false;
     }
 
     @Override

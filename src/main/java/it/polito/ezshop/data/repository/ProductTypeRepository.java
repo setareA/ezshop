@@ -16,7 +16,7 @@ import it.polito.ezshop.data.util.HashGenerator;
 
 public class ProductTypeRepository {
     private static ProductTypeRepository ourInstance = new ProductTypeRepository();
-    private static int lastId = 1 ;
+    private static int lastId = 0 ;
     private static final String COLUMNS = "id, quantity, location, note, productDescription, barCode , pricePerUnit , discountRate , warning ";
 
    
@@ -26,8 +26,8 @@ public class ProductTypeRepository {
 
     private ProductTypeRepository() {
     }
-    
-    public boolean checkUniqueBarcode(String barcode) {
+                               
+    public boolean checkUniqueBarcode(String barcode) {                                        
     	if(!this.getAllProductType().isEmpty()) {
             ArrayList<String> tmp = new ArrayList <String>();
             this.getAllProductType().forEach((k) -> tmp.add(k.getBarCode()));
@@ -54,7 +54,7 @@ public class ProductTypeRepository {
         this.getAllProductType().forEach((k) -> tmp.add(k.getId()));
         this.lastId = Collections.max(tmp);
         }
-        st.close();
+        st.close();                                       
         con.close();
     }
     
@@ -78,12 +78,12 @@ public class ProductTypeRepository {
             sqlCommand += attr + ",";
         sqlCommand = sqlCommand.substring(0, sqlCommand.length()-1);
         sqlCommand += ") VALUES(";
-        for(int i = 0; i < attributes.size(); i++)
+        for(int i = 0; i < attributes.size(); i++)                                                                          
             sqlCommand += "?,";
         sqlCommand = sqlCommand.substring(0, sqlCommand.length()-1);
         sqlCommand += ");";
         return sqlCommand;
-    }
+    }                                                                    
     
     public void addNewProductType(ProductTypeClass pt) throws SQLException{
 
@@ -117,8 +117,8 @@ public class ProductTypeRepository {
         return "SELECT " + COLUMNS +
                 " FROM productType" +
                 " WHERE id = ?";
-    }
-    
+    }                                                                                                                                                                              
+                                                                                                                                                                                                                                                                                                                                                                                                                   
     protected ProductTypeClass convertResultSetToDomainModel(ResultSet rs) throws SQLException {
         return new ProductTypeClass(Integer.parseInt(rs.getString(1)),
         		Integer.parseInt(rs.getString(2)), 
@@ -131,7 +131,7 @@ public class ProductTypeRepository {
         		Integer.parseInt(rs.getString(9))
         );
     }
-    
+                                                 
     private ArrayList<ProductTypeClass> loadAll(ResultSet rs) throws SQLException{
 
         ArrayList <ProductTypeClass> result = new ArrayList<>();
@@ -146,7 +146,7 @@ public class ProductTypeRepository {
         String sqlCommand = "SELECT * FROM productType";
         return sqlCommand;
     }
-
+                                                                                                                                 
     public ArrayList<ProductTypeClass> getAllProductType(){
         try {
             String sqlCommand = getAllProductTypeStatement();
@@ -162,5 +162,5 @@ public class ProductTypeRepository {
         }
         return null;
     }
-
+                                                                 
 }

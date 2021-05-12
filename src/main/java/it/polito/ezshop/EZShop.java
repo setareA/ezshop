@@ -19,16 +19,16 @@ public class EZShop {
 
     public static void main(String[] args){
      
-       
-        try {
+                                                                                                                                                                                                                                                                          
+        try {                              
            EZShopInterface ezShop = new it.polito.ezshop.data.EZShop();
            EZShopGUI gui = new EZShopGUI(ezShop);
            ezShop.createUser("eugenio", "eugenio", "ShopManager");
            ezShop.login("eugenio", "eugenio");
            System.out.print( ezShop.createProductType("pane", "1234" ,1.0, "prova1"));
-           System.out.print(ezShop.createProductType("pino", "1233" ,1.0, "prova1"));
-           System.out.print(ezShop.createProductType("pani", "1234" ,1.0, "prova1"));
-           System.out.print(ezShop.createProductType("pane", "1234" ,1.0, "prova1"));
+           System.out.print(ezShop.createProductType("pino", "1233" ,1.0, "prova1"));                                                           
+           System.out.print(ezShop.createProductType("pani", "1235" ,1.0, "prova1"));
+           System.out.print(ezShop.createProductType("pane", "1236" ,1.0, "prova1"));
 
            //UserRepository userRepository = UserRepository.getInstance();
             // userRepository.addNewUser(new UserClass(100, "paserAmmeZaa", "abc", "", "clerk"));
