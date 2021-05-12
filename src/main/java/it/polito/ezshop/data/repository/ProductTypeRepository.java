@@ -162,5 +162,27 @@ public class ProductTypeRepository {
         }
         return null;
     }
+    
+    public void updateProductType (String id ,String nd, String nc, String np, String nn) throws SQLException{
+    	Connection con = DBCPDBConnectionPool.getConnection();
+    	System.out.println("updating product type");
+    	String sqlCommand = updateCommand("productType",new ArrayList<String>(Arrays.asList("id", "productDescription", "barCode", "pricePerUnit", "note")),new ArrayList<String>(Arrays.asList(id,nd,nc,np,nn)));
+    	System.out.println(sqlCommand);
+    	PreparedStatement prp = con.prepareStatement(sqlCommand);
+    	prp.executeUpdate();
+    	prp.close();
+        con.close();
+    }
+
+	private String updateCommand(String tableName ,ArrayList<String> attributes, ArrayList<String> values) {
+		String sqlCommand = "UPDATE " + tableName + " SET ";
+		for(int i = 1 ; i < attributes.size() ; i++) {
+			sqlCommand += attributes.get(i) + " = " + "'" + values.get(i) + "'" ;
+			if(i+1 != attributes.size()) sqlCommand += " , ";
+		}
+		
+		sqlCommand += " WHERE " + attributes.get(0) + " = " + values.get(0) + ";";
+		return sqlCommand;
+	}
                                                                  
 }

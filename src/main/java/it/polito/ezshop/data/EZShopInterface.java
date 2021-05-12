@@ -40,7 +40,7 @@ public interface EZShopInterface {
      * for the new user.
      *
      * @param username the username of the new user. This value should be unique and not empty.
-     * @param password the password of the new user. This value should not be empty.
+     * @param password the password of theh new user. This value should not be empty.
      * @param role the role of the new user. This value should not be empty and it should assume
      *             one of the following values : "Administrator", "Cashier", "ShopManager"
      *

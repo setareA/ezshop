@@ -4,38 +4,35 @@ import java.time.LocalDate;
 
 import it.polito.ezshop.data.Order;
 
-public class OrderClass extends DebitClass implements Order  {
+public class OrderClass  implements Order  {
  
-	
+
+
+
+
+	private int orderId ;
+	private int balanceId;
 	private String productCode;
 	private double  pricePerUnit;
 	private int quantity;
 	private String status ;
-	private int orderId ;
-	
+	private LocalDate localDate;
+	private int money;
 
-    public OrderClass(Integer balanceId, LocalDate localDate, double money, String type, String productCode,
-			double pricePerUnit, int quantity, String status, int orderId) {
-		super(balanceId, localDate, money, type);
+
+	public OrderClass(int orderId, int balanceId, String productCode, double pricePerUnit, int quantity, String status,
+			LocalDate localDate, int money) {
+		this.orderId = orderId;
+		this.balanceId = balanceId;
 		this.productCode = productCode;
 		this.pricePerUnit = pricePerUnit;
 		this.quantity = quantity;
 		this.status = status;
-		this.orderId = orderId;
+		this.localDate = localDate;
+		this.money = money;
 	}
-
-	// understand how to implement it
+   
 	@Override
-    public Integer getBalanceId() {
-        return null;
-    }
-
-    @Override
-    public void setBalanceId(Integer balanceId) {
-
-    }
-
-    @Override
     public String getProductCode() {
         return this.productCode;
     }
@@ -84,4 +81,48 @@ public class OrderClass extends DebitClass implements Order  {
     public void setOrderId(Integer orderId) {
     	this.orderId = orderId;
     }
+
+
+
+	@Override
+	public Integer getBalanceId() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+
+	@Override
+	public void setBalanceId(Integer balanceId) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+	
+
+
+	public double getMoney() {
+		// TODO Auto-generated method stub
+		return money;
+	}
+
+
+
+	public LocalDate getLocalDate() {
+		return localDate;
+	}
+
+
+
+	public void setLocalDate(LocalDate localDate) {
+		this.localDate = localDate;
+	}
+
+
+
+	public void setMoney(int money) {
+		this.money = money;
+	}
 }
