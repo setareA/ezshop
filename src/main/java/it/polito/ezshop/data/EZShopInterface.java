@@ -2,6 +2,7 @@ package it.polito.ezshop.data;
 
 import it.polito.ezshop.exceptions.*;
 
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.List;
 

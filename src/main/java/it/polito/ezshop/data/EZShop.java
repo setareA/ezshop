@@ -1,10 +1,12 @@
 package it.polito.ezshop.data;
 
+import it.polito.ezshop.data.model.ProductTypeClass;
 import it.polito.ezshop.data.model.UserClass;
 import it.polito.ezshop.data.repository.BalanceOperationRepository;
 import it.polito.ezshop.data.repository.CustomerRepository;
 import it.polito.ezshop.data.repository.ProductTypeRepository;
 import it.polito.ezshop.data.repository.UserRepository;
+import it.polito.ezshop.data.repository.ProductTypeRepository;
 import it.polito.ezshop.data.util.HashGenerator;
 import it.polito.ezshop.exceptions.*;
 
@@ -22,6 +24,7 @@ public class EZShop implements EZShopInterface {
     private static ProductTypeRepository productTypeRepository = ProductTypeRepository.getInstance();
     private static BalanceOperationRepository balanceOperationRepository = BalanceOperationRepository.getInstance();
 
+
     public EZShop() throws SQLException {
         super();
         userRepository.initialize();
@@ -29,6 +32,7 @@ public class EZShop implements EZShopInterface {
         productTypeRepository.initialize();
         balanceOperationRepository.initialize();
         
+
     }
 
     @Override
@@ -141,6 +145,7 @@ public class EZShop implements EZShopInterface {
 
     @Override
     public User login(String username, String password) throws InvalidUsernameException, InvalidPasswordException {
+        
     	// Checks InvalidUsernameException: Username (empty or null)
     	if(username == null || username.equals("")) {
     		throw new InvalidUsernameException();
@@ -157,28 +162,51 @@ public class EZShop implements EZShopInterface {
         if (HashGenerator.passwordMatches(u.getPassword(), password, u.getSalt())) {
             userRepository.setLoggedUser(u);
             return u;
-        } else return null;
-
-
+        } else return null; 
     }
 
-    @Override
+                                                                                            
+     @Override
     public boolean logout() {
-    	// In order to log out, we just set the loggedUser to null
-    	userRepository.setLoggedUser(null);
-        return false;
+        return false;                                   
     }
 
     @Override
-    public Integer createProductType(String description, String productCode, double pricePerUnit, String note) throws InvalidProductDescriptionException, InvalidProductCodeException, InvalidPricePerUnitException, UnauthorizedException {
-        
-    	
-    	return null;
+    public Integer createProductType(String description, String productCode, double pricePerUnit, String note) throws InvalidProductDescriptionException, InvalidProductCodeException, InvalidPricePerUnitException, UnauthorizedException { 
+        if(this.checkIfAdministrator() | this.checkIfManager()) { // loggedUser check
+        	if(description.isBlank() | description == null) throw new InvalidProductDescriptionException(); // descriptor != null check
+        	else if(!ProductTypeClass.checkValidityProductcode(productCode)) throw new InvalidProductCodeException(); // barcode check
+        	else if (pricePerUnit <= 0 ) throw new InvalidPricePerUnitException(); // price per unit check
+        	else if (! productTypeRepository.checkUniqueBarcode(productCode) ) return -1;
+        	else { 
+        		try {
+        		productTypeRepository.addNewProductType(new ProductTypeClass(productTypeRepository.getLastId() + 1 , 0, "" , note , description , productCode, pricePerUnit, 0.0, 0)); 
+        		}
+        		catch (SQLException e) { return -1;}
+        		productTypeRepository.setLastId(productTypeRepository.getLastId() + 1);
+        		return productTypeRepository.getLastId();
+        	}
+        }else {
+        	throw new UnauthorizedException();
+        }
     }
+
 
     @Override
     public boolean updateProduct(Integer id, String newDescription, String newCode, double newPrice, String newNote) throws InvalidProductIdException, InvalidProductDescriptionException, InvalidProductCodeException, InvalidPricePerUnitException, UnauthorizedException {
-        return false;
+        if(this.checkIfAdministrator() | this.checkIfManager()) { // loggedUser check
+        	if(id <= 0 | id == null) throw new InvalidProductIdException();
+        	if(newDescription.isEmpty() | newDescription == null) throw new InvalidProductDescriptionException();
+        	if(!ProductTypeClass.checkValidityProductcode(newCode)) throw new InvalidProductCodeException();
+        	if(newPrice <= 0) throw new InvalidPricePerUnitException();
+        	if(!productTypeRepository.checkUniqueBarcode(newCode)) return false;
+        	try {
+        		productTypeRepository.updateProductType(id.toString(), newDescription, newCode, String.valueOf(newPrice) , newNote);
+        	}catch (SQLException e) {return false; }
+        }else {
+        	throw new UnauthorizedException();
+        }
+    	return false;
     }
 
     @Override

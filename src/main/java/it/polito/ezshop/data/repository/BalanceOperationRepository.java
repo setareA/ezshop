@@ -22,7 +22,7 @@ public class BalanceOperationRepository {
     private BalanceOperationRepository() {
     }
 
-    private static final String COLUMNS_ORDER = "balanceId, localDate, money, type, productCode, pricePerUnit, quantity, status, orderId";
+    private static final String COLUMNS_ORDER = "orderId, balanceId, productCode, pricePerUnit, quantity, status, localDate, money";
     private static final String COLUMNS_SALE = "balanceId, localDate, money, type, ticketNumber, discountRate, price";
     private static final String COLUMNS_RETURN = "balanceId, localDate, money, type";
     private static final String COLUMNS_TICKET_ENTRY = "id, barcode, productDescription, amount, pricePerUnit, discountRate, saleId, returnId";
@@ -41,8 +41,8 @@ public class BalanceOperationRepository {
 
     private static ArrayList<String> getAttrsOrder(){
         ArrayList<String> attrs = new ArrayList<>(
-                Arrays.asList("balanceId", "localDate", "money", "type"
-                        , "productCode", "pricePerUnit", "quantity", "status", "orderId"));
+                Arrays.asList("orderId", "balanceId", "productCode"
+                        ,  "pricePerUnit", "quantity", "status", "localDate", "money"));
         return attrs;
     }
     private static ArrayList<String> getAttrsSale(){
@@ -78,15 +78,14 @@ public class BalanceOperationRepository {
     public void addNewOrder(OrderClass order) throws SQLException{
 
         HashMap<String, String> orderData = new HashMap<>();
-        orderData.put("balanceId", order.getBalanceId().toString());
-        orderData.put("localDate", order.getDate().toString() );
-        orderData.put("money", Double.toString(order.getMoney()));
-        orderData.put("type", order.getType());
-        orderData.put("productCode", order.getProductCode());
-        orderData.put("pricePerUnit", Double.toString(order.getPricePerUnit()));
-        orderData.put("quantity", String.valueOf(order.getQuantity()));
-        orderData.put("status", order.getStatus());
-        orderData.put("orderId", String.valueOf(order.getOrderId()));
+        orderData.put("orderId", order.getOrderId().toString());
+        orderData.put("balanceId", order.getBalanceId().toString() );
+        orderData.put("productcode", order.getProductCode());
+        orderData.put("PricePerUnit",  Double.toString(order.getPricePerUnit()));
+        orderData.put("quantity",String.valueOf(order.getQuantity()));
+        orderData.put("status", order.getStatus() );
+        orderData.put("localDate",order.getLocalDate().toString());
+        orderData.put("money", String.valueOf(order.getMoney()));
 
 
         Connection con = DBCPDBConnectionPool.getConnection();
@@ -179,14 +178,13 @@ public class BalanceOperationRepository {
 
     protected OrderClass convertResultSetOrderToDomainModel(ResultSet rs) throws SQLException {
         return new OrderClass(rs.getInt(1),
-                rs.getDate(2).toLocalDate(),
-                rs.getDouble(3),
-                rs.getString(4),
-                rs.getString(5),
-                rs.getDouble(6),
-                rs.getInt(7),
-                rs.getString(8),
-                rs.getInt(9)
+                rs.getInt(2),
+                rs.getString(3),
+                rs.getDouble(4),
+                rs.getInt(5),
+                rs.getString(6),
+                rs.getDate(7).toLocalDate(),
+                rs.getInt(8)
         );
     }
 
