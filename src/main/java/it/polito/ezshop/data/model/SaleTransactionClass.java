@@ -16,16 +16,6 @@ public class SaleTransactionClass implements SaleTransaction{
 	private String state;
 	private LocalDate date;
 
-
-	public SaleTransactionClass(Integer ticketNumber, ArrayList<TicketEntry>ticketEntries, double discountRate,
-								double price, String state, LocalDate date) {
-		this.ticketNumber = ticketNumber;
-		this.entries = ticketEntries;
-		this.discountRate = discountRate;
-		this.price = price;
-		this.state = state;
-
-	}
 	public SaleTransactionClass(Integer ticketNumber, double discountRate,
 								double price, String state, LocalDate date) {
 		this.ticketNumber = ticketNumber;

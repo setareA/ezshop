@@ -8,6 +8,7 @@ import it.polito.ezshop.data.model.TicketEntryClass;
 
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -23,17 +24,17 @@ public class BalanceOperationRepository {
     }
 
     private static final String COLUMNS_ORDER = "orderId, balanceId, productCode, pricePerUnit, quantity, status, localDate, money";
-    private static final String COLUMNS_SALE = "balanceId, localDate, money, type, ticketNumber, discountRate, price";
-    private static final String COLUMNS_RETURN = "balanceId, localDate, money, type";
+    private static final String COLUMNS_SALE = "ticketNumber, discountRate, price, state, LocalDate";
+    private static final String COLUMNS_RETURN = "returnId, localDate, price, state";
     private static final String COLUMNS_TICKET_ENTRY = "id, barcode, productDescription, amount, pricePerUnit, discountRate, saleId, returnId";
 
     public void initialize() throws SQLException {
         Connection con = DBCPDBConnectionPool.getConnection();
         Statement st = con.createStatement();
         st.executeUpdate("CREATE TABLE IF NOT EXISTS " + "orderTable" + " " + "(balanceId INTEGER PRIMARY KEY, localDate DATE, money DOUBLE, type TEXT, productCode TEXT, pricePerUnit DOUBLE, quantity INTEGER, status TEXT, orderId INTEGER)");
-        st.executeUpdate("CREATE TABLE IF NOT EXISTS " + "sale" + " " + "(balanceId INTEGER PRIMARY KEY, localDate DATE, money DOUBLE, type TEXT, ticketNumber INTEGER, discountRate DOUBLE, price DOUBLE)");
-        st.executeUpdate("CREATE TABLE IF NOT EXISTS " + "returnTable" + " " + "(balanceId INTEGER PRIMARY KEY, localDate DATE, money DOUBLE, type TEXT)");
-        st.executeUpdate("CREATE TABLE IF NOT EXISTS " + "ticket" + " " + "(id INTEGER PRIMARY KEY AUTOINCREMENT, barcode TEXT, productDescription TEXT, amount INTEGER , pricePerUnit DOUBLE, discountRate DOUBLE, saleId INTEGER, returnId INTEGER, FOREIGN KEY (saleId) references sale(balanceId), FOREIGN KEY (returnId) references returnTable(balanceId))");
+        st.executeUpdate("CREATE TABLE IF NOT EXISTS " + "sale" + " " + "(ticketNumber INTEGER PRIMARY KEY, discountRate DOUBLE, price DOUBLE, state TEXT, LocalDate DATE)");
+        st.executeUpdate("CREATE TABLE IF NOT EXISTS " + "returnTable" + " " + "(returnId INTEGER PRIMARY KEY, localDate DATE, price DOUBLE, state TEXT)");
+        st.executeUpdate("CREATE TABLE IF NOT EXISTS " + "ticket" + " " + "(id INTEGER PRIMARY KEY AUTOINCREMENT, barcode TEXT, productDescription TEXT, amount INTEGER , pricePerUnit DOUBLE, discountRate DOUBLE, saleId INTEGER, returnId INTEGER, FOREIGN KEY (saleId) references sale(balanceId), FOREIGN KEY (returnId) references returnTable(returnId))");
 
         st.close();
         con.close();
@@ -47,12 +48,12 @@ public class BalanceOperationRepository {
     }
     private static ArrayList<String> getAttrsSale(){
         ArrayList<String> attrs = new ArrayList<>(
-                Arrays.asList("balanceId", "localDate", "money", "type", "ticketNumber", "discountRate", "price"));
+                Arrays.asList("ticketNumber", "discountRate", "price", "state", "localDate"));
         return attrs;
     }
     private static ArrayList<String> getAttrsReturn(){
         ArrayList<String> attrs = new ArrayList<>(
-                Arrays.asList( "balanceId", "localDate", "money", "type"));
+                Arrays.asList( "returnId", "localDate", "price", "state"));
         return attrs;
     }
     private static ArrayList<String> getAttrsTicket(){
@@ -80,7 +81,7 @@ public class BalanceOperationRepository {
         HashMap<String, String> orderData = new HashMap<>();
         orderData.put("orderId", order.getOrderId().toString());
         orderData.put("balanceId", order.getBalanceId().toString() );
-        orderData.put("productcode", order.getProductCode());
+        orderData.put("productCode", order.getProductCode());
         orderData.put("PricePerUnit",  Double.toString(order.getPricePerUnit()));
         orderData.put("quantity",String.valueOf(order.getQuantity()));
         orderData.put("status", order.getStatus() );
@@ -105,10 +106,6 @@ public class BalanceOperationRepository {
     public void addNewSale(SaleTransactionClass sale) throws SQLException{
 
         HashMap<String, String> saleData = new HashMap<>();
-        saleData.put("balanceId", sale.getBalanceId().toString());
-        saleData.put("localDate", sale.getDate().toString() );
-        saleData.put("money", Double.toString(sale.getMoney()));
-        saleData.put("type", sale.getType());
         saleData.put("ticketNumber", String.valueOf(sale.getTicketNumber()));
         saleData.put("discountRate", String.valueOf(sale.getDiscountRate()));
         saleData.put("price", String.valueOf(sale.getPrice()));
@@ -130,10 +127,10 @@ public class BalanceOperationRepository {
     public void addNewReturn(ReturnTransactionClass returnTransaction) throws SQLException{
 
         HashMap<String, String> returnData = new HashMap<>();
-        returnData.put("balanceId", returnTransaction.getBalanceId().toString());
+        returnData.put("returnId", returnTransaction.getReturnId().toString());
         returnData.put("localDate", returnTransaction.getDate().toString() );
-        returnData.put("money", Double.toString(returnTransaction.getMoney()));
-        returnData.put("type", returnTransaction.getType());
+        returnData.put("price", Double.toString(returnTransaction.getPrice()));
+        returnData.put("state", returnTransaction.getState());
 
         Connection con = DBCPDBConnectionPool.getConnection();
         ArrayList<String> attrs = getAttrsReturn();
@@ -187,19 +184,17 @@ public class BalanceOperationRepository {
                 rs.getInt(8)
         );
     }
-
+// ticketNumber, discountRate, price, state, LocalDate";
     protected SaleTransactionClass convertResultSetSaleToDomainModel(ResultSet rs) throws SQLException {
         return new SaleTransactionClass(rs.getInt(1),
-                rs.getDate(2).toLocalDate(),
+                rs.getDouble(2),
                 rs.getDouble(3),
                 rs.getString(4),
-                rs.getInt(5),
-                rs.getDouble(6),
-                rs.getInt(7)
+                rs.getDate(5).toLocalDate()
         );
     }
 
-  //  "balanceId, localDate, money, type";
+  //  "balanceId, localDate, price, state";
     protected ReturnTransactionClass convertResultSetReturnToDomainModel(ResultSet rs) throws SQLException {
         return new ReturnTransactionClass(rs.getInt(1),
                 rs.getDate(2).toLocalDate(),

@@ -175,7 +175,7 @@ public class EZShop implements EZShopInterface {
     @Override
     public Integer createProductType(String description, String productCode, double pricePerUnit, String note) throws InvalidProductDescriptionException, InvalidProductCodeException, InvalidPricePerUnitException, UnauthorizedException { 
         if(this.checkIfAdministrator() | this.checkIfManager()) { // loggedUser check
-        	if(description.isBlank() | description == null) throw new InvalidProductDescriptionException(); // descriptor != null check
+        	if(description.isEmpty() | description == null) throw new InvalidProductDescriptionException(); // descriptor != null check
         	else if(!ProductTypeClass.checkValidityProductcode(productCode)) throw new InvalidProductCodeException(); // barcode check
         	else if (pricePerUnit <= 0 ) throw new InvalidPricePerUnitException(); // price per unit check
         	else if (! productTypeRepository.checkUniqueBarcode(productCode) ) return -1;
