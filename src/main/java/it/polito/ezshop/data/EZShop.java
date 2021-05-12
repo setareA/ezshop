@@ -17,12 +17,13 @@ public class EZShop implements EZShopInterface {
 
     private static UserRepository userRepository = UserRepository.getInstance();
     private static CustomerRepository customerRepository = CustomerRepository.getInstance();
-
+    
 
     public EZShop() throws SQLException {
         super();
         userRepository.initialize();
         customerRepository.initialize();
+        
     }
 
     @Override
@@ -70,7 +71,7 @@ public class EZShop implements EZShopInterface {
     		throw new InvalidUserIdException();
     	}
         //Check UnauthorizedException (there is a login user and this user is an Administrator)
-        if(checkIfAdministrator()) {
+        if(!checkIfAdministrator()) {
     		throw new UnauthorizedException();
     	}
 		// If the User can be added to the Database correctly, the method
@@ -87,7 +88,7 @@ public class EZShop implements EZShopInterface {
     @Override
     public List<User> getAllUsers() throws UnauthorizedException {
     	// Check UnauthorizedException (there is a login user and this user is an Administrator)
-        if(checkIfAdministrator()) {
+        if(!checkIfAdministrator()) {
     		throw new UnauthorizedException();
     	}
         return userRepository.getAllUsers();
@@ -100,7 +101,7 @@ public class EZShop implements EZShopInterface {
     		throw new InvalidUserIdException();
     	}
     	// Check UnauthorizedExcepti6on (there is a login user and this user is an Administrator)
-        if(checkIfAdministrator()) {
+        if(!checkIfAdministrator()) {
     		throw new UnauthorizedException();
     	}
         // Return the user with the id passed as a parameter or null if it does not exist
@@ -114,7 +115,7 @@ public class EZShop implements EZShopInterface {
     		throw new InvalidUserIdException();
     	}
     	// Check UnauthorizedException (there is a login user and this user is an Administrator)
-        if(checkIfAdministrator()) {
+        if(!checkIfAdministrator()) {
     		throw new UnauthorizedException();
     	}
     	// Checks InvalidRoleException: Role (empty, null or not one of the values of the list below)
@@ -394,6 +395,7 @@ public class EZShop implements EZShopInterface {
         }
     }
     public boolean checkIfAdministrator() {
+    	System.out.println(userRepository.getLoggedUser());
         if(userRepository.getLoggedUser() != null && "Administrator".equals(userRepository.getLoggedUser().getRole())) {
             return true;
         } else {

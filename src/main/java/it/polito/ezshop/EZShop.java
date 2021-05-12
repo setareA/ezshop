@@ -13,7 +13,7 @@ import java.util.List;
 public class EZShop {
 
     public static void main(String[] args){
-     
+    	
        
     	
         try {
@@ -29,7 +29,7 @@ public class EZShop {
            
            // FR1: TEST
            try {
-        	   int h = ezShop.createUser("sht", "1234", "Administrator");
+        	   int h = ezShop.createUser("kkhjk", "1234", "Administrator");
         	   //int b = ezShop.createUser("adios", "1234", "Administrator");
         	   //System.out.println(a);
         	   //System.out.println(b);
