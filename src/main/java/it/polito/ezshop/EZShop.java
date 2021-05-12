@@ -26,6 +26,7 @@ public class EZShop {
         try {                              
            EZShopInterface ezShop = new it.polito.ezshop.data.EZShop();
            EZShopGUI gui = new EZShopGUI(ezShop);
+
            //ezShop.createUser("eugenio", "eugenio", "ShopManager");
            ezShop.login("eugenio", "eugenio");
          //  System.out.print(ezShop.createProductType("pane", "1234" ,1.0, "prova1"));
@@ -34,6 +35,37 @@ public class EZShop {
           // System.out.print(ezShop.createProductType("pane", "1236" ,1.0, "prova1"));
            ezShop.updateProduct(1, "il pane è scaduto", "1523", 2.12 , "megli buttarlo");
           
+
+           
+           
+           
+           
+           
+           
+           
+           
+           // FR1: TEST
+           try {
+        	   int h = ezShop.createUser("kkhjk", "1234", "Administrator");
+        	   //int b = ezShop.createUser("adios", "1234", "Administrator");
+        	   //System.out.println(a);
+        	   //System.out.println(b);
+        	   //List<User> c = ezShop.getAllUsers();
+        	   //System.out.println(c);
+        	   //Boolean b = ezShop.updateUserRights(1, "ShopManager");
+        	   //System.out.println(b);
+        	   //User s = ezShop.getUser(1);
+        	   //System.out.println(s);
+        	//   boolean a = ezShop.deleteUser(3);
+        	//   System.out.println(a);
+        	   
+        	   
+           }catch(Exception e){           
+        	   e.printStackTrace();
+           }
+           //UserRepository userRepository = UserRepository.getInstance();
+            // userRepository.addNewUser(new UserClass(100, "paserAmmeZaa", "abc", "", "clerk"));
+
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (InvalidProductDescriptionException e) {

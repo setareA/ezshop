@@ -7,34 +7,33 @@ import java.util.List;
 import it.polito.ezshop.data.SaleTransaction;
 import it.polito.ezshop.data.TicketEntry;
 
-public class SaleTransactionClass extends CreditClass implements SaleTransaction{
-	
+public class SaleTransactionClass implements SaleTransaction{
+
 	private Integer ticketNumber;
 	private ArrayList<TicketEntry> entries ;
 	private double discountRate;
 	private double price;
+	private String state;
+	private LocalDate date;
 
 
-	public SaleTransactionClass(Integer balanceId, LocalDate localDate, double money, String type, Integer ticketNumber,
-								ArrayList<TicketEntry> entries, double discountRate, double price) {
-		super(balanceId, localDate, money, type);
+	public SaleTransactionClass(Integer ticketNumber, ArrayList<TicketEntry>ticketEntries, double discountRate,
+								double price, String state, LocalDate date) {
 		this.ticketNumber = ticketNumber;
-		this.entries = entries;
+		this.entries = ticketEntries;
 		this.discountRate = discountRate;
 		this.price = price;
+		this.state = state;
+
 	}
-
-
-	public SaleTransactionClass(Integer balanceId, LocalDate localDate, double money, String type, Integer ticketNumber
-								, double discountRate, double price) {
-		super(balanceId, localDate, money, type);
+	public SaleTransactionClass(Integer ticketNumber, double discountRate,
+								double price, String state, LocalDate date) {
 		this.ticketNumber = ticketNumber;
 		this.discountRate = discountRate;
 		this.price = price;
+		this.state = state;
+
 	}
-
-
-
 
 	@Override
 	public Integer getTicketNumber() {
@@ -82,5 +81,21 @@ public class SaleTransactionClass extends CreditClass implements SaleTransaction
 	public void setPrice(double price) {
 		// TODO Auto-generated method stub
 		this.price=price;
+	}
+
+	public String getState() {
+		return state;
+	}
+
+	public void setState(String state) {
+		this.state = state;
+	}
+
+	public LocalDate getDate() {
+		return date;
+	}
+
+	public void setDate(LocalDate date) {
+		this.date = date;
 	}
 }
