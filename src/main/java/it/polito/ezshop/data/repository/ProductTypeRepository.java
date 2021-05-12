@@ -9,7 +9,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 
+import it.polito.ezshop.data.ProductType;
 import it.polito.ezshop.data.model.ProductTypeClass;
 import it.polito.ezshop.data.model.UserClass;
 import it.polito.ezshop.data.util.HashGenerator;
@@ -26,7 +28,7 @@ public class ProductTypeRepository {
 
     private ProductTypeRepository() {
     }
-                               
+    // : TODO MODIFICARE : FAI UN GET CON IL BARCODE E VEDI SE RITORNA NULL            
     public boolean checkUniqueBarcode(String barcode) {                                        
     	if(!this.getAllProductType().isEmpty()) {
             ArrayList<String> tmp = new ArrayList <String>();
@@ -133,11 +135,7 @@ public class ProductTypeRepository {
         con.close();
     }
     
-    protected String getFindStatement() {
-        return "SELECT " + COLUMNS +
-                " FROM productType" +
-                " WHERE id = ?";
-    }                                                                                                                                                                              
+                                                                                                                                                                             
                                                                                                                                                                                                                                                                                                                                                                                                                    
     protected ProductTypeClass convertResultSetToDomainModel(ResultSet rs) throws SQLException {
         return new ProductTypeClass(Integer.parseInt(rs.getString(1)),
@@ -163,10 +161,64 @@ public class ProductTypeRepository {
     }
     
     private String getAllProductTypeStatement() {
-        String sqlCommand = "SELECT * FROM productType";
-        return sqlCommand;
+        return "SELECT * FROM productType";
     }
-                                                                                                                        
+    
+    protected static String getFindByBarCodeStatement() {
+        return "SELECT " + COLUMNS +
+                " FROM productType" +
+                " WHERE barCode = ?"  ;
+    }    
+    protected static String getFindByDescriptionStatement() {
+    	return "SELECT " + COLUMNS +
+                " FROM productType" +
+                " WHERE productDescription" +
+                " LIKE ?";
+    }    
+    
+    protected String getFindStatement() {
+        return "SELECT " + COLUMNS +
+                " FROM productType" +
+                " WHERE id = ?";
+    }  
+    
+    public ArrayList<ProductTypeClass> getProductTypebyDescription(String description)  {
+    	try {
+    	String sqlCommand = getFindByDescriptionStatement();
+    	Connection con = DBCPDBConnectionPool.getConnection();
+        PreparedStatement prps = con.prepareStatement(sqlCommand);
+        prps.setString(1, "%" + description + "%");
+        ResultSet rs = prps.executeQuery();
+        ArrayList<ProductTypeClass> u ;
+        u = loadAll(rs);
+        prps.close();
+        con.close();
+        return u;
+        }
+        catch (SQLException e) {
+        
+            return null;
+        }
+    }
+    
+    public ProductTypeClass getProductTypebyBarCode(String barcode)  {
+    	try {
+    	String sqlCommand = getFindByBarCodeStatement();
+    	Connection con = DBCPDBConnectionPool.getConnection();
+        PreparedStatement prps = con.prepareStatement(sqlCommand);
+        prps.setString(1, barcode);
+        ResultSet rs = prps.executeQuery();
+        rs.next();
+        ProductTypeClass u = convertResultSetToDomainModel(rs);
+        prps.close();
+        con.close();
+        return u;
+        }
+        catch (SQLException e) {
+        
+            return null;
+        }
+    }
     public ArrayList<ProductTypeClass> getAllProductType(){
         try {
             String sqlCommand = getAllProductTypeStatement();
@@ -187,7 +239,6 @@ public class ProductTypeRepository {
     	Connection con = DBCPDBConnectionPool.getConnection();
     	System.out.println("updating product type");
     	String sqlCommand = updateCommand("productType",new ArrayList<String>(Arrays.asList("id", "productDescription", "barCode", "pricePerUnit", "note")),new ArrayList<String>(Arrays.asList(id,nd,nc,np,nn)));
-    	System.out.println(sqlCommand);
     	PreparedStatement prp = con.prepareStatement(sqlCommand);
     	int count = prp.executeUpdate();
     	prp.close();

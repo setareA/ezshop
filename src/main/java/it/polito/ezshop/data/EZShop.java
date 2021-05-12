@@ -236,12 +236,25 @@ public class EZShop implements EZShopInterface {
 
     @Override
     public ProductType getProductTypeByBarCode(String barCode) throws InvalidProductCodeException, UnauthorizedException {
-        return null;
+    	if(this.checkIfAdministrator() | this.checkIfManager()) {
+    		if(!ProductTypeClass.checkValidityProductcode(barCode)) throw new InvalidProductCodeException();
+    		return  productTypeRepository.getProductTypebyBarCode(barCode);
+    		
+        }else {
+        	throw new UnauthorizedException();
+        }
+    	
     }
 
     @Override
     public List<ProductType> getProductTypesByDescription(String description) throws UnauthorizedException {
-        return null;
+        
+    	if(this.checkIfAdministrator() | this.checkIfManager()) {
+    		 List<ProductType> list = new ArrayList<ProductType>(productTypeRepository.getProductTypebyDescription(description));
+    		return list;
+        }else {
+        	throw new UnauthorizedException();
+        }
     }
 
     @Override

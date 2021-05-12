@@ -26,6 +26,17 @@ public class ProductTypeClass implements ProductType {
 		this.discountRate = discountRate;
 		this.warning = warning;
 	}
+    
+    
+
+	@Override
+	public String toString() {
+		return "ProductTypeClass [id=" + id + ", quantity=" + quantity + ", location=" + location + ", note=" + note
+				+ ", productDescription=" + productDescription + ", barCode=" + barCode + ", pricePerUnit="
+				+ pricePerUnit + ", discountRate=" + discountRate + ", warning=" + warning + "]";
+	}
+
+
 
 	public Double getDiscountRate() {
         return this.discountRate;
