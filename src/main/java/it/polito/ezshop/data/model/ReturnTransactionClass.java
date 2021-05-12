@@ -11,47 +11,51 @@ public class ReturnTransactionClass{
     private static boolean commit;
     private ArrayList<TicketEntryClass> entries ;
 
-    public ReturnTransactionClass(Integer returnId) {
+
+    public ReturnTransactionClass(Integer returnId, LocalDate date, double price, String state) {
         this.returnId = returnId;
+        this.date = date;
+        this.price = price;
+        this.state = state;
     }
 
-    public static Integer getReturnId() {
+    public Integer getReturnId() {
         return returnId;
     }
 
-    public static void setReturnId(Integer returnId) {
+    public void setReturnId(Integer returnId) {
         ReturnTransactionClass.returnId = returnId;
     }
 
-    public static LocalDate getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public static void setDate(LocalDate date) {
+    public void setDate(LocalDate date) {
         ReturnTransactionClass.date = date;
     }
 
-    public static double getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    public static void setPrice(double price) {
+    public void setPrice(double price) {
         ReturnTransactionClass.price = price;
     }
 
-    public static String getState() {
+    public String getState() {
         return state;
     }
 
-    public static void setState(String state) {
+    public void setState(String state) {
         ReturnTransactionClass.state = state;
     }
 
-    public static boolean isCommit() {
+    public boolean isCommit() {
         return commit;
     }
 
-    public static void setCommit(boolean commit) {
+    public void setCommit(boolean commit) {
         ReturnTransactionClass.commit = commit;
     }
 
