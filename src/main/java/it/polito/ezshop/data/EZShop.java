@@ -14,6 +14,7 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -201,22 +202,36 @@ public class EZShop implements EZShopInterface {
         	if(newPrice <= 0) throw new InvalidPricePerUnitException();
         	if(!productTypeRepository.checkUniqueBarcode(newCode)) return false;
         	try {
-        		productTypeRepository.updateProductType(id.toString(), newDescription, newCode, String.valueOf(newPrice) , newNote);
+        		return productTypeRepository.updateProductType(id.toString(), newDescription, newCode, String.valueOf(newPrice) , newNote);
         	}catch (SQLException e) {return false; }
         }else {
         	throw new UnauthorizedException();
         }
-    	return false;
     }
 
     @Override
     public boolean deleteProductType(Integer id) throws InvalidProductIdException, UnauthorizedException {
-        return false;
+    	
+    	if(this.checkIfAdministrator() | this.checkIfManager()) { // loggedUser check
+        	if(id <= 0 | id == null) throw new InvalidProductIdException();
+        	try {
+        		return productTypeRepository.deleteProductTypeFromDB(id);
+        		
+        	}catch (SQLException e) {return false; }
+        }else {
+        	throw new UnauthorizedException();
+        }
+       
     }
 
     @Override
     public List<ProductType> getAllProductTypes() throws UnauthorizedException {
-        return null;
+    	if(this.checkIfAdministrator() | this.checkIfManager()) { // loggedUser check
+        	List<ProductType> list = new ArrayList<ProductType>(productTypeRepository.getAllProductType());
+    		return list ;
+        }else {
+        	throw new UnauthorizedException();
+        }
     }
 
     @Override

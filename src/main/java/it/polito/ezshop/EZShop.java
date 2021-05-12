@@ -33,8 +33,8 @@ public class EZShop {
          //  System.out.print(ezShop.createProductType("pino", "1233" ,1.0, "prova1"));                                                           
          //  System.out.print(ezShop.createProductType("pani", "1235" ,1.0, "prova1"));
           // System.out.print(ezShop.createProductType("pane", "1236" ,1.0, "prova1"));
-           ezShop.updateProduct(1, "il pane è scaduto", "1523", 2.12 , "megli buttarlo");
-          
+          if( ! ezShop.updateProduct(1, "il pane è scaduto", "1523", 2.12 , "megli buttarlo")) System.out.println(" product not updated");
+         // if(!ezShop.deleteProductType(2)) System.out.println("Product type not deleted");
 
            
            
@@ -46,7 +46,7 @@ public class EZShop {
            
            // FR1: TEST
            try {
-        	   int h = ezShop.createUser("kkhjk", "1234", "Administrator");
+        	   //int h = ezShop.createUser("kkhjk", "1234", "Administrator");
         	   //int b = ezShop.createUser("adios", "1234", "Administrator");
         	   //System.out.println(a);
         	   //System.out.println(b);
@@ -68,16 +68,7 @@ public class EZShop {
 
         } catch (SQLException e) {
             e.printStackTrace();
-        } catch (InvalidProductDescriptionException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (InvalidProductCodeException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (InvalidPricePerUnitException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (UnauthorizedException e) {
+        } catch (UnauthorizedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (InvalidUsernameException e) {
@@ -89,6 +80,15 @@ public class EZShop {
 		} catch (InvalidProductIdException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} catch (InvalidProductDescriptionException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (InvalidProductCodeException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (InvalidPricePerUnitException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
 		}
         
         

@@ -58,6 +58,26 @@ public class ProductTypeRepository {
         con.close();
     }
     
+    private static String deleteCommand(String tableName, String columnName){
+    	//DELETE FROM user WHERE id = ?
+        String sqlCommand = "DELETE FROM " + tableName + " WHERE " + columnName + "= ?;";
+        return sqlCommand;
+    }
+    
+    public boolean deleteProductTypeFromDB(Integer id) throws SQLException {
+    	Connection con = DBCPDBConnectionPool.getConnection();
+    	System.out.println("deleting a product type");
+    	String sqlCommand = deleteCommand("productType","id");
+    	PreparedStatement prp = con.prepareStatement(sqlCommand);
+    	prp.setString(1, id.toString());
+        int count = prp.executeUpdate();
+        prp.close();
+        con.close();
+        System.out.println(count);
+        if(count == 0) return false;
+        return true ;
+    }
+    
     private static ArrayList<String> getAttrs(){
         ArrayList<String> attrs = new ArrayList<String>(
                 Arrays.asList("id",
@@ -146,7 +166,7 @@ public class ProductTypeRepository {
         String sqlCommand = "SELECT * FROM productType";
         return sqlCommand;
     }
-                                                                                                                                 
+                                                                                                                        
     public ArrayList<ProductTypeClass> getAllProductType(){
         try {
             String sqlCommand = getAllProductTypeStatement();
@@ -163,15 +183,17 @@ public class ProductTypeRepository {
         return null;
     }
     
-    public void updateProductType (String id ,String nd, String nc, String np, String nn) throws SQLException{
+    public boolean updateProductType (String id ,String nd, String nc, String np, String nn) throws SQLException{
     	Connection con = DBCPDBConnectionPool.getConnection();
     	System.out.println("updating product type");
     	String sqlCommand = updateCommand("productType",new ArrayList<String>(Arrays.asList("id", "productDescription", "barCode", "pricePerUnit", "note")),new ArrayList<String>(Arrays.asList(id,nd,nc,np,nn)));
     	System.out.println(sqlCommand);
     	PreparedStatement prp = con.prepareStatement(sqlCommand);
-    	prp.executeUpdate();
+    	int count = prp.executeUpdate();
     	prp.close();
         con.close();
+        if (count == 0) return false;
+        return true;
     }
 
 	private String updateCommand(String tableName ,ArrayList<String> attributes, ArrayList<String> values) {
