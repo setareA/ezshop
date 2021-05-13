@@ -2,6 +2,7 @@ package it.polito.ezshop;
 
 import it.polito.ezshop.data.EZShopInterface;
 import it.polito.ezshop.data.User;
+import it.polito.ezshop.data.model.ProductTypeClass;
 import it.polito.ezshop.data.model.UserClass;
 import it.polito.ezshop.data.repository.UserRepository;
 import it.polito.ezshop.exceptions.InvalidPasswordException;
@@ -33,12 +34,12 @@ public class EZShop {
          //  System.out.print(ezShop.createProductType("pino", "1233" ,1.0, "prova1"));                                                           
          //  System.out.print(ezShop.createProductType("pani", "1235" ,1.0, "prova1"));
           // System.out.print(ezShop.createProductType("pane", "1236" ,1.0, "prova1"));
-          if( ! ezShop.updateProduct(3, "pane vecchio", "1523", 2.12 , "megli buttarlo")) System.out.println(" product not updated");
-          if( ! ezShop.updateProduct(4, "pane fresco", "1524", 2.12 , "megli buttarlo")) System.out.println(" product not updated");
+         // if( ! ezShop.updateProduct(3, "pane vecchio", "1523", 2.12 , "megli buttarlo")) System.out.println(" product not updated");
+          //if( ! ezShop.updateProduct(4, "pane fresco", "1524", 2.12 , "megli buttarlo")) System.out.println(" product not updated");
 
          // if(!ezShop.deleteProductType(2)) System.out.println("Product type not deleted");
-           System.out.println(ezShop.getProductTypesByDescription("vecch").toString());
-           
+           //System.out.println(ezShop.getProductTypesByDescription("vecch").toString());
+           System.out.println(ProductTypeClass.checkValidityProductcode("6291041500213"));
            
            
            
@@ -76,21 +77,6 @@ public class EZShop {
 		} catch (InvalidPasswordException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} catch (InvalidProductCodeException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (UnauthorizedException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (InvalidProductIdException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (InvalidProductDescriptionException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (InvalidPricePerUnitException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
 		}
         
         
