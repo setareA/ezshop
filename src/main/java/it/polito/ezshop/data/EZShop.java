@@ -337,6 +337,7 @@ public class EZShop implements EZShopInterface {
     public Integer startSaleTransaction() throws UnauthorizedException {
         if(checkIfAdministrator()  || checkIfManager()  || checkIfCashier()) {
             try {
+                Logger.getLogger(EZShop.class.getName()).log(Level.SEVERE, String.valueOf(LocalDate.now()));
                 return balanceOperationRepository.addNewSale(new SaleTransactionClass(null,1,0,"open", LocalDate.now()));
             } catch (SQLException throwables) {
                 throwables.printStackTrace();

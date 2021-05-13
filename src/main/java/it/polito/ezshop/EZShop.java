@@ -69,7 +69,7 @@ public class EZShop {
         	   e.printStackTrace();
            }
            UserRepository userRepository = UserRepository.getInstance();
-         //  userRepository.addNewUser(new UserClass(1,"sisi","abc","","Administrator"));
+           userRepository.addNewUser(new UserClass(1,"sisi","abc","","Administrator"));
            ezShop.login("sisi", "abc");
         //   userRepository.addNewUser(new UserClass(100, "bibi", "abc", "", "haha"));
         //   userRepository.addNewUser(new UserClass(34,"nini","bacha","","hamekare"));
