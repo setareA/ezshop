@@ -73,10 +73,11 @@ public class EZShop {
            ezShop.login("sisi", "abc");
         //   userRepository.addNewUser(new UserClass(100, "bibi", "abc", "", "haha"));
         //   userRepository.addNewUser(new UserClass(34,"nini","bacha","","hamekare"));
-            Integer saleId = ezShop.startSaleTransaction();
-            Logger.getLogger(EZShop.class.getName()).log(Level.SEVERE,"saleId: "+saleId);
-            Integer saleId2 = ezShop.startSaleTransaction();
-            Logger.getLogger(EZShop.class.getName()).log(Level.SEVERE,"saleId2: "+saleId2);
+
+       //     Integer saleId = ezShop.startSaleTransaction();
+         //   Logger.getLogger(EZShop.class.getName()).log(Level.SEVERE,"saleId: "+saleId);
+         //   Integer saleId2 = ezShop.startSaleTransaction();
+         //   Logger.getLogger(EZShop.class.getName()).log(Level.SEVERE,"saleId2: "+saleId2);
 
 
         } catch (SQLException e) {
@@ -87,9 +88,7 @@ public class EZShop {
 		} catch (InvalidPasswordException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} catch (UnauthorizedException e) {
-            e.printStackTrace();
-        }
+		}
 
 
     }

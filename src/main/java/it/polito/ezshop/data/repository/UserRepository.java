@@ -105,7 +105,7 @@ public class UserRepository {
 
         Connection con = DBCPDBConnectionPool.getConnection();
         ArrayList<String> attrs = getAttrs();
-        System.out.println("adding new user");
+        Logger.getLogger(EZShop.class.getName()).log(Level.SEVERE,"dding new user with username: "+user.getUsername());
         String sqlCommand = insertCommand("user", attrs);
         PreparedStatement prp = con.prepareStatement(sqlCommand);
         for (int j = 0; j < attrs.size(); j++) {
