@@ -1,12 +1,19 @@
 package it.polito.ezshop.data;
 
+
 import it.polito.ezshop.data.model.CustomerClass;
+
+import it.polito.ezshop.data.model.ProductTypeClass;
+import it.polito.ezshop.data.model.SaleTransactionClass;
+
 import it.polito.ezshop.data.model.UserClass;
+import it.polito.ezshop.data.repository.BalanceOperationRepository;
 import it.polito.ezshop.data.repository.CustomerRepository;
+import it.polito.ezshop.data.repository.ProductTypeRepository;
 import it.polito.ezshop.data.repository.UserRepository;
+import it.polito.ezshop.data.repository.ProductTypeRepository;
 import it.polito.ezshop.data.util.HashGenerator;
 import it.polito.ezshop.exceptions.*;
-
 import java.nio.charset.Charset;
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -14,19 +21,26 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 public class EZShop implements EZShopInterface {
 
     private static UserRepository userRepository = UserRepository.getInstance();
     private static CustomerRepository customerRepository = CustomerRepository.getInstance();
-    
+    private static ProductTypeRepository productTypeRepository = ProductTypeRepository.getInstance();
+    private static BalanceOperationRepository balanceOperationRepository = BalanceOperationRepository.getInstance();
+
 
     public EZShop() throws SQLException {
         super();
         userRepository.initialize();
         customerRepository.initialize();
+        productTypeRepository.initialize();
+        balanceOperationRepository.initialize();
         
+
     }
 
     @Override
@@ -144,6 +158,7 @@ public class EZShop implements EZShopInterface {
 
     @Override
     public User login(String username, String password) throws InvalidUsernameException, InvalidPasswordException {
+        
     	// Checks InvalidUsernameException: Username (empty or null)
     	if(username == null || username.equals("")) {
     		throw new InvalidUsernameException();
@@ -160,48 +175,98 @@ public class EZShop implements EZShopInterface {
         if (HashGenerator.passwordMatches(u.getPassword(), password, u.getSalt())) {
             userRepository.setLoggedUser(u);
             return u;
-        } else return null;
-
-
+        } else return null; 
     }
 
-    @Override
+                                                                                            
+     @Override
     public boolean logout() {
-    	// In order to log out, we just set the loggedUser to null
-    	userRepository.setLoggedUser(null);
-        return false;
+        return false;                                   
     }
 
     @Override
-    public Integer createProductType(String description, String productCode, double pricePerUnit, String note) throws InvalidProductDescriptionException, InvalidProductCodeException, InvalidPricePerUnitException, UnauthorizedException {
-        
-    	
-    	return null;
+    public Integer createProductType(String description, String productCode, double pricePerUnit, String note) throws InvalidProductDescriptionException, InvalidProductCodeException, InvalidPricePerUnitException, UnauthorizedException { 
+        if(this.checkIfAdministrator() | this.checkIfManager()) { // loggedUser check
+        	if(description.isEmpty() | description == null) throw new InvalidProductDescriptionException(); // descriptor != null check
+        	else if(!ProductTypeClass.checkValidityProductcode(productCode)) throw new InvalidProductCodeException(); // barcode check
+        	else if (pricePerUnit <= 0 ) throw new InvalidPricePerUnitException(); // price per unit check
+        	else if (! productTypeRepository.checkUniqueBarcode(productCode) ) return -1;
+        	else { 
+        		try {
+        		productTypeRepository.addNewProductType(new ProductTypeClass(productTypeRepository.getLastId() + 1 , 0, "" , note , description , productCode, pricePerUnit, 0.0, 0)); 
+        		}
+        		catch (SQLException e) { return -1;}
+        		productTypeRepository.setLastId(productTypeRepository.getLastId() + 1);
+        		return productTypeRepository.getLastId();
+        	}
+        }else {
+        	throw new UnauthorizedException();
+        }
     }
+
 
     @Override
     public boolean updateProduct(Integer id, String newDescription, String newCode, double newPrice, String newNote) throws InvalidProductIdException, InvalidProductDescriptionException, InvalidProductCodeException, InvalidPricePerUnitException, UnauthorizedException {
-        return false;
+        if(this.checkIfAdministrator() | this.checkIfManager()) { // loggedUser check
+        	if(id <= 0 | id == null) throw new InvalidProductIdException();
+        	if(newDescription.isEmpty() | newDescription == null) throw new InvalidProductDescriptionException();
+        	if(!ProductTypeClass.checkValidityProductcode(newCode)) throw new InvalidProductCodeException();
+        	if(newPrice <= 0) throw new InvalidPricePerUnitException();
+        	if(!productTypeRepository.checkUniqueBarcode(newCode)) return false;
+        	try {
+        		return productTypeRepository.updateProductType(id.toString(), newDescription, newCode, String.valueOf(newPrice) , newNote);
+        	}catch (SQLException e) {return false; }
+        }else {
+        	throw new UnauthorizedException();
+        }
     }
 
     @Override
     public boolean deleteProductType(Integer id) throws InvalidProductIdException, UnauthorizedException {
-        return false;
+    	
+    	if(this.checkIfAdministrator() | this.checkIfManager()) { // loggedUser check
+        	if(id <= 0 | id == null) throw new InvalidProductIdException();
+        	try {
+        		return productTypeRepository.deleteProductTypeFromDB(id);
+        		
+        	}catch (SQLException e) {return false; }
+        }else {
+        	throw new UnauthorizedException();
+        }
+       
     }
 
     @Override
     public List<ProductType> getAllProductTypes() throws UnauthorizedException {
-        return null;
+    	if(this.checkIfAdministrator() | this.checkIfManager()) { // loggedUser check
+        	List<ProductType> list = new ArrayList<ProductType>(productTypeRepository.getAllProductType());
+    		return list ;
+        }else {
+        	throw new UnauthorizedException();
+        }
     }
 
     @Override
     public ProductType getProductTypeByBarCode(String barCode) throws InvalidProductCodeException, UnauthorizedException {
-        return null;
+    	if(this.checkIfAdministrator() | this.checkIfManager()) {
+    		if(!ProductTypeClass.checkValidityProductcode(barCode)) throw new InvalidProductCodeException();
+    		return  productTypeRepository.getProductTypebyBarCode(barCode);
+    		
+        }else {
+        	throw new UnauthorizedException();
+        }
+    	
     }
 
     @Override
     public List<ProductType> getProductTypesByDescription(String description) throws UnauthorizedException {
-        return null;
+        
+    	if(this.checkIfAdministrator() | this.checkIfManager()) {
+    		 List<ProductType> list = new ArrayList<ProductType>(productTypeRepository.getProductTypebyDescription(description));
+    		return list;
+        }else {
+        	throw new UnauthorizedException();
+        }
     }
 
     @Override
@@ -236,6 +301,7 @@ public class EZShop implements EZShopInterface {
 
     @Override
     public List<Order> getAllOrders() throws UnauthorizedException {
+
         return null;
     }
     
@@ -441,6 +507,17 @@ public class EZShop implements EZShopInterface {
 
     @Override
     public Integer startSaleTransaction() throws UnauthorizedException {
+        if(checkIfAdministrator()  || checkIfManager()  || checkIfCashier()) {
+            try {
+                Logger.getLogger(EZShop.class.getName()).log(Level.SEVERE, String.valueOf(LocalDate.now()));
+                return balanceOperationRepository.addNewSale(new SaleTransactionClass(null,1,0,"open", LocalDate.now()));
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+        }
+        else{
+            throw new UnauthorizedException();
+        }
         return null;
     }
 
