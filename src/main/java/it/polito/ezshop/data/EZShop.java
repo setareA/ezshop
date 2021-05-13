@@ -1,6 +1,7 @@
 package it.polito.ezshop.data;
 
 import it.polito.ezshop.data.model.ProductTypeClass;
+import it.polito.ezshop.data.model.SaleTransactionClass;
 import it.polito.ezshop.data.model.UserClass;
 import it.polito.ezshop.data.repository.BalanceOperationRepository;
 import it.polito.ezshop.data.repository.CustomerRepository;
@@ -12,10 +13,7 @@ import it.polito.ezshop.exceptions.*;
 
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -338,7 +336,11 @@ public class EZShop implements EZShopInterface {
     @Override
     public Integer startSaleTransaction() throws UnauthorizedException {
         if(checkIfAdministrator()  || checkIfManager()  || checkIfCashier()) {
-
+            try {
+                return balanceOperationRepository.addNewSale(new SaleTransactionClass(null,1,0,"open", LocalDate.now()));
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
         }
         else{
             throw new UnauthorizedException();

@@ -25,16 +25,16 @@ public class BalanceOperationRepository {
 
     private static Integer nextTicketNumber = 0;
     private static final String COLUMNS_ORDER = "orderId, balanceId, productCode, pricePerUnit, quantity, status, localDate, money";
-    private static final String COLUMNS_SALE = "ticketNumber, discountRate, price, state, LocalDate";
-    private static final String COLUMNS_RETURN = "returnId, localDate, price, state";
+    private static final String COLUMNS_SALE = "ticketNumber, discountRate, price, status, LocalDate";
+    private static final String COLUMNS_RETURN = "returnId, localDate, price, status";
     private static final String COLUMNS_TICKET_ENTRY = "id, barcode, productDescription, amount, pricePerUnit, discountRate, saleId, returnId";
 
     public void initialize() throws SQLException {
         Connection con = DBCPDBConnectionPool.getConnection();
         Statement st = con.createStatement();
         st.executeUpdate("CREATE TABLE IF NOT EXISTS " + "orderTable" + " " + "(balanceId INTEGER PRIMARY KEY, localDate DATE, money DOUBLE, type TEXT, productCode TEXT, pricePerUnit DOUBLE, quantity INTEGER, status TEXT, orderId INTEGER)");
-        st.executeUpdate("CREATE TABLE IF NOT EXISTS " + "sale" + " " + "(ticketNumber INTEGER PRIMARY KEY, discountRate DOUBLE, price DOUBLE, state TEXT, LocalDate DATE)");
-        st.executeUpdate("CREATE TABLE IF NOT EXISTS " + "returnTable" + " " + "(returnId INTEGER PRIMARY KEY, localDate DATE, price DOUBLE, state TEXT)");
+        st.executeUpdate("CREATE TABLE IF NOT EXISTS " + "sale" + " " + "(ticketNumber INTEGER PRIMARY KEY, discountRate DOUBLE, price DOUBLE, status TEXT, LocalDate DATE)");
+        st.executeUpdate("CREATE TABLE IF NOT EXISTS " + "returnTable" + " " + "(returnId INTEGER PRIMARY KEY, localDate DATE, price DOUBLE, status TEXT)");
         st.executeUpdate("CREATE TABLE IF NOT EXISTS " + "ticket" + " " + "(id INTEGER PRIMARY KEY AUTOINCREMENT, barcode TEXT, productDescription TEXT, amount INTEGER , pricePerUnit DOUBLE, discountRate DOUBLE, saleId INTEGER, returnId INTEGER, FOREIGN KEY (saleId) references sale(balanceId), FOREIGN KEY (returnId) references returnTable(returnId))");
 
         st.close();
@@ -49,12 +49,12 @@ public class BalanceOperationRepository {
     }
     private static ArrayList<String> getAttrsSale(){
         ArrayList<String> attrs = new ArrayList<>(
-                Arrays.asList("ticketNumber", "discountRate", "price", "state", "localDate"));
+                Arrays.asList("ticketNumber", "discountRate", "price", "status", "localDate"));
         return attrs;
     }
     private static ArrayList<String> getAttrsReturn(){
         ArrayList<String> attrs = new ArrayList<>(
-                Arrays.asList( "returnId", "localDate", "price", "state"));
+                Arrays.asList( "returnId", "localDate", "price", "status"));
         return attrs;
     }
     private static ArrayList<String> getAttrsTicket(){
@@ -111,7 +111,7 @@ public class BalanceOperationRepository {
         saleData.put("ticketNumber", nextTicketNumber.toString());
         saleData.put("discountRate", String.valueOf(sale.getDiscountRate()));
         saleData.put("price", String.valueOf(sale.getPrice()));
-        saleData.put("state", sale.getState());
+        saleData.put("status", sale.getState());
         saleData.put("LocalDate", String.valueOf(sale.getDate()));
 
         Connection con = DBCPDBConnectionPool.getConnection();
@@ -134,7 +134,7 @@ public class BalanceOperationRepository {
         returnData.put("returnId", returnTransaction.getReturnId().toString());
         returnData.put("localDate", returnTransaction.getDate().toString() );
         returnData.put("price", Double.toString(returnTransaction.getPrice()));
-        returnData.put("state", returnTransaction.getState());
+        returnData.put("status", returnTransaction.getState());
 
         Connection con = DBCPDBConnectionPool.getConnection();
         ArrayList<String> attrs = getAttrsReturn();

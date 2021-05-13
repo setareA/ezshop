@@ -13,7 +13,7 @@ public class SaleTransactionClass implements SaleTransaction{
 	private ArrayList<TicketEntry> entries ;
 	private double discountRate;
 	private double price;
-	private String state;
+	private String status;
 	private LocalDate date;
 
 	public SaleTransactionClass(Integer ticketNumber, double discountRate,
@@ -21,7 +21,8 @@ public class SaleTransactionClass implements SaleTransaction{
 		this.ticketNumber = ticketNumber;
 		this.discountRate = discountRate;
 		this.price = price;
-		this.state = state;
+		this.status = state;
+		this.date = date;
 
 	}
 
@@ -74,11 +75,11 @@ public class SaleTransactionClass implements SaleTransaction{
 	}
 
 	public String getState() {
-		return state;
+		return status;
 	}
 
 	public void setState(String state) {
-		this.state = state;
+		this.status = state;
 	}
 
 	public LocalDate getDate() {

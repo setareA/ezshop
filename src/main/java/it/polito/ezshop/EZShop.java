@@ -17,6 +17,8 @@ import it.polito.ezshop.view.EZShopGUI;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 public class EZShop {
@@ -29,7 +31,7 @@ public class EZShop {
            EZShopGUI gui = new EZShopGUI(ezShop);
 
            //ezShop.createUser("eugenio", "eugenio", "ShopManager");
-           ezShop.login("eugenio", "eugenio");
+    //       ezShop.login("eugenio", "eugenio");
          //  System.out.print(ezShop.createProductType("pane", "1234" ,1.0, "prova1"));
          //  System.out.print(ezShop.createProductType("pino", "1233" ,1.0, "prova1"));                                                           
          //  System.out.print(ezShop.createProductType("pani", "1235" ,1.0, "prova1"));
@@ -39,7 +41,7 @@ public class EZShop {
 
          // if(!ezShop.deleteProductType(2)) System.out.println("Product type not deleted");
            //System.out.println(ezShop.getProductTypesByDescription("vecch").toString());
-           System.out.println(ProductTypeClass.checkValidityProductcode("6291041500213"));
+         //  System.out.println(ProductTypeClass.checkValidityProductcode("6291041500213"));
            
            
            
@@ -67,8 +69,15 @@ public class EZShop {
         	   e.printStackTrace();
            }
            UserRepository userRepository = UserRepository.getInstance();
-           userRepository.addNewUser(new UserClass(100, "bibi", "abc", "", "haha"));
-           userRepository.addNewUser(new UserClass(34,"nini","bacha","","hamekare"));
+         //  userRepository.addNewUser(new UserClass(1,"sisi","abc","","Administrator"));
+           ezShop.login("sisi", "abc");
+        //   userRepository.addNewUser(new UserClass(100, "bibi", "abc", "", "haha"));
+        //   userRepository.addNewUser(new UserClass(34,"nini","bacha","","hamekare"));
+            Integer saleId = ezShop.startSaleTransaction();
+            Logger.getLogger(EZShop.class.getName()).log(Level.SEVERE,"saleId: "+saleId);
+            Integer saleId2 = ezShop.startSaleTransaction();
+            Logger.getLogger(EZShop.class.getName()).log(Level.SEVERE,"saleId2: "+saleId2);
+
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -78,9 +87,11 @@ public class EZShop {
 		} catch (InvalidPasswordException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
-        
-        
+		} catch (UnauthorizedException e) {
+            e.printStackTrace();
+        }
+
+
     }
 
 }
