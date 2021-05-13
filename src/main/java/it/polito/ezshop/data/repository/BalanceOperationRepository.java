@@ -1,6 +1,7 @@
 package it.polito.ezshop.data.repository;
 
 
+import com.oracle.tools.packager.Log;
 import it.polito.ezshop.data.EZShop;
 import it.polito.ezshop.data.model.OrderClass;
 import it.polito.ezshop.data.model.ReturnTransactionClass;
@@ -182,6 +183,28 @@ public class BalanceOperationRepository {
         con.close();
     }
 
+    public boolean deleteTicketEntry(Integer saleId, String barcode){
+        try {
+            String sqlCommand = getDeleteRowStatement("ticket", "saleId", "barcode");
+            Connection con = DBCPDBConnectionPool.getConnection();
+            Logger.getLogger(EZShop.class.getName()).log(Level.SEVERE,"deleting ticket entry with saleId: "+saleId+" barcode: "+barcode);
+            PreparedStatement prps = con.prepareStatement(sqlCommand);
+            prps.setString(1, String.valueOf(saleId));
+            prps.setString(2, barcode);
+            int returnVal = prps.executeUpdate();
+            prps.close();
+            con.close();
+            return (returnVal == 1);
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    private String getDeleteTicketStatement() {
+        return "DELETE FROM ticket WHERE saleId= ? AND barcode= ?;";
+    }
+
     protected OrderClass convertResultSetOrderToDomainModel(ResultSet rs) throws SQLException {
         return new OrderClass(rs.getInt(1),
                 rs.getInt(2),
@@ -325,6 +348,24 @@ public class BalanceOperationRepository {
         return null;
     }
 
+    public SaleTransactionClass getSalesByTicketNumber(Integer ticketNumber){
+        try {
+            String sqlCommand = getFindByTicketNumberStatement();
+            Connection con = DBCPDBConnectionPool.getConnection();
+            PreparedStatement prps = con.prepareStatement(sqlCommand);
+            prps.setString(1, String.valueOf(ticketNumber));
+            ResultSet rs = prps.executeQuery();
+            rs.next();
+            SaleTransactionClass s = convertResultSetSaleToDomainModel(rs);
+            prps.close();
+            con.close();
+            return s;
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     public ArrayList<TicketEntryClass> getTicketsByReturnId(Integer returnId){
         try {
             String sqlCommand = getFindByReturnIdStatement();
@@ -367,15 +408,23 @@ public class BalanceOperationRepository {
         String sqlCommand = "SELECT * FROM " + tableName;
         return sqlCommand;
     }
-    protected static String getFindBySaleIdStatement() {
+    private static String getFindBySaleIdStatement() {
         return "SELECT * FROM ticket WHERE saleId = ?"  ;
     }
 
-    protected static String getFindByReturnIdStatement() {
+    private static String getFindByReturnIdStatement() {
         return "SELECT * FROM ticket WHERE returnId = ?"  ;
     }
 
-    protected String getMaxTicketNumberStatement() {
+    private static String getFindByTicketNumberStatement() {
+        return "SELECT * FROM sale WHERE ticketNumber = ?"  ;
+    }
+
+    private static String getDeleteRowStatement(String tableName, String columnName, String columnName2){
+        return "DELETE FROM " + tableName + " WHERE " + columnName + "= ? AND "+ columnName2 +"= ?;";
+    }
+
+    private String getMaxTicketNumberStatement() {
         String sqlCommand = "SELECT MAX(ticketNumber) FROM sale";
         return sqlCommand;
     }

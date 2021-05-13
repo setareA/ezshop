@@ -2,6 +2,7 @@ package it.polito.ezshop.data;
 
 import it.polito.ezshop.data.model.ProductTypeClass;
 import it.polito.ezshop.data.model.SaleTransactionClass;
+import it.polito.ezshop.data.model.TicketEntryClass;
 import it.polito.ezshop.data.model.UserClass;
 import it.polito.ezshop.data.repository.BalanceOperationRepository;
 import it.polito.ezshop.data.repository.CustomerRepository;
@@ -351,11 +352,75 @@ public class EZShop implements EZShopInterface {
 
     @Override
     public boolean addProductToSale(Integer transactionId, String productCode, int amount) throws InvalidTransactionIdException, InvalidProductCodeException, InvalidQuantityException, UnauthorizedException {
+        if(checkIfAdministrator()  || checkIfManager()  || checkIfCashier()) {
+            if (transactionId == null || transactionId <= 0){
+                throw new InvalidTransactionIdException();
+            }
+                if (productCode == null || productCode.isEmpty() || !ProductTypeClass.checkValidityProductcode(productCode)){
+                throw new InvalidProductCodeException();
+            }
+            if (amount < 0){
+                throw new InvalidQuantityException();
+            }
+            SaleTransactionClass saleTransaction = balanceOperationRepository.getSalesByTicketNumber(transactionId);
+            if(saleTransaction == null || !"open".equals(saleTransaction.getState())) {
+                return false;
+            }
+            ProductTypeClass product = productTypeRepository.getProductTypebyBarCode(productCode);
+            if(product == null || product.getQuantity() < amount){
+                return false;
+            }
+            try {
+                balanceOperationRepository.addNewTicketEntry(new TicketEntryClass(productCode,product.getProductDescription(),
+                                                                amount, product.getPricePerUnit(), 1), transactionId, null);
+                productTypeRepository.updateQuantity(product.getId(), product.getQuantity() - amount);
+                return true;
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+
+        }
+        else{
+            throw new UnauthorizedException();
+        }
         return false;
     }
 
+    /**
+     * This method deletes a product from a sale transaction increasing the temporary amount of product available on the
+     * shelves for other customers.
+
+     */
     @Override
     public boolean deleteProductFromSale(Integer transactionId, String productCode, int amount) throws InvalidTransactionIdException, InvalidProductCodeException, InvalidQuantityException, UnauthorizedException {
+        if(checkIfAdministrator()  || checkIfManager()  || checkIfCashier()) {
+            if (transactionId == null || transactionId <= 0){
+                throw new InvalidTransactionIdException();
+            }
+            if (productCode == null || productCode.isEmpty() || !ProductTypeClass.checkValidityProductcode(productCode)){
+                throw new InvalidProductCodeException();
+            }
+            if (amount < 0){
+                throw new InvalidQuantityException();
+            }
+            SaleTransactionClass saleTransaction = balanceOperationRepository.getSalesByTicketNumber(transactionId);
+            if(saleTransaction == null || !"open".equals(saleTransaction.getState())) {
+                return false;
+            }
+            ProductTypeClass product = productTypeRepository.getProductTypebyBarCode(productCode);
+            if(product == null){
+                return false;
+            }
+            boolean ticketExist = balanceOperationRepository.deleteTicketEntry(transactionId, productCode);
+            if(ticketExist){
+                productTypeRepository.updateQuantity(product.getId(), product.getQuantity() + amount);
+                return true;
+            }
+
+        }
+        else {
+            throw new UnauthorizedException();
+        }
         return false;
     }
 

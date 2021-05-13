@@ -10,7 +10,10 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
+import it.polito.ezshop.data.EZShop;
 import it.polito.ezshop.data.ProductType;
 import it.polito.ezshop.data.model.ProductTypeClass;
 import it.polito.ezshop.data.model.UserClass;
@@ -181,7 +184,10 @@ public class ProductTypeRepository {
                 " FROM productType" +
                 " WHERE id = ?";
     }  
-    
+
+    private String getUpdateQuantityStatement(){
+        return "UPDATE productType SET quantity = ? WHERE id = ?";
+    }
     public ArrayList<ProductTypeClass> getProductTypebyDescription(String description)  {
     	try {
     	String sqlCommand = getFindByDescriptionStatement();
@@ -234,10 +240,27 @@ public class ProductTypeRepository {
         }
         return null;
     }
+
+    public boolean updateQuantity(Integer id, int quantity){
+        try {
+            String sqlCommand = getUpdateQuantityStatement();
+            Connection con = DBCPDBConnectionPool.getConnection();
+            PreparedStatement prps = con.prepareStatement(sqlCommand);
+            prps.setString(1, String.valueOf(quantity));
+            prps.setString(2, String.valueOf(id));
+            int returnVal = prps.executeUpdate();
+            prps.close();
+            con.close();
+            return (returnVal == 1);
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+        return false;
+    }
     
     public boolean updateProductType (String id ,String nd, String nc, String np, String nn) throws SQLException{
     	Connection con = DBCPDBConnectionPool.getConnection();
-    	System.out.println("updating product type");
+        Logger.getLogger(EZShop.class.getName()).log(Level.SEVERE, "updating product type");
     	String sqlCommand = updateCommand("productType",new ArrayList<String>(Arrays.asList("id", "productDescription", "barCode", "pricePerUnit", "note")),new ArrayList<String>(Arrays.asList(id,nd,nc,np,nn)));
     	PreparedStatement prp = con.prepareStatement(sqlCommand);
     	int count = prp.executeUpdate();
