@@ -23,6 +23,7 @@ public class BalanceOperationRepository {
     private BalanceOperationRepository() {
     }
 
+    private static Integer nextTicketNumber = 0;
     private static final String COLUMNS_ORDER = "orderId, balanceId, productCode, pricePerUnit, quantity, status, localDate, money";
     private static final String COLUMNS_SALE = "ticketNumber, discountRate, price, state, LocalDate";
     private static final String COLUMNS_RETURN = "returnId, localDate, price, state";
@@ -103,13 +104,15 @@ public class BalanceOperationRepository {
         con.close();
     }
 
-    public void addNewSale(SaleTransactionClass sale) throws SQLException{
+    public Integer addNewSale(SaleTransactionClass sale) throws SQLException{
 
+        nextTicketNumber = ourInstance.getHighestTicketNumber() + 1;
         HashMap<String, String> saleData = new HashMap<>();
-        saleData.put("ticketNumber", String.valueOf(sale.getTicketNumber()));
+        saleData.put("ticketNumber", nextTicketNumber.toString());
         saleData.put("discountRate", String.valueOf(sale.getDiscountRate()));
         saleData.put("price", String.valueOf(sale.getPrice()));
-
+        saleData.put("state", sale.getState());
+        saleData.put("LocalDate", String.valueOf(sale.getDate()));
 
         Connection con = DBCPDBConnectionPool.getConnection();
         ArrayList<String> attrs = getAttrsSale();
@@ -122,6 +125,7 @@ public class BalanceOperationRepository {
         prp.executeUpdate();
         prp.close();
         con.close();
+        return nextTicketNumber;
     }
 
     public void addNewReturn(ReturnTransactionClass returnTransaction) throws SQLException{
@@ -333,6 +337,27 @@ public class BalanceOperationRepository {
         return null;
     }
 
+
+    public Integer getHighestTicketNumber(){
+        try {
+            String sqlCommand = getMaxTicketNumberStatement();
+            Connection con = DBCPDBConnectionPool.getConnection();
+            PreparedStatement prps = con.prepareStatement(sqlCommand);
+            ResultSet rs = prps.executeQuery();
+            rs.next();
+            Integer highestId = rs.getInt(1);
+            prps.close();
+            con.close();
+            if (highestId != null) {
+                return highestId;
+            } else {
+                return 0;
+            }
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+        return null;
+    }
     private String geAllTransStatement(String tableName) {
         String sqlCommand = "SELECT * FROM " + tableName;
         return sqlCommand;
@@ -343,5 +368,10 @@ public class BalanceOperationRepository {
 
     protected static String getFindByReturnIdStatement() {
         return "SELECT * FROM ticket WHERE returnId = ?"  ;
+    }
+
+    protected String getMaxTicketNumberStatement() {
+        String sqlCommand = "SELECT MAX(ticketNumber) FROM sale";
+        return sqlCommand;
     }
 }
