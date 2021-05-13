@@ -82,6 +82,10 @@ data/*
 
 # Generated files
 .idea/**/contentModel.xml
+.idea/.gitignore
+.idea/jarRepositories.xml
+.idea/modules.xml
+
 
 # Sensitive or high-churn files
 .idea/**/dataSources/
@@ -148,3 +152,6 @@ fabric.properties
 
 # Sonarlint plugin
 .idea/sonarlint
+
+ezshop.iml
+

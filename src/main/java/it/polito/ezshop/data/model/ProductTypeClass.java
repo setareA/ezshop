@@ -26,6 +26,17 @@ public class ProductTypeClass implements ProductType {
 		this.discountRate = discountRate;
 		this.warning = warning;
 	}
+    
+    
+
+	@Override
+	public String toString() {
+		return "ProductTypeClass [id=" + id + ", quantity=" + quantity + ", location=" + location + ", note=" + note
+				+ ", productDescription=" + productDescription + ", barCode=" + barCode + ", pricePerUnit="
+				+ pricePerUnit + ", discountRate=" + discountRate + ", warning=" + warning + "]";
+	}
+
+
 
 	public Double getDiscountRate() {
         return this.discountRate;
@@ -119,4 +130,20 @@ public class ProductTypeClass implements ProductType {
         this.id = id;
 
     }
+
+	public static boolean checkValidityProductcode(String productCode) {
+		// TODO Auto-generated method stub
+		int  tmp = 0 ;
+		int j= 1;
+		for( j=1 ; j< productCode.length() ; j++ ) {
+			int a = Integer.parseInt(String.valueOf(productCode.toCharArray()[j-1])) ;
+			if(j%2==0) tmp +=  a*3;
+			else tmp += a;
+		}
+		int tmp1 = tmp/10;		
+		tmp1 = (tmp1+1)*10;
+		tmp = tmp1 -tmp;
+		if(Integer.parseInt(String.valueOf(productCode.toCharArray()[j-1])) == tmp) return true;
+		else return false;
+	}
 }

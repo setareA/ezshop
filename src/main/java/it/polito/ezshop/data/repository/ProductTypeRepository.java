@@ -7,30 +7,77 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 
+import it.polito.ezshop.data.ProductType;
 import it.polito.ezshop.data.model.ProductTypeClass;
 import it.polito.ezshop.data.model.UserClass;
 import it.polito.ezshop.data.util.HashGenerator;
 
 public class ProductTypeRepository {
     private static ProductTypeRepository ourInstance = new ProductTypeRepository();
+    private static int lastId = 0 ;
+    private static final String COLUMNS = "id, quantity, location, note, productDescription, barCode , pricePerUnit , discountRate , warning ";
 
-    public static ProductTypeRepository getInstance() {
+   
+	public static ProductTypeRepository getInstance() {
         return ourInstance;
     }
 
     private ProductTypeRepository() {
     }
-    
-    private static final String COLUMNS = "id, quantity, location, note, productDescription, barCode , pricePerUnit , discountRate , warning ";
+    // : TODO MODIFICARE : FAI UN GET CON IL BARCODE E VEDI SE RITORNA NULL            
+    public boolean checkUniqueBarcode(String barcode) {                                        
+    	if(!this.getAllProductType().isEmpty()) {
+            ArrayList<String> tmp = new ArrayList <String>();
+            this.getAllProductType().forEach((k) -> tmp.add(k.getBarCode()));
+            if(tmp.contains(barcode)) return false;
+            else return true ;
+    	}
+    	return true;
+    }
 
+    public  int getLastId() {
+ 		return lastId;
+ 	}
+
+ 	public  void setLastId(int lastId) {
+ 		this.lastId = lastId;
+ 	}
+ 	
     public void initialize() throws SQLException{
         Connection con = DBCPDBConnectionPool.getConnection();
         Statement st = con.createStatement();
         st.executeUpdate("CREATE TABLE IF NOT EXISTS " + "productType" + " " + "(id INTEGER PRIMARY KEY, quantity INTEGER , location TEXT, note TEXT, productDescription TEXT, barCode TEXT ,pricePerUnit DOUBLE , discountRate DOUBLE , warning TEXT)");
-        st.close();
+        if(!this.getAllProductType().isEmpty()) {
+        ArrayList<Integer> tmp = new ArrayList <Integer>();
+        this.getAllProductType().forEach((k) -> tmp.add(k.getId()));
+        this.lastId = Collections.max(tmp);
+        }
+        st.close();                                       
         con.close();
+    }
+    
+    private static String deleteCommand(String tableName, String columnName){
+    	//DELETE FROM user WHERE id = ?
+        String sqlCommand = "DELETE FROM " + tableName + " WHERE " + columnName + "= ?;";
+        return sqlCommand;
+    }
+    
+    public boolean deleteProductTypeFromDB(Integer id) throws SQLException {
+    	Connection con = DBCPDBConnectionPool.getConnection();
+    	System.out.println("deleting a product type");
+    	String sqlCommand = deleteCommand("productType","id");
+    	PreparedStatement prp = con.prepareStatement(sqlCommand);
+    	prp.setString(1, id.toString());
+        int count = prp.executeUpdate();
+        prp.close();
+        con.close();
+        System.out.println(count);
+        if(count == 0) return false;
+        return true ;
     }
     
     private static ArrayList<String> getAttrs(){
@@ -53,12 +100,12 @@ public class ProductTypeRepository {
             sqlCommand += attr + ",";
         sqlCommand = sqlCommand.substring(0, sqlCommand.length()-1);
         sqlCommand += ") VALUES(";
-        for(int i = 0; i < attributes.size(); i++)
+        for(int i = 0; i < attributes.size(); i++)                                                                          
             sqlCommand += "?,";
         sqlCommand = sqlCommand.substring(0, sqlCommand.length()-1);
         sqlCommand += ");";
         return sqlCommand;
-    }
+    }                                                                    
     
     public void addNewProductType(ProductTypeClass pt) throws SQLException{
 
@@ -88,12 +135,8 @@ public class ProductTypeRepository {
         con.close();
     }
     
-    protected String getFindStatement() {
-        return "SELECT " + COLUMNS +
-                " FROM productType" +
-                " WHERE id = ?";
-    }
-    
+                                                                                                                                                                             
+                                                                                                                                                                                                                                                                                                                                                                                                                   
     protected ProductTypeClass convertResultSetToDomainModel(ResultSet rs) throws SQLException {
         return new ProductTypeClass(Integer.parseInt(rs.getString(1)),
         		Integer.parseInt(rs.getString(2)), 
@@ -106,7 +149,7 @@ public class ProductTypeRepository {
         		Integer.parseInt(rs.getString(9))
         );
     }
-    
+                                                 
     private ArrayList<ProductTypeClass> loadAll(ResultSet rs) throws SQLException{
 
         ArrayList <ProductTypeClass> result = new ArrayList<>();
@@ -118,10 +161,64 @@ public class ProductTypeRepository {
     }
     
     private String getAllProductTypeStatement() {
-        String sqlCommand = "SELECT * FROM productType";
-        return sqlCommand;
+        return "SELECT * FROM productType";
     }
-
+    
+    protected static String getFindByBarCodeStatement() {
+        return "SELECT " + COLUMNS +
+                " FROM productType" +
+                " WHERE barCode = ?"  ;
+    }    
+    protected static String getFindByDescriptionStatement() {
+    	return "SELECT " + COLUMNS +
+                " FROM productType" +
+                " WHERE productDescription" +
+                " LIKE ?";
+    }    
+    
+    protected String getFindStatement() {
+        return "SELECT " + COLUMNS +
+                " FROM productType" +
+                " WHERE id = ?";
+    }  
+    
+    public ArrayList<ProductTypeClass> getProductTypebyDescription(String description)  {
+    	try {
+    	String sqlCommand = getFindByDescriptionStatement();
+    	Connection con = DBCPDBConnectionPool.getConnection();
+        PreparedStatement prps = con.prepareStatement(sqlCommand);
+        prps.setString(1, "%" + description + "%");
+        ResultSet rs = prps.executeQuery();
+        ArrayList<ProductTypeClass> u ;
+        u = loadAll(rs);
+        prps.close();
+        con.close();
+        return u;
+        }
+        catch (SQLException e) {
+        
+            return null;
+        }
+    }
+    
+    public ProductTypeClass getProductTypebyBarCode(String barcode)  {
+    	try {
+    	String sqlCommand = getFindByBarCodeStatement();
+    	Connection con = DBCPDBConnectionPool.getConnection();
+        PreparedStatement prps = con.prepareStatement(sqlCommand);
+        prps.setString(1, barcode);
+        ResultSet rs = prps.executeQuery();
+        rs.next();
+        ProductTypeClass u = convertResultSetToDomainModel(rs);
+        prps.close();
+        con.close();
+        return u;
+        }
+        catch (SQLException e) {
+        
+            return null;
+        }
+    }
     public ArrayList<ProductTypeClass> getAllProductType(){
         try {
             String sqlCommand = getAllProductTypeStatement();
@@ -137,5 +234,28 @@ public class ProductTypeRepository {
         }
         return null;
     }
+    
+    public boolean updateProductType (String id ,String nd, String nc, String np, String nn) throws SQLException{
+    	Connection con = DBCPDBConnectionPool.getConnection();
+    	System.out.println("updating product type");
+    	String sqlCommand = updateCommand("productType",new ArrayList<String>(Arrays.asList("id", "productDescription", "barCode", "pricePerUnit", "note")),new ArrayList<String>(Arrays.asList(id,nd,nc,np,nn)));
+    	PreparedStatement prp = con.prepareStatement(sqlCommand);
+    	int count = prp.executeUpdate();
+    	prp.close();
+        con.close();
+        if (count == 0) return false;
+        return true;
+    }
 
+	private String updateCommand(String tableName ,ArrayList<String> attributes, ArrayList<String> values) {
+		String sqlCommand = "UPDATE " + tableName + " SET ";
+		for(int i = 1 ; i < attributes.size() ; i++) {
+			sqlCommand += attributes.get(i) + " = " + "'" + values.get(i) + "'" ;
+			if(i+1 != attributes.size()) sqlCommand += " , ";
+		}
+		
+		sqlCommand += " WHERE " + attributes.get(0) + " = " + values.get(0) + ";";
+		return sqlCommand;
+	}
+                                                                 
 }

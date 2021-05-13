@@ -48,7 +48,6 @@ public class UserRepository {
         Statement st = con.createStatement();
         st.executeUpdate("CREATE TABLE IF NOT EXISTS " + "user" + " " + "(id INTEGER PRIMARY KEY, username TEXT NOT NULL UNIQUE, password TEXT, salt TEXT, role TEXT)");
         // We look for the highest ID in the database
-        nextId = ourInstance.getHighestId() + 1;
         st.close();
         con.close();
     }
@@ -93,6 +92,7 @@ public class UserRepository {
 
     public Integer addNewUser(UserClass user) throws SQLException{
 
+        nextId = ourInstance.getHighestId() + 1;
         HashMap<String, String> userData = new HashMap<>();
         userData.put("id",nextId.toString());
         userData.put("username", user.getUsername());
@@ -187,7 +187,7 @@ public class UserRepository {
         return result;
     }
 
-    public static UserClass getUserByUsername(String username)
+    public  static UserClass getUserByUsername(String username)
     {
     	try {
     		String sqlCommand = getFindByUsernameStatement();
