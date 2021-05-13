@@ -65,8 +65,9 @@ public class EZShop {
            }catch(Exception e){           
         	   e.printStackTrace();
            }
-           //UserRepository userRepository = UserRepository.getInstance();
-            // userRepository.addNewUser(new UserClass(100, "paserAmmeZaa", "abc", "", "clerk"));
+           UserRepository userRepository = UserRepository.getInstance();
+           userRepository.addNewUser(new UserClass(100, "bibi", "abc", "", "haha"));
+           userRepository.addNewUser(new UserClass(34,"nini","bacha","","hamekare"));
 
         } catch (SQLException e) {
             e.printStackTrace();

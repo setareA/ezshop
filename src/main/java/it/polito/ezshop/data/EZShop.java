@@ -16,6 +16,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 public class EZShop implements EZShopInterface {
@@ -289,6 +291,7 @@ public class EZShop implements EZShopInterface {
 
     @Override
     public List<Order> getAllOrders() throws UnauthorizedException {
+
         return null;
     }
 
@@ -334,6 +337,12 @@ public class EZShop implements EZShopInterface {
 
     @Override
     public Integer startSaleTransaction() throws UnauthorizedException {
+        if(checkIfAdministrator()  || checkIfManager()  || checkIfCashier()) {
+
+        }
+        else{
+            throw new UnauthorizedException();
+        }
         return null;
     }
 
