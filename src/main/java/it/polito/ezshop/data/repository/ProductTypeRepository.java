@@ -147,9 +147,9 @@ public class ProductTypeRepository {
                 rs.getString(4),
                 rs.getString(5),
                 rs.getString(6), 
-                Double.parseDouble(rs.getString(7)),
-                Double.parseDouble(rs.getString(8)), 
-        		Integer.parseInt(rs.getString(9))
+                rs.getDouble(7),
+                rs.getDouble(8),
+        		rs.getInt(9)
         );
     }
                                                  
