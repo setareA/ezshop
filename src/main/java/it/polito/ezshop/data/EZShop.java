@@ -5,7 +5,7 @@ import it.polito.ezshop.data.model.CustomerClass;
 
 import it.polito.ezshop.data.model.ProductTypeClass;
 import it.polito.ezshop.data.model.SaleTransactionClass;
-
+import it.polito.ezshop.data.model.TicketEntryClass;
 import it.polito.ezshop.data.model.UserClass;
 import it.polito.ezshop.data.repository.BalanceOperationRepository;
 import it.polito.ezshop.data.repository.CustomerRepository;
@@ -46,18 +46,26 @@ public class EZShop implements EZShopInterface {
     @Override
     public void reset() {
     	// @TODO: this must be done
-    }
+    } 
     
     public UserRepository getUserRepository() {
     	return userRepository;
     }
-    public CustomerRepository getCustomerRepository() {
-    	return customerRepository;
-    }
-    
-    // FR1
+       // FR1
 
-    @Override
+    public  CustomerRepository getCustomerRepository() {
+		return customerRepository;
+	}
+
+	public  ProductTypeRepository getProductTypeRepository() {
+		return productTypeRepository;
+	}
+
+	public  BalanceOperationRepository getBalanceOperationRepository() {
+		return balanceOperationRepository;
+	}
+
+	@Override
     public Integer createUser(String username, String password, String role) throws InvalidUsernameException, InvalidPasswordException, InvalidRoleException {
     	// Checks InvalidUsernameException: Username (empty or null)
     	if(username == null || username.equals("")) {
@@ -272,12 +280,30 @@ public class EZShop implements EZShopInterface {
 
     @Override
     public boolean updateQuantity(Integer productId, int toBeAdded) throws InvalidProductIdException, UnauthorizedException {
-        return false;
+      if(this.checkIfAdministrator() | this.checkIfManager()) {
+    	  if(productId < 1 | productId == null) throw new InvalidProductIdException();
+    	  else {
+    	try {
+			return productTypeRepository.updateQuantity(String.valueOf(productId), toBeAdded);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			return false;
+		}
+    	  }
+      }else { throw new UnauthorizedException();}
     }
 
     @Override
     public boolean updatePosition(Integer productId, String newPos) throws InvalidProductIdException, InvalidLocationException, UnauthorizedException {
-        return false;
+        
+    	if(this.checkIfAdministrator() | this.checkIfManager()) {
+      	  if(productId < 1 | productId == null) throw new InvalidProductIdException();
+      	   if(productTypeRepository.getProductTypebyLocation(newPos) == null) return false;
+      	    if (!checkLocation(newPos)) throw new InvalidLocationException();
+    		return productTypeRepository.updatePosition(String.valueOf(productId), newPos);
+       }else {
+       	throw new UnauthorizedException();
+       }
     }
 
     @Override
@@ -510,7 +536,7 @@ public class EZShop implements EZShopInterface {
     public Integer startSaleTransaction() throws UnauthorizedException {
         if(checkIfAdministrator()  || checkIfManager()  || checkIfCashier()) {
             try {
-                Logger.getLogger(EZShop.class.getName()).log(Level.SEVERE, String.valueOf(LocalDate.now()));
+                Logger.getLogger(EZShop.class.getName()).log(Level.INFO, String.valueOf(LocalDate.now()));
                 return balanceOperationRepository.addNewSale(new SaleTransactionClass(null,1,0,"open", LocalDate.now()));
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
@@ -524,12 +550,86 @@ public class EZShop implements EZShopInterface {
 
     @Override
     public boolean addProductToSale(Integer transactionId, String productCode, int amount) throws InvalidTransactionIdException, InvalidProductCodeException, InvalidQuantityException, UnauthorizedException {
+        if(checkIfAdministrator()  || checkIfManager()  || checkIfCashier()) {
+            if (transactionId == null || transactionId <= 0){
+                throw new InvalidTransactionIdException();
+            }
+            if (productCode == null || productCode.isEmpty() || !ProductTypeClass.checkValidityProductcode(productCode)){
+                Logger.getLogger(EZShop.class.getName()).log(Level.SEVERE, "productCode: "+ productCode);
+                throw new InvalidProductCodeException();
+            }
+            if (amount < 0){
+                throw new InvalidQuantityException();
+            }
+            SaleTransactionClass saleTransaction = balanceOperationRepository.getSalesByTicketNumber(transactionId);
+            if(saleTransaction == null || !"open".equals(saleTransaction.getState())) {
+                return false;
+            }
+            ProductTypeClass product = productTypeRepository.getProductTypebyBarCode(productCode);
+            if(product == null || product.getQuantity() < amount){
+                return false;
+            }
+            try {
+                balanceOperationRepository.addNewTicketEntry(new TicketEntryClass(1,productCode,product.getProductDescription(),
+                                                                amount, product.getPricePerUnit(), 1), transactionId, null);
+                productTypeRepository.updateQuantity(product.getId(), product.getQuantity() - amount);
+                return true;
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+
+        }
+        else{
+            throw new UnauthorizedException();
+        }
         return false;
     }
 
+    /**
+     * This method deletes a product from a sale transaction increasing the temporary amount of product available on the
+     * shelves for other customers.
+
+     */
     @Override
     public boolean deleteProductFromSale(Integer transactionId, String productCode, int amount) throws InvalidTransactionIdException, InvalidProductCodeException, InvalidQuantityException, UnauthorizedException {
-        return false;
+        if(checkIfAdministrator()  || checkIfManager()  || checkIfCashier()) {
+            if (transactionId == null || transactionId <= 0){
+                throw new InvalidTransactionIdException();
+            }
+            if (productCode == null || productCode.isEmpty() || !ProductTypeClass.checkValidityProductcode(productCode)){
+                throw new InvalidProductCodeException();
+            }
+            if (amount < 0){
+                throw new InvalidQuantityException();
+            }
+            SaleTransactionClass saleTransaction = balanceOperationRepository.getSalesByTicketNumber(transactionId);
+            if(saleTransaction == null || !"open".equals(saleTransaction.getState())) {
+                return false;
+            }
+            ProductTypeClass product = productTypeRepository.getProductTypebyBarCode(productCode);
+            if(product == null) {
+                return false;
+            }
+           TicketEntryClass ticketEntry = balanceOperationRepository.getTicketsByForeignKeyAndBarcode("saleId", transactionId,productCode);
+           if (ticketEntry == null)
+               return false;
+           if(ticketEntry.getAmount() < amount)
+               return false;
+           if (ticketEntry.getAmount() == amount){
+               boolean deleteTicket = balanceOperationRepository.deleteTicketEntry(ticketEntry.getId());
+           }
+           else {
+               balanceOperationRepository.updateTicketQuantity(ticketEntry.getId(), ticketEntry.getAmount() - amount);
+           }
+           productTypeRepository.updateQuantity(product.getId(), product.getQuantity() + amount);
+           return true;
+        //    }
+
+        }
+        else {
+            throw new UnauthorizedException();
+        }
+      //   return false;
     }
 
     @Override
@@ -647,6 +747,9 @@ public class EZShop implements EZShopInterface {
         } else {
         	return false;
         }
+    }
+    public boolean checkLocation(String location) {
+    	return location.matches("\\d+-\\p{Alpha}+-\\d+");
     }
     
     private static String createRandomInteger(int aStart, long aEnd, Random aRandom){

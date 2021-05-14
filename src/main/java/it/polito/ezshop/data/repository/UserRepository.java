@@ -1,5 +1,6 @@
 package it.polito.ezshop.data.repository;
 
+import it.polito.ezshop.data.EZShop;
 import it.polito.ezshop.data.User;
 import it.polito.ezshop.data.model.UserClass;
 import it.polito.ezshop.data.util.HashGenerator;
@@ -9,6 +10,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class UserRepository {
     private static UserRepository ourInstance = new UserRepository();
@@ -102,7 +105,7 @@ public class UserRepository {
 
         Connection con = DBCPDBConnectionPool.getConnection();
         ArrayList<String> attrs = getAttrs();
-        System.out.println("adding new user");
+        Logger.getLogger(EZShop.class.getName()).log(Level.INFO,"adding new user with username: "+user.getUsername());
         String sqlCommand = insertCommand("user", attrs);
         PreparedStatement prp = con.prepareStatement(sqlCommand);
         for (int j = 0; j < attrs.size(); j++) {
@@ -129,8 +132,8 @@ public class UserRepository {
     public boolean deleteUserFromDB(Integer id) throws SQLException {
     	// This method assumes that the id that you are passing is already checked
     	Connection con = DBCPDBConnectionPool.getConnection();
-    	System.out.println("deleting a user");
-    	String sqlCommand = deleteCommand("user","id");
+        Logger.getLogger(EZShop.class.getName()).log(Level.SEVERE,"deleting user with id: "+id);
+        String sqlCommand = deleteCommand("user","id");
     	PreparedStatement prp = con.prepareStatement(sqlCommand);
     	prp.setString(1, id.toString());
         int count = prp.executeUpdate();

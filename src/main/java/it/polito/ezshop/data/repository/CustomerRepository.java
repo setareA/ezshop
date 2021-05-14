@@ -173,10 +173,10 @@ public class CustomerRepository {
         }
         protected CustomerClass convertResultSetToDomainModel(ResultSet rs) throws SQLException {
             return new CustomerClass(
-                    Integer.parseInt(rs.getString(1)),
+                    rs.getInt(1),
                     rs.getString(2),
                     rs.getString(3),
-                    Integer.parseInt(rs.getString(4))
+                    rs.getInt(1)
             );
         }
 

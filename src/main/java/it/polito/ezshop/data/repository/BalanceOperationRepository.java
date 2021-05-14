@@ -9,7 +9,6 @@ import it.polito.ezshop.data.model.TicketEntryClass;
 
 
 import java.sql.*;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -92,10 +91,9 @@ public class BalanceOperationRepository {
         orderData.put("localDate",order.getLocalDate().toString());
         orderData.put("money", String.valueOf(order.getMoney()));
 
-
         Connection con = DBCPDBConnectionPool.getConnection();
         ArrayList<String> attrs = getAttrsOrder();
-        System.out.println("adding new order");
+        Logger.getLogger(EZShop.class.getName()).log(Level.INFO,"adding new order: "+ order.getOrderId());
         String sqlCommand = insertCommand("orderTable", attrs);
         PreparedStatement prp = con.prepareStatement(sqlCommand);
         for (int j = 0; j < attrs.size(); j++) {
@@ -121,7 +119,7 @@ public class BalanceOperationRepository {
 
         Connection con = DBCPDBConnectionPool.getConnection();
         ArrayList<String> attrs = getAttrsSale();
-        System.out.println("adding new sale");
+        Logger.getLogger(EZShop.class.getName()).log(Level.INFO,"adding new sale with saleId: "+ nextTicketNumber.toString());
         String sqlCommand = insertCommand("sale", attrs);
         PreparedStatement prp = con.prepareStatement(sqlCommand);
         for (int j = 0; j < attrs.size(); j++) {
@@ -182,6 +180,46 @@ public class BalanceOperationRepository {
         con.close();
     }
 
+    public boolean deleteTicketEntry(Integer id){
+        try {
+            String sqlCommand = getDeleteTicketStatement();
+            Connection con = DBCPDBConnectionPool.getConnection();
+            Logger.getLogger(EZShop.class.getName()).log(Level.SEVERE,"deleting ticket entry with id: "+id);
+            PreparedStatement prps = con.prepareStatement(sqlCommand);
+            prps.setString(1, String.valueOf(id));
+            int returnVal = prps.executeUpdate();
+            prps.close();
+            con.close();
+            return (returnVal == 1);
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public boolean updateTicketQuantity(Integer id, int quantity){
+        try {
+            String sqlCommand = getUpdateQuantityStatement();
+            Connection con = DBCPDBConnectionPool.getConnection();
+            PreparedStatement prps = con.prepareStatement(sqlCommand);
+            prps.setString(1, String.valueOf(quantity));
+            prps.setString(2, String.valueOf(id));
+            int returnVal = prps.executeUpdate();
+            prps.close();
+            con.close();
+            return (returnVal == 1);
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+        return false;
+    }
+    private String getUpdateQuantityStatement(){
+        return "UPDATE ticket SET amount = ? WHERE id = ?";
+    }
+    private String getDeleteTicketStatement() {
+        return "DELETE FROM ticket WHERE id= ?;";
+    }
+
     protected OrderClass convertResultSetOrderToDomainModel(ResultSet rs) throws SQLException {
         return new OrderClass(rs.getInt(1),
                 rs.getInt(2),
@@ -214,8 +252,9 @@ public class BalanceOperationRepository {
 
     // barcode, productDescription, amount, pricePerUnit, discountRate, saleId, returnId";
     protected TicketEntryClass convertResultSetTicketToDomainModel(ResultSet rs) throws SQLException {
-        return new TicketEntryClass(rs.getString(2),
-        rs.getString(3),
+        return new TicketEntryClass(rs.getInt(1),
+                rs.getString(2),
+                rs.getString(3),
                 rs.getInt(4),
                 rs.getDouble(5),
                 rs.getDouble(6)
@@ -325,6 +364,24 @@ public class BalanceOperationRepository {
         return null;
     }
 
+    public SaleTransactionClass getSalesByTicketNumber(Integer ticketNumber){
+        try {
+            String sqlCommand = getFindByTicketNumberStatement();
+            Connection con = DBCPDBConnectionPool.getConnection();
+            PreparedStatement prps = con.prepareStatement(sqlCommand);
+            prps.setString(1, String.valueOf(ticketNumber));
+            ResultSet rs = prps.executeQuery();
+            rs.next();
+            SaleTransactionClass s = convertResultSetSaleToDomainModel(rs);
+            prps.close();
+            con.close();
+            return s;
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     public ArrayList<TicketEntryClass> getTicketsByReturnId(Integer returnId){
         try {
             String sqlCommand = getFindByReturnIdStatement();
@@ -336,6 +393,24 @@ public class BalanceOperationRepository {
             prps.close();
             con.close();
             return tickets;
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public TicketEntryClass getTicketsByForeignKeyAndBarcode(String foreignKey,Integer key, String barcode){
+        try {
+            String sqlCommand = getFindByForeignKeyAndBarcodeStatement(foreignKey);
+            Connection con = DBCPDBConnectionPool.getConnection();
+            PreparedStatement prps = con.prepareStatement(sqlCommand);
+            prps.setString(1, String.valueOf(key));
+            ResultSet rs = prps.executeQuery();
+            rs.next();
+            TicketEntryClass ticket= convertResultSetTicketToDomainModel(rs);
+            prps.close();
+            con.close();
+            return ticket;
         }catch(SQLException e){
             e.printStackTrace();
         }
@@ -367,15 +442,28 @@ public class BalanceOperationRepository {
         String sqlCommand = "SELECT * FROM " + tableName;
         return sqlCommand;
     }
-    protected static String getFindBySaleIdStatement() {
+    private static String getFindBySaleIdStatement() {
         return "SELECT * FROM ticket WHERE saleId = ?"  ;
     }
 
-    protected static String getFindByReturnIdStatement() {
+    private static String getFindByReturnIdStatement() {
         return "SELECT * FROM ticket WHERE returnId = ?"  ;
     }
 
-    protected String getMaxTicketNumberStatement() {
+    private static String getFindByForeignKeyAndBarcodeStatement(String foreignKey) {
+        return "SELECT * FROM ticket WHERE "+foreignKey+" = ? AND barcode = ?"  ;
+    }
+
+
+    private static String getFindByTicketNumberStatement() {
+        return "SELECT * FROM sale WHERE ticketNumber = ?"  ;
+    }
+
+    private static String getDeleteRowStatement(String tableName, String columnName, String columnName2){
+        return "DELETE FROM " + tableName + " WHERE " + columnName + "= ? AND "+ columnName2 +"= ?;";
+    }
+
+    private String getMaxTicketNumberStatement() {
         String sqlCommand = "SELECT MAX(ticketNumber) FROM sale";
         return sqlCommand;
     }

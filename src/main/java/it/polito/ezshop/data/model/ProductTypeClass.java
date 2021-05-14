@@ -15,7 +15,7 @@ public class ProductTypeClass implements ProductType {
 
     public ProductTypeClass(Integer id, Integer quantity, String location, String note, String productDescription,
 			String barCode, Double pricePerUnit, Double discountRate, Integer warning) {
-		super();
+
 		this.id = id;
 		this.quantity = quantity;
 		this.location = location;
@@ -135,11 +135,15 @@ public class ProductTypeClass implements ProductType {
 		// TODO Auto-generated method stub
 		int  tmp = 0 ;
 		int j= 1;
+		if(productCode.length()<12 | productCode.length() >14) return false;
+		try {
 		for( j=1 ; j< productCode.length() ; j++ ) {
 			int a = Integer.parseInt(String.valueOf(productCode.toCharArray()[j-1])) ;
+			
 			if(j%2==0) tmp +=  a*3;
 			else tmp += a;
-		}
+		}}
+		catch (NumberFormatException e) { return false; }
 		int tmp1 = tmp/10;		
 		tmp1 = (tmp1+1)*10;
 		tmp = tmp1 -tmp;
