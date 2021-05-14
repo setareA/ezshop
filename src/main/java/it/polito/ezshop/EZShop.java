@@ -22,6 +22,8 @@ public class EZShop {
         try {                              
            EZShopInterface ezShop = new it.polito.ezshop.data.EZShop();
            EZShopGUI gui = new EZShopGUI(ezShop);
+           UserRepository userRepository = ((it.polito.ezshop.data.EZShop) ezShop).getUserRepository();
+           
 
            //ezShop.createUser("eugenio", "eugenio", "ShopManager");
     //       ezShop.login("eugenio", "eugenio");
@@ -35,6 +37,7 @@ public class EZShop {
          // if(!ezShop.deleteProductType(2)) System.out.println("Product type not deleted");
            //System.out.println(ezShop.getProductTypesByDescription("vecch").toString());
          //  System.out.println(ProductTypeClass.checkValidityProductcode("6291041500213"));
+
            
            
            
@@ -54,15 +57,35 @@ public class EZShop {
         	   //System.out.println(b);
         	   //User s = ezShop.getUser(1);
         	   //System.out.println(s);
+        	   //boolean a = ezShop.deleteUser(3);
+        	   
+        	   //int h = ezShop.createUser("Dani", "1234", "Administrator");
+        	   UserClass admin = new UserClass(1, "Dani","1234","1234", "Cashier");
+        	   userRepository.setLoggedUser(admin);
+        	   //Integer a = ezShop.defineCustomer("Juan");
+        	   
+        	   ezShop.defineCustomer("Whoever");
+        	   String card = ezShop.createCard();
+        	   System.out.println();
+        	   ezShop.attachCardToCustomer(card, 1);
+        	   ezShop.modifyPointsOnCard(card, 80);
+        	   ezShop.modifyPointsOnCard(card, -20);
+        	   ezShop.modifyPointsOnCard(card, -61);
+        	   //System.out.println(a);
         	//   boolean a = ezShop.deleteUser(3);
         	//   System.out.println(a);
+
         	   
         	   
            }catch(Exception e){           
         	   e.printStackTrace();
            }
-           UserRepository userRepository = UserRepository.getInstance();
+
+        //   UserRepository userRepository = UserRepository.getInstance();
        //    userRepository.addNewUser(new UserClass(1,"sisi","abc","","Administrator"));
+
+           userRepository.addNewUser(new UserClass(1,"sisi","abc","","Administrator"));
+
            ezShop.login("sisi", "abc");
         //   userRepository.addNewUser(new UserClass(100, "bibi", "abc", "", "haha"));
         //   userRepository.addNewUser(new UserClass(34,"nini","bacha","","hamekare"));
