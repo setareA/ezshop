@@ -15,7 +15,7 @@ public class ProductTypeClass implements ProductType {
 
     public ProductTypeClass(Integer id, Integer quantity, String location, String note, String productDescription,
 			String barCode, Double pricePerUnit, Double discountRate, Integer warning) {
-		super();
+
 		this.id = id;
 		this.quantity = quantity;
 		this.location = location;

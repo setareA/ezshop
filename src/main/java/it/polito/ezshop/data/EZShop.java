@@ -1,6 +1,11 @@
 package it.polito.ezshop.data;
 
+
+import it.polito.ezshop.data.model.CustomerClass;
+
 import it.polito.ezshop.data.model.ProductTypeClass;
+import it.polito.ezshop.data.model.SaleTransactionClass;
+import it.polito.ezshop.data.model.TicketEntryClass;
 import it.polito.ezshop.data.model.UserClass;
 import it.polito.ezshop.data.repository.BalanceOperationRepository;
 import it.polito.ezshop.data.repository.CustomerRepository;
@@ -9,13 +14,15 @@ import it.polito.ezshop.data.repository.UserRepository;
 import it.polito.ezshop.data.repository.ProductTypeRepository;
 import it.polito.ezshop.data.util.HashGenerator;
 import it.polito.ezshop.exceptions.*;
-
+import java.nio.charset.Charset;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
+import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 public class EZShop implements EZShopInterface {
@@ -44,6 +51,7 @@ public class EZShop implements EZShopInterface {
     public UserRepository getUserRepository() {
     	return userRepository;
     }
+       // FR1
 
     public  CustomerRepository getCustomerRepository() {
 		return customerRepository;
@@ -319,62 +327,302 @@ public class EZShop implements EZShopInterface {
 
     @Override
     public List<Order> getAllOrders() throws UnauthorizedException {
+
         return null;
     }
+    
+    // FR5
 
     @Override
     public Integer defineCustomer(String customerName) throws InvalidCustomerNameException, UnauthorizedException {
-        return null;
+    	// Check InvalidCustomerNameException (empty or null)
+    	if (customerName == null || ("".equals(customerName))) {
+    		throw new InvalidCustomerNameException();
+    	}
+    	// Check UnauthorizedException: check if there is a loggedUser and if its role is a "Administrator", "ShopManager" or "Cashier"
+    	if(userRepository.getLoggedUser() == null || !checkIfValidRole(userRepository.getLoggedUser().getRole())) {
+    		throw new UnauthorizedException();
+    	}
+    	
+    	// Creation of the customer that will be added to the Repository
+        CustomerClass newCustomer = new CustomerClass(1, customerName, null, 0);
+        try {
+        // Add the customer to the repository, assign it a unique id and throws an error
+        // if the customerName is not unique since, it is indicated in DB that customerName must be unique
+        return customerRepository.addNewCustomer(newCustomer);
+    	}catch (SQLException e) {
+            e.printStackTrace();
+            return -1;
+    	}
     }
 
     @Override
     public boolean modifyCustomer(Integer id, String newCustomerName, String newCustomerCard) throws InvalidCustomerNameException, InvalidCustomerCardException, InvalidCustomerIdException, UnauthorizedException {
-        return false;
+    	// Check InvalidCustomerIdException (id is null or id has an invalid value (<=0))
+    	if(id==null || id<=0) {
+    		throw new InvalidCustomerIdException();
+    	}
+    	// Check InvalidCustomerNameException: (empty or null) (NOT APPLICABLE SLACK QUESTION)
+    	
+    	// Check InvalidCustomerCardException: (empty, null or bad format(string with 10 digits))
+    	// the bad format is check in two steps : is it a string? and is the size equals to 10 digits?
+    	if (newCustomerCard == null || !(("").getClass().equals(newCustomerCard.getClass())) || ("").equals(newCustomerCard) || !(newCustomerCard.length()==10 || !onlyDigits(newCustomerCard,newCustomerCard.length())) ) {
+    		throw new InvalidCustomerCardException();
+    	}
+    	// Check UnauthorizedException: check if there is a loggedUser and if its role is a "Administrator", "ShopManager" or "Cashier"
+    	if(userRepository.getLoggedUser() == null || !checkIfValidRole(userRepository.getLoggedUser().getRole())) {
+    		throw new UnauthorizedException();
+    	}
+    	// Change the Role of the User in the DB (return True).
+    	// In case of an error during the change (return False).
+    	try {
+    		customerRepository.changeDataOfACustomer(id, newCustomerName, newCustomerCard);
+    		return true;
+    	}catch(SQLException e) {
+    		e.printStackTrace();
+    		return false;
+    	}
     }
 
     @Override
     public boolean deleteCustomer(Integer id) throws InvalidCustomerIdException, UnauthorizedException {
-        return false;
+    	// Check InvalidUserIdException (id is null or id has an invalid value (<=0))
+    	if(id==null || id<=0) {
+    		throw new InvalidCustomerIdException();
+    	}
+    	// Check UnauthorizedException: check if there is a loggedUser and if its role is a "Administrator", "ShopManager" or "Cashier"
+    	if(userRepository.getLoggedUser() == null || !checkIfValidRole(userRepository.getLoggedUser().getRole())) {
+    		throw new UnauthorizedException();
+    	}
+		// If the Customer can be added to the Database correctly, the method
+		// returns true
+		// If there is an error, the error is caught and false is returned
+    	try {
+    		return customerRepository.deleteCustomerFromDB(id);
+    	}catch(SQLException e){
+    		e.printStackTrace();
+    		return false;
+    	}
     }
 
     @Override
     public Customer getCustomer(Integer id) throws InvalidCustomerIdException, UnauthorizedException {
-        return null;
+    	// Check InvalidUserIdException (id is null or id has an invalid value (<=0))
+    	if(id==null || id<=0) {
+    		throw new InvalidCustomerIdException();
+    	}
+    	// Check UnauthorizedException: check if there is a loggedUser and if its role is a "Administrator", "ShopManager" or "Cashier"
+    	if(userRepository.getLoggedUser() == null || !checkIfValidRole(userRepository.getLoggedUser().getRole())) {
+    		throw new UnauthorizedException();
+    	}
+        // Return the user with the id passed as a parameter or null if it does not exist
+        return customerRepository.getCustomerById(id);
     }
 
     @Override
     public List<Customer> getAllCustomers() throws UnauthorizedException {
-        return null;
+    	// Check UnauthorizedException: check if there is a loggedUser and if its role is a "Administrator", "ShopManager" or "Cashier"
+    	if(userRepository.getLoggedUser() == null || !checkIfValidRole(userRepository.getLoggedUser().getRole())) {
+    		throw new UnauthorizedException();
+    	}
+        return customerRepository.getAllCustomers();
     }
 
     @Override
     public String createCard() throws UnauthorizedException {
-        return null;
+	// Check UnauthorizedException: check if there is a loggedUser and if its role is a "Administrator", "ShopManager" or "Cashier"
+	if(userRepository.getLoggedUser() == null || !checkIfValidRole(userRepository.getLoggedUser().getRole())) {
+		throw new UnauthorizedException();
+	}
+	
+	// Create a List of the CustomerCards that are already created to compare them agains the new one that will be
+	// created. This list avoids calling the DataBase everytime we have to check a new Random Value
+	
+	List<String> createdCardsList = customerRepository.getCustomerCardsList();
+	
+	// If the Database is unreachable, then the createdCardsList is null and we return an empty list
+	if(createdCardsList == null) {
+		return "";
+	}
+	
+	// Create a String and check if it is unique as many times as neccessary
+	String randomStringValue = createRandomInteger(0, 9999999999L,new Random());
+	while(createdCardsList.contains(randomStringValue)) {
+		randomStringValue = createRandomInteger(0, 9999999999L,new Random());
+	}
+	 return randomStringValue;
     }
 
     @Override
     public boolean attachCardToCustomer(String customerCard, Integer customerId) throws InvalidCustomerIdException, InvalidCustomerCardException, UnauthorizedException {
-        return false;
+    	// Check InvalidCustomerIdException (id is null or id has an invalid value (<=0))
+    	if(customerId==null || customerId<=0) {
+    		throw new InvalidCustomerIdException();
+    	}
+    	
+    	// Check InvalidCustomerCardException: (empty, null or bad format(string with 10 digits))
+    	// the bad format is check in two steps : is it a string? and is the size equals to 10 digits?
+    	if (customerCard == null || !(("").getClass().equals(customerCard.getClass())) || ("").equals(customerCard) || !(customerCard.length()==10 || !onlyDigits(customerCard,customerCard.length())) ) {
+    		throw new InvalidCustomerCardException();
+    	}
+    	// Check UnauthorizedException: check if there is a loggedUser and if its role is a "Administrator", "ShopManager" or "Cashier"
+    	if(userRepository.getLoggedUser() == null || !checkIfValidRole(userRepository.getLoggedUser().getRole())) {
+    		throw new UnauthorizedException();
+    	}
+    	
+    	
+    	// Change the CustomerCard of the User in the DB (return True).
+    	// In case of card already assigned, no customer with given id or error during the change (return False).
+    	
+    	// First we check if the card is already assigned to a Customer
+    	List<String> createdCardsList = customerRepository.getCustomerCardsList();
+    	
+    	// If the Database is unreachable, then the createdCardsList is null and we return an empty list
+    	if(createdCardsList == null) {
+    		return false;
+    	}
+    	
+    	if(createdCardsList.contains(customerCard)) {
+    		return false;
+    	}
+    	
+    	// Second we check if there is a customer with this id 
+    	
+    	// QUESTION: I DO NOT IF I SHOULD CHECK THIS, BC IF THERE IS NO CUSTOMER WITH customerId, nothing changes
+    	// but I do not know how to detect that nothing has changed and then return false
+    	
+    	
+    	if(customerRepository.getCustomerById(customerId)==null) {
+    		return false;
+    	}
+    	
+    	// Third, we try to assign the CustomerCard and in case of error, we return false
+    	
+    	try {
+    		return customerRepository.AssignCustomerCard(customerId, customerCard);
+    	}catch(SQLException e) {
+    		e.printStackTrace();
+    		return false;
+    	}
     }
 
     @Override
     public boolean modifyPointsOnCard(String customerCard, int pointsToBeAdded) throws InvalidCustomerCardException, UnauthorizedException {
-        return false;
+    	// Check InvalidCustomerCardException: (empty, null or bad format(string with 10 digits))
+    	// the bad format is check in two steps : is it a string? and is the size equals to 10 digits?
+    	if (customerCard == null || !(("").getClass().equals(customerCard.getClass())) || ("").equals(customerCard) || !(customerCard.length()==10 || !onlyDigits(customerCard,customerCard.length())) ) {
+    		throw new InvalidCustomerCardException();
+    	}
+    	
+    	// Check UnauthorizedException: check if there is a loggedUser and if its role is a "Administrator", "ShopManager" or "Cashier"
+    	if(userRepository.getLoggedUser() == null || !checkIfValidRole(userRepository.getLoggedUser().getRole())) {
+    		throw new UnauthorizedException();
+    	}
+    	
+    	// Change the Number of points of the Customer in the DB (return True).
+    	// In case of an error during the change (return False).
+    	try {
+    		customerRepository.changePointsOfACustomer(customerCard, pointsToBeAdded);
+    		return true;
+    	}catch(SQLException e) {
+    		e.printStackTrace();
+    		return false;
+    	}
+    	
     }
 
     @Override
     public Integer startSaleTransaction() throws UnauthorizedException {
+        if(checkIfAdministrator()  || checkIfManager()  || checkIfCashier()) {
+            try {
+                Logger.getLogger(EZShop.class.getName()).log(Level.INFO, String.valueOf(LocalDate.now()));
+                return balanceOperationRepository.addNewSale(new SaleTransactionClass(null,1,0,"open", LocalDate.now()));
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+        }
+        else{
+            throw new UnauthorizedException();
+        }
         return null;
     }
 
     @Override
     public boolean addProductToSale(Integer transactionId, String productCode, int amount) throws InvalidTransactionIdException, InvalidProductCodeException, InvalidQuantityException, UnauthorizedException {
+        if(checkIfAdministrator()  || checkIfManager()  || checkIfCashier()) {
+            if (transactionId == null || transactionId <= 0){
+                throw new InvalidTransactionIdException();
+            }
+            if (productCode == null || productCode.isEmpty() || !ProductTypeClass.checkValidityProductcode(productCode)){
+                Logger.getLogger(EZShop.class.getName()).log(Level.SEVERE, "productCode: "+ productCode);
+                throw new InvalidProductCodeException();
+            }
+            if (amount < 0){
+                throw new InvalidQuantityException();
+            }
+            SaleTransactionClass saleTransaction = balanceOperationRepository.getSalesByTicketNumber(transactionId);
+            if(saleTransaction == null || !"open".equals(saleTransaction.getState())) {
+                return false;
+            }
+            ProductTypeClass product = productTypeRepository.getProductTypebyBarCode(productCode);
+            if(product == null || product.getQuantity() < amount){
+                return false;
+            }
+            try {
+                balanceOperationRepository.addNewTicketEntry(new TicketEntryClass(productCode,product.getProductDescription(),
+                                                                amount, product.getPricePerUnit(), 1), transactionId, null);
+                productTypeRepository.updateQuantity(product.getId(), product.getQuantity() - amount);
+                return true;
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+
+        }
+        else{
+            throw new UnauthorizedException();
+        }
         return false;
     }
 
+    /**
+     * This method deletes a product from a sale transaction increasing the temporary amount of product available on the
+     * shelves for other customers.
+
+     */
     @Override
     public boolean deleteProductFromSale(Integer transactionId, String productCode, int amount) throws InvalidTransactionIdException, InvalidProductCodeException, InvalidQuantityException, UnauthorizedException {
-        return false;
+        if(checkIfAdministrator()  || checkIfManager()  || checkIfCashier()) {
+            if (transactionId == null || transactionId <= 0){
+                throw new InvalidTransactionIdException();
+            }
+            if (productCode == null || productCode.isEmpty() || !ProductTypeClass.checkValidityProductcode(productCode)){
+                throw new InvalidProductCodeException();
+            }
+            if (amount < 0){
+                throw new InvalidQuantityException();
+            }
+            SaleTransactionClass saleTransaction = balanceOperationRepository.getSalesByTicketNumber(transactionId);
+            if(saleTransaction == null || !"open".equals(saleTransaction.getState())) {
+                return false;
+            }
+            ProductTypeClass product = productTypeRepository.getProductTypebyBarCode(productCode);
+            if(product == null) {
+                return false;
+            }
+           // TicketEntry ticketEntry = balanceOperationRepository.getTicketsBySaleId(transactionId).stream().reduce();
+            // todo: check quantity
+        //    if(ticketEntry.getAmount() < amount)
+       //     boolean ticketExist = balanceOperationRepository.deleteTicketEntry(transactionId, productCode);
+       //     if(ticketExist){
+                productTypeRepository.updateQuantity(product.getId(), product.getQuantity() + amount);
+                return true;
+        //    }
+
+        }
+        else {
+            throw new UnauthorizedException();
+        }
+      //   return false;
     }
 
     @Override
@@ -495,6 +743,50 @@ public class EZShop implements EZShopInterface {
     }
     public boolean checkLocation(String location) {
     	return location.matches("\\d+-\\p{Alpha}+-\\d+");
+    }
+    
+    private static String createRandomInteger(int aStart, long aEnd, Random aRandom){
+        if ( aStart > aEnd ) {
+          throw new IllegalArgumentException("Start cannot exceed End.");
+        }
+        //get the range, casting to long to avoid overflow problems
+        long range = aEnd - (long)aStart + 1;
+       
+        // compute a fraction of the range, 0 <= frac < range
+        long fraction = (long)(range * aRandom.nextDouble());
+        
+        long randomValue = (fraction + (long)aStart); 
+        int lengthRandom = String.valueOf(randomValue).length();
+        String randomValueString = Long.toString(randomValue);
+        String zeros = "0000000000";
+        if(lengthRandom<10){
+        	randomValueString = zeros.substring(0, 10 - lengthRandom)+randomValueString;
+        }
+        return randomValueString;
+        
+
+      }
+    
+    public static boolean
+    onlyDigits(String str, int n)
+    {
+        // Traverse the string from
+        // start to end
+        for (int i = 0; i < n; i++) {
+  
+            // Check if character is
+            // digit from 0-9
+            // then return true
+            // else false
+            if (str.charAt(i) >= '0'
+                && str.charAt(i) <= '9') {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+        return false;
     }
 
 }

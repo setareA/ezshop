@@ -1,6 +1,8 @@
 package it.polito.ezshop.data.repository;
 
 
+import com.oracle.tools.packager.Log;
+import it.polito.ezshop.data.EZShop;
 import it.polito.ezshop.data.model.OrderClass;
 import it.polito.ezshop.data.model.ReturnTransactionClass;
 import it.polito.ezshop.data.model.SaleTransactionClass;
@@ -12,6 +14,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class BalanceOperationRepository {
     private static BalanceOperationRepository ourInstance = new BalanceOperationRepository();
@@ -23,17 +27,18 @@ public class BalanceOperationRepository {
     private BalanceOperationRepository() {
     }
 
+    private static Integer nextTicketNumber = 0;
     private static final String COLUMNS_ORDER = "orderId, balanceId, productCode, pricePerUnit, quantity, status, localDate, money";
-    private static final String COLUMNS_SALE = "ticketNumber, discountRate, price, state, LocalDate";
-    private static final String COLUMNS_RETURN = "returnId, localDate, price, state";
+    private static final String COLUMNS_SALE = "ticketNumber, discountRate, price, status, LocalDate";
+    private static final String COLUMNS_RETURN = "returnId, localDate, price, status";
     private static final String COLUMNS_TICKET_ENTRY = "id, barcode, productDescription, amount, pricePerUnit, discountRate, saleId, returnId";
 
     public void initialize() throws SQLException {
         Connection con = DBCPDBConnectionPool.getConnection();
         Statement st = con.createStatement();
-        st.executeUpdate("CREATE TABLE IF NOT EXISTS " + "orderTable" + " " + "(balanceId INTEGER PRIMARY KEY, localDate DATE, money DOUBLE, type TEXT, productCode TEXT, pricePerUnit DOUBLE, quantity INTEGER, status TEXT, orderId INTEGER)");
-        st.executeUpdate("CREATE TABLE IF NOT EXISTS " + "sale" + " " + "(ticketNumber INTEGER PRIMARY KEY, discountRate DOUBLE, price DOUBLE, state TEXT, LocalDate DATE)");
-        st.executeUpdate("CREATE TABLE IF NOT EXISTS " + "returnTable" + " " + "(returnId INTEGER PRIMARY KEY, localDate DATE, price DOUBLE, state TEXT)");
+        st.executeUpdate("CREATE TABLE IF NOT EXISTS " + "orderTable" + " " + "(balanceId INTEGER PRIMARY KEY, localDate TEXT, money DOUBLE, type TEXT, productCode TEXT, pricePerUnit DOUBLE, quantity INTEGER, status TEXT, orderId INTEGER)");
+        st.executeUpdate("CREATE TABLE IF NOT EXISTS " + "sale" + " " + "(ticketNumber INTEGER PRIMARY KEY, discountRate DOUBLE, price DOUBLE, status TEXT, localDate TEXT)");
+        st.executeUpdate("CREATE TABLE IF NOT EXISTS " + "returnTable" + " " + "(returnId INTEGER PRIMARY KEY, localDate TEXT, price DOUBLE, status TEXT)");
         st.executeUpdate("CREATE TABLE IF NOT EXISTS " + "ticket" + " " + "(id INTEGER PRIMARY KEY AUTOINCREMENT, barcode TEXT, productDescription TEXT, amount INTEGER , pricePerUnit DOUBLE, discountRate DOUBLE, saleId INTEGER, returnId INTEGER, FOREIGN KEY (saleId) references sale(balanceId), FOREIGN KEY (returnId) references returnTable(returnId))");
 
         st.close();
@@ -48,12 +53,12 @@ public class BalanceOperationRepository {
     }
     private static ArrayList<String> getAttrsSale(){
         ArrayList<String> attrs = new ArrayList<>(
-                Arrays.asList("ticketNumber", "discountRate", "price", "state", "localDate"));
+                Arrays.asList("ticketNumber", "discountRate", "price", "status", "localDate"));
         return attrs;
     }
     private static ArrayList<String> getAttrsReturn(){
         ArrayList<String> attrs = new ArrayList<>(
-                Arrays.asList( "returnId", "localDate", "price", "state"));
+                Arrays.asList( "returnId", "localDate", "price", "status"));
         return attrs;
     }
     private static ArrayList<String> getAttrsTicket(){
@@ -103,17 +108,21 @@ public class BalanceOperationRepository {
         con.close();
     }
 
-    public void addNewSale(SaleTransactionClass sale) throws SQLException{
+    public Integer addNewSale(SaleTransactionClass sale) throws SQLException{
 
+        nextTicketNumber = ourInstance.getHighestTicketNumber() + 1;
         HashMap<String, String> saleData = new HashMap<>();
-        saleData.put("ticketNumber", String.valueOf(sale.getTicketNumber()));
+        saleData.put("ticketNumber", nextTicketNumber.toString());
         saleData.put("discountRate", String.valueOf(sale.getDiscountRate()));
         saleData.put("price", String.valueOf(sale.getPrice()));
+        saleData.put("status", sale.getState());
+        saleData.put("localDate", sale.getDate().toString());
 
+        Logger.getLogger(EZShop.class.getName()).log(Level.SEVERE, String.valueOf(sale.getDate()));
 
         Connection con = DBCPDBConnectionPool.getConnection();
         ArrayList<String> attrs = getAttrsSale();
-        System.out.println("adding new sale");
+        Logger.getLogger(EZShop.class.getName()).log(Level.INFO,"adding new sale with saleId: "+ nextTicketNumber.toString());
         String sqlCommand = insertCommand("sale", attrs);
         PreparedStatement prp = con.prepareStatement(sqlCommand);
         for (int j = 0; j < attrs.size(); j++) {
@@ -122,6 +131,7 @@ public class BalanceOperationRepository {
         prp.executeUpdate();
         prp.close();
         con.close();
+        return nextTicketNumber;
     }
 
     public void addNewReturn(ReturnTransactionClass returnTransaction) throws SQLException{
@@ -130,7 +140,7 @@ public class BalanceOperationRepository {
         returnData.put("returnId", returnTransaction.getReturnId().toString());
         returnData.put("localDate", returnTransaction.getDate().toString() );
         returnData.put("price", Double.toString(returnTransaction.getPrice()));
-        returnData.put("state", returnTransaction.getState());
+        returnData.put("status", returnTransaction.getState());
 
         Connection con = DBCPDBConnectionPool.getConnection();
         ArrayList<String> attrs = getAttrsReturn();
@@ -171,6 +181,28 @@ public class BalanceOperationRepository {
         prp.executeUpdate();
         prp.close();
         con.close();
+    }
+
+    public boolean deleteTicketEntry(Integer saleId, String barcode){
+        try {
+            String sqlCommand = getDeleteRowStatement("ticket", "saleId", "barcode");
+            Connection con = DBCPDBConnectionPool.getConnection();
+            Logger.getLogger(EZShop.class.getName()).log(Level.SEVERE,"deleting ticket entry with saleId: "+saleId+" barcode: "+barcode);
+            PreparedStatement prps = con.prepareStatement(sqlCommand);
+            prps.setString(1, String.valueOf(saleId));
+            prps.setString(2, barcode);
+            int returnVal = prps.executeUpdate();
+            prps.close();
+            con.close();
+            return (returnVal == 1);
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    private String getDeleteTicketStatement() {
+        return "DELETE FROM ticket WHERE saleId= ? AND barcode= ?;";
     }
 
     protected OrderClass convertResultSetOrderToDomainModel(ResultSet rs) throws SQLException {
@@ -316,6 +348,24 @@ public class BalanceOperationRepository {
         return null;
     }
 
+    public SaleTransactionClass getSalesByTicketNumber(Integer ticketNumber){
+        try {
+            String sqlCommand = getFindByTicketNumberStatement();
+            Connection con = DBCPDBConnectionPool.getConnection();
+            PreparedStatement prps = con.prepareStatement(sqlCommand);
+            prps.setString(1, String.valueOf(ticketNumber));
+            ResultSet rs = prps.executeQuery();
+            rs.next();
+            SaleTransactionClass s = convertResultSetSaleToDomainModel(rs);
+            prps.close();
+            con.close();
+            return s;
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     public ArrayList<TicketEntryClass> getTicketsByReturnId(Integer returnId){
         try {
             String sqlCommand = getFindByReturnIdStatement();
@@ -333,15 +383,49 @@ public class BalanceOperationRepository {
         return null;
     }
 
+
+    public Integer getHighestTicketNumber(){
+        try {
+            String sqlCommand = getMaxTicketNumberStatement();
+            Connection con = DBCPDBConnectionPool.getConnection();
+            PreparedStatement prps = con.prepareStatement(sqlCommand);
+            ResultSet rs = prps.executeQuery();
+            rs.next();
+            Integer highestId = rs.getInt(1);
+            prps.close();
+            con.close();
+            if (highestId != null) {
+                return highestId;
+            } else {
+                return 0;
+            }
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+        return null;
+    }
     private String geAllTransStatement(String tableName) {
         String sqlCommand = "SELECT * FROM " + tableName;
         return sqlCommand;
     }
-    protected static String getFindBySaleIdStatement() {
+    private static String getFindBySaleIdStatement() {
         return "SELECT * FROM ticket WHERE saleId = ?"  ;
     }
 
-    protected static String getFindByReturnIdStatement() {
+    private static String getFindByReturnIdStatement() {
         return "SELECT * FROM ticket WHERE returnId = ?"  ;
+    }
+
+    private static String getFindByTicketNumberStatement() {
+        return "SELECT * FROM sale WHERE ticketNumber = ?"  ;
+    }
+
+    private static String getDeleteRowStatement(String tableName, String columnName, String columnName2){
+        return "DELETE FROM " + tableName + " WHERE " + columnName + "= ? AND "+ columnName2 +"= ?;";
+    }
+
+    private String getMaxTicketNumberStatement() {
+        String sqlCommand = "SELECT MAX(ticketNumber) FROM sale";
+        return sqlCommand;
     }
 }
