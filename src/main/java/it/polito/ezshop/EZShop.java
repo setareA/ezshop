@@ -32,6 +32,8 @@ public class EZShop {
            //System.out.print(ezShop.createProductType("pani", "1235" ,1.0, "prova1"));
           //System.out.print(ezShop.createProductType("oro", "1237" ,1.0, "prova1"));
           //System.out.print(ezShop.createProductType("vino", "1239" ,1.0, "prova1"));
+          System.out.println( ProductTypeClass.checkValidityProductcode("8010333000952"));
+          System.out.println( ProductTypeClass.checkValidityProductcode("8020834501216"));
 
 
            
@@ -42,7 +44,7 @@ public class EZShop {
            
            
            // FR1: TEST
-           try {
+         //  try {
         	   //int h = ezShop.createUser("kkhjk", "1234", "Administrator");
         	   //int b = ezShop.createUser("adios", "1234", "Administrator");
         	   //System.out.println(a);
@@ -56,17 +58,17 @@ public class EZShop {
         	   //boolean a = ezShop.deleteUser(3);
         	   
         	   //int h = ezShop.createUser("Dani", "1234", "Administrator");
-        	   UserClass admin = new UserClass(1, "Dani","1234","1234", "Cashier");
-        	   userRepository.setLoggedUser(admin);
+        	  // UserClass admin = new UserClass(1, "Dani","1234","1234", "Cashier");
+        	  // userRepository.setLoggedUser(admin);
         	   //Integer a = ezShop.defineCustomer("Juan");
         	   
-        	   ezShop.defineCustomer("Whoever");
-        	   String card = ezShop.createCard();
-        	   System.out.println();
-        	   ezShop.attachCardToCustomer(card, 1);
-        	   ezShop.modifyPointsOnCard(card, 80);
-        	   ezShop.modifyPointsOnCard(card, -20);
-        	   ezShop.modifyPointsOnCard(card, -61);
+        	  // ezShop.defineCustomer("Whoever");
+        	 //  String card = ezShop.createCard();
+        	//   System.out.println();
+        	//   ezShop.attachCardToCustomer(card, 1);
+        	//   ezShop.modifyPointsOnCard(card, 80);
+        	//   ezShop.modifyPointsOnCard(card, -20);
+        	//   ezShop.modifyPointsOnCard(card, -61);
         	   //System.out.println(a);
         	//   boolean a = ezShop.deleteUser(3);
         	//   System.out.println(a);
@@ -80,31 +82,21 @@ public class EZShop {
         //   UserRepository userRepository = UserRepository.getInstance();
        //    userRepository.addNewUser(new UserClass(1,"sisi","abc","","Administrator"));
 
-           userRepository.addNewUser(new UserClass(1,"sisi","abc","","Administrator"));
+          // userRepository.addNewUser(new UserClass(1,"sisi","abc","","Administrator"));
 
-           ezShop.login("sisi", "abc");
+         //  ezShop.login("sisi", "abc");
         //   userRepository.addNewUser(new UserClass(100, "bibi", "abc", "", "haha"));
         //   userRepository.addNewUser(new UserClass(34,"nini","bacha","","hamekare"));
 
-            Integer saleId = ezShop.startSaleTransaction();
-            Logger.getLogger(EZShop.class.getName()).log(Level.INFO,"saleId: "+saleId);
+          //  Integer saleId = ezShop.startSaleTransaction();
+           // Logger.getLogger(EZShop.class.getName()).log(Level.INFO,"saleId: "+saleId);
         //    ezShop.addProductToSale(saleId,"629104150021",10);
         //      ezShop.deleteProductFromSale(3,"629104150021",10);
          //   Integer saleId2 = ezShop.startSaleTransaction();
          //   Logger.getLogger(EZShop.class.getName()).log(Level.SEVERE,"saleId2: "+saleId2);
 
 
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (InvalidUsernameException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (InvalidPasswordException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (UnauthorizedException e) {
-            e.printStackTrace();
-        }
+      
 
     }
 
