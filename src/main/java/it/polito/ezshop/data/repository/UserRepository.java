@@ -139,16 +139,17 @@ public class UserRepository {
         return count>0;
     }
     
-    public void changeRoleOfAUser(Integer id, String role) throws SQLException {
+    public boolean changeRoleOfAUser(Integer id, String role) throws SQLException {
     	// This method assumes that the id that you are passing is already checked
     	// This method assumes that the role that you are passing is already checked
     	Connection con = DBCPDBConnectionPool.getConnection();
     	System.out.println("updating role of a user");
     	String sqlCommand = updateCommand("user","role",role,"id", id.toString());
     	PreparedStatement prp = con.prepareStatement(sqlCommand);
-        prp.executeUpdate();
+        Integer count = prp.executeUpdate();
         prp.close();
-        con.close();;
+        con.close();
+        return count>0;
     }
     
     protected String getFindStatement() {
@@ -235,11 +236,11 @@ public class UserRepository {
             List<User> users = loadAll(rs);
             prps.close();
             con.close();
-            return users;
+            return users; 
         }catch(SQLException e){
             e.printStackTrace();
+            return new ArrayList<User>();
         }
-        return null;
     }
 
     public Integer getHighestId(){

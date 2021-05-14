@@ -25,7 +25,7 @@ public class EZShop {
 
     public static void main(String[] args){
      
-                                                                                                                                                                                                                                                                         
+                                                                                                                                                                                                                                                                          
         try {                              
            EZShopInterface ezShop = new it.polito.ezshop.data.EZShop();
            EZShopGUI gui = new EZShopGUI(ezShop);
@@ -75,7 +75,7 @@ public class EZShop {
         	   String card = ezShop.createCard();
         	   System.out.println();
         	   ezShop.attachCardToCustomer(card, 1);
-        	   ezShop.modifyPointsOnCard(card, 80);
+        	   ezShop.modifyPointsOnCard(card, 80); 
         	   ezShop.modifyPointsOnCard(card, -20);
         	   ezShop.modifyPointsOnCard(card, -61);
         	   //System.out.println(a);

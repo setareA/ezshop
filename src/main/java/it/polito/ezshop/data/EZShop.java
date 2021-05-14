@@ -69,7 +69,7 @@ public class EZShop implements EZShopInterface {
     	}
     	// Checks InvalidRoleException: Role (empty, null or not one of the values of the list below)
     	if(!checkIfValidRole(role)) {
-    		throw new InvalidRoleException();
+    		throw new InvalidRoleException(); 
     	}
     	
     	// Creation of the user that will be added to the Repository
@@ -96,7 +96,7 @@ public class EZShop implements EZShopInterface {
         if(!checkIfAdministrator()) {
     		throw new UnauthorizedException();
     	}
-		// If the User can be added to the Database correctly, the method
+		// If the User can be deleted from the Database correctly, the method
 		// returns true
 		// If there is an error, the error is caught and false is returned
     	try {
@@ -127,7 +127,7 @@ public class EZShop implements EZShopInterface {
     		throw new UnauthorizedException();
     	}
         // Return the user with the id passed as a parameter or null if it does not exist
-        return userRepository.getUserById(id);
+        return userRepository.getUserById(id); 
     }
 
     @Override
@@ -146,9 +146,9 @@ public class EZShop implements EZShopInterface {
     	}
     	// Change the Role of the User in the DB (return True).
     	// In case of an error during the change (return False).
+    	// In case the user does not exist return false
     	try {
-    		userRepository.changeRoleOfAUser(id, role);
-    		return true;
+    		return userRepository.changeRoleOfAUser(id, role);
     	}catch(SQLException e) {
     		e.printStackTrace();
     		return false;
@@ -181,6 +181,7 @@ public class EZShop implements EZShopInterface {
                                                                                             
      @Override
     public boolean logout() {
+    	 userRepository.setLoggedUser(null);
         return false;                                   
     }
 
