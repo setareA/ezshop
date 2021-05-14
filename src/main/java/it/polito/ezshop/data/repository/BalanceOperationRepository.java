@@ -122,7 +122,7 @@ public class BalanceOperationRepository {
 
         Connection con = DBCPDBConnectionPool.getConnection();
         ArrayList<String> attrs = getAttrsSale();
-        System.out.println("adding new sale");
+        Logger.getLogger(EZShop.class.getName()).log(Level.INFO,"adding new sale with saleId: "+ nextTicketNumber.toString());
         String sqlCommand = insertCommand("sale", attrs);
         PreparedStatement prp = con.prepareStatement(sqlCommand);
         for (int j = 0; j < attrs.size(); j++) {

@@ -338,7 +338,7 @@ public class EZShop implements EZShopInterface {
     public Integer startSaleTransaction() throws UnauthorizedException {
         if(checkIfAdministrator()  || checkIfManager()  || checkIfCashier()) {
             try {
-                Logger.getLogger(EZShop.class.getName()).log(Level.SEVERE, String.valueOf(LocalDate.now()));
+                Logger.getLogger(EZShop.class.getName()).log(Level.INFO, String.valueOf(LocalDate.now()));
                 return balanceOperationRepository.addNewSale(new SaleTransactionClass(null,1,0,"open", LocalDate.now()));
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
@@ -356,7 +356,8 @@ public class EZShop implements EZShopInterface {
             if (transactionId == null || transactionId <= 0){
                 throw new InvalidTransactionIdException();
             }
-                if (productCode == null || productCode.isEmpty() || !ProductTypeClass.checkValidityProductcode(productCode)){
+            if (productCode == null || productCode.isEmpty() || !ProductTypeClass.checkValidityProductcode(productCode)){
+                Logger.getLogger(EZShop.class.getName()).log(Level.SEVERE, "productCode: "+ productCode);
                 throw new InvalidProductCodeException();
             }
             if (amount < 0){
@@ -408,20 +409,23 @@ public class EZShop implements EZShopInterface {
                 return false;
             }
             ProductTypeClass product = productTypeRepository.getProductTypebyBarCode(productCode);
-            if(product == null){
+            if(product == null) {
                 return false;
             }
-            boolean ticketExist = balanceOperationRepository.deleteTicketEntry(transactionId, productCode);
-            if(ticketExist){
+           // TicketEntry ticketEntry = balanceOperationRepository.getTicketsBySaleId(transactionId).stream().reduce();
+            // todo: check quantity
+        //    if(ticketEntry.getAmount() < amount)
+       //     boolean ticketExist = balanceOperationRepository.deleteTicketEntry(transactionId, productCode);
+       //     if(ticketExist){
                 productTypeRepository.updateQuantity(product.getId(), product.getQuantity() + amount);
                 return true;
-            }
+        //    }
 
         }
         else {
             throw new UnauthorizedException();
         }
-        return false;
+      //   return false;
     }
 
     @Override

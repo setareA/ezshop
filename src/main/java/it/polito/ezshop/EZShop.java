@@ -5,14 +5,7 @@ import it.polito.ezshop.data.User;
 import it.polito.ezshop.data.model.ProductTypeClass;
 import it.polito.ezshop.data.model.UserClass;
 import it.polito.ezshop.data.repository.UserRepository;
-import it.polito.ezshop.exceptions.InvalidPasswordException;
-import it.polito.ezshop.exceptions.InvalidPricePerUnitException;
-import it.polito.ezshop.exceptions.InvalidProductCodeException;
-import it.polito.ezshop.exceptions.InvalidProductDescriptionException;
-import it.polito.ezshop.exceptions.InvalidProductIdException;
-import it.polito.ezshop.exceptions.InvalidRoleException;
-import it.polito.ezshop.exceptions.InvalidUsernameException;
-import it.polito.ezshop.exceptions.UnauthorizedException;
+import it.polito.ezshop.exceptions.*;
 import it.polito.ezshop.view.EZShopGUI;
 
 import java.sql.SQLException;
@@ -69,13 +62,15 @@ public class EZShop {
         	   e.printStackTrace();
            }
            UserRepository userRepository = UserRepository.getInstance();
-           userRepository.addNewUser(new UserClass(1,"sisi","abc","","Administrator"));
+       //    userRepository.addNewUser(new UserClass(1,"sisi","abc","","Administrator"));
            ezShop.login("sisi", "abc");
         //   userRepository.addNewUser(new UserClass(100, "bibi", "abc", "", "haha"));
         //   userRepository.addNewUser(new UserClass(34,"nini","bacha","","hamekare"));
 
-       //     Integer saleId = ezShop.startSaleTransaction();
-         //   Logger.getLogger(EZShop.class.getName()).log(Level.SEVERE,"saleId: "+saleId);
+            Integer saleId = ezShop.startSaleTransaction();
+            Logger.getLogger(EZShop.class.getName()).log(Level.INFO,"saleId: "+saleId);
+        //    ezShop.addProductToSale(saleId,"629104150021",10);
+        //      ezShop.deleteProductFromSale(3,"629104150021",10);
          //   Integer saleId2 = ezShop.startSaleTransaction();
          //   Logger.getLogger(EZShop.class.getName()).log(Level.SEVERE,"saleId2: "+saleId2);
 
@@ -88,8 +83,9 @@ public class EZShop {
 		} catch (InvalidPasswordException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
-
+		} catch (UnauthorizedException e) {
+            e.printStackTrace();
+        }
 
     }
 
