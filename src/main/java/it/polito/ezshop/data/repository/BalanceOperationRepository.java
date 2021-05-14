@@ -1,7 +1,6 @@
 package it.polito.ezshop.data.repository;
 
 
-import com.oracle.tools.packager.Log;
 import it.polito.ezshop.data.EZShop;
 import it.polito.ezshop.data.model.OrderClass;
 import it.polito.ezshop.data.model.ReturnTransactionClass;
@@ -10,7 +9,6 @@ import it.polito.ezshop.data.model.TicketEntryClass;
 
 
 import java.sql.*;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -93,10 +91,9 @@ public class BalanceOperationRepository {
         orderData.put("localDate",order.getLocalDate().toString());
         orderData.put("money", String.valueOf(order.getMoney()));
 
-
         Connection con = DBCPDBConnectionPool.getConnection();
         ArrayList<String> attrs = getAttrsOrder();
-        System.out.println("adding new order");
+        Logger.getLogger(EZShop.class.getName()).log(Level.INFO,"adding new order: "+ order.getOrderId());
         String sqlCommand = insertCommand("orderTable", attrs);
         PreparedStatement prp = con.prepareStatement(sqlCommand);
         for (int j = 0; j < attrs.size(); j++) {
@@ -183,14 +180,13 @@ public class BalanceOperationRepository {
         con.close();
     }
 
-    public boolean deleteTicketEntry(Integer saleId, String barcode){
+    public boolean deleteTicketEntry(Integer id){
         try {
-            String sqlCommand = getDeleteRowStatement("ticket", "saleId", "barcode");
+            String sqlCommand = getDeleteTicketStatement();
             Connection con = DBCPDBConnectionPool.getConnection();
-            Logger.getLogger(EZShop.class.getName()).log(Level.SEVERE,"deleting ticket entry with saleId: "+saleId+" barcode: "+barcode);
+            Logger.getLogger(EZShop.class.getName()).log(Level.SEVERE,"deleting ticket entry with id: "+id);
             PreparedStatement prps = con.prepareStatement(sqlCommand);
-            prps.setString(1, String.valueOf(saleId));
-            prps.setString(2, barcode);
+            prps.setString(1, String.valueOf(id));
             int returnVal = prps.executeUpdate();
             prps.close();
             con.close();
@@ -201,8 +197,27 @@ public class BalanceOperationRepository {
         return false;
     }
 
+    public boolean updateTicketQuantity(Integer id, int quantity){
+        try {
+            String sqlCommand = getUpdateQuantityStatement();
+            Connection con = DBCPDBConnectionPool.getConnection();
+            PreparedStatement prps = con.prepareStatement(sqlCommand);
+            prps.setString(1, String.valueOf(quantity));
+            prps.setString(2, String.valueOf(id));
+            int returnVal = prps.executeUpdate();
+            prps.close();
+            con.close();
+            return (returnVal == 1);
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+        return false;
+    }
+    private String getUpdateQuantityStatement(){
+        return "UPDATE ticket SET amount = ? WHERE id = ?";
+    }
     private String getDeleteTicketStatement() {
-        return "DELETE FROM ticket WHERE saleId= ? AND barcode= ?;";
+        return "DELETE FROM ticket WHERE id= ?;";
     }
 
     protected OrderClass convertResultSetOrderToDomainModel(ResultSet rs) throws SQLException {
@@ -237,8 +252,9 @@ public class BalanceOperationRepository {
 
     // barcode, productDescription, amount, pricePerUnit, discountRate, saleId, returnId";
     protected TicketEntryClass convertResultSetTicketToDomainModel(ResultSet rs) throws SQLException {
-        return new TicketEntryClass(rs.getString(2),
-        rs.getString(3),
+        return new TicketEntryClass(rs.getInt(1),
+                rs.getString(2),
+                rs.getString(3),
                 rs.getInt(4),
                 rs.getDouble(5),
                 rs.getDouble(6)
@@ -383,6 +399,24 @@ public class BalanceOperationRepository {
         return null;
     }
 
+    public TicketEntryClass getTicketsByForeignKeyAndBarcode(String foreignKey,Integer key, String barcode){
+        try {
+            String sqlCommand = getFindByForeignKeyAndBarcodeStatement(foreignKey);
+            Connection con = DBCPDBConnectionPool.getConnection();
+            PreparedStatement prps = con.prepareStatement(sqlCommand);
+            prps.setString(1, String.valueOf(key));
+            ResultSet rs = prps.executeQuery();
+            rs.next();
+            TicketEntryClass ticket= convertResultSetTicketToDomainModel(rs);
+            prps.close();
+            con.close();
+            return ticket;
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 
     public Integer getHighestTicketNumber(){
         try {
@@ -415,6 +449,11 @@ public class BalanceOperationRepository {
     private static String getFindByReturnIdStatement() {
         return "SELECT * FROM ticket WHERE returnId = ?"  ;
     }
+
+    private static String getFindByForeignKeyAndBarcodeStatement(String foreignKey) {
+        return "SELECT * FROM ticket WHERE "+foreignKey+" = ? AND barcode = ?"  ;
+    }
+
 
     private static String getFindByTicketNumberStatement() {
         return "SELECT * FROM sale WHERE ticketNumber = ?"  ;

@@ -569,7 +569,7 @@ public class EZShop implements EZShopInterface {
                 return false;
             }
             try {
-                balanceOperationRepository.addNewTicketEntry(new TicketEntryClass(productCode,product.getProductDescription(),
+                balanceOperationRepository.addNewTicketEntry(new TicketEntryClass(1,productCode,product.getProductDescription(),
                                                                 amount, product.getPricePerUnit(), 1), transactionId, null);
                 productTypeRepository.updateQuantity(product.getId(), product.getQuantity() - amount);
                 return true;
@@ -609,13 +609,19 @@ public class EZShop implements EZShopInterface {
             if(product == null) {
                 return false;
             }
-           // TicketEntry ticketEntry = balanceOperationRepository.getTicketsBySaleId(transactionId).stream().reduce();
-            // todo: check quantity
-        //    if(ticketEntry.getAmount() < amount)
-       //     boolean ticketExist = balanceOperationRepository.deleteTicketEntry(transactionId, productCode);
-       //     if(ticketExist){
-                productTypeRepository.updateQuantity(product.getId(), product.getQuantity() + amount);
-                return true;
+           TicketEntryClass ticketEntry = balanceOperationRepository.getTicketsByForeignKeyAndBarcode("saleId", transactionId,productCode);
+           if (ticketEntry == null)
+               return false;
+           if(ticketEntry.getAmount() < amount)
+               return false;
+           if (ticketEntry.getAmount() == amount){
+               boolean deleteTicket = balanceOperationRepository.deleteTicketEntry(ticketEntry.getId());
+           }
+           else {
+               balanceOperationRepository.updateTicketQuantity(ticketEntry.getId(), ticketEntry.getAmount() - amount);
+           }
+           productTypeRepository.updateQuantity(product.getId(), product.getQuantity() + amount);
+           return true;
         //    }
 
         }

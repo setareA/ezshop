@@ -3,22 +3,33 @@ package it.polito.ezshop.data.model;
 import it.polito.ezshop.data.TicketEntry;
 
 public class TicketEntryClass implements TicketEntry {
- 
+
+
+    private Integer id;
 	private String barCode;
 	private String productDescription;
 	private int amount ;
 	private double pricePerUnit;
 	private double discountRate;
 
-    public TicketEntryClass(String barCode, String productDescription, int amount, double pricePerUnit, double discountRate) {
-        this.barCode = barCode;
+    public TicketEntryClass(Integer id,String barCode, String productDescription, int amount, double pricePerUnit, double discountRate) {
+        this.id = id;
+    	this.barCode = barCode;
         this.productDescription = productDescription;
         this.amount = amount;
         this.pricePerUnit = pricePerUnit;
         this.discountRate = discountRate;
     }
 
-    @Override
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	@Override
 	public String getBarCode() {
 		// TODO Auto-generated method stub
 		return barCode;
