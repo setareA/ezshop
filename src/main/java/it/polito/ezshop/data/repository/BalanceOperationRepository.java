@@ -193,12 +193,12 @@ public class BalanceOperationRepository {
         return false;
     }
 
-    public boolean updateTicket(String columnName, Integer id, int quantity){
+    public boolean updateTicket(String columnName, Integer id, String quantity){
         try {
             String sqlCommand = getUpdateTicketStatement(columnName);
             Connection con = DBCPDBConnectionPool.getConnection();
             PreparedStatement prps = con.prepareStatement(sqlCommand);
-            prps.setString(1, String.valueOf(quantity));
+            prps.setString(1, quantity);
             prps.setString(2, String.valueOf(id));
             int returnVal = prps.executeUpdate();
             prps.close();
