@@ -45,7 +45,19 @@ public class EZShop implements EZShopInterface {
     	return userRepository;
     }
 
-    @Override
+    public  CustomerRepository getCustomerRepository() {
+		return customerRepository;
+	}
+
+	public  ProductTypeRepository getProductTypeRepository() {
+		return productTypeRepository;
+	}
+
+	public  BalanceOperationRepository getBalanceOperationRepository() {
+		return balanceOperationRepository;
+	}
+
+	@Override
     public Integer createUser(String username, String password, String role) throws InvalidUsernameException, InvalidPasswordException, InvalidRoleException {
     	// Checks InvalidUsernameException: Username (empty or null)
     	if(username == null || username.equals("")) {
@@ -259,12 +271,30 @@ public class EZShop implements EZShopInterface {
 
     @Override
     public boolean updateQuantity(Integer productId, int toBeAdded) throws InvalidProductIdException, UnauthorizedException {
-        return false;
+      if(this.checkIfAdministrator() | this.checkIfManager()) {
+    	  if(productId < 1 | productId == null) throw new InvalidProductIdException();
+    	  else {
+    	try {
+			return productTypeRepository.updateQuantity(String.valueOf(productId), toBeAdded);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			return false;
+		}
+    	  }
+      }else { throw new UnauthorizedException();}
     }
 
     @Override
     public boolean updatePosition(Integer productId, String newPos) throws InvalidProductIdException, InvalidLocationException, UnauthorizedException {
-        return false;
+        
+    	if(this.checkIfAdministrator() | this.checkIfManager()) {
+      	  if(productId < 1 | productId == null) throw new InvalidProductIdException();
+      	   if(productTypeRepository.getProductTypebyLocation(newPos) == null) return false;
+      	    if (!checkLocation(newPos)) throw new InvalidLocationException();
+    		return productTypeRepository.updatePosition(String.valueOf(productId), newPos);
+       }else {
+       	throw new UnauthorizedException();
+       }
     }
 
     @Override
@@ -462,6 +492,9 @@ public class EZShop implements EZShopInterface {
         } else {
         	return false;
         }
+    }
+    public boolean checkLocation(String location) {
+    	return location.matches("\\d+-\\p{Alpha}+-\\d+");
     }
 
 }

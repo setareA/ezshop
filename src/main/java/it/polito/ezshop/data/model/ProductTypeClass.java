@@ -133,17 +133,22 @@ public class ProductTypeClass implements ProductType {
 
 	public static boolean checkValidityProductcode(String productCode) {
 		// TODO Auto-generated method stub
-		int  tmp = 0 ;
+		/*int  tmp = 0 ;
 		int j= 1;
+		if(productCode.length()<12 | productCode.length() >14) return false;
+		try {
 		for( j=1 ; j< productCode.length() ; j++ ) {
 			int a = Integer.parseInt(String.valueOf(productCode.toCharArray()[j-1])) ;
+			
 			if(j%2==0) tmp +=  a*3;
 			else tmp += a;
-		}
+		}}
+		catch (NumberFormatException e) { return false; }
 		int tmp1 = tmp/10;		
 		tmp1 = (tmp1+1)*10;
 		tmp = tmp1 -tmp;
 		if(Integer.parseInt(String.valueOf(productCode.toCharArray()[j-1])) == tmp) return true;
-		else return false;
+		else return false;*/
+		return true;
 	}
 }

@@ -25,21 +25,29 @@ public class EZShop {
      
                                                                                                                                                                                                                                                                          
         try {                              
-           EZShopInterface ezShop = new it.polito.ezshop.data.EZShop();
+           it.polito.ezshop.data.EZShop ezShop = new it.polito.ezshop.data.EZShop();
            EZShopGUI gui = new EZShopGUI(ezShop);
 
            //ezShop.createUser("eugenio", "eugenio", "ShopManager");
            ezShop.login("eugenio", "eugenio");
-         //  System.out.print(ezShop.createProductType("pane", "1234" ,1.0, "prova1"));
-         //  System.out.print(ezShop.createProductType("pino", "1233" ,1.0, "prova1"));                                                           
-         //  System.out.print(ezShop.createProductType("pani", "1235" ,1.0, "prova1"));
-          // System.out.print(ezShop.createProductType("pane", "1236" ,1.0, "prova1"));
+         // System.out.print(ezShop.createProductType("pane", "1234" ,1.0, "prova1"));
+          // System.out.print(ezShop.createProductType("pino", "1233" ,1.0, "prova1"));                                                           
+           //System.out.print(ezShop.createProductType("pani", "1235" ,1.0, "prova1"));
+          //System.out.print(ezShop.createProductType("oro", "1237" ,1.0, "prova1"));
+          //System.out.print(ezShop.createProductType("vino", "1239" ,1.0, "prova1"));
+
          // if( ! ezShop.updateProduct(3, "pane vecchio", "1523", 2.12 , "megli buttarlo")) System.out.println(" product not updated");
           //if( ! ezShop.updateProduct(4, "pane fresco", "1524", 2.12 , "megli buttarlo")) System.out.println(" product not updated");
 
          // if(!ezShop.deleteProductType(2)) System.out.println("Product type not deleted");
            //System.out.println(ezShop.getProductTypesByDescription("vecch").toString());
-           System.out.println(ProductTypeClass.checkValidityProductcode("6291041500213"));
+          // ezShop.updateQuantity(5, 3);
+   System.out.println(ezShop.checkLocation("23-ads-12"));
+   System.out.println(ezShop.checkLocation("2a3-ads-12"));
+   System.out.println(ezShop.checkLocation("231d2"));
+   System.out.println(ezShop.checkLocation("a1ds-12"));
+
+
            
            
            
