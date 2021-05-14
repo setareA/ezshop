@@ -2,7 +2,7 @@ package it.polito.ezshop.data;
 
 
 import it.polito.ezshop.data.model.CustomerClass;
-
+import it.polito.ezshop.data.model.OrderClass;
 import it.polito.ezshop.data.model.ProductTypeClass;
 import it.polito.ezshop.data.model.SaleTransactionClass;
 import it.polito.ezshop.data.model.TicketEntryClass;
@@ -201,11 +201,11 @@ public class EZShop implements EZShopInterface {
         	else if (! productTypeRepository.checkUniqueBarcode(productCode) ) return -1;
         	else { 
         		try {
-        		productTypeRepository.addNewProductType(new ProductTypeClass(productTypeRepository.getLastId() + 1 , 0, "" , note , description , productCode, pricePerUnit, 0.0, 0)); 
+        		productTypeRepository.addNewProductType(new ProductTypeClass(productTypeRepository.getMaxId() + 1 , 0, "" , note , description , productCode, pricePerUnit, 0.0, 0)); 
+        		return productTypeRepository.getMaxId();
+
         		}
         		catch (SQLException e) { return -1;}
-        		productTypeRepository.setLastId(productTypeRepository.getLastId() + 1);
-        		return productTypeRepository.getLastId();
         	}
         }else {
         	throw new UnauthorizedException();
@@ -307,7 +307,16 @@ public class EZShop implements EZShopInterface {
 
     @Override
     public Integer issueOrder(String productCode, int quantity, double pricePerUnit) throws InvalidProductCodeException, InvalidQuantityException, InvalidPricePerUnitException, UnauthorizedException {
-        return null;
+        
+    	if(!(this.checkIfAdministrator() | this.checkIfManager())) throw new UnauthorizedException();
+    	if(pricePerUnit <= 0) throw new InvalidPricePerUnitException ();
+    	if(quantity <= 0) throw new  InvalidQuantityException();
+    	if(ProductTypeClass.checkValidityProductcode(productCode)) throw new InvalidProductCodeException();
+    	if(productTypeRepository.getProductTypebyBarCode(productCode) == null) return -1;
+    	try {
+    		balanceOperationRepository.addNewOrder(new OrderClass(balanceOperationRepository.getHighestOrderId() + 1, 0, productCode, pricePerUnit, quantity, "ORDERED", LocalDate.now(), quantity*pricePerUnit));
+    		return balanceOperationRepository.getHighestOrderId();
+    	}catch ( SQLException e) { return -1;}
     }
 
     @Override

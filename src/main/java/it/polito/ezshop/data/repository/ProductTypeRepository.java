@@ -21,7 +21,6 @@ import it.polito.ezshop.data.util.HashGenerator;
 
 public class ProductTypeRepository {
     private static ProductTypeRepository ourInstance = new ProductTypeRepository();
-    private static int lastId = 0 ;
     private static final String COLUMNS = "id, quantity, location, note, productDescription, barCode , pricePerUnit , discountRate , warning ";
 
    
@@ -32,19 +31,11 @@ public class ProductTypeRepository {
     private ProductTypeRepository() {
     }
    
-    public  int getLastId() {
- 		return lastId;
- 	}
-
- 	public  void setLastId(int lastId) {
- 		this.lastId = lastId;
- 	}
  	
     public void initialize() throws SQLException{
         Connection con = DBCPDBConnectionPool.getConnection();
         Statement st = con.createStatement();
         st.executeUpdate("CREATE TABLE IF NOT EXISTS " + "productType" + " " + "(id INTEGER PRIMARY KEY, quantity INTEGER , location TEXT, note TEXT, productDescription TEXT, barCode TEXT ,pricePerUnit DOUBLE , discountRate DOUBLE , warning TEXT)");
-        this.lastId = getMaxId();
         st.close();                                       
         con.close();
     }
@@ -122,13 +113,13 @@ public class ProductTypeRepository {
     private String getUpdateQuantityStatement(){
         return "UPDATE productType SET quantity = ? WHERE id = ?";
     }
-    private int  getMaxId () throws SQLException {
+    public int  getMaxId () throws SQLException {
     	Connection con = DBCPDBConnectionPool.getConnection();
     	String sqlCommand = getMaxIdCommand("productType","id");
     	PreparedStatement prps = con.prepareStatement(sqlCommand);
         ResultSet rs = prps.executeQuery();
         rs.next();
-        int c = Integer.parseInt(rs.getString(1));
+        int c = rs.getInt(1);
         prps.close();
         con.close();
         return c;

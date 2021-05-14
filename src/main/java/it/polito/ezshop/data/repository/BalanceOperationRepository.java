@@ -213,7 +213,7 @@ public class BalanceOperationRepository {
                 rs.getInt(5),
                 rs.getString(6),
                 rs.getDate(7).toLocalDate(),
-                rs.getInt(8)
+                rs.getDouble(8)
         );
     }
 // ticketNumber, discountRate, price, state, LocalDate";
@@ -404,7 +404,28 @@ public class BalanceOperationRepository {
         }
         return null;
     }
-    private String geAllTransStatement(String tableName) {
+    public Integer getHighestOrderId() throws SQLException{
+        
+            String sqlCommand = getMaxOrderIdStatement();
+            Connection con = DBCPDBConnectionPool.getConnection();
+            PreparedStatement prps = con.prepareStatement(sqlCommand);
+            ResultSet rs = prps.executeQuery();
+            rs.next();
+            Integer highestId = rs.getInt(1);
+            prps.close();
+            con.close();
+            if (highestId != null) {
+                return highestId;
+            } else {
+                return 0;
+            }
+      
+    }
+    private String getMaxOrderIdStatement() {
+		return "SELECT MAX(orderId) FROM orderTable";
+	}
+
+	private String geAllTransStatement(String tableName) {
         String sqlCommand = "SELECT * FROM " + tableName;
         return sqlCommand;
     }

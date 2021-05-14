@@ -17,11 +17,11 @@ public class OrderClass  implements Order  {
 	private int quantity;
 	private String status ;
 	private LocalDate localDate;
-	private int money;
+	private double money;
 
 
 	public OrderClass(int orderId, int balanceId, String productCode, double pricePerUnit, int quantity, String status,
-			LocalDate localDate, int money) {
+			LocalDate localDate, double money) {
 		this.orderId = orderId;
 		this.balanceId = balanceId;
 		this.productCode = productCode;
@@ -122,7 +122,7 @@ public class OrderClass  implements Order  {
 
 
 
-	public void setMoney(int money) {
+	public void setMoney(double money) {
 		this.money = money;
 	}
 }
