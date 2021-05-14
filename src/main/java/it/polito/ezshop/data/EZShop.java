@@ -537,7 +537,7 @@ public class EZShop implements EZShopInterface {
         if(checkIfAdministrator()  || checkIfManager()  || checkIfCashier()) {
             try {
                 Logger.getLogger(EZShop.class.getName()).log(Level.INFO, String.valueOf(LocalDate.now()));
-                return balanceOperationRepository.addNewSale(new SaleTransactionClass(null,1,0,"open", LocalDate.now()));
+                return balanceOperationRepository.addNewSale(new SaleTransactionClass(null,1,0,"open"));
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
@@ -555,7 +555,7 @@ public class EZShop implements EZShopInterface {
                 throw new InvalidTransactionIdException();
             }
             if (productCode == null || productCode.isEmpty() || !ProductTypeClass.checkValidityProductcode(productCode)){
-                Logger.getLogger(EZShop.class.getName()).log(Level.SEVERE, "productCode: "+ productCode);
+                Logger.getLogger(EZShop.class.getName()).log(Level.INFO, "productCode: "+ productCode);
                 throw new InvalidProductCodeException();
             }
             if (amount < 0){
@@ -619,7 +619,7 @@ public class EZShop implements EZShopInterface {
                boolean deleteTicket = balanceOperationRepository.deleteTicketEntry(ticketEntry.getId());
            }
            else {
-               balanceOperationRepository.updateTicketQuantity(ticketEntry.getId(), ticketEntry.getAmount() - amount);
+               balanceOperationRepository.updateTicket("amount", ticketEntry.getId(), ticketEntry.getAmount() - amount);
            }
            productTypeRepository.updateQuantity(product.getId(), product.getQuantity() + amount);
            return true;

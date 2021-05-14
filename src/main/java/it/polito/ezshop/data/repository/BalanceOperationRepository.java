@@ -193,9 +193,9 @@ public class BalanceOperationRepository {
         return false;
     }
 
-    public boolean updateTicketQuantity(Integer id, int quantity){
+    public boolean updateTicket(String columnName, Integer id, int quantity){
         try {
-            String sqlCommand = getUpdateQuantityStatement();
+            String sqlCommand = getUpdateTicketStatement(columnName);
             Connection con = DBCPDBConnectionPool.getConnection();
             PreparedStatement prps = con.prepareStatement(sqlCommand);
             prps.setString(1, String.valueOf(quantity));
@@ -209,8 +209,8 @@ public class BalanceOperationRepository {
         }
         return false;
     }
-    private String getUpdateQuantityStatement(){
-        return "UPDATE ticket SET amount = ? WHERE id = ?";
+    private String getUpdateTicketStatement(String columnName){
+        return "UPDATE ticket SET "+columnName+" = ? WHERE id = ?";
     }
     private String getDeleteTicketStatement() {
         return "DELETE FROM ticket WHERE id= ?;";
@@ -399,6 +399,7 @@ public class BalanceOperationRepository {
             Connection con = DBCPDBConnectionPool.getConnection();
             PreparedStatement prps = con.prepareStatement(sqlCommand);
             prps.setString(1, String.valueOf(key));
+            prps.setString(2, String.valueOf(barcode));
             ResultSet rs = prps.executeQuery();
             rs.next();
             TicketEntryClass ticket= convertResultSetTicketToDomainModel(rs);
