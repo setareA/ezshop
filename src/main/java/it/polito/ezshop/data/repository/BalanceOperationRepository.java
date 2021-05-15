@@ -2,6 +2,7 @@ package it.polito.ezshop.data.repository;
 
 
 import it.polito.ezshop.data.EZShop;
+import it.polito.ezshop.data.TicketEntry;
 import it.polito.ezshop.data.model.OrderClass;
 import it.polito.ezshop.data.model.ReturnTransactionClass;
 import it.polito.ezshop.data.model.SaleTransactionClass;
@@ -290,9 +291,9 @@ public class BalanceOperationRepository {
         return result;
     }
 
-    private ArrayList<TicketEntryClass> loadAllTickets(ResultSet rs) throws SQLException{
+    private ArrayList<TicketEntry> loadAllTickets(ResultSet rs) throws SQLException{
 
-        ArrayList <TicketEntryClass> result = new ArrayList<>();
+        ArrayList <TicketEntry> result = new ArrayList<>();
         while(rs.next()) {
             TicketEntryClass t = convertResultSetTicketToDomainModel(rs);
             result.add(t);
@@ -347,14 +348,14 @@ public class BalanceOperationRepository {
         return null;
     }
 
-    public ArrayList<TicketEntryClass> getTicketsBySaleId(Integer saleId){
+    public ArrayList<TicketEntry> getTicketsBySaleId(Integer saleId){
         try {
             String sqlCommand = getFindBySaleIdStatement();
             Connection con = DBCPDBConnectionPool.getConnection();
             PreparedStatement prps = con.prepareStatement(sqlCommand);
             prps.setString(1, String.valueOf(saleId));
             ResultSet rs = prps.executeQuery();
-            ArrayList<TicketEntryClass> tickets = loadAllTickets(rs);
+            ArrayList<TicketEntry> tickets = loadAllTickets(rs);
             prps.close();
             con.close();
             return tickets;
@@ -375,6 +376,7 @@ public class BalanceOperationRepository {
             SaleTransactionClass s = convertResultSetSaleToDomainModel(rs);
             prps.close();
             con.close();
+            s.setEntries(getTicketsBySaleId(ticketNumber));
             return s;
         }catch(SQLException e){
             e.printStackTrace();
@@ -382,14 +384,14 @@ public class BalanceOperationRepository {
         return null;
     }
 
-    public ArrayList<TicketEntryClass> getTicketsByReturnId(Integer returnId){
+    public ArrayList<TicketEntry> getTicketsByReturnId(Integer returnId){
         try {
             String sqlCommand = getFindByReturnIdStatement();
             Connection con = DBCPDBConnectionPool.getConnection();
             PreparedStatement prps = con.prepareStatement(sqlCommand);
             prps.setString(1, String.valueOf(returnId));
             ResultSet rs = prps.executeQuery();
-            ArrayList<TicketEntryClass> tickets = loadAllTickets(rs);
+            ArrayList<TicketEntry> tickets = loadAllTickets(rs);
             prps.close();
             con.close();
             return tickets;

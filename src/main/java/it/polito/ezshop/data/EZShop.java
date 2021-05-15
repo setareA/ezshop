@@ -715,7 +715,7 @@ public class EZShop implements EZShopInterface {
                 return -1;
             }
             double price = 0;
-            ArrayList<TicketEntryClass> products = balanceOperationRepository.getTicketsBySaleId(transactionId);
+            ArrayList<TicketEntry> products = balanceOperationRepository.getTicketsBySaleId(transactionId);
             price = computePriceForProducts(products);
             balanceOperationRepository.updateRow("sale","price", "ticketNumber", transactionId, String.valueOf(price*saleTransaction.getDiscountRate()));
             return (int) (price * saleTransaction.getDiscountRate() / 10);
@@ -725,7 +725,7 @@ public class EZShop implements EZShopInterface {
         }
     }
 
-    private double computePriceForProducts(ArrayList<TicketEntryClass> products) {
+    private double computePriceForProducts(ArrayList<TicketEntry> products) {
         double price = 0;
         for(TicketEntry p : products){
             price += p.getAmount() * p.getPricePerUnit() * p.getDiscountRate();
@@ -767,13 +767,13 @@ public class EZShop implements EZShopInterface {
             if(saleTransaction == null || "payed".equals(saleTransaction.getState())) {
                 return false;
             }
-            ArrayList<TicketEntryClass> products = balanceOperationRepository.getTicketsBySaleId(transactionId);
+            ArrayList<TicketEntry> products = balanceOperationRepository.getTicketsBySaleId(transactionId);
             //delete tickets add them to real product and then delete sale
-            for(TicketEntryClass p : products){
+            for(TicketEntry p : products){
                 ProductTypeClass realProduct = productTypeRepository.getProductTypebyBarCode(p.getBarCode());
                 productTypeRepository.updateQuantity(realProduct.getId(), realProduct.getQuantity() + p.getAmount());
-                balanceOperationRepository.deleteRow("ticket","id", String.valueOf(p.getId()));
             }
+            balanceOperationRepository.deleteRow("ticket","saleId", String.valueOf(transactionId));
             balanceOperationRepository.deleteRow("sale","ticketNumber", String.valueOf(transactionId));
             return true;
         }
