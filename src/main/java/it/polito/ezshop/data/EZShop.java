@@ -198,8 +198,8 @@ public class EZShop implements EZShopInterface {
 
     @Override
     public Integer createProductType(String description, String productCode, double pricePerUnit, String note) throws InvalidProductDescriptionException, InvalidProductCodeException, InvalidPricePerUnitException, UnauthorizedException { 
-        if(this.checkIfAdministrator() | this.checkIfManager()) { // loggedUser check
-        	if(description.isEmpty() | description == null) throw new InvalidProductDescriptionException(); // descriptor != null check
+        if(this.checkIfAdministrator() || this.checkIfManager()) { // loggedUser check
+        	if(description.isEmpty() || description == null) throw new InvalidProductDescriptionException(); // descriptor != null check
         	else if(!ProductTypeClass.checkValidityProductcode(productCode)) throw new InvalidProductCodeException(); // barcode check
         	else if (pricePerUnit <= 0 ) throw new InvalidPricePerUnitException(); // price per unit check
         	else if (! productTypeRepository.checkUniqueBarcode(productCode) ) return -1;
@@ -219,9 +219,9 @@ public class EZShop implements EZShopInterface {
 
     @Override
     public boolean updateProduct(Integer id, String newDescription, String newCode, double newPrice, String newNote) throws InvalidProductIdException, InvalidProductDescriptionException, InvalidProductCodeException, InvalidPricePerUnitException, UnauthorizedException {
-        if(this.checkIfAdministrator() | this.checkIfManager()) { // loggedUser check
-        	if(id <= 0 | id == null) throw new InvalidProductIdException();
-        	if(newDescription.isEmpty() | newDescription == null) throw new InvalidProductDescriptionException();
+        if(this.checkIfAdministrator() || this.checkIfManager()) { // loggedUser check
+        	if(id <= 0 || id == null) throw new InvalidProductIdException();
+        	if(newDescription.isEmpty() || newDescription == null) throw new InvalidProductDescriptionException();
         	if(!ProductTypeClass.checkValidityProductcode(newCode)) throw new InvalidProductCodeException();
         	if(newPrice <= 0) throw new InvalidPricePerUnitException();
         	if(!productTypeRepository.checkUniqueBarcode(newCode)) return false;
@@ -236,8 +236,8 @@ public class EZShop implements EZShopInterface {
     @Override
     public boolean deleteProductType(Integer id) throws InvalidProductIdException, UnauthorizedException {
     	
-    	if(this.checkIfAdministrator() | this.checkIfManager()) { // loggedUser check
-        	if(id <= 0 | id == null) throw new InvalidProductIdException();
+    	if(this.checkIfAdministrator() || this.checkIfManager()) { // loggedUser check
+        	if(id <= 0 || id == null) throw new InvalidProductIdException();
         	try {
         		return productTypeRepository.deleteProductTypeFromDB(id);
         		
@@ -250,7 +250,7 @@ public class EZShop implements EZShopInterface {
 
     @Override
     public List<ProductType> getAllProductTypes() throws UnauthorizedException {
-    	if(this.checkIfAdministrator() | this.checkIfManager()) { // loggedUser check
+    	if(this.checkIfAdministrator() || this.checkIfManager()) { // loggedUser check
         	List<ProductType> list = new ArrayList<ProductType>(productTypeRepository.getAllProductType());
     		return list ;
         }else {
@@ -260,7 +260,7 @@ public class EZShop implements EZShopInterface {
 
     @Override
     public ProductType getProductTypeByBarCode(String barCode) throws InvalidProductCodeException, UnauthorizedException {
-    	if(this.checkIfAdministrator() | this.checkIfManager()) {
+    	if(this.checkIfAdministrator() || this.checkIfManager()) {
     		if(!ProductTypeClass.checkValidityProductcode(barCode)) throw new InvalidProductCodeException();
     		return  productTypeRepository.getProductTypebyBarCode(barCode);
     		
@@ -273,7 +273,7 @@ public class EZShop implements EZShopInterface {
     @Override
     public List<ProductType> getProductTypesByDescription(String description) throws UnauthorizedException {
         
-    	if(this.checkIfAdministrator() | this.checkIfManager()) {
+    	if(this.checkIfAdministrator() || this.checkIfManager()) {
     		 List<ProductType> list = new ArrayList<ProductType>(productTypeRepository.getProductTypebyDescription(description));
     		return list;
         }else {
@@ -283,7 +283,7 @@ public class EZShop implements EZShopInterface {
 
     @Override
     public boolean updateQuantity(Integer productId, int toBeAdded) throws InvalidProductIdException, UnauthorizedException {
-      if(this.checkIfAdministrator() | this.checkIfManager()) {
+      if(this.checkIfAdministrator() || this.checkIfManager()) {
     	  if(productId < 1 | productId == null) throw new InvalidProductIdException();
     	  else {
     	try {
@@ -299,8 +299,8 @@ public class EZShop implements EZShopInterface {
     @Override
     public boolean updatePosition(Integer productId, String newPos) throws InvalidProductIdException, InvalidLocationException, UnauthorizedException {
         
-    	if(this.checkIfAdministrator() | this.checkIfManager()) {
-      	  if(productId < 1 | productId == null) throw new InvalidProductIdException();
+    	if(this.checkIfAdministrator() || this.checkIfManager()) {
+      	  if(productId < 1 || productId == null) throw new InvalidProductIdException();
       	   if(productTypeRepository.getProductTypebyLocation(newPos) == null) return false;
       	    if (!checkLocation(newPos)) throw new InvalidLocationException();
     		return productTypeRepository.updatePosition(String.valueOf(productId), newPos);
