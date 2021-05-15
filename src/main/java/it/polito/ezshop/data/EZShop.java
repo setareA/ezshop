@@ -250,7 +250,7 @@ public class EZShop implements EZShopInterface {
 
     @Override
     public List<ProductType> getAllProductTypes() throws UnauthorizedException {
-    	if(this.checkIfAdministrator() || this.checkIfManager()) { // loggedUser check
+    	if(this.checkIfAdministrator() || this.checkIfManager() || this.checkIfCashier()) { // loggedUser check
         	List<ProductType> list = new ArrayList<ProductType>(productTypeRepository.getAllProductType());
     		return list ;
         }else {
