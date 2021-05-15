@@ -176,13 +176,13 @@ public class BalanceOperationRepository {
         con.close();
     }
 
-    public boolean deleteTicketEntry(Integer id){
+    public boolean deleteRow(String tableName,String idName, String id){
         try {
-            String sqlCommand = getDeleteTicketStatement();
+            String sqlCommand = getDeleteRowStatement(tableName, idName);
             Connection con = DBCPDBConnectionPool.getConnection();
-            Logger.getLogger(EZShop.class.getName()).log(Level.SEVERE,"deleting ticket entry with id: "+id);
+            Logger.getLogger(EZShop.class.getName()).log(Level.INFO,"deleting row with id: "+id);
             PreparedStatement prps = con.prepareStatement(sqlCommand);
-            prps.setString(1, String.valueOf(id));
+            prps.setString(1, id);
             int returnVal = prps.executeUpdate();
             prps.close();
             con.close();
@@ -218,8 +218,8 @@ public class BalanceOperationRepository {
     private String getUpdateRowStatement(String tableName, String columnName, String idName){
         return "UPDATE "+tableName+" SET "+columnName+" = ? WHERE "+idName+" = ?";
     }
-    private String getDeleteTicketStatement() {
-        return "DELETE FROM ticket WHERE id= ?;";
+    private String getDeleteRowStatement(String tableName, String idName) {
+        return "DELETE FROM "+tableName+" WHERE "+idName+"= ?;";
     }
 
     protected OrderClass convertResultSetOrderToDomainModel(ResultSet rs) throws SQLException {

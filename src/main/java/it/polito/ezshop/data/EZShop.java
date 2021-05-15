@@ -611,7 +611,7 @@ public class EZShop implements EZShopInterface {
            if(ticketEntry.getAmount() < amount)
                return false;
            if (ticketEntry.getAmount() == amount){
-               boolean deleteTicket = balanceOperationRepository.deleteTicketEntry(ticketEntry.getId());
+               boolean deleteTicket = balanceOperationRepository.deleteRow("ticket","id", String.valueOf(ticketEntry.getId()));
            }
            else {
                balanceOperationRepository.updateRow("ticket", "amount","id",
@@ -738,10 +738,37 @@ public class EZShop implements EZShopInterface {
             throw new UnauthorizedException();
         }
     }
+    /**
+     * This method deletes a sale transaction with given unique identifier from the system's data store.
 
+     * @return  true if the transaction has been successfully deleted,
+     *          false   if the transaction doesn't exist,
+     *                  if it has been payed,
+     *                  if there are some problems with the db
+ */
     @Override
-    public boolean deleteSaleTransaction(Integer saleNumber) throws InvalidTransactionIdException, UnauthorizedException {
-        return false;
+    public boolean deleteSaleTransaction(Integer transactionId) throws InvalidTransactionIdException, UnauthorizedException {
+        if(checkIfAdministrator()  || checkIfManager()  || checkIfCashier()) {
+            if (transactionId == null || transactionId <= 0) {
+                throw new InvalidTransactionIdException();
+            }
+            SaleTransactionClass saleTransaction = balanceOperationRepository.getSalesByTicketNumber(transactionId);
+            if(saleTransaction == null || "payed".equals(saleTransaction.getState())) {
+                return false;
+            }
+            ArrayList<TicketEntryClass> products = balanceOperationRepository.getTicketsBySaleId(transactionId);
+            //delete tickets add them to real product and then delete sale
+            for(TicketEntryClass p : products){
+                ProductTypeClass realProduct = productTypeRepository.getProductTypebyBarCode(p.getBarCode());
+                productTypeRepository.updateQuantity(realProduct.getId(), realProduct.getQuantity() + p.getAmount());
+                balanceOperationRepository.deleteRow("ticket","id", String.valueOf(p.getId()));
+            }
+            balanceOperationRepository.deleteRow("sale","ticketNumber", String.valueOf(transactionId));
+            return true;
+        }
+        else{
+            throw new UnauthorizedException();
+        }
     }
 
     @Override
