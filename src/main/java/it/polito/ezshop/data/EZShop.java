@@ -614,7 +614,8 @@ public class EZShop implements EZShopInterface {
                boolean deleteTicket = balanceOperationRepository.deleteTicketEntry(ticketEntry.getId());
            }
            else {
-               balanceOperationRepository.updateTicket("amount", ticketEntry.getId(), String.valueOf(ticketEntry.getAmount() - amount));
+               balanceOperationRepository.updateRow("ticket", "amount","id",
+                       ticketEntry.getId(), String.valueOf(ticketEntry.getAmount() - amount)) ;
            }
            productTypeRepository.updateQuantity(product.getId(), product.getQuantity() + amount);
            return true;
@@ -648,7 +649,8 @@ public class EZShop implements EZShopInterface {
             TicketEntryClass ticketEntry = balanceOperationRepository.getTicketsByForeignKeyAndBarcode("saleId", transactionId,productCode);
             if (ticketEntry == null)
                 return false;
-            balanceOperationRepository.updateTicket("discountRate", ticketEntry.getId(), String.valueOf(discountRate));
+            balanceOperationRepository.updateRow("ticket", "discountRate","id",
+                                                    ticketEntry.getId(), String.valueOf(discountRate)) ;
             return true;
         }
         else {

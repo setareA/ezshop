@@ -192,13 +192,19 @@ public class BalanceOperationRepository {
         }
         return false;
     }
-
-    public boolean updateTicket(String columnName, Integer id, String quantity){
+    /**
+    * @param tableName the name of the table to be updated
+    * @param columnName the name of the column which is going to change
+    * @param  idName the name of the column which is going to be used in where clause
+    * @param  id the value of the id
+    * @param newColumnVal the value of the column which is being updated
+     **/
+    public boolean updateRow(String tableName, String columnName, String idName ,Integer id, String newColumnVal){
         try {
-            String sqlCommand = getUpdateTicketStatement(columnName);
+            String sqlCommand = getUpdateRowStatement(tableName, columnName, idName);
             Connection con = DBCPDBConnectionPool.getConnection();
             PreparedStatement prps = con.prepareStatement(sqlCommand);
-            prps.setString(1, quantity);
+            prps.setString(1, newColumnVal);
             prps.setString(2, String.valueOf(id));
             int returnVal = prps.executeUpdate();
             prps.close();
@@ -209,8 +215,8 @@ public class BalanceOperationRepository {
         }
         return false;
     }
-    private String getUpdateTicketStatement(String columnName){
-        return "UPDATE ticket SET "+columnName+" = ? WHERE id = ?";
+    private String getUpdateRowStatement(String tableName, String columnName, String idName){
+        return "UPDATE "+tableName+" SET "+columnName+" = ? WHERE "+idName+" = ?";
     }
     private String getDeleteTicketStatement() {
         return "DELETE FROM ticket WHERE id= ?;";
