@@ -1,6 +1,10 @@
 package it.polito.ezshop.data.model;
 
+import it.polito.ezshop.data.EZShop;
 import it.polito.ezshop.data.TicketEntry;
+
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class TicketEntryClass implements TicketEntry {
 
@@ -32,6 +36,7 @@ public class TicketEntryClass implements TicketEntry {
 	@Override
 	public String getBarCode() {
 		// TODO Auto-generated method stub
+		Logger.getLogger(EZShop.class.getName()).log(Level.INFO, "barcode: "+barCode);
 		return barCode;
 	}
 
@@ -44,7 +49,8 @@ public class TicketEntryClass implements TicketEntry {
 	@Override
 	public String getProductDescription() {
 		// TODO Auto-generated method stub
-		return this.productDescription;
+		Logger.getLogger(EZShop.class.getName()).log(Level.INFO, "productDescription: "+productDescription);
+		return productDescription;
 	}
 
 	@Override
@@ -56,7 +62,8 @@ public class TicketEntryClass implements TicketEntry {
 	@Override
 	public int getAmount() {
 		// TODO Auto-generated method stub
-		return this.amount;
+		Logger.getLogger(EZShop.class.getName()).log(Level.INFO, "amount: "+amount);
+		return amount;
 	}
 
 	@Override
@@ -68,7 +75,8 @@ public class TicketEntryClass implements TicketEntry {
 	@Override
 	public double getPricePerUnit() {
 		// TODO Auto-generated method stub
-		return this.pricePerUnit ;
+		Logger.getLogger(EZShop.class.getName()).log(Level.INFO, "priceperunit "+pricePerUnit);
+		return pricePerUnit ;
 	}
 
 	@Override
@@ -80,7 +88,8 @@ public class TicketEntryClass implements TicketEntry {
 	@Override
 	public double getDiscountRate() {
 		// TODO Auto-generated method stub
-		return this.discountRate;
+		Logger.getLogger(EZShop.class.getName()).log(Level.INFO, "discountRate: "+discountRate);
+		return discountRate;
 	}
 
 	@Override
