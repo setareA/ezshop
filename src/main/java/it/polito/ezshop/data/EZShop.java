@@ -682,23 +682,81 @@ public class EZShop implements EZShopInterface {
         return false;
     }
 
+    // FR7
+    
+    
     @Override
     public double receiveCashPayment(Integer ticketNumber, double cash) throws InvalidTransactionIdException, InvalidPaymentException, UnauthorizedException {
+    	// Check InvalidTransactionIdException (id is null or id has an invalid value (<=0))
+    	if(ticketNumber==null || ticketNumber<=0) {
+    		throw new InvalidTransactionIdException();
+    	}
+    	// Check InvalidPaymentException (id is null or id has an invalid value (<=0))
+    	if(cash<=0) {
+    		throw new InvalidPaymentException();
+    	}
+    	
+    	// Check UnauthorizedException: check if there is a loggedUser and if its role is a "Administrator", "ShopManager" or "Cashier"
+    	if(userRepository.getLoggedUser() == null || !checkIfValidRole(userRepository.getLoggedUser().getRole())) {
+    		throw new UnauthorizedException();
+    	}
+    	
+    	
+        
         return 0;
     }
 
     @Override
     public boolean receiveCreditCardPayment(Integer ticketNumber, String creditCard) throws InvalidTransactionIdException, InvalidCreditCardException, UnauthorizedException {
+    	// Check InvalidTransactionIdException (id is null or id has an invalid value (<=0))
+    	if(ticketNumber==null || ticketNumber<=0) {
+    		throw new InvalidTransactionIdException();
+    	}
+    	
+    	// Checks InvalidCreditCardException: Credit card (empty or null or Luhn algorithm does not validate the card)
+    	if(creditCard == null || creditCard.equals("") || !checkLuhn(creditCard)) {
+    		throw new InvalidCreditCardException();
+    	}
+    	
+    	// Check UnauthorizedException: check if there is a loggedUser and if its role is a "Administrator", "ShopManager" or "Cashier"
+    	if(userRepository.getLoggedUser() == null || !checkIfValidRole(userRepository.getLoggedUser().getRole())) {
+    		throw new UnauthorizedException();
+    	}
         return false;
     }
+    
 
     @Override
     public double returnCashPayment(Integer returnId) throws InvalidTransactionIdException, UnauthorizedException {
+    	// Check InvalidTransactionIdException (id is null or id has an invalid value (<=0))
+    	if(returnId==null || returnId<=0) {
+    		throw new InvalidTransactionIdException();
+    	}
+    	// Check UnauthorizedException: check if there is a loggedUser and if its role is a "Administrator", "ShopManager" or "Cashier"
+    	if(userRepository.getLoggedUser() == null || !checkIfValidRole(userRepository.getLoggedUser().getRole())) {
+    		throw new UnauthorizedException();
+    	}
+    	
         return 0;
     }
 
     @Override
     public double returnCreditCardPayment(Integer returnId, String creditCard) throws InvalidTransactionIdException, InvalidCreditCardException, UnauthorizedException {
+    	// Check InvalidTransactionIdException (id is null or id has an invalid value (<=0))
+    	if(returnId==null || returnId<=0) {
+    		throw new InvalidTransactionIdException();
+    	}
+    	
+    	// Checks InvalidCreditCardException: Credit card (empty or null or Luhn algorithm does not validate the card)
+    	if(creditCard == null || creditCard.equals("") || !checkLuhn(creditCard)) {
+    		throw new InvalidCreditCardException();
+    	}
+    	
+    	// Check UnauthorizedException: check if there is a loggedUser and if its role is a "Administrator", "ShopManager" or "Cashier"
+    	if(userRepository.getLoggedUser() == null || !checkIfValidRole(userRepository.getLoggedUser().getRole())) {
+    		throw new UnauthorizedException();
+    	}
+    	
         return 0;
     }
 
@@ -795,5 +853,32 @@ public class EZShop implements EZShopInterface {
         }
         return false;
     }
-
+    
+	 // Returns true if given
+	 // card number is valid
+	 static boolean checkLuhn(String cardNo)
+	 {
+	     int nDigits = cardNo.length();
+	  
+	     int nSum = 0;
+	     boolean isSecond = false;
+	     for (int i = nDigits - 1; i >= 0; i--)
+	     {
+	  
+	         int d = cardNo.charAt(i) - '0';
+	  
+	         if (isSecond == true)
+	             d = d * 2;
+	  
+	         // We add two digits to handle
+	         // cases that make two digits
+	         // after doubling
+	         nSum += d / 10;
+	         nSum += d % 10;
+	  
+	         isSecond = !isSecond;
+	     }
+	     return (nSum % 10 == 0);
+	 }
+  
 }
