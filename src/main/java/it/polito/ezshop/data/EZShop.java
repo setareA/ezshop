@@ -689,18 +689,37 @@ public class EZShop implements EZShopInterface {
      * Every 10€ the number of points is increased by 1 (i.e. 19.99€ returns 1 point, 20.00€ returns 2 points).
      * If the transaction with given id does not exist then the number of points returned should be -1.
      * The transaction may be in any state (open, closed, payed).
-     * It can be invoked only after a user with role "Administrator", "ShopManager" or "Cashier" is logged in.
-     *
-     * @param transactionId the id of the Sale transaction
      *
      * @return the points of the sale (1 point for each 10€) or -1 if the transaction does not exists
      *
-     * @throws InvalidTransactionIdException if the transaction id less than or equal to 0 or if it is null
-     * @throws UnauthorizedException if there is no logged user or if it has not the rights to perform the operation
      */
     @Override
     public int computePointsForSale(Integer transactionId) throws InvalidTransactionIdException, UnauthorizedException {
-        return 0;
+        if(checkIfAdministrator()  || checkIfManager()  || checkIfCashier()) {
+            if (transactionId == null || transactionId <= 0){
+                throw new InvalidTransactionIdException();
+            }
+            SaleTransactionClass saleTransaction = balanceOperationRepository.getSalesByTicketNumber(transactionId);
+            if(saleTransaction == null) {
+                return -1;
+            }
+            double price = 0;
+            ArrayList<TicketEntryClass> products = balanceOperationRepository.getTicketsBySaleId(transactionId);
+            price = computePriceForProducts(products);
+            balanceOperationRepository.updateRow("sale","price", "ticketNumber", transactionId, String.valueOf(price*saleTransaction.getDiscountRate()));
+            return (int) (price * saleTransaction.getDiscountRate() / 10);
+        }
+        else{
+            throw new UnauthorizedException();
+        }
+    }
+
+    private double computePriceForProducts(ArrayList<TicketEntryClass> products) {
+        double price = 0;
+        for(TicketEntry p : products){
+            price += p.getAmount() * p.getPricePerUnit() * p.getDiscountRate();
+        }
+        return price;
     }
 
     @Override
