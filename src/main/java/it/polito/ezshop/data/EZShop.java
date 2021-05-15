@@ -661,7 +661,28 @@ public class EZShop implements EZShopInterface {
 
     @Override
     public boolean applyDiscountRateToSale(Integer transactionId, double discountRate) throws InvalidTransactionIdException, InvalidDiscountRateException, UnauthorizedException {
-        return false;
+        if(checkIfAdministrator()  || checkIfManager()  || checkIfCashier()) {
+            if (transactionId == null || transactionId <= 0){
+                throw new InvalidTransactionIdException();
+            }
+            if(discountRate < 0 || discountRate >= 1){
+                throw new InvalidDiscountRateException();
+            }
+            SaleTransactionClass saleTransaction = balanceOperationRepository.getSalesByTicketNumber(transactionId);
+            if(saleTransaction == null) {
+                return false;
+            }
+            if( "open".equals(saleTransaction.getState()) || "closed".equals(saleTransaction.getState())){
+                balanceOperationRepository.updateRow("sale","discountRate", "ticketNumber", transactionId, String.valueOf(discountRate));
+                return true;
+            }
+
+        }
+        else{
+            throw new UnauthorizedException();
+        }
+
+            return false;
     }
 
     @Override
