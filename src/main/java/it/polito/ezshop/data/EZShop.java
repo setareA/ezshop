@@ -728,8 +728,8 @@ public class EZShop implements EZShopInterface {
                 return false;
             }
             Logger.getLogger(EZShop.class.getName()).log(Level.INFO, "closing sale with ticketNumber: "+ transactionId);
-            balanceOperationRepository.updateRow("sale","status", "ticketNumber", transactionId, "closed");
-            return true;
+            return balanceOperationRepository.updateRow("sale","status", "ticketNumber", transactionId, "closed");
+
         }
         else{
             throw new UnauthorizedException();
