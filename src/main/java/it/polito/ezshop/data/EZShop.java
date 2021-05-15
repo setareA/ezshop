@@ -722,15 +722,6 @@ public class EZShop implements EZShopInterface {
         return price;
     }
 
-    /**
-     * This method closes an opened transaction. After this operation the
-     * transaction is persisted in the system's memory.
-     *
-     * @return  true    if the transaction was successfully closed
-     *          false   if the transaction does not exist,
-     *                  if it has already been closed,
-     *                  if there was a problem in registering the data
-     */
     @Override
     public boolean endSaleTransaction(Integer transactionId) throws InvalidTransactionIdException, UnauthorizedException {
         if(checkIfAdministrator()  || checkIfManager()  || checkIfCashier()) {
@@ -755,6 +746,18 @@ public class EZShop implements EZShopInterface {
 
     @Override
     public SaleTransaction getSaleTransaction(Integer transactionId) throws InvalidTransactionIdException, UnauthorizedException {
+        if(checkIfAdministrator()  || checkIfManager()  || checkIfCashier()) {
+            if (transactionId == null || transactionId <= 0) {
+                throw new InvalidTransactionIdException();
+            }
+            SaleTransactionClass saleTransaction = balanceOperationRepository.getSalesByTicketNumber(transactionId);
+            if(saleTransaction != null || !"open".equals(saleTransaction.getState())) {
+                return saleTransaction;
+            }
+        }
+        else{
+             throw new UnauthorizedException();
+        }
         return null;
     }
 
