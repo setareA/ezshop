@@ -537,7 +537,7 @@ public class EZShop implements EZShopInterface {
         if(checkIfAdministrator()  || checkIfManager()  || checkIfCashier()) {
             try {
                 Logger.getLogger(EZShop.class.getName()).log(Level.INFO, String.valueOf(LocalDate.now()));
-                return balanceOperationRepository.addNewSale(new SaleTransactionClass(null,1,0,"open", LocalDate.now()));
+                return balanceOperationRepository.addNewSale(new SaleTransactionClass(null,1,0,"open"));
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
@@ -555,7 +555,7 @@ public class EZShop implements EZShopInterface {
                 throw new InvalidTransactionIdException();
             }
             if (productCode == null || productCode.isEmpty() || !ProductTypeClass.checkValidityProductcode(productCode)){
-                Logger.getLogger(EZShop.class.getName()).log(Level.SEVERE, "productCode: "+ productCode);
+                Logger.getLogger(EZShop.class.getName()).log(Level.INFO, "productCode: "+ productCode);
                 throw new InvalidProductCodeException();
             }
             if (amount < 0){
@@ -585,11 +585,6 @@ public class EZShop implements EZShopInterface {
         return false;
     }
 
-    /**
-     * This method deletes a product from a sale transaction increasing the temporary amount of product available on the
-     * shelves for other customers.
-
-     */
     @Override
     public boolean deleteProductFromSale(Integer transactionId, String productCode, int amount) throws InvalidTransactionIdException, InvalidProductCodeException, InvalidQuantityException, UnauthorizedException {
         if(checkIfAdministrator()  || checkIfManager()  || checkIfCashier()) {
@@ -619,22 +614,49 @@ public class EZShop implements EZShopInterface {
                boolean deleteTicket = balanceOperationRepository.deleteTicketEntry(ticketEntry.getId());
            }
            else {
-               balanceOperationRepository.updateTicketQuantity(ticketEntry.getId(), ticketEntry.getAmount() - amount);
+               balanceOperationRepository.updateRow("ticket", "amount","id",
+                       ticketEntry.getId(), String.valueOf(ticketEntry.getAmount() - amount)) ;
            }
            productTypeRepository.updateQuantity(product.getId(), product.getQuantity() + amount);
            return true;
-        //    }
 
         }
         else {
             throw new UnauthorizedException();
         }
-      //   return false;
     }
 
     @Override
     public boolean applyDiscountRateToProduct(Integer transactionId, String productCode, double discountRate) throws InvalidTransactionIdException, InvalidProductCodeException, InvalidDiscountRateException, UnauthorizedException {
-        return false;
+        if(checkIfAdministrator()  || checkIfManager()  || checkIfCashier()) {
+            if (transactionId == null || transactionId <= 0){
+                throw new InvalidTransactionIdException();
+            }
+            if (productCode == null || productCode.isEmpty() || !ProductTypeClass.checkValidityProductcode(productCode)){
+                throw new InvalidProductCodeException();
+            }
+            if(discountRate < 0 || discountRate >= 1){
+                throw new InvalidDiscountRateException();
+            }
+            SaleTransactionClass saleTransaction = balanceOperationRepository.getSalesByTicketNumber(transactionId);
+            if(saleTransaction == null || !"open".equals(saleTransaction.getState())) {
+                return false;
+            }
+            ProductTypeClass product = productTypeRepository.getProductTypebyBarCode(productCode);
+            if(product == null) {
+                return false;
+            }
+            TicketEntryClass ticketEntry = balanceOperationRepository.getTicketsByForeignKeyAndBarcode("saleId", transactionId,productCode);
+            if (ticketEntry == null)
+                return false;
+            balanceOperationRepository.updateRow("ticket", "discountRate","id",
+                                                    ticketEntry.getId(), String.valueOf(discountRate)) ;
+            return true;
+        }
+        else {
+            throw new UnauthorizedException();
+        }
+
     }
 
     @Override

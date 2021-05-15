@@ -27,16 +27,16 @@ public class BalanceOperationRepository {
 
     private static Integer nextTicketNumber = 0;
     private static final String COLUMNS_ORDER = "orderId, balanceId, productCode, pricePerUnit, quantity, status, localDate, money";
-    private static final String COLUMNS_SALE = "ticketNumber, discountRate, price, status, LocalDate";
-    private static final String COLUMNS_RETURN = "returnId, localDate, price, status";
+    private static final String COLUMNS_SALE = "ticketNumber, discountRate, price, status";
+    private static final String COLUMNS_RETURN = "returnId, price, status";
     private static final String COLUMNS_TICKET_ENTRY = "id, barcode, productDescription, amount, pricePerUnit, discountRate, saleId, returnId";
 
     public void initialize() throws SQLException {
         Connection con = DBCPDBConnectionPool.getConnection();
         Statement st = con.createStatement();
         st.executeUpdate("CREATE TABLE IF NOT EXISTS " + "orderTable" + " " + "(balanceId INTEGER PRIMARY KEY, localDate TEXT, money DOUBLE, type TEXT, productCode TEXT, pricePerUnit DOUBLE, quantity INTEGER, status TEXT, orderId INTEGER)");
-        st.executeUpdate("CREATE TABLE IF NOT EXISTS " + "sale" + " " + "(ticketNumber INTEGER PRIMARY KEY, discountRate DOUBLE, price DOUBLE, status TEXT, localDate TEXT)");
-        st.executeUpdate("CREATE TABLE IF NOT EXISTS " + "returnTable" + " " + "(returnId INTEGER PRIMARY KEY, localDate TEXT, price DOUBLE, status TEXT)");
+        st.executeUpdate("CREATE TABLE IF NOT EXISTS " + "sale" + " " + "(ticketNumber INTEGER PRIMARY KEY, discountRate DOUBLE, price DOUBLE, status TEXT)");
+        st.executeUpdate("CREATE TABLE IF NOT EXISTS " + "returnTable" + " " + "(returnId INTEGER PRIMARY KEY, price DOUBLE, status TEXT)");
         st.executeUpdate("CREATE TABLE IF NOT EXISTS " + "ticket" + " " + "(id INTEGER PRIMARY KEY AUTOINCREMENT, barcode TEXT, productDescription TEXT, amount INTEGER , pricePerUnit DOUBLE, discountRate DOUBLE, saleId INTEGER, returnId INTEGER, FOREIGN KEY (saleId) references sale(balanceId), FOREIGN KEY (returnId) references returnTable(returnId))");
 
         st.close();
@@ -51,12 +51,12 @@ public class BalanceOperationRepository {
     }
     private static ArrayList<String> getAttrsSale(){
         ArrayList<String> attrs = new ArrayList<>(
-                Arrays.asList("ticketNumber", "discountRate", "price", "status", "localDate"));
+                Arrays.asList("ticketNumber", "discountRate", "price", "status"));
         return attrs;
     }
     private static ArrayList<String> getAttrsReturn(){
         ArrayList<String> attrs = new ArrayList<>(
-                Arrays.asList( "returnId", "localDate", "price", "status"));
+                Arrays.asList( "returnId", "price", "status"));
         return attrs;
     }
     private static ArrayList<String> getAttrsTicket(){
@@ -113,9 +113,6 @@ public class BalanceOperationRepository {
         saleData.put("discountRate", String.valueOf(sale.getDiscountRate()));
         saleData.put("price", String.valueOf(sale.getPrice()));
         saleData.put("status", sale.getState());
-        saleData.put("localDate", sale.getDate().toString());
-
-        Logger.getLogger(EZShop.class.getName()).log(Level.SEVERE, String.valueOf(sale.getDate()));
 
         Connection con = DBCPDBConnectionPool.getConnection();
         ArrayList<String> attrs = getAttrsSale();
@@ -135,13 +132,12 @@ public class BalanceOperationRepository {
 
         HashMap<String, String> returnData = new HashMap<>();
         returnData.put("returnId", returnTransaction.getReturnId().toString());
-        returnData.put("localDate", returnTransaction.getDate().toString() );
         returnData.put("price", Double.toString(returnTransaction.getPrice()));
         returnData.put("status", returnTransaction.getState());
 
         Connection con = DBCPDBConnectionPool.getConnection();
         ArrayList<String> attrs = getAttrsReturn();
-        System.out.println("adding new return");
+        Logger.getLogger(EZShop.class.getName()).log(Level.INFO,"adding new return with returnId: "+ returnTransaction.getReturnId());
         String sqlCommand = insertCommand("returnTable", attrs);
         PreparedStatement prp = con.prepareStatement(sqlCommand);
         for (int j = 0; j < attrs.size(); j++) {
@@ -196,13 +192,19 @@ public class BalanceOperationRepository {
         }
         return false;
     }
-
-    public boolean updateTicketQuantity(Integer id, int quantity){
+    /**
+    * @param tableName the name of the table to be updated
+    * @param columnName the name of the column which is going to change
+    * @param  idName the name of the column which is going to be used in where clause
+    * @param  id the value of the id
+    * @param newColumnVal the value of the column which is being updated
+     **/
+    public boolean updateRow(String tableName, String columnName, String idName ,Integer id, String newColumnVal){
         try {
-            String sqlCommand = getUpdateQuantityStatement();
+            String sqlCommand = getUpdateRowStatement(tableName, columnName, idName);
             Connection con = DBCPDBConnectionPool.getConnection();
             PreparedStatement prps = con.prepareStatement(sqlCommand);
-            prps.setString(1, String.valueOf(quantity));
+            prps.setString(1, newColumnVal);
             prps.setString(2, String.valueOf(id));
             int returnVal = prps.executeUpdate();
             prps.close();
@@ -213,8 +215,8 @@ public class BalanceOperationRepository {
         }
         return false;
     }
-    private String getUpdateQuantityStatement(){
-        return "UPDATE ticket SET amount = ? WHERE id = ?";
+    private String getUpdateRowStatement(String tableName, String columnName, String idName){
+        return "UPDATE "+tableName+" SET "+columnName+" = ? WHERE "+idName+" = ?";
     }
     private String getDeleteTicketStatement() {
         return "DELETE FROM ticket WHERE id= ?;";
@@ -231,20 +233,18 @@ public class BalanceOperationRepository {
                 rs.getInt(8)
         );
     }
-// ticketNumber, discountRate, price, state, LocalDate";
+// ticketNumber, discountRate, price, state";
     protected SaleTransactionClass convertResultSetSaleToDomainModel(ResultSet rs) throws SQLException {
         return new SaleTransactionClass(rs.getInt(1),
                 rs.getDouble(2),
                 rs.getDouble(3),
-                rs.getString(4),
-                rs.getDate(5).toLocalDate()
+                rs.getString(4)
         );
     }
 
-  //  "balanceId, localDate, price, state";
+  //  "balanceId, price, state";
     protected ReturnTransactionClass convertResultSetReturnToDomainModel(ResultSet rs) throws SQLException {
         return new ReturnTransactionClass(rs.getInt(1),
-                rs.getDate(2).toLocalDate(),
                 rs.getDouble(3),
                 rs.getString(4)
         );
@@ -405,6 +405,7 @@ public class BalanceOperationRepository {
             Connection con = DBCPDBConnectionPool.getConnection();
             PreparedStatement prps = con.prepareStatement(sqlCommand);
             prps.setString(1, String.valueOf(key));
+            prps.setString(2, String.valueOf(barcode));
             ResultSet rs = prps.executeQuery();
             rs.next();
             TicketEntryClass ticket= convertResultSetTicketToDomainModel(rs);

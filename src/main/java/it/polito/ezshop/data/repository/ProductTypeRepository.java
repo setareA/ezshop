@@ -122,17 +122,20 @@ public class ProductTypeRepository {
     private String getUpdateQuantityStatement(){
         return "UPDATE productType SET quantity = ? WHERE id = ?";
     }
-    private int  getMaxId () throws SQLException {
-    	Connection con = DBCPDBConnectionPool.getConnection();
-    	String sqlCommand = getMaxIdCommand("productType","id");
-    	PreparedStatement prps = con.prepareStatement(sqlCommand);
+    private Integer  getMaxId () throws SQLException {
+        Connection con = DBCPDBConnectionPool.getConnection();
+        String sqlCommand = getMaxIdCommand("productType", "id");
+        PreparedStatement prps = con.prepareStatement(sqlCommand);
         ResultSet rs = prps.executeQuery();
         rs.next();
-        int c = Integer.parseInt(rs.getString(1));
+        Integer highestId = rs.getInt(1);
         prps.close();
         con.close();
-        return c;
-
+        if (highestId != null) {
+            return highestId;
+        } else {
+            return 0;
+        }
     }
     public boolean deleteProductTypeFromDB(Integer id) throws SQLException {
     	Connection con = DBCPDBConnectionPool.getConnection();

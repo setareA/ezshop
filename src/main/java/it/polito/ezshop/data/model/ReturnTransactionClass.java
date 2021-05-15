@@ -5,16 +5,14 @@ import java.util.ArrayList;
 
 public class ReturnTransactionClass{
     private static Integer returnId;
-    private static LocalDate date;
     private static double price;
     private static String state;
     private static boolean commit;
     private ArrayList<TicketEntryClass> entries ;
 
 
-    public ReturnTransactionClass(Integer returnId, LocalDate date, double price, String state) {
+    public ReturnTransactionClass(Integer returnId, double price, String state) {
         this.returnId = returnId;
-        this.date = date;
         this.price = price;
         this.state = state;
     }
@@ -25,14 +23,6 @@ public class ReturnTransactionClass{
 
     public void setReturnId(Integer returnId) {
         ReturnTransactionClass.returnId = returnId;
-    }
-
-    public LocalDate getDate() {
-        return date;
-    }
-
-    public void setDate(LocalDate date) {
-        ReturnTransactionClass.date = date;
     }
 
     public double getPrice() {
