@@ -684,15 +684,7 @@ public class EZShop implements EZShopInterface {
 
             return false;
     }
-    /**
-     * This method returns the number of points granted by a specific sale transaction.
-     * Every 10€ the number of points is increased by 1 (i.e. 19.99€ returns 1 point, 20.00€ returns 2 points).
-     * If the transaction with given id does not exist then the number of points returned should be -1.
-     * The transaction may be in any state (open, closed, payed).
-     *
-     * @return the points of the sale (1 point for each 10€) or -1 if the transaction does not exists
-     *
-     */
+
     @Override
     public int computePointsForSale(Integer transactionId) throws InvalidTransactionIdException, UnauthorizedException {
         if(checkIfAdministrator()  || checkIfManager()  || checkIfCashier()) {
@@ -738,14 +730,7 @@ public class EZShop implements EZShopInterface {
             throw new UnauthorizedException();
         }
     }
-    /**
-     * This method deletes a sale transaction with given unique identifier from the system's data store.
 
-     * @return  true if the transaction has been successfully deleted,
-     *          false   if the transaction doesn't exist,
-     *                  if it has been payed,
-     *                  if there are some problems with the db
- */
     @Override
     public boolean deleteSaleTransaction(Integer transactionId) throws InvalidTransactionIdException, UnauthorizedException {
         if(checkIfAdministrator()  || checkIfManager()  || checkIfCashier()) {
@@ -778,7 +763,7 @@ public class EZShop implements EZShopInterface {
                 throw new InvalidTransactionIdException();
             }
             SaleTransactionClass saleTransaction = balanceOperationRepository.getSalesByTicketNumber(transactionId);
-            if(saleTransaction != null || !"open".equals(saleTransaction.getState())) {
+            if(saleTransaction != null && !"open".equals(saleTransaction.getState())) {
                 return saleTransaction;
             }
         }
