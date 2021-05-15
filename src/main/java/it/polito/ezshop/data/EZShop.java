@@ -189,7 +189,10 @@ public class EZShop implements EZShopInterface {
                                                                                             
      @Override
     public boolean logout() {
-    	 userRepository.setLoggedUser(null);
+        if (userRepository.getLoggedUser() != null){
+            userRepository.setLoggedUser(null);
+            return true;
+        }
         return false;                                   
     }
 
