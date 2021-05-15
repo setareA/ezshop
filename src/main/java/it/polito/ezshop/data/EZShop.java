@@ -727,7 +727,9 @@ public class EZShop implements EZShopInterface {
             if(saleTransaction == null || !"open".equals(saleTransaction.getState())) {
                 return false;
             }
-            return balanceOperationRepository.updateRow("sale","status", "ticketNumber", transactionId, "closed");
+            Logger.getLogger(EZShop.class.getName()).log(Level.INFO, "closing sale with ticketNumber: "+ transactionId);
+            balanceOperationRepository.updateRow("sale","status", "ticketNumber", transactionId, "closed");
+            return true;
         }
         else{
             throw new UnauthorizedException();
