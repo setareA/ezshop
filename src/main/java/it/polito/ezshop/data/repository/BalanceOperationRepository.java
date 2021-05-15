@@ -110,7 +110,7 @@ public class BalanceOperationRepository {
 
         nextTicketNumber = ourInstance.getHighestTicketNumber() + 1;
         HashMap<String, String> saleData = new HashMap<>();
-        saleData.put("ticketNumber", nextTicketNumber.toString());
+        saleData.put("ticketNumber", String.valueOf(nextTicketNumber));
         saleData.put("discountRate", String.valueOf(sale.getDiscountRate()));
         saleData.put("price", String.valueOf(sale.getPrice()));
         saleData.put("status", sale.getState());

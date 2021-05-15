@@ -714,11 +714,7 @@ public class EZShop implements EZShopInterface {
             if(saleTransaction == null) {
                 return -1;
             }
-            double price = 0;
-            ArrayList<TicketEntry> products = balanceOperationRepository.getTicketsBySaleId(transactionId);
-            price = computePriceForProducts(products);
-            balanceOperationRepository.updateRow("sale","price", "ticketNumber", transactionId, String.valueOf(price*saleTransaction.getDiscountRate()));
-            return (int) (price * saleTransaction.getDiscountRate() / 10);
+            return (int) (saleTransaction.getPrice() / 10);
         }
         else{
             throw new UnauthorizedException();
@@ -728,7 +724,7 @@ public class EZShop implements EZShopInterface {
     private double computePriceForProducts(ArrayList<TicketEntry> products) {
         double price = 0;
         for(TicketEntry p : products){
-            price += p.getAmount() * p.getPricePerUnit() * p.getDiscountRate();
+            price += p.getAmount() * p.getPricePerUnit() * (1 - p.getDiscountRate());
         }
         return price;
     }
@@ -744,10 +740,10 @@ public class EZShop implements EZShopInterface {
                 return false;
             }
             Logger.getLogger(EZShop.class.getName()).log(Level.INFO, "closing sale with ticketNumber: "+ transactionId);
-         //    double price = 0;
-         //    ArrayList<TicketEntryClass> products = balanceOperationRepository.getTicketsBySaleId(transactionId);
-        //     price = computePriceForProducts(products);
-       //      balanceOperationRepository.updateRow("sale","price", "ticketNumber", transactionId, String.valueOf(price*saleTransaction.getDiscountRate()));
+            double price = 0;
+            ArrayList<TicketEntry> products = balanceOperationRepository.getTicketsBySaleId(transactionId);
+            price = computePriceForProducts(products);
+            balanceOperationRepository.updateRow("sale","price", "ticketNumber", transactionId, String.valueOf(price*(1-saleTransaction.getDiscountRate())));
             return balanceOperationRepository.updateRow("sale","status", "ticketNumber", transactionId, "closed");
 
         }
