@@ -821,14 +821,24 @@ public class EZShop implements EZShopInterface {
      * This method starts a new return transaction for units of products that have already been sold and payed.
      *
      * @return the id of the return transaction (>= 0), -1 if the transaction is not available.
-     *
-     * @throws InvalidTransactionIdException if the transactionId  is less than or equal to 0 or if it is null
  */
 
     @Override
     public Integer startReturnTransaction(Integer saleNumber) throws /*InvalidTicketNumberException,*/InvalidTransactionIdException, UnauthorizedException {
+        Logger.getLogger(EZShop.class.getName()).log(Level.INFO, "startReturnTransaction: "+saleNumber);
         if(checkIfAdministrator()  || checkIfManager()  || checkIfCashier()) {
-
+            if (saleNumber == null || saleNumber <= 0) {
+                throw new InvalidTransactionIdException();
+            }
+                SaleTransactionClass saleTransaction = balanceOperationRepository.getSalesByTicketNumber(saleNumber);
+            if(saleTransaction == null || !"payed".equals(saleTransaction.getState())){
+                return -1;
+            }
+            try {
+                return balanceOperationRepository.addNewReturn(new ReturnTransactionClass(null, 0,"open",saleNumber));
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
         }
         else{
             throw new  UnauthorizedException();
