@@ -11,12 +11,14 @@ public class ReturnTransactionClass{
     private static String state;
     private static boolean commit;
     private ArrayList<TicketEntry> entries ;
+    private static Integer ticketNumber;
 
 
-    public ReturnTransactionClass(Integer returnId, double price, String state) {
+    public ReturnTransactionClass(Integer returnId, double price, String state, Integer ticketNumber) {
         this.returnId = returnId;
         this.price = price;
         this.state = state;
+        this.ticketNumber = ticketNumber;
     }
 
     public Integer getReturnId() {
@@ -57,5 +59,13 @@ public class ReturnTransactionClass{
 
     public void setEntries(ArrayList<TicketEntry> arrayList) {
         this.entries = arrayList;
+    }
+
+    public Integer getTicketNumber() {
+        return ticketNumber;
+    }
+
+    public void setTicketNumber(Integer ticketNumber) {
+        ReturnTransactionClass.ticketNumber = ticketNumber;
     }
 }

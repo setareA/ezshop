@@ -755,24 +755,24 @@ public class EZShop implements EZShopInterface {
     }
 
     @Override
-    public boolean deleteSaleTransaction(Integer transactionId) throws InvalidTransactionIdException, UnauthorizedException {
+    public boolean deleteSaleTransaction(Integer saleNumber) throws InvalidTransactionIdException, UnauthorizedException {
         Logger.getLogger(EZShop.class.getName()).log(Level.INFO, "deleteSaleTransaction");
         if(checkIfAdministrator()  || checkIfManager()  || checkIfCashier()) {
-            if (transactionId == null || transactionId <= 0) {
+            if (saleNumber == null || saleNumber <= 0) {
                 throw new InvalidTransactionIdException();
             }
-            SaleTransactionClass saleTransaction = balanceOperationRepository.getSalesByTicketNumber(transactionId);
+            SaleTransactionClass saleTransaction = balanceOperationRepository.getSalesByTicketNumber(saleNumber);
             if(saleTransaction == null || "payed".equals(saleTransaction.getState())) {
                 return false;
             }
-            ArrayList<TicketEntry> products = balanceOperationRepository.getTicketsBySaleId(transactionId);
+            ArrayList<TicketEntry> products = balanceOperationRepository.getTicketsBySaleId(saleNumber);
             //delete tickets add them to real product and then delete sale
             for(TicketEntry p : products){
                 ProductTypeClass realProduct = productTypeRepository.getProductTypebyBarCode(p.getBarCode());
                 productTypeRepository.updateQuantity(realProduct.getId(), realProduct.getQuantity() + p.getAmount());
             }
-            balanceOperationRepository.deleteRow("ticket","saleId", String.valueOf(transactionId));
-            balanceOperationRepository.deleteRow("sale","ticketNumber", String.valueOf(transactionId));
+            balanceOperationRepository.deleteRow("ticket","saleId", String.valueOf(saleNumber));
+            balanceOperationRepository.deleteRow("sale","ticketNumber", String.valueOf(saleNumber));
             return true;
         }
         else{
@@ -817,23 +817,55 @@ public class EZShop implements EZShopInterface {
     }
 
 
+    /**
+     * This method starts a new return transaction for units of products that have already been sold and payed.
+     *
+     * @return the id of the return transaction (>= 0), -1 if the transaction is not available.
+     *
+     * @throws InvalidTransactionIdException if the transactionId  is less than or equal to 0 or if it is null
+ */
+
     @Override
     public Integer startReturnTransaction(Integer saleNumber) throws /*InvalidTicketNumberException,*/InvalidTransactionIdException, UnauthorizedException {
-        return null;
+        if(checkIfAdministrator()  || checkIfManager()  || checkIfCashier()) {
+
+        }
+        else{
+            throw new  UnauthorizedException();
+        }
+            return null;
     }
 
     @Override
     public boolean returnProduct(Integer returnId, String productCode, int amount) throws InvalidTransactionIdException, InvalidProductCodeException, InvalidQuantityException, UnauthorizedException {
+        if(checkIfAdministrator()  || checkIfManager()  || checkIfCashier()) {
+
+        }
+        else{
+            throw new  UnauthorizedException();
+        }
         return false;
     }
 
     @Override
     public boolean endReturnTransaction(Integer returnId, boolean commit) throws InvalidTransactionIdException, UnauthorizedException {
+        if(checkIfAdministrator()  || checkIfManager()  || checkIfCashier()) {
+
+        }
+        else{
+            throw new  UnauthorizedException();
+        }
         return false;
     }
 
     @Override
     public boolean deleteReturnTransaction(Integer returnId) throws InvalidTransactionIdException, UnauthorizedException {
+        if(checkIfAdministrator()  || checkIfManager()  || checkIfCashier()) {
+
+        }
+        else{
+            throw new  UnauthorizedException();
+        }
         return false;
     }
 
