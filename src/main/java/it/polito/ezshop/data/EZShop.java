@@ -67,6 +67,7 @@ public class EZShop implements EZShopInterface {
 
 	@Override
     public Integer createUser(String username, String password, String role) throws InvalidUsernameException, InvalidPasswordException, InvalidRoleException {
+        Logger.getLogger(EZShop.class.getName()).log(Level.INFO, "createUser");
     	// Checks InvalidUsernameException: Username (empty or null)
     	if(username == null || username.equals("")) {
     		throw new InvalidUsernameException();
@@ -96,6 +97,7 @@ public class EZShop implements EZShopInterface {
 
     @Override
     public boolean deleteUser(Integer id) throws InvalidUserIdException, UnauthorizedException {
+        Logger.getLogger(EZShop.class.getName()).log(Level.INFO, "deleteUser");
     	// Check InvalidUserIdException (id is null or id has an invalid value (<=0))
     	if(id==null || id<=0) {
     		throw new InvalidUserIdException();
@@ -117,6 +119,7 @@ public class EZShop implements EZShopInterface {
 
     @Override
     public List<User> getAllUsers() throws UnauthorizedException {
+        Logger.getLogger(EZShop.class.getName()).log(Level.INFO, "getAllUsers");
     	// Check UnauthorizedException (there is a login user and this user is an Administrator)
         if(!checkIfAdministrator()) {
     		throw new UnauthorizedException();
@@ -126,6 +129,7 @@ public class EZShop implements EZShopInterface {
 
     @Override
     public User getUser(Integer id) throws InvalidUserIdException, UnauthorizedException {
+        Logger.getLogger(EZShop.class.getName()).log(Level.INFO, "getUser");
     	// Check InvalidUserIdException (id is null or id has an invalid value (<=0))
     	if(id==null || id<=0) {
     		throw new InvalidUserIdException();
@@ -140,6 +144,7 @@ public class EZShop implements EZShopInterface {
 
     @Override
     public boolean updateUserRights(Integer id, String role) throws InvalidUserIdException, InvalidRoleException, UnauthorizedException {
+        Logger.getLogger(EZShop.class.getName()).log(Level.INFO, "UpdateUserRights");
     	// Check InvalidUserIdException (id is null or id has an invalid value (<=0))
     	if(id==null || id<=0) {
     		throw new InvalidUserIdException();
@@ -166,6 +171,7 @@ public class EZShop implements EZShopInterface {
 
     @Override
     public User login(String username, String password) throws InvalidUsernameException, InvalidPasswordException {
+        Logger.getLogger(EZShop.class.getName()).log(Level.INFO, "login");
         
     	// Checks InvalidUsernameException: Username (empty or null)
     	if(username == null || username.equals("")) {
@@ -189,20 +195,25 @@ public class EZShop implements EZShopInterface {
                                                                                             
      @Override
     public boolean logout() {
-    	 userRepository.setLoggedUser(null);
+         Logger.getLogger(EZShop.class.getName()).log(Level.INFO, "logout");
+        if (userRepository.getLoggedUser() != null){
+            userRepository.setLoggedUser(null);
+            return true;
+        }
         return false;                                   
     }
 
     @Override
-    public Integer createProductType(String description, String productCode, double pricePerUnit, String note) throws InvalidProductDescriptionException, InvalidProductCodeException, InvalidPricePerUnitException, UnauthorizedException { 
-        if(this.checkIfAdministrator() | this.checkIfManager()) { // loggedUser check
-        	if(description.isEmpty() | description == null) throw new InvalidProductDescriptionException(); // descriptor != null check
+    public Integer createProductType(String description, String productCode, double pricePerUnit, String note) throws InvalidProductDescriptionException, InvalidProductCodeException, InvalidPricePerUnitException, UnauthorizedException {
+        Logger.getLogger(EZShop.class.getName()).log(Level.INFO, "createProductType");
+        if(this.checkIfAdministrator() || this.checkIfManager()) { // loggedUser check
+        	if(description.isEmpty() || description == null) throw new InvalidProductDescriptionException(); // descriptor != null check
         	else if(!ProductTypeClass.checkValidityProductcode(productCode)) throw new InvalidProductCodeException(); // barcode check
         	else if (pricePerUnit <= 0 ) throw new InvalidPricePerUnitException(); // price per unit check
         	else if (! productTypeRepository.checkUniqueBarcode(productCode) ) return -1;
         	else { 
         		try {
-        		productTypeRepository.addNewProductType(new ProductTypeClass(productTypeRepository.getLastId() + 1 , 0, "" , note , description , productCode, pricePerUnit, 0.0, 0)); 
+        		productTypeRepository.addNewProductType(new ProductTypeClass(productTypeRepository.getLastId() + 1 , 0, "" , note , description , productCode, pricePerUnit, 1.0, 0));
         		}
         		catch (SQLException e) { return -1;}
         		productTypeRepository.setLastId(productTypeRepository.getLastId() + 1);
@@ -216,9 +227,10 @@ public class EZShop implements EZShopInterface {
 
     @Override
     public boolean updateProduct(Integer id, String newDescription, String newCode, double newPrice, String newNote) throws InvalidProductIdException, InvalidProductDescriptionException, InvalidProductCodeException, InvalidPricePerUnitException, UnauthorizedException {
-        if(this.checkIfAdministrator() | this.checkIfManager()) { // loggedUser check
-        	if(id <= 0 | id == null) throw new InvalidProductIdException();
-        	if(newDescription.isEmpty() | newDescription == null) throw new InvalidProductDescriptionException();
+        Logger.getLogger(EZShop.class.getName()).log(Level.INFO, "updateProduct");
+        if(this.checkIfAdministrator() || this.checkIfManager()) { // loggedUser check
+        	if(id <= 0 || id == null) throw new InvalidProductIdException();
+        	if(newDescription.isEmpty() || newDescription == null) throw new InvalidProductDescriptionException();
         	if(!ProductTypeClass.checkValidityProductcode(newCode)) throw new InvalidProductCodeException();
         	if(newPrice <= 0) throw new InvalidPricePerUnitException();
         	if(!productTypeRepository.checkUniqueBarcode(newCode)) return false;
@@ -232,9 +244,9 @@ public class EZShop implements EZShopInterface {
 
     @Override
     public boolean deleteProductType(Integer id) throws InvalidProductIdException, UnauthorizedException {
-    	
-    	if(this.checkIfAdministrator() | this.checkIfManager()) { // loggedUser check
-        	if(id <= 0 | id == null) throw new InvalidProductIdException();
+        Logger.getLogger(EZShop.class.getName()).log(Level.INFO, "deleteProductType");
+    	if(this.checkIfAdministrator() || this.checkIfManager()) { // loggedUser check
+        	if(id <= 0 || id == null) throw new InvalidProductIdException();
         	try {
         		return productTypeRepository.deleteProductTypeFromDB(id);
         		
@@ -247,7 +259,8 @@ public class EZShop implements EZShopInterface {
 
     @Override
     public List<ProductType> getAllProductTypes() throws UnauthorizedException {
-    	if(this.checkIfAdministrator() | this.checkIfManager()) { // loggedUser check
+        Logger.getLogger(EZShop.class.getName()).log(Level.INFO, "getAllProductTypes");
+    	if(this.checkIfAdministrator() || this.checkIfManager() || this.checkIfCashier()) { // loggedUser check
         	List<ProductType> list = new ArrayList<ProductType>(productTypeRepository.getAllProductType());
     		return list ;
         }else {
@@ -257,7 +270,7 @@ public class EZShop implements EZShopInterface {
 
     @Override
     public ProductType getProductTypeByBarCode(String barCode) throws InvalidProductCodeException, UnauthorizedException {
-    	if(this.checkIfAdministrator() | this.checkIfManager()) {
+    	if(this.checkIfAdministrator() || this.checkIfManager()) {
     		if(!ProductTypeClass.checkValidityProductcode(barCode)) throw new InvalidProductCodeException();
     		return  productTypeRepository.getProductTypebyBarCode(barCode);
     		
@@ -270,7 +283,7 @@ public class EZShop implements EZShopInterface {
     @Override
     public List<ProductType> getProductTypesByDescription(String description) throws UnauthorizedException {
         
-    	if(this.checkIfAdministrator() | this.checkIfManager()) {
+    	if(this.checkIfAdministrator() || this.checkIfManager()) {
     		 List<ProductType> list = new ArrayList<ProductType>(productTypeRepository.getProductTypebyDescription(description));
     		return list;
         }else {
@@ -280,7 +293,8 @@ public class EZShop implements EZShopInterface {
 
     @Override
     public boolean updateQuantity(Integer productId, int toBeAdded) throws InvalidProductIdException, UnauthorizedException {
-      if(this.checkIfAdministrator() | this.checkIfManager()) {
+
+      if(this.checkIfAdministrator() || this.checkIfManager()) {
     	  if(productId < 1 | productId == null) throw new InvalidProductIdException();
     	  else {
     	try {
@@ -296,8 +310,8 @@ public class EZShop implements EZShopInterface {
     @Override
     public boolean updatePosition(Integer productId, String newPos) throws InvalidProductIdException, InvalidLocationException, UnauthorizedException {
         
-    	if(this.checkIfAdministrator() | this.checkIfManager()) {
-      	  if(productId < 1 | productId == null) throw new InvalidProductIdException();
+    	if(this.checkIfAdministrator() || this.checkIfManager()) {
+      	  if(productId < 1 || productId == null) throw new InvalidProductIdException();
       	   if(productTypeRepository.getProductTypebyLocation(newPos) == null) return false;
       	    if (!checkLocation(newPos)) throw new InvalidLocationException();
     		return productTypeRepository.updatePosition(String.valueOf(productId), newPos);
@@ -536,7 +550,7 @@ public class EZShop implements EZShopInterface {
     public Integer startSaleTransaction() throws UnauthorizedException {
         if(checkIfAdministrator()  || checkIfManager()  || checkIfCashier()) {
             try {
-                Logger.getLogger(EZShop.class.getName()).log(Level.INFO, String.valueOf(LocalDate.now()));
+            //    Logger.getLogger(EZShop.class.getName()).log(Level.INFO, String.valueOf(LocalDate.now()));
                 return balanceOperationRepository.addNewSale(new SaleTransactionClass(null,1,0,"open"));
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
@@ -550,6 +564,7 @@ public class EZShop implements EZShopInterface {
 
     @Override
     public boolean addProductToSale(Integer transactionId, String productCode, int amount) throws InvalidTransactionIdException, InvalidProductCodeException, InvalidQuantityException, UnauthorizedException {
+        Logger.getLogger(EZShop.class.getName()).log(Level.INFO, "addProductsToSale");
         if(checkIfAdministrator()  || checkIfManager()  || checkIfCashier()) {
             if (transactionId == null || transactionId <= 0){
                 throw new InvalidTransactionIdException();
@@ -587,6 +602,7 @@ public class EZShop implements EZShopInterface {
 
     @Override
     public boolean deleteProductFromSale(Integer transactionId, String productCode, int amount) throws InvalidTransactionIdException, InvalidProductCodeException, InvalidQuantityException, UnauthorizedException {
+        Logger.getLogger(EZShop.class.getName()).log(Level.INFO, "deleteProductFromSale");
         if(checkIfAdministrator()  || checkIfManager()  || checkIfCashier()) {
             if (transactionId == null || transactionId <= 0){
                 throw new InvalidTransactionIdException();
@@ -611,7 +627,7 @@ public class EZShop implements EZShopInterface {
            if(ticketEntry.getAmount() < amount)
                return false;
            if (ticketEntry.getAmount() == amount){
-               boolean deleteTicket = balanceOperationRepository.deleteTicketEntry(ticketEntry.getId());
+               boolean deleteTicket = balanceOperationRepository.deleteRow("ticket","id", String.valueOf(ticketEntry.getId()));
            }
            else {
                balanceOperationRepository.updateRow("ticket", "amount","id",
@@ -628,6 +644,7 @@ public class EZShop implements EZShopInterface {
 
     @Override
     public boolean applyDiscountRateToProduct(Integer transactionId, String productCode, double discountRate) throws InvalidTransactionIdException, InvalidProductCodeException, InvalidDiscountRateException, UnauthorizedException {
+        Logger.getLogger(EZShop.class.getName()).log(Level.INFO, "applyDiscountRateToProduct");
         if(checkIfAdministrator()  || checkIfManager()  || checkIfCashier()) {
             if (transactionId == null || transactionId <= 0){
                 throw new InvalidTransactionIdException();
@@ -661,26 +678,121 @@ public class EZShop implements EZShopInterface {
 
     @Override
     public boolean applyDiscountRateToSale(Integer transactionId, double discountRate) throws InvalidTransactionIdException, InvalidDiscountRateException, UnauthorizedException {
-        return false;
+        Logger.getLogger(EZShop.class.getName()).log(Level.INFO, "applyDiscountRateToSale");
+        if(checkIfAdministrator()  || checkIfManager()  || checkIfCashier()) {
+            if (transactionId == null || transactionId <= 0){
+                throw new InvalidTransactionIdException();
+            }
+            if(discountRate < 0 || discountRate >= 1){
+                throw new InvalidDiscountRateException();
+            }
+            SaleTransactionClass saleTransaction = balanceOperationRepository.getSalesByTicketNumber(transactionId);
+            if(saleTransaction == null) {
+                return false;
+            }
+            if( "open".equals(saleTransaction.getState()) || "closed".equals(saleTransaction.getState())){
+                balanceOperationRepository.updateRow("sale","discountRate", "ticketNumber", transactionId, String.valueOf(discountRate));
+                return true;
+            }
+
+        }
+        else{
+            throw new UnauthorizedException();
+        }
+
+            return false;
     }
 
     @Override
     public int computePointsForSale(Integer transactionId) throws InvalidTransactionIdException, UnauthorizedException {
-        return 0;
+        Logger.getLogger(EZShop.class.getName()).log(Level.INFO, "computerPointsForSale");
+        if(checkIfAdministrator()  || checkIfManager()  || checkIfCashier()) {
+            if (transactionId == null || transactionId <= 0){
+                throw new InvalidTransactionIdException();
+            }
+            SaleTransactionClass saleTransaction = balanceOperationRepository.getSalesByTicketNumber(transactionId);
+            if(saleTransaction == null) {
+                return -1;
+            }
+            return (int) (saleTransaction.getPrice() / 10);
+        }
+        else{
+            throw new UnauthorizedException();
+        }
+    }
+
+    private double computePriceForProducts(ArrayList<TicketEntry> products) {
+        double price = 0;
+        for(TicketEntry p : products){
+            price += p.getAmount() * p.getPricePerUnit() * (1 - p.getDiscountRate());
+        }
+        return price;
     }
 
     @Override
     public boolean endSaleTransaction(Integer transactionId) throws InvalidTransactionIdException, UnauthorizedException {
-        return false;
+        if(checkIfAdministrator()  || checkIfManager()  || checkIfCashier()) {
+            if (transactionId == null || transactionId <= 0){
+                throw new InvalidTransactionIdException();
+            }
+            SaleTransactionClass saleTransaction = balanceOperationRepository.getSalesByTicketNumber(transactionId);
+            if(saleTransaction == null || !"open".equals(saleTransaction.getState())) {
+                return false;
+            }
+            Logger.getLogger(EZShop.class.getName()).log(Level.INFO, "closing sale with ticketNumber: "+ transactionId);
+            double price = 0;
+            ArrayList<TicketEntry> products = balanceOperationRepository.getTicketsBySaleId(transactionId);
+            price = computePriceForProducts(products);
+            balanceOperationRepository.updateRow("sale","price", "ticketNumber", transactionId, String.valueOf(price*(1-saleTransaction.getDiscountRate())));
+            return balanceOperationRepository.updateRow("sale","status", "ticketNumber", transactionId, "closed");
+
+        }
+        else{
+            throw new UnauthorizedException();
+        }
     }
 
     @Override
-    public boolean deleteSaleTransaction(Integer saleNumber) throws InvalidTransactionIdException, UnauthorizedException {
-        return false;
+    public boolean deleteSaleTransaction(Integer transactionId) throws InvalidTransactionIdException, UnauthorizedException {
+        Logger.getLogger(EZShop.class.getName()).log(Level.INFO, "deleteSaleTransaction");
+        if(checkIfAdministrator()  || checkIfManager()  || checkIfCashier()) {
+            if (transactionId == null || transactionId <= 0) {
+                throw new InvalidTransactionIdException();
+            }
+            SaleTransactionClass saleTransaction = balanceOperationRepository.getSalesByTicketNumber(transactionId);
+            if(saleTransaction == null || "payed".equals(saleTransaction.getState())) {
+                return false;
+            }
+            ArrayList<TicketEntry> products = balanceOperationRepository.getTicketsBySaleId(transactionId);
+            //delete tickets add them to real product and then delete sale
+            for(TicketEntry p : products){
+                ProductTypeClass realProduct = productTypeRepository.getProductTypebyBarCode(p.getBarCode());
+                productTypeRepository.updateQuantity(realProduct.getId(), realProduct.getQuantity() + p.getAmount());
+            }
+            balanceOperationRepository.deleteRow("ticket","saleId", String.valueOf(transactionId));
+            balanceOperationRepository.deleteRow("sale","ticketNumber", String.valueOf(transactionId));
+            return true;
+        }
+        else{
+            throw new UnauthorizedException();
+        }
     }
 
     @Override
     public SaleTransaction getSaleTransaction(Integer transactionId) throws InvalidTransactionIdException, UnauthorizedException {
+        Logger.getLogger(EZShop.class.getName()).log(Level.INFO, "getSaleTransaction");
+        if(checkIfAdministrator()  || checkIfManager()  || checkIfCashier()) {
+            if (transactionId == null || transactionId <= 0) {
+                throw new InvalidTransactionIdException();
+            }
+            SaleTransactionClass saleTransaction = balanceOperationRepository.getSalesByTicketNumber(transactionId);
+            if(saleTransaction != null && !"open".equals(saleTransaction.getState())) {
+                return saleTransaction;
+            }
+        }
+        else{
+             throw new UnauthorizedException();
+        }
         return null;
     }
 

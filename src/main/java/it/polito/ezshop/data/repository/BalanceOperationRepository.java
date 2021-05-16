@@ -2,6 +2,7 @@ package it.polito.ezshop.data.repository;
 
 
 import it.polito.ezshop.data.EZShop;
+import it.polito.ezshop.data.TicketEntry;
 import it.polito.ezshop.data.model.OrderClass;
 import it.polito.ezshop.data.model.ReturnTransactionClass;
 import it.polito.ezshop.data.model.SaleTransactionClass;
@@ -109,7 +110,7 @@ public class BalanceOperationRepository {
 
         nextTicketNumber = ourInstance.getHighestTicketNumber() + 1;
         HashMap<String, String> saleData = new HashMap<>();
-        saleData.put("ticketNumber", nextTicketNumber.toString());
+        saleData.put("ticketNumber", String.valueOf(nextTicketNumber));
         saleData.put("discountRate", String.valueOf(sale.getDiscountRate()));
         saleData.put("price", String.valueOf(sale.getPrice()));
         saleData.put("status", sale.getState());
@@ -176,13 +177,13 @@ public class BalanceOperationRepository {
         con.close();
     }
 
-    public boolean deleteTicketEntry(Integer id){
+    public boolean deleteRow(String tableName,String idName, String id){
         try {
-            String sqlCommand = getDeleteTicketStatement();
+            String sqlCommand = getDeleteRowStatement(tableName, idName);
             Connection con = DBCPDBConnectionPool.getConnection();
-            Logger.getLogger(EZShop.class.getName()).log(Level.SEVERE,"deleting ticket entry with id: "+id);
+            Logger.getLogger(EZShop.class.getName()).log(Level.INFO,"deleting row with id: "+id);
             PreparedStatement prps = con.prepareStatement(sqlCommand);
-            prps.setString(1, String.valueOf(id));
+            prps.setString(1, id);
             int returnVal = prps.executeUpdate();
             prps.close();
             con.close();
@@ -218,8 +219,8 @@ public class BalanceOperationRepository {
     private String getUpdateRowStatement(String tableName, String columnName, String idName){
         return "UPDATE "+tableName+" SET "+columnName+" = ? WHERE "+idName+" = ?";
     }
-    private String getDeleteTicketStatement() {
-        return "DELETE FROM ticket WHERE id= ?;";
+    private String getDeleteRowStatement(String tableName, String idName) {
+        return "DELETE FROM "+tableName+" WHERE "+idName+"= ?;";
     }
 
     protected OrderClass convertResultSetOrderToDomainModel(ResultSet rs) throws SQLException {
@@ -290,9 +291,9 @@ public class BalanceOperationRepository {
         return result;
     }
 
-    private ArrayList<TicketEntryClass> loadAllTickets(ResultSet rs) throws SQLException{
+    private ArrayList<TicketEntry> loadAllTickets(ResultSet rs) throws SQLException{
 
-        ArrayList <TicketEntryClass> result = new ArrayList<>();
+        ArrayList <TicketEntry> result = new ArrayList<>();
         while(rs.next()) {
             TicketEntryClass t = convertResultSetTicketToDomainModel(rs);
             result.add(t);
@@ -347,14 +348,14 @@ public class BalanceOperationRepository {
         return null;
     }
 
-    public ArrayList<TicketEntryClass> getTicketsBySaleId(Integer saleId){
+    public ArrayList<TicketEntry> getTicketsBySaleId(Integer saleId){
         try {
             String sqlCommand = getFindBySaleIdStatement();
             Connection con = DBCPDBConnectionPool.getConnection();
             PreparedStatement prps = con.prepareStatement(sqlCommand);
             prps.setString(1, String.valueOf(saleId));
             ResultSet rs = prps.executeQuery();
-            ArrayList<TicketEntryClass> tickets = loadAllTickets(rs);
+            ArrayList<TicketEntry> tickets = loadAllTickets(rs);
             prps.close();
             con.close();
             return tickets;
@@ -375,6 +376,7 @@ public class BalanceOperationRepository {
             SaleTransactionClass s = convertResultSetSaleToDomainModel(rs);
             prps.close();
             con.close();
+            s.setEntries(getTicketsBySaleId(ticketNumber));
             return s;
         }catch(SQLException e){
             e.printStackTrace();
@@ -382,14 +384,14 @@ public class BalanceOperationRepository {
         return null;
     }
 
-    public ArrayList<TicketEntryClass> getTicketsByReturnId(Integer returnId){
+    public ArrayList<TicketEntry> getTicketsByReturnId(Integer returnId){
         try {
             String sqlCommand = getFindByReturnIdStatement();
             Connection con = DBCPDBConnectionPool.getConnection();
             PreparedStatement prps = con.prepareStatement(sqlCommand);
             prps.setString(1, String.valueOf(returnId));
             ResultSet rs = prps.executeQuery();
-            ArrayList<TicketEntryClass> tickets = loadAllTickets(rs);
+            ArrayList<TicketEntry> tickets = loadAllTickets(rs);
             prps.close();
             con.close();
             return tickets;
