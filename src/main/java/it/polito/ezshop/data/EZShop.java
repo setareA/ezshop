@@ -4,6 +4,7 @@ package it.polito.ezshop.data;
 import it.polito.ezshop.data.model.CustomerClass;
 
 import it.polito.ezshop.data.model.ProductTypeClass;
+import it.polito.ezshop.data.model.ReturnTransactionClass;
 import it.polito.ezshop.data.model.SaleTransactionClass;
 import it.polito.ezshop.data.model.TicketEntryClass;
 import it.polito.ezshop.data.model.UserClass;
@@ -19,6 +20,7 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 import java.util.logging.Level;
@@ -795,6 +797,25 @@ public class EZShop implements EZShopInterface {
         }
         return null;
     }
+    
+    
+    public ReturnTransactionClass getReturnTransaction(Integer returnId) throws  InvalidTransactionIdException,UnauthorizedException {
+        Logger.getLogger(EZShop.class.getName()).log(Level.INFO, "getReturnTransaction");
+        if(checkIfAdministrator()  || checkIfManager()  || checkIfCashier()) {
+            if (returnId == null || returnId <= 0) {
+                throw new InvalidTransactionIdException();
+            }
+            ReturnTransactionClass returnTransaction = balanceOperationRepository.getReturnByReturnId(returnId);
+            if(returnTransaction != null && !"open".equals(returnTransaction.getState())) {
+                return returnTransaction;
+            }
+        }
+        else{
+             throw new UnauthorizedException();
+        }
+        return null;
+    }
+
 
     @Override
     public Integer startReturnTransaction(Integer saleNumber) throws /*InvalidTicketNumberException,*/InvalidTransactionIdException, UnauthorizedException {
@@ -816,29 +837,181 @@ public class EZShop implements EZShopInterface {
         return false;
     }
 
+    // FR7
+    
+    
     @Override
     public double receiveCashPayment(Integer ticketNumber, double cash) throws InvalidTransactionIdException, InvalidPaymentException, UnauthorizedException {
-        return 0;
+    	// Check InvalidTransactionIdException (id is null or id has an invalid value (<=0))
+    	if(ticketNumber==null || ticketNumber<=0) {
+    		throw new InvalidTransactionIdException();
+    	}
+    	// Check InvalidPaymentException (id is null or id has an invalid value (<=0))
+    	if(cash<=0) {
+    		throw new InvalidPaymentException();
+    	}
+    	
+    	// Check UnauthorizedException: check if there is a loggedUser and if its role is a "Administrator", "ShopManager" or "Cashier"
+    	if(userRepository.getLoggedUser() == null || !checkIfValidRole(userRepository.getLoggedUser().getRole())) {
+    		throw new UnauthorizedException();
+    	}
+    	
+    	SaleTransaction saleTransaction = getSaleTransaction(ticketNumber);
+    	
+    	// If the saleTransaction does not exist or there is a problem with the DB returns -1
+    	// If the cash given is enough and the balance of the system can be changed, update the status of the sale and return the change
+    	if(saleTransaction != null && (cash-saleTransaction.getPrice())>=0 && recordBalanceUpdate(saleTransaction.getPrice())) {
+    		if(balanceOperationRepository.updateRow("sale","status","ticketNumber",ticketNumber,"payed")) {
+    			return (cash-saleTransaction.getPrice());
+    		}
+    	}
+    	
+    	// if the cash is not enough or there was a problem with the db, return -1
+    	return -1;
+    	
+    	
+ 
     }
 
     @Override
     public boolean receiveCreditCardPayment(Integer ticketNumber, String creditCard) throws InvalidTransactionIdException, InvalidCreditCardException, UnauthorizedException {
-        return false;
+    	// Check InvalidTransactionIdException (id is null or id has an invalid value (<=0))
+    	if(ticketNumber==null || ticketNumber<=0) {
+    		throw new InvalidTransactionIdException();
+    	}
+    	
+    	// Checks InvalidCreditCardException: Credit card (empty or null or Luhn algorithm does not validate the card)
+    	if(creditCard == null || creditCard.equals("") || !checkLuhn(creditCard)) {
+    		throw new InvalidCreditCardException();
+    	}
+    	
+    	// Check UnauthorizedException: check if there is a loggedUser and if its role is a "Administrator", "ShopManager" or "Cashier"
+    	if(userRepository.getLoggedUser() == null || !checkIfValidRole(userRepository.getLoggedUser().getRole())) {
+    		throw new UnauthorizedException();
+    	}
+    	
+    	SaleTransaction saleTransaction = getSaleTransaction(ticketNumber);
+    	HashMap<String, Double> creditCards = new HashMap<String, Double>();
+    	try {
+    		creditCards = balanceOperationRepository.getCreditCards();
+    	}catch(Exception e) {
+    		return false; // The files of the DB cannot be read
+    	}
+    	
+    	// We check if the creditCard is in the file that Contains the admitted CreditCards
+    	Double moneyInCard = 0.0;
+    	if(creditCards.containsKey(creditCard)) {
+    		moneyInCard=creditCards.get(creditCard);
+    	}
+    	
+    	// If the saleTransaction does not exist or there is a problem with the DB returns false
+    	// If the money in the card is enough and the balance of the system can be changed, update the status of the sale and return true
+    	if(saleTransaction != null && (moneyInCard-saleTransaction.getPrice())>=0 && recordBalanceUpdate(saleTransaction.getPrice())) {
+    		if(balanceOperationRepository.updateRow("sale","status","ticketNumber",ticketNumber,"payed")) {
+    			return true;
+    		}
+    	}
+    	
+    	// if the money in credit Card is not enough or there was a problem with the db, return false
+    	return false;
+    	
+    	
+    	
+    
     }
+    
 
     @Override
     public double returnCashPayment(Integer returnId) throws InvalidTransactionIdException, UnauthorizedException {
-        return 0;
+    	// Check InvalidTransactionIdException (id is null or id has an invalid value (<=0))
+    	if(returnId==null || returnId<=0) {
+    		throw new InvalidTransactionIdException();
+    	}
+    	// Check UnauthorizedException: check if there is a loggedUser and if its role is a "Administrator", "ShopManager" or "Cashier"
+    	if(userRepository.getLoggedUser() == null || !checkIfValidRole(userRepository.getLoggedUser().getRole())) {
+    		throw new UnauthorizedException();
+    	}
+    	
+    	// Check UnauthorizedException: check if there is a loggedUser and if its role is a "Administrator", "ShopManager" or "Cashier"
+    	if(userRepository.getLoggedUser() == null || !checkIfValidRole(userRepository.getLoggedUser().getRole())) {
+    		throw new UnauthorizedException();
+    	}
+    	
+    	ReturnTransactionClass returnTransaction = null;
+    	try {
+    		returnTransaction = getReturnTransaction(returnId);
+    	}catch(Exception e) {
+    	}
+    	
+
+    	if(returnTransaction != null && recordBalanceUpdate(returnTransaction.getPrice())) {
+    		if(balanceOperationRepository.updateRow("returnTable","status","returnId",returnId,"payed")) {
+    			return returnTransaction.getPrice();
+    		}
+    	}
+    	
+    	// if the returnTransaction is not ended (returnTransaction == null)
+    	// if the returnTransaction does not exist (returnTransaction == null)
+    	// or there was a problem with the db (e.g Balance cannot be updated),
+    	// in all these cases, the code reach this point and return -1
+    	return -1;
     }
 
     @Override
     public double returnCreditCardPayment(Integer returnId, String creditCard) throws InvalidTransactionIdException, InvalidCreditCardException, UnauthorizedException {
-        return 0;
+    	// Check InvalidTransactionIdException (id is null or id has an invalid value (<=0))
+    	if(returnId==null || returnId<=0) {
+    		throw new InvalidTransactionIdException();
+    	}
+    	
+    	// Checks InvalidCreditCardException: Credit card (empty or null or Luhn algorithm does not validate the card)
+    	if(creditCard == null || creditCard.equals("") || !checkLuhn(creditCard)) {
+    		throw new InvalidCreditCardException();
+    	}
+    	
+    	// Check UnauthorizedException: check if there is a loggedUser and if its role is a "Administrator", "ShopManager" or "Cashier"
+    	if(userRepository.getLoggedUser() == null || !checkIfValidRole(userRepository.getLoggedUser().getRole())) {
+    		throw new UnauthorizedException();
+    	}
+
+    	ReturnTransactionClass returnTransaction = getReturnTransaction(returnId);
+    	HashMap<String, Double> creditCards = new HashMap<String, Double>();
+    	
+    	
+    	try {
+    		creditCards = balanceOperationRepository.getCreditCards();
+    	}catch(Exception e) {
+    		return -1; // The files of the creditCards cannot be read
+    	}
+    	
+    	// We check if the creditCard is in the file that Contains the admitted CreditCards
+    	if(!creditCards.containsKey(creditCard)) {
+    		return -1;
+    	}
+    	
+    	// If the returnTransaction does not exist or there is a problem with the DB returns -1
+
+    	if(returnTransaction != null) {
+    		// We change the amount of money in the credit card
+    		creditCards.put(creditCard,creditCards.get(creditCards)+returnTransaction.getPrice());
+    		
+    		if(recordBalanceUpdate(returnTransaction.getPrice())){
+    			
+    		}
+    	}
+    		// 
+    		if(balanceOperationRepository.updateRow("returnTable","status","returnId",returnId,"payed")) {
+    			return returnTransaction.getPrice();
+    		}
+    	
+        
+    	return -1;
+    	
     }
 
     @Override
     public boolean recordBalanceUpdate(double toBeAdded) throws UnauthorizedException {
-        return false;
+        return true;
     }
 
     @Override
@@ -929,5 +1102,32 @@ public class EZShop implements EZShopInterface {
         }
         return false;
     }
-
+    
+	 // Returns true if given
+	 // card number is valid
+	 static boolean checkLuhn(String cardNo)
+	 {
+	     int nDigits = cardNo.length();
+	  
+	     int nSum = 0;
+	     boolean isSecond = false;
+	     for (int i = nDigits - 1; i >= 0; i--)
+	     {
+	  
+	         int d = cardNo.charAt(i) - '0';
+	  
+	         if (isSecond == true)
+	             d = d * 2;
+	  
+	         // We add two digits to handle
+	         // cases that make two digits
+	         // after doubling
+	         nSum += d / 10;
+	         nSum += d % 10;
+	  
+	         isSecond = !isSecond;
+	     }
+	     return (nSum % 10 == 0);
+	 }
+  
 }

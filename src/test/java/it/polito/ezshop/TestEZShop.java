@@ -1,4 +1,4 @@
-package it.polito.ezshop.acceptanceTests;
+package it.polito.ezshop;
 
 
 import static org.junit.Assert.*;
@@ -21,6 +21,7 @@ import it.polito.ezshop.data.model.UserClass;
 import it.polito.ezshop.data.repository.CustomerRepository;
 import it.polito.ezshop.data.repository.DBCPDBConnectionPool;
 import it.polito.ezshop.data.repository.UserRepository;
+import it.polito.ezshop.exceptions.InvalidCustomerNameException;
 import it.polito.ezshop.exceptions.InvalidPasswordException;
 import it.polito.ezshop.exceptions.InvalidRoleException;
 import it.polito.ezshop.exceptions.InvalidUserIdException;
@@ -285,5 +286,33 @@ public class TestEZShop {
 		  assertNull("The logged User should be Luca",userRepository.getLoggedUser());
 		  
 	  }
+	  
+		// -------------------- FR5 ------------------- //
+	  
+	  
+		// createUser(String username, String password, String role)
+		  
+		  @Test
+		  public void checkDefineCustomer() throws Exception{
+			  System.out.println("checkCreateUser");
+			// Checks InvalidCustomerNameException: customerName (empty or null)
+			  assertThrows("It should throw InvalidCustomerNameException due to empty customerName",InvalidCustomerNameException.class, ()-> ezShop.defineCustomer(""));
+			  assertThrows("It should throw InvalidCustomerNameException due to null customerName",InvalidCustomerNameException.class, ()-> ezShop.defineCustomer(null));
+			// Checks UnauthorizedException (there is a login user and this user is an Administrator)
+			  assertThrows("It should throw UnauthorizedException due to 'there is not a logged User",UnauthorizedException.class, ()-> ezShop.deleteUser(1));
+			  
+			  userRepository.setLoggedUser(new UserClass(4,"Sara","1234","1234","ShopManager"));
+			  assertTrue("ShopManager is logged. The id of the Customer created should be returned'", ezShop.defineCustomer("Peter")==1);
+			  
+			  userRepository.setLoggedUser(new UserClass(4,"Sara","1234","1234","Cashier"));
+			  assertTrue("Cashier is logged. The id of the Customer created should be returned'", ezShop.defineCustomer("Martha")==2);
+			  
+			  userRepository.setLoggedUser(new UserClass(4,"Sara","1234","1234","NotaRole"));
+			  assertThrows("It should throw UnauthorizedException due to 'the logged User has an invalid Role'",UnauthorizedException.class, ()-> ezShop.defineCustomer("Thomas"));
+			  
+			  userRepository.setLoggedUser(new UserClass(4,"Sara","1234","1234","Administrator"));
+			  assertTrue("Cashier is logged. The id of the Customer created should be returned",ezShop.defineCustomer("Luca")==3);
+		  }
+		  
 	 
 }

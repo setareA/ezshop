@@ -3,12 +3,14 @@ package it.polito.ezshop.data.model;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
+import it.polito.ezshop.data.TicketEntry;
+
 public class ReturnTransactionClass{
     private static Integer returnId;
     private static double price;
     private static String state;
     private static boolean commit;
-    private ArrayList<TicketEntryClass> entries ;
+    private ArrayList<TicketEntry> entries ;
 
 
     public ReturnTransactionClass(Integer returnId, double price, String state) {
@@ -49,11 +51,11 @@ public class ReturnTransactionClass{
         ReturnTransactionClass.commit = commit;
     }
 
-    public ArrayList<TicketEntryClass> getEntries() {
+    public ArrayList<TicketEntry> getEntries() {
         return entries;
     }
 
-    public void setEntries(ArrayList<TicketEntryClass> entries) {
-        this.entries = entries;
+    public void setEntries(ArrayList<TicketEntry> arrayList) {
+        this.entries = arrayList;
     }
 }
