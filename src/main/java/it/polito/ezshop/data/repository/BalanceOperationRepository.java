@@ -326,36 +326,6 @@ public class BalanceOperationRepository {
         }
         return null;
     }
-    public ArrayList<SaleTransactionClass> getAllSales(){
-        try {
-            String sqlCommand = geAllTransStatement("sale");
-            Connection con = DBCPDBConnectionPool.getConnection();
-            PreparedStatement prps = con.prepareStatement(sqlCommand);
-            ResultSet rs = prps.executeQuery();
-            ArrayList<SaleTransactionClass> sales = loadAllSales(rs);
-            prps.close();
-            con.close();
-            return sales;
-        }catch(SQLException e){
-            e.printStackTrace();
-        }
-        return null;
-    }
-    public ArrayList<ReturnTransactionClass> getAllReturns(){
-        try {
-            String sqlCommand = geAllTransStatement("returnTable");
-            Connection con = DBCPDBConnectionPool.getConnection();
-            PreparedStatement prps = con.prepareStatement(sqlCommand);
-            ResultSet rs = prps.executeQuery();
-            ArrayList<ReturnTransactionClass> returns = loadAllReturns(rs);
-            prps.close();
-            con.close();
-            return returns;
-        }catch(SQLException e){
-            e.printStackTrace();
-        }
-        return null;
-    }
 
     public ArrayList<TicketEntry> getTicketsBySaleId(Integer saleId){
         try {
