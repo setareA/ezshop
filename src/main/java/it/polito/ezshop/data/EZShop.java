@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 
 public class EZShop implements EZShopInterface {
@@ -215,7 +216,7 @@ public class EZShop implements EZShopInterface {
         	else if (! productTypeRepository.checkUniqueBarcode(productCode) ) return -1;
         	else { 
         		try {
-        		productTypeRepository.addNewProductType(new ProductTypeClass(productTypeRepository.getLastId() + 1 , 0, "" , note , description , productCode, pricePerUnit, 1.0, 0));
+        		productTypeRepository.addNewProductType(new ProductTypeClass(productTypeRepository.getLastId() + 1 , 0, "" , note , description , productCode, pricePerUnit, 0.0, 0));
         		}
         		catch (SQLException e) { return -1;}
         		productTypeRepository.setLastId(productTypeRepository.getLastId() + 1);
@@ -588,7 +589,7 @@ public class EZShop implements EZShopInterface {
             }
             try {
                 balanceOperationRepository.addNewTicketEntry(new TicketEntryClass(1,productCode,product.getProductDescription(),
-                                                                amount, product.getPricePerUnit(), 1), transactionId, null);
+                                                                amount, product.getPricePerUnit(), 0), transactionId, null);
                 productTypeRepository.updateQuantity(product.getId(), product.getQuantity() - amount);
                 return true;
             } catch (SQLException throwables) {
@@ -845,10 +846,47 @@ public class EZShop implements EZShopInterface {
         }
             return null;
     }
+    /**
+     * This method adds a product to the return transaction
+     * The amount of units of product to be returned should not exceed the amount originally sold.
+     * This method DOES NOT update the product quantity
 
+*/
     @Override
     public boolean returnProduct(Integer returnId, String productCode, int amount) throws InvalidTransactionIdException, InvalidProductCodeException, InvalidQuantityException, UnauthorizedException {
         if(checkIfAdministrator()  || checkIfManager()  || checkIfCashier()) {
+            if (returnId == null || returnId <= 0) {
+                throw new InvalidTransactionIdException();
+            }
+            if (productCode == null || productCode.isEmpty() || !ProductTypeClass.checkValidityProductcode(productCode)){
+                throw new InvalidProductCodeException();
+            }
+            if(amount <= 0){
+                throw new InvalidQuantityException();
+            }
+            ReturnTransactionClass returnTransaction = balanceOperationRepository.getReturnByReturnId(returnId);
+            if(returnTransaction != null){
+                SaleTransactionClass saleTransaction = balanceOperationRepository.getSalesByTicketNumber(returnTransaction.getTicketNumber());
+                if( saleTransaction != null){
+                    ArrayList<TicketEntry> products = balanceOperationRepository.getTicketsBySaleId(saleTransaction.getTicketNumber());
+                    List<TicketEntry> toBeReturned = products.stream()
+                            .filter(p -> p.getBarCode() == productCode)
+                            .collect(Collectors.toList());
+                    if(!toBeReturned.isEmpty()){
+                        if(toBeReturned.get(0).getAmount() >= amount){
+                         //   This method adds a product to the return transaction
+                            try {
+                                balanceOperationRepository.addNewTicketEntry(new TicketEntryClass(null,productCode,toBeReturned.get(0).getProductDescription(),
+                                                                            amount, toBeReturned.get(0).getPricePerUnit(), 0), null, returnId);
+                            } catch (SQLException throwables) {
+                                throwables.printStackTrace();
+                            }
+
+                            return true;
+                        }
+                    }
+                }
+            }
 
         }
         else{
@@ -856,7 +894,25 @@ public class EZShop implements EZShopInterface {
         }
         return false;
     }
-
+    /**
+     * This method closes a return transaction. A closed return transaction can be committed (i.e. <commit> = true) thus
+     * it increases the product quantity available on the shelves or not (i.e. <commit> = false) thus the whole trasaction
+     * is undone.
+     * This method updates the transaction status (decreasing the number of units sold by the number of returned one and
+     * decreasing the final price).
+     * If committed, the return transaction must be persisted in the system's memory.
+     * It can be invoked only after a user with role "Administrator", "ShopManager" or "Cashier" is logged in.
+     *
+     * @param returnId the id of the transaction
+     * @param commit whether we want to commit (True) or rollback(false) the transaction
+     *
+     * @return  true if the operation is successful
+     *          false   if the returnId does not correspond to an active return transaction,
+     *                  if there is some problem with the db
+     *
+     * @throws InvalidTransactionIdException if returnId is less than or equal to 0 or if it is null
+     * @throws UnauthorizedException if there is no logged user or if it has not the rights to perform the operation
+     */
     @Override
     public boolean endReturnTransaction(Integer returnId, boolean commit) throws InvalidTransactionIdException, UnauthorizedException {
         if(checkIfAdministrator()  || checkIfManager()  || checkIfCashier()) {
@@ -867,7 +923,21 @@ public class EZShop implements EZShopInterface {
         }
         return false;
     }
-
+    /**
+     * This method deletes a closed return transaction. It affects the quantity of product sold in the connected sale transaction
+     * (and consequently its price) and the quantity of product available on the shelves.
+     * It can be invoked only after a user with role "Administrator", "ShopManager" or "Cashier" is logged in.
+     *
+     * @param returnId the identifier of the return transaction to be deleted
+     *
+     * @return  true if the transaction has been successfully deleted,
+     *          false   if it doesn't exist,
+     *                  if it has been payed,
+     *                  if there are some problems with the db
+     *
+     * @throws InvalidTransactionIdException if the transaction id is less than or equal to 0 or if it is null
+     * @throws UnauthorizedException if there is no logged user or if it has not the rights to perform the operation
+     */
     @Override
     public boolean deleteReturnTransaction(Integer returnId) throws InvalidTransactionIdException, UnauthorizedException {
         if(checkIfAdministrator()  || checkIfManager()  || checkIfCashier()) {
