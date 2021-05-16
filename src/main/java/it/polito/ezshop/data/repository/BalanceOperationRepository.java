@@ -8,11 +8,16 @@ import it.polito.ezshop.data.model.ReturnTransactionClass;
 import it.polito.ezshop.data.model.SaleTransactionClass;
 import it.polito.ezshop.data.model.TicketEntryClass;
 
-
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -383,6 +388,26 @@ public class BalanceOperationRepository {
         }
         return null;
     }
+    
+    public ReturnTransactionClass getReturnByReturnId(Integer returnId){
+        try {
+            String sqlCommand = getFindByReturnIdFromReturnTableStatement();
+            Connection con = DBCPDBConnectionPool.getConnection();
+            PreparedStatement prps = con.prepareStatement(sqlCommand);
+            prps.setString(1, String.valueOf(returnId));
+            ResultSet rs = prps.executeQuery();
+            rs.next();
+            ReturnTransactionClass r = convertResultSetReturnToDomainModel(rs);
+            prps.close();
+            con.close();
+            r.setEntries(getTicketsByReturnId(returnId));
+            return r;
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+    
 
     public ArrayList<TicketEntry> getTicketsByReturnId(Integer returnId){
         try {
@@ -461,6 +486,9 @@ public class BalanceOperationRepository {
     private static String getFindByTicketNumberStatement() {
         return "SELECT * FROM sale WHERE ticketNumber = ?"  ;
     }
+    private static String getFindByReturnIdFromReturnTableStatement() {
+        return "SELECT * FROM returnTable WHERE returnId = ?"  ;
+    }
 
     private static String getDeleteRowStatement(String tableName, String columnName, String columnName2){
         return "DELETE FROM " + tableName + " WHERE " + columnName + "= ? AND "+ columnName2 +"= ?;";
@@ -470,4 +498,27 @@ public class BalanceOperationRepository {
         String sqlCommand = "SELECT MAX(ticketNumber) FROM sale";
         return sqlCommand;
     }
+    
+    public HashMap<String,Double> getCreditCards() throws IOException {
+	    	String filePath = new File("").getAbsolutePath();
+	    	filePath = filePath.concat("\\src\\main\\java\\it\\polito\\ezshop\\utils\\CreditCards.txt");
+	    	
+	    	File file = new File(filePath);
+    	  
+    	  BufferedReader br = new BufferedReader(new FileReader(file));
+    	  String st;
+    	  
+    	  //4716258050958645;0.00
+    	  
+    	  HashMap<String,Double> creditCards = new HashMap<String,Double>();
+    	  int n=0;
+    	  while ((st = br.readLine()) != null) {
+    		if(n>4) {
+    			creditCards.put(st.substring(0,16), Double.parseDouble(st.substring(17,st.length()-1)));
+    		}
+        	n=n+1;
+    	  }
+		return creditCards;
+    }
+
 }

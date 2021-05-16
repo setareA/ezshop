@@ -4,6 +4,7 @@ import it.polito.ezshop.data.EZShopInterface;
 import it.polito.ezshop.data.User;
 import it.polito.ezshop.data.model.ProductTypeClass;
 import it.polito.ezshop.data.model.UserClass;
+import it.polito.ezshop.data.repository.BalanceOperationRepository;
 import it.polito.ezshop.data.repository.UserRepository;
 import it.polito.ezshop.exceptions.*;
 import it.polito.ezshop.view.EZShopGUI;
@@ -23,8 +24,19 @@ public class EZShop {
            it.polito.ezshop.data.EZShop ezShop = new it.polito.ezshop.data.EZShop();
            EZShopGUI gui = new EZShopGUI(ezShop);
            UserRepository userRepository = ((it.polito.ezshop.data.EZShop) ezShop).getUserRepository();
+           BalanceOperationRepository balanceRepository = ((it.polito.ezshop.data.EZShop) ezShop).getBalanceOperationRepository();
            
 
+           userRepository.setLoggedUser(new UserClass(1,"Juan","1234","1234","Administrator"));
+          //balanceRepository.getCreditCards();
+          int b = ezShop.startSaleTransaction();
+          ezShop.endSaleTransaction(b);
+          balanceRepository.updateRow("sale", "price", "ticketNumber", b, "80");
+          Boolean a = ezShop.receiveCreditCardPayment(b, "4485370086510891");
+          System.out.println(a);
+          
+          
+          /*
            //ezShop.createUser("eugenio", "eugenio", "ShopManager");
            ezShop.login("eugenio", "eugenio");
          // System.out.print(ezShop.createProductType("pane", "1234" ,1.0, "prova1"));
@@ -82,9 +94,7 @@ public class EZShop {
 
         	   
         	   
-           }catch(Exception e){           
-        	   e.printStackTrace();
-           }
+
 
         //   UserRepository userRepository = UserRepository.getInstance();
        //    userRepository.addNewUser(new UserClass(1,"sisi","abc","","Administrator"));
@@ -103,8 +113,12 @@ public class EZShop {
          //   Logger.getLogger(EZShop.class.getName()).log(Level.SEVERE,"saleId2: "+saleId2);
 
 
-      
+    */      
 
+        }catch(Exception e){           
+     	   e.printStackTrace();
+        }
     }
+
 
 }
