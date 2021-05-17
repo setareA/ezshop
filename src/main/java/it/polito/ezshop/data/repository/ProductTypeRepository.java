@@ -180,7 +180,7 @@ public class ProductTypeRepository {
                 rs.getString(5),
                 rs.getString(6), 
                 rs.getDouble(7),
-        		rs.getInt(9)
+        		rs.getInt(8)
         );
     }
                                                  
