@@ -300,11 +300,11 @@ public class EZShop implements EZShopInterface {
 
     @Override
     public boolean updateQuantity(Integer productId, int toBeAdded) throws InvalidProductIdException, UnauthorizedException {
-      if(this.checkIfAdministrator() | this.checkIfManager()) {
+      if(this.checkIfAdministrator() || this.checkIfManager()) {
       	if( productId == null) throw new InvalidProductIdException();
       	if( productId <1) throw new InvalidProductIdException();
 if(productTypeRepository.getProductTypebyId(String.valueOf(productId)) == null ) return false ;
-    	  if(productTypeRepository.getProductTypebyId(String.valueOf(productId)).getLocation().isBlank() || productTypeRepository.getProductTypebyId(String.valueOf(productId)).getLocation() == null ) return false;
+    	  if(productTypeRepository.getProductTypebyId(String.valueOf(productId)).getLocation().isEmpty() || productTypeRepository.getProductTypebyId(String.valueOf(productId)).getLocation() == null ) return false;
     	  int chk = toBeAdded; 
     	 chk += productTypeRepository.getProductTypebyId(String.valueOf(productId)).getQuantity() ;
       	if(chk<0)return false;
@@ -318,7 +318,7 @@ if(productTypeRepository.getProductTypebyId(String.valueOf(productId)) == null )
     @Override
     public boolean updatePosition(Integer productId, String newPos) throws InvalidProductIdException, InvalidLocationException, UnauthorizedException {
         
-    	if(this.checkIfAdministrator() | this.checkIfManager()) {
+    	if(this.checkIfAdministrator() || this.checkIfManager()) {
         	if( productId == null) throw new InvalidProductIdException();
         	if( productId <1) throw new InvalidProductIdException();
       	   if(!(productTypeRepository.getProductTypebyLocation(newPos) == null)) return false;
@@ -334,7 +334,7 @@ if(productTypeRepository.getProductTypebyId(String.valueOf(productId)) == null )
     @Override
     public Integer issueOrder(String productCode, int quantity, double pricePerUnit) throws InvalidProductCodeException, InvalidQuantityException, InvalidPricePerUnitException, UnauthorizedException {
         
-    	if(!(this.checkIfAdministrator() | this.checkIfManager())) throw new UnauthorizedException();
+    	if(!(this.checkIfAdministrator() || this.checkIfManager())) throw new UnauthorizedException();
     	if(pricePerUnit <= 0) throw new InvalidPricePerUnitException ();
     	if(quantity <= 0) throw new  InvalidQuantityException();
     	if(!ProductTypeClass.checkValidityProductcode(productCode)) throw new InvalidProductCodeException();
@@ -348,7 +348,7 @@ if(productTypeRepository.getProductTypebyId(String.valueOf(productId)) == null )
     @Override
     public Integer payOrderFor(String productCode, int quantity, double pricePerUnit) throws InvalidProductCodeException, InvalidQuantityException, InvalidPricePerUnitException, UnauthorizedException {
         
-    	if(!(this.checkIfAdministrator() | this.checkIfManager())) throw new UnauthorizedException();
+    	if(!(this.checkIfAdministrator() || this.checkIfManager())) throw new UnauthorizedException();
     	if(pricePerUnit <= 0) throw new InvalidPricePerUnitException ();
     	if(quantity <= 0) throw new  InvalidQuantityException();
     	if(!ProductTypeClass.checkValidityProductcode(productCode)) throw new InvalidProductCodeException();
@@ -365,7 +365,7 @@ if(productTypeRepository.getProductTypebyId(String.valueOf(productId)) == null )
 
     @Override
     public boolean payOrder(Integer orderId) throws InvalidOrderIdException, UnauthorizedException {
-    	if(!(this.checkIfAdministrator() | this.checkIfManager())) throw new UnauthorizedException();
+    	if(!(this.checkIfAdministrator() || this.checkIfManager())) throw new UnauthorizedException();
     	if( orderId == null) throw new InvalidOrderIdException();
     	if( orderId <1) throw new InvalidOrderIdException();
     	try {
@@ -382,7 +382,7 @@ if(productTypeRepository.getProductTypebyId(String.valueOf(productId)) == null )
 
     @Override
     public boolean recordOrderArrival(Integer orderId) throws InvalidOrderIdException, UnauthorizedException, InvalidLocationException {
-    	if(!(this.checkIfAdministrator() | this.checkIfManager())) throw new UnauthorizedException();
+    	if(!(this.checkIfAdministrator() || this.checkIfManager())) throw new UnauthorizedException();
     	if( orderId == null) throw new InvalidOrderIdException();
     	if( orderId <1) throw new InvalidOrderIdException();
     	try {
@@ -390,7 +390,7 @@ if(productTypeRepository.getProductTypebyId(String.valueOf(productId)) == null )
 			if(o == null) return false;
 			if(o.getStatus().equals("ORDERED")) return false;
 			if(o.getStatus().equals("COMPLETED")) return true;
-			if(productTypeRepository.getProductTypebyBarCode(o.getProductCode()).getLocation().isBlank() ||productTypeRepository.getProductTypebyBarCode(o.getProductCode()).getLocation() == null ) throw new InvalidLocationException();
+			if(productTypeRepository.getProductTypebyBarCode(o.getProductCode()).getLocation().isEmpty() ||productTypeRepository.getProductTypebyBarCode(o.getProductCode()).getLocation() == null ) throw new InvalidLocationException();
 			productTypeRepository.updateQuantity(productTypeRepository.getProductTypebyBarCode(o.getProductCode()).getId(), o.getQuantity());
 			balanceOperationRepository.updateState("orderTable", orderId, "COMPLETED");
 			return true;
