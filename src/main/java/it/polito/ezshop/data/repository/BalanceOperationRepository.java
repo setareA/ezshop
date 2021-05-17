@@ -49,7 +49,11 @@ public class BalanceOperationRepository {
         st.executeUpdate("CREATE TABLE IF NOT EXISTS " + "ticket" + " " + "(id INTEGER PRIMARY KEY AUTOINCREMENT, barcode TEXT, productDescription TEXT, amount INTEGER , pricePerUnit DOUBLE, discountRate DOUBLE, saleId INTEGER, returnId INTEGER, FOREIGN KEY (saleId) references sale(ticketNumber), FOREIGN KEY (returnId) references returnTable(returnId))");
         st.executeUpdate("CREATE TABLE IF NOT EXISTS " + "balanceTable" + " " + "(id INTEGER PRIMARY KEY , balance DOUBLE )");
         st.executeUpdate("CREATE TABLE IF NOT EXISTS "+ "balanceOperationTable" + " " + "(balanceId INTEGER PRIMARY KEY , localDate TEXT , money DOUBLE , type TEXT)");
-
+        try {
+        	this.getBalance();
+        }catch (SQLException e) {
+        	this.insertBalance();
+        }
         st.close();
         con.close();
     }

@@ -253,7 +253,7 @@ public class EZShop implements EZShopInterface {
     public boolean deleteProductType(Integer id) throws InvalidProductIdException, UnauthorizedException {
         Logger.getLogger(EZShop.class.getName()).log(Level.INFO, "deleteProductType");
     	if(this.checkIfAdministrator() || this.checkIfManager()) { // loggedUser check
-        	if(id <= 0 || id == null) throw new InvalidProductIdException();
+        	if(id == null || id <= 0) throw new InvalidProductIdException();
         	try {
         		return productTypeRepository.deleteProductTypeFromDB(id);
         		
