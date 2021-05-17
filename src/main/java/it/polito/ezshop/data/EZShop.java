@@ -12,10 +12,9 @@ import it.polito.ezshop.data.repository.BalanceOperationRepository;
 import it.polito.ezshop.data.repository.CustomerRepository;
 import it.polito.ezshop.data.repository.ProductTypeRepository;
 import it.polito.ezshop.data.repository.UserRepository;
-import it.polito.ezshop.data.repository.ProductTypeRepository;
 import it.polito.ezshop.data.util.HashGenerator;
 import it.polito.ezshop.exceptions.*;
-import java.nio.charset.Charset;
+
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -902,22 +901,47 @@ public class EZShop implements EZShopInterface {
      * This method updates the transaction status (decreasing the number of units sold by the number of returned one and
      * decreasing the final price).
      * If committed, the return transaction must be persisted in the system's memory.
-     * It can be invoked only after a user with role "Administrator", "ShopManager" or "Cashier" is logged in.
-     *
-     * @param returnId the id of the transaction
+
      * @param commit whether we want to commit (True) or rollback(false) the transaction
      *
      * @return  true if the operation is successful
-     *          false   if the returnId does not correspond to an active return transaction,
+     *          false
      *                  if there is some problem with the db
      *
-     * @throws InvalidTransactionIdException if returnId is less than or equal to 0 or if it is null
-     * @throws UnauthorizedException if there is no logged user or if it has not the rights to perform the operation
      */
     @Override
     public boolean endReturnTransaction(Integer returnId, boolean commit) throws InvalidTransactionIdException, UnauthorizedException {
         if(checkIfAdministrator()  || checkIfManager()  || checkIfCashier()) {
+            if (returnId == null || returnId <= 0) {
+                throw new InvalidTransactionIdException();
+            }
+            ReturnTransactionClass returnTransaction = balanceOperationRepository.getReturnByReturnId(returnId);
+            if (returnTransaction == null || !"open".equals(returnTransaction.getState())){
+                return false;
+            }
+            if(!commit){ //the whole transaction is undone.
+                balanceOperationRepository.deleteRow("ticket","returnId", String.valueOf(returnId));
+                balanceOperationRepository.deleteRow("returnTable","returnId", String.valueOf(returnId));
 
+            }
+            else{ /* it increases the product quantity available on the shelves. updates the transaction status (decreasing the number of units sold by the number of returned one and
+                   decreasing the final price). */
+                balanceOperationRepository.updateRow("returnTable","status", "returnId", returnId, "closed");
+                ArrayList<TicketEntry> returnedProducts = balanceOperationRepository.getTicketsByReturnId(returnId);
+                for( TicketEntry returnedProduct: returnedProducts){
+                    TicketEntryClass saleTicketEntry = balanceOperationRepository.getTicketsByForeignKeyAndBarcode("saleId", returnTransaction.getTicketNumber(),returnedProduct.getBarCode());
+                    if ( saleTicketEntry.getAmount() - returnedProduct.getAmount() == 0 ){
+                        balanceOperationRepository.deleteRow("ticket", "id", String.valueOf(saleTicketEntry.getId()));
+                    }
+                    else {
+                        balanceOperationRepository.updateRow("ticket","amount", "id",
+                                saleTicketEntry.getId(), String.valueOf(saleTicketEntry.getAmount() - returnedProduct.getAmount()));
+                    }
+                    ProductType realProduct = productTypeRepository.getProductTypebyBarCode(returnedProduct.getBarCode());
+                    productTypeRepository.updateQuantity(realProduct.getId(),returnedProduct.getAmount());
+                }
+
+            }
         }
         else{
             throw new  UnauthorizedException();
