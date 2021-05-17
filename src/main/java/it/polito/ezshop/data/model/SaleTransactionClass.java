@@ -16,14 +16,13 @@ public class SaleTransactionClass implements SaleTransaction{
 	private String status;
 	private LocalDate date; // delete this
 
+
 	public SaleTransactionClass(Integer ticketNumber, double discountRate,
-								double price, String state, LocalDate date) {
+								double price, String state) {
 		this.ticketNumber = ticketNumber;
 		this.discountRate = discountRate;
 		this.price = price;
 		this.status = state;
-		this.date = date;
-
 	}
 
 	@Override
@@ -80,13 +79,5 @@ public class SaleTransactionClass implements SaleTransaction{
 
 	public void setState(String state) {
 		this.status = state;
-	}
-
-	public LocalDate getDate() {
-		return date;
-	}
-
-	public void setDate(LocalDate date) {
-		this.date = date;
 	}
 }

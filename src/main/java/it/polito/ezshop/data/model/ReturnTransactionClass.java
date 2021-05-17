@@ -3,20 +3,23 @@ package it.polito.ezshop.data.model;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
+import it.polito.ezshop.data.TicketEntry;
+
 public class ReturnTransactionClass{
     private static Integer returnId;
     private static LocalDate date; // delete 
     private static double price;
     private static String state;
     private static boolean commit;
-    private ArrayList<TicketEntryClass> entries ;
+    private ArrayList<TicketEntry> entries ;
+    private static Integer ticketNumber;
 
 
-    public ReturnTransactionClass(Integer returnId, LocalDate date, double price, String state) {
+    public ReturnTransactionClass(Integer returnId, double price, String state, Integer ticketNumber) {
         this.returnId = returnId;
-        this.date = date;
         this.price = price;
         this.state = state;
+        this.ticketNumber = ticketNumber;
     }
 
     public Integer getReturnId() {
@@ -25,14 +28,6 @@ public class ReturnTransactionClass{
 
     public void setReturnId(Integer returnId) {
         ReturnTransactionClass.returnId = returnId;
-    }
-
-    public LocalDate getDate() {
-        return date;
-    }
-
-    public void setDate(LocalDate date) {
-        ReturnTransactionClass.date = date;
     }
 
     public double getPrice() {
@@ -59,11 +54,19 @@ public class ReturnTransactionClass{
         ReturnTransactionClass.commit = commit;
     }
 
-    public ArrayList<TicketEntryClass> getEntries() {
+    public ArrayList<TicketEntry> getEntries() {
         return entries;
     }
 
-    public void setEntries(ArrayList<TicketEntryClass> entries) {
-        this.entries = entries;
+    public void setEntries(ArrayList<TicketEntry> arrayList) {
+        this.entries = arrayList;
+    }
+
+    public Integer getTicketNumber() {
+        return ticketNumber;
+    }
+
+    public void setTicketNumber(Integer ticketNumber) {
+        ReturnTransactionClass.ticketNumber = ticketNumber;
     }
 }

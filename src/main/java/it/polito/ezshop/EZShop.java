@@ -4,6 +4,7 @@ import it.polito.ezshop.data.EZShopInterface;
 import it.polito.ezshop.data.User;
 import it.polito.ezshop.data.model.ProductTypeClass;
 import it.polito.ezshop.data.model.UserClass;
+import it.polito.ezshop.data.repository.BalanceOperationRepository;
 import it.polito.ezshop.data.repository.UserRepository;
 import it.polito.ezshop.exceptions.*;
 import it.polito.ezshop.view.EZShopGUI;
@@ -19,14 +20,28 @@ public class EZShop {
 
     public static void main(String[] args){
      
-                                                                                                                                                                                                                                                                         
+                                                                                                                                                                                                                                                                          
         try {                              
            it.polito.ezshop.data.EZShop ezShop = new it.polito.ezshop.data.EZShop();
            EZShopGUI gui = new EZShopGUI(ezShop);
            UserRepository userRepository = ((it.polito.ezshop.data.EZShop) ezShop).getUserRepository();
+           BalanceOperationRepository balanceRepository = ((it.polito.ezshop.data.EZShop) ezShop).getBalanceOperationRepository();
            
 
           //ezShop.createUser("eugenio", "eugenio", "ShopManager");
+
+           userRepository.setLoggedUser(new UserClass(1,"Juan","1234","1234","Administrator"));
+          //balanceRepository.getCreditCards();
+          int b = ezShop.startSaleTransaction();
+          ezShop.endSaleTransaction(b);
+          balanceRepository.updateRow("sale", "price", "ticketNumber", b, "80");
+          Boolean a = ezShop.receiveCreditCardPayment(b, "4485370086510891");
+          System.out.println(a);
+          
+          
+          /*
+           //ezShop.createUser("eugenio", "eugenio", "ShopManager");
+>>>>>>> 228c5db428127ecab3e9a44ee13792942abe7744
            ezShop.login("eugenio", "eugenio");
           // ezShop.getBalanceOperationRepository().insertBalance();
           //System.out.print(ezShop.createProductType("pane", "1234" ,1.0, "prova1"));
@@ -74,6 +89,13 @@ public class EZShop {
         	  // userRepository.setLoggedUser(admin);
         	   //Integer a = ezShop.defineCustomer("Juan");
         	   
+        	   ezShop.defineCustomer("Whoever");
+        	   String card = ezShop.createCard();
+        	   System.out.println();
+        	   ezShop.attachCardToCustomer(card, 1);
+        	   ezShop.modifyPointsOnCard(card, 80); 
+        	   ezShop.modifyPointsOnCard(card, -20);
+        	   ezShop.modifyPointsOnCard(card, -61);
         	  // ezShop.defineCustomer("Whoever");
         	 //  String card = ezShop.createCard();
         	//   System.out.println();
@@ -87,9 +109,7 @@ public class EZShop {
 
         	   
         	   
-           }catch(Exception e){           
-        	   e.printStackTrace();
-           }
+
 
         //   UserRepository userRepository = UserRepository.getInstance();
        //    userRepository.addNewUser(new UserClass(1,"sisi","abc","","Administrator"));
@@ -108,8 +128,12 @@ public class EZShop {
          //   Logger.getLogger(EZShop.class.getName()).log(Level.SEVERE,"saleId2: "+saleId2);
 
 
-      
+    */      
 
+        }catch(Exception e){           
+     	   e.printStackTrace();
+        }
     }
+
 
 }

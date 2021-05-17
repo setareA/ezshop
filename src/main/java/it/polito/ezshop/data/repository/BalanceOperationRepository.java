@@ -3,16 +3,22 @@ package it.polito.ezshop.data.repository;
 
 import it.polito.ezshop.data.EZShop;
 import it.polito.ezshop.data.model.BalanceOperationClass;
+import it.polito.ezshop.data.TicketEntry;
 import it.polito.ezshop.data.model.OrderClass;
 import it.polito.ezshop.data.model.ReturnTransactionClass;
 import it.polito.ezshop.data.model.SaleTransactionClass;
 import it.polito.ezshop.data.model.TicketEntryClass;
 
-
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -28,9 +34,10 @@ public class BalanceOperationRepository {
     
     private static double balance; // TODO : ADD TO DB NOT HERE
     private static Integer nextTicketNumber = 0;
+    private static Integer nextReturnId = 0;
     private static final String COLUMNS_ORDER = "orderId, balanceId, productCode, pricePerUnit, quantity, status, localDate, money";
-    private static final String COLUMNS_SALE = "ticketNumber, discountRate, price, status, LocalDate";
-    private static final String COLUMNS_RETURN = "returnId, localDate, price, status";
+    private static final String COLUMNS_SALE = "ticketNumber, discountRate, price, status";
+    private static final String COLUMNS_RETURN = "returnId, price, status, ticketNumber";
     private static final String COLUMNS_TICKET_ENTRY = "id, barcode, productDescription, amount, pricePerUnit, discountRate, saleId, returnId";
     private static final String CLUMNS_BALANCE_OPERATION = "balanceId, localDate, money, type";
     public void initialize() throws SQLException {
@@ -42,6 +49,7 @@ public class BalanceOperationRepository {
         st.executeUpdate("CREATE TABLE IF NOT EXISTS " + "ticket" + " " + "(id INTEGER PRIMARY KEY AUTOINCREMENT, barcode TEXT, productDescription TEXT, amount INTEGER , pricePerUnit DOUBLE, discountRate DOUBLE, saleId INTEGER, returnId INTEGER, FOREIGN KEY (saleId) references sale(balanceId), FOREIGN KEY (returnId) references returnTable(returnId))");
         st.executeUpdate("CREATE TABLE IF NOT EXISTS " + "balanceTable" + " " + "(id INTEGER PRIMARY KEY , balance DOUBLE )");
         st.executeUpdate("CREATE TABLE IF NOT EXISTS "+ "balanceOperationTable" + " " + "(balanceId INTEGER PRIMARY KEY , localDate TEXT , money DOUBLE , type TEXT)");
+
         st.close();
         con.close();
     }
@@ -62,12 +70,12 @@ public class BalanceOperationRepository {
     }
     private static ArrayList<String> getAttrsSale(){
         ArrayList<String> attrs = new ArrayList<>(
-                Arrays.asList("ticketNumber", "discountRate", "price", "status", "localDate"));
+                Arrays.asList("ticketNumber", "discountRate", "price", "status"));
         return attrs;
     }
     private static ArrayList<String> getAttrsReturn(){
         ArrayList<String> attrs = new ArrayList<>(
-                Arrays.asList( "returnId", "localDate", "price", "status"));
+                Arrays.asList( "returnId", "price", "status", "ticketNumber"));
         return attrs;
     }
     private static ArrayList<String> getAttrsTicket(){
@@ -200,13 +208,10 @@ public class BalanceOperationRepository {
 
         nextTicketNumber = ourInstance.getHighestTicketNumber() + 1;
         HashMap<String, String> saleData = new HashMap<>();
-        saleData.put("ticketNumber", nextTicketNumber.toString());
+        saleData.put("ticketNumber", String.valueOf(nextTicketNumber));
         saleData.put("discountRate", String.valueOf(sale.getDiscountRate()));
         saleData.put("price", String.valueOf(sale.getPrice()));
         saleData.put("status", sale.getState());
-        saleData.put("localDate", sale.getDate().toString());
-
-        Logger.getLogger(EZShop.class.getName()).log(Level.SEVERE, String.valueOf(sale.getDate()));
 
         Connection con = DBCPDBConnectionPool.getConnection();
         ArrayList<String> attrs = getAttrsSale();
@@ -222,17 +227,17 @@ public class BalanceOperationRepository {
         return nextTicketNumber;
     }
 
-    public void addNewReturn(ReturnTransactionClass returnTransaction) throws SQLException{
-
+    public Integer addNewReturn(ReturnTransactionClass returnTransaction) throws SQLException{
+        nextReturnId = getHighestReturnId() + 1;
         HashMap<String, String> returnData = new HashMap<>();
-        returnData.put("returnId", returnTransaction.getReturnId().toString());
-        returnData.put("localDate", returnTransaction.getDate().toString() );
+        returnData.put("returnId", String.valueOf(nextReturnId));
         returnData.put("price", Double.toString(returnTransaction.getPrice()));
         returnData.put("status", returnTransaction.getState());
+        returnData.put("ticketNumber", String.valueOf(returnTransaction.getTicketNumber()));
 
         Connection con = DBCPDBConnectionPool.getConnection();
         ArrayList<String> attrs = getAttrsReturn();
-        System.out.println("adding new return");
+        Logger.getLogger(EZShop.class.getName()).log(Level.INFO,"adding new return with returnId: "+ nextReturnId);
         String sqlCommand = insertCommand("returnTable", attrs);
         PreparedStatement prp = con.prepareStatement(sqlCommand);
         for (int j = 0; j < attrs.size(); j++) {
@@ -241,6 +246,7 @@ public class BalanceOperationRepository {
         prp.executeUpdate();
         prp.close();
         con.close();
+        return nextReturnId;
     }
 
 
@@ -271,13 +277,13 @@ public class BalanceOperationRepository {
         con.close();
     }
 
-    public boolean deleteTicketEntry(Integer id){
+    public boolean deleteRow(String tableName,String idName, String id){
         try {
-            String sqlCommand = getDeleteTicketStatement();
+            String sqlCommand = getDeleteRowStatement(tableName, idName);
             Connection con = DBCPDBConnectionPool.getConnection();
-            Logger.getLogger(EZShop.class.getName()).log(Level.SEVERE,"deleting ticket entry with id: "+id);
+            Logger.getLogger(EZShop.class.getName()).log(Level.INFO,"deleting row with id: "+id);
             PreparedStatement prps = con.prepareStatement(sqlCommand);
-            prps.setString(1, String.valueOf(id));
+            prps.setString(1, id);
             int returnVal = prps.executeUpdate();
             prps.close();
             con.close();
@@ -287,13 +293,19 @@ public class BalanceOperationRepository {
         }
         return false;
     }
-
-    public boolean updateTicketQuantity(Integer id, int quantity){
+    /**
+    * @param tableName the name of the table to be updated
+    * @param columnName the name of the column which is going to change
+    * @param  idName the name of the column which is going to be used in where clause
+    * @param  id the value of the id
+    * @param newColumnVal the value of the column which is being updated
+     **/
+    public boolean updateRow(String tableName, String columnName, String idName ,Integer id, String newColumnVal){
         try {
-            String sqlCommand = getUpdateQuantityStatement();
+            String sqlCommand = getUpdateRowStatement(tableName, columnName, idName);
             Connection con = DBCPDBConnectionPool.getConnection();
             PreparedStatement prps = con.prepareStatement(sqlCommand);
-            prps.setString(1, String.valueOf(quantity));
+            prps.setString(1, newColumnVal);
             prps.setString(2, String.valueOf(id));
             int returnVal = prps.executeUpdate();
             prps.close();
@@ -330,6 +342,12 @@ public class BalanceOperationRepository {
     private String getDeleteTicketStatement() {
         return "DELETE FROM ticket WHERE id= ?;";
     }
+    private String getUpdateRowStatement(String tableName, String columnName, String idName){
+        return "UPDATE "+tableName+" SET "+columnName+" = ? WHERE "+idName+" = ?";
+    }
+    private String getDeleteRowStatement(String tableName, String idName) {
+        return "DELETE FROM "+tableName+" WHERE "+idName+"= ?;";
+    }
 
     protected OrderClass convertResultSetOrderToDomainModel(ResultSet rs) throws SQLException {
         return new OrderClass(rs.getInt(1),
@@ -342,22 +360,21 @@ public class BalanceOperationRepository {
                 rs.getDouble(8)
         );
     }
-// ticketNumber, discountRate, price, state, LocalDate";
+// ticketNumber, discountRate, price, state";
     protected SaleTransactionClass convertResultSetSaleToDomainModel(ResultSet rs) throws SQLException {
         return new SaleTransactionClass(rs.getInt(1),
                 rs.getDouble(2),
                 rs.getDouble(3),
-                rs.getString(4),
-                rs.getDate(5).toLocalDate()
+                rs.getString(4)
         );
     }
 
-  //  "balanceId, localDate, price, state";
+  //  "balanceId, price, state";
     protected ReturnTransactionClass convertResultSetReturnToDomainModel(ResultSet rs) throws SQLException {
         return new ReturnTransactionClass(rs.getInt(1),
-                rs.getDate(2).toLocalDate(),
-                rs.getDouble(3),
-                rs.getString(4)
+                rs.getDouble(2),
+                rs.getString(3),
+                rs.getInt(4)
         );
     }
 
@@ -408,9 +425,9 @@ public class BalanceOperationRepository {
         return result;
     }
 
-    private ArrayList<TicketEntryClass> loadAllTickets(ResultSet rs) throws SQLException{
+    private ArrayList<TicketEntry> loadAllTickets(ResultSet rs) throws SQLException{
 
-        ArrayList <TicketEntryClass> result = new ArrayList<>();
+        ArrayList <TicketEntry> result = new ArrayList<>();
         while(rs.next()) {
             TicketEntryClass t = convertResultSetTicketToDomainModel(rs);
             result.add(t);
@@ -474,29 +491,16 @@ public class BalanceOperationRepository {
         return null;
     }
     public ArrayList<ReturnTransactionClass> getAllReturns(){
-        try {
-            String sqlCommand = geAllTransStatement("returnTable");
-            Connection con = DBCPDBConnectionPool.getConnection();
-            PreparedStatement prps = con.prepareStatement(sqlCommand);
-            ResultSet rs = prps.executeQuery();
-            ArrayList<ReturnTransactionClass> returns = loadAllReturns(rs);
-            prps.close();
-            con.close();
-            return returns;
-        }catch(SQLException e){
-            e.printStackTrace();
-        }
-        return null;
+    		return null;
     }
-
-    public ArrayList<TicketEntryClass> getTicketsBySaleId(Integer saleId){
+    public ArrayList<TicketEntry> getTicketsBySaleId(Integer saleId){
         try {
             String sqlCommand = getFindBySaleIdStatement();
             Connection con = DBCPDBConnectionPool.getConnection();
             PreparedStatement prps = con.prepareStatement(sqlCommand);
             prps.setString(1, String.valueOf(saleId));
             ResultSet rs = prps.executeQuery();
-            ArrayList<TicketEntryClass> tickets = loadAllTickets(rs);
+            ArrayList<TicketEntry> tickets = loadAllTickets(rs);
             prps.close();
             con.close();
             return tickets;
@@ -517,21 +521,42 @@ public class BalanceOperationRepository {
             SaleTransactionClass s = convertResultSetSaleToDomainModel(rs);
             prps.close();
             con.close();
+            s.setEntries(getTicketsBySaleId(ticketNumber));
             return s;
         }catch(SQLException e){
             e.printStackTrace();
         }
         return null;
     }
+    
+    public ReturnTransactionClass getReturnByReturnId(Integer returnId){
+        try {
+            String sqlCommand = getFindByReturnIdFromReturnTableStatement();
+            Connection con = DBCPDBConnectionPool.getConnection();
+            PreparedStatement prps = con.prepareStatement(sqlCommand);
+            prps.setString(1, String.valueOf(returnId));
+            ResultSet rs = prps.executeQuery();
+            rs.next();
+            ReturnTransactionClass r = convertResultSetReturnToDomainModel(rs);
+            prps.close();
+            con.close();
+            r.setEntries(getTicketsByReturnId(returnId));
+            return r;
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+    
 
-    public ArrayList<TicketEntryClass> getTicketsByReturnId(Integer returnId){
+    public ArrayList<TicketEntry> getTicketsByReturnId(Integer returnId){
         try {
             String sqlCommand = getFindByReturnIdStatement();
             Connection con = DBCPDBConnectionPool.getConnection();
             PreparedStatement prps = con.prepareStatement(sqlCommand);
             prps.setString(1, String.valueOf(returnId));
             ResultSet rs = prps.executeQuery();
-            ArrayList<TicketEntryClass> tickets = loadAllTickets(rs);
+            ArrayList<TicketEntry> tickets = loadAllTickets(rs);
             prps.close();
             con.close();
             return tickets;
@@ -547,6 +572,7 @@ public class BalanceOperationRepository {
             Connection con = DBCPDBConnectionPool.getConnection();
             PreparedStatement prps = con.prepareStatement(sqlCommand);
             prps.setString(1, String.valueOf(key));
+            prps.setString(2, String.valueOf(barcode));
             ResultSet rs = prps.executeQuery();
             rs.next();
             TicketEntryClass ticket= convertResultSetTicketToDomainModel(rs);
@@ -595,7 +621,28 @@ public class BalanceOperationRepository {
             } else {
                 return 0;
             }
-      
+    }
+            
+    public Integer getHighestReturnId(){
+        try {
+            String sqlCommand = getMaxReturnIdStatement();
+            Connection con = DBCPDBConnectionPool.getConnection();
+            PreparedStatement prps = con.prepareStatement(sqlCommand);
+            ResultSet rs = prps.executeQuery();
+            rs.next();
+            Integer highestId = rs.getInt(1);
+            prps.close();
+            con.close();
+            if (highestId != null) {
+                return highestId;
+            } else {
+                return 0;
+            }
+    }catch(SQLException e){
+        e.printStackTrace();
+    }
+    return null;
+
     }
     public Integer getHighestBalanceId() throws SQLException{
         
@@ -639,6 +686,7 @@ public class BalanceOperationRepository {
 		return "SELECT MAX(balanceId) FROM balanceOperationTable";
 	}
 	private String geAllTransStatement(String tableName) {
+       
         String sqlCommand = "SELECT * FROM " + tableName;
         return sqlCommand;
     }
@@ -658,6 +706,9 @@ public class BalanceOperationRepository {
     private static String getFindByTicketNumberStatement() {
         return "SELECT * FROM sale WHERE ticketNumber = ?"  ;
     }
+    private static String getFindByReturnIdFromReturnTableStatement() {
+        return "SELECT * FROM returnTable WHERE returnId = ?"  ;
+    }
 
     private static String getDeleteRowStatement(String tableName, String columnName, String columnName2){
         return "DELETE FROM " + tableName + " WHERE " + columnName + "= ? AND "+ columnName2 +"= ?;";
@@ -668,5 +719,32 @@ public class BalanceOperationRepository {
         return sqlCommand;
     }
 
-	
+
+    private String getMaxReturnIdStatement(){
+        String sqlCommand = "SELECT MAX(returnId) FROM returnTable";
+        return sqlCommand;
+    }
+    
+    public HashMap<String,Double> getCreditCards() throws IOException {
+	    	String filePath = new File("").getAbsolutePath();
+	    	filePath = filePath.concat("\\src\\main\\java\\it\\polito\\ezshop\\utils\\CreditCards.txt");
+	    	
+	    	File file = new File(filePath);
+    	  
+    	  BufferedReader br = new BufferedReader(new FileReader(file));
+    	  String st;
+    	  
+    	  //4716258050958645;0.00
+    	  
+    	  HashMap<String,Double> creditCards = new HashMap<String,Double>();
+    	  int n=0;
+    	  while ((st = br.readLine()) != null) {
+    		if(n>4) {
+    			creditCards.put(st.substring(0,16), Double.parseDouble(st.substring(17,st.length()-1)));
+    		}
+        	n=n+1;
+    	  }
+		return creditCards;
+    }
+
 }
