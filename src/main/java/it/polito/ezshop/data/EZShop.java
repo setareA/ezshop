@@ -340,7 +340,7 @@ if(productTypeRepository.getProductTypebyId(String.valueOf(productId)) == null )
     	if(!ProductTypeClass.checkValidityProductcode(productCode)) throw new InvalidProductCodeException();
     	if(productTypeRepository.getProductTypebyBarCode(productCode) == null) return -1;
     	try {
-    		balanceOperationRepository.addNewOrder(new OrderClass(balanceOperationRepository.getHighestOrderId() + 1, 0, productCode, pricePerUnit, quantity, "ORDERED", LocalDate.now(), quantity*pricePerUnit));
+    		balanceOperationRepository.addNewOrder(new OrderClass(balanceOperationRepository.getHighestOrderId() + 1, 0, productCode, pricePerUnit, quantity, "ORDERED", quantity*pricePerUnit));
     		return balanceOperationRepository.getHighestOrderId();
     	}catch ( SQLException e) { e.printStackTrace();}return -1;
     }
@@ -355,7 +355,7 @@ if(productTypeRepository.getProductTypebyId(String.valueOf(productId)) == null )
     	if(productTypeRepository.getProductTypebyBarCode(productCode) == null) return -1;
     	try {    
     		if(this.computeBalance()-quantity*pricePerUnit<0)return -1;
-    		balanceOperationRepository.addNewOrder(new OrderClass(balanceOperationRepository.getHighestOrderId() + 1, 0, productCode, pricePerUnit, quantity, "PAYED", LocalDate.now(), quantity*pricePerUnit));
+    		balanceOperationRepository.addNewOrder(new OrderClass(balanceOperationRepository.getHighestOrderId() + 1, 0, productCode, pricePerUnit, quantity, "PAYED", quantity*pricePerUnit));
     		this.recordBalanceUpdate(-quantity*pricePerUnit );
     		return balanceOperationRepository.getHighestOrderId();
     	}catch ( SQLException e) { return -1;}
@@ -1208,7 +1208,7 @@ if(productTypeRepository.getProductTypebyId(String.valueOf(productId)) == null )
     @Override
     public boolean recordBalanceUpdate(double toBeAdded) throws UnauthorizedException {
         // called also by transction --- check if we can decrement --- creation of balance operation object and save in a table in db ---- modify of the balance
-    	if(!(this.checkIfAdministrator() | this.checkIfManager())) throw new UnauthorizedException();
+    	if(!(this.checkIfAdministrator() || this.checkIfManager())) throw new UnauthorizedException();
     	if(this.computeBalance()+toBeAdded<0)return false;
     	try {
 			BalanceOperationClass bo = new BalanceOperationClass(balanceOperationRepository.getHighestBalanceId() + 1, LocalDate.now(), toBeAdded, (toBeAdded<0?"DEBIT":"CREDIT"));
@@ -1224,7 +1224,7 @@ if(productTypeRepository.getProductTypebyId(String.valueOf(productId)) == null )
 
     @Override 
     public List<BalanceOperation> getCreditsAndDebits(LocalDate from, LocalDate to) throws UnauthorizedException {
-    	if(!(this.checkIfAdministrator() | this.checkIfManager())) throw new UnauthorizedException();
+    	if(!(this.checkIfAdministrator() || this.checkIfManager())) throw new UnauthorizedException();
     	List<BalanceOperation> bo = new ArrayList<BalanceOperation>(balanceOperationRepository.getAllBalanceOperation());
     	bo.removeIf(b -> (b.getDate().isBefore(from) || b.getDate().isAfter(to)));
     	return bo; // return the balance op table
@@ -1232,7 +1232,7 @@ if(productTypeRepository.getProductTypebyId(String.valueOf(productId)) == null )
 
     @Override
     public double computeBalance() throws UnauthorizedException {
-    	if(!(this.checkIfAdministrator() | this.checkIfManager())) throw new UnauthorizedException();
+    	if(!(this.checkIfAdministrator() || this.checkIfManager())) throw new UnauthorizedException();
     	try {
 			return balanceOperationRepository.getBalance();
 		} catch (SQLException e) {

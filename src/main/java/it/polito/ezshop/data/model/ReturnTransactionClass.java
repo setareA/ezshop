@@ -7,7 +7,6 @@ import it.polito.ezshop.data.TicketEntry;
 
 public class ReturnTransactionClass{
     private static Integer returnId;
-    private static LocalDate date; // delete 
     private static double price;
     private static String state;
     private static boolean commit;

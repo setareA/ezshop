@@ -17,19 +17,17 @@ public class OrderClass  implements Order  {
 	private double  pricePerUnit;
 	private int quantity;
 	private String status ;
-	private LocalDate localDate; // delete
 	private double money;
 
 
 	public OrderClass(int orderId, int balanceId, String productCode, double pricePerUnit, int quantity, String status,
-			LocalDate localDate, double money) {
+					  double money) {
 		this.orderId = orderId;
 		this.balanceId = balanceId;
 		this.productCode = productCode;
 		this.pricePerUnit = pricePerUnit;
 		this.quantity = quantity;
 		this.status = status;
-		this.localDate = localDate;
 		this.money = money;
 	}
    
@@ -104,19 +102,6 @@ public class OrderClass  implements Order  {
 		// TODO Auto-generated method stub
 		return money;
 	}
-
-
-
-	public LocalDate getLocalDate() {
-		return localDate;
-	}
-
-
-
-	public void setLocalDate(LocalDate localDate) {
-		this.localDate = localDate;
-	}
-
 
 
 	public void setMoney(double money) {
