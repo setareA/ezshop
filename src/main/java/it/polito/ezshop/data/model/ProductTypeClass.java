@@ -10,11 +10,10 @@ public class ProductTypeClass implements ProductType {
     private String productDescription;
     private String barCode;
     private Double pricePerUnit;
-    private Double discountRate;
     private Integer warning;
 
     public ProductTypeClass(Integer id, Integer quantity, String location, String note, String productDescription,
-			String barCode, Double pricePerUnit, Double discountRate, Integer warning) {
+			String barCode, Double pricePerUnit, Integer warning) {
 
 		this.id = id;
 		this.quantity = quantity;
@@ -23,7 +22,6 @@ public class ProductTypeClass implements ProductType {
 		this.productDescription = productDescription;
 		this.barCode = barCode;
 		this.pricePerUnit = pricePerUnit;
-		this.discountRate = discountRate;
 		this.warning = warning;
 	}
     
@@ -33,18 +31,11 @@ public class ProductTypeClass implements ProductType {
 	public String toString() {
 		return "ProductTypeClass [id=" + id + ", quantity=" + quantity + ", location=" + location + ", note=" + note
 				+ ", productDescription=" + productDescription + ", barCode=" + barCode + ", pricePerUnit="
-				+ pricePerUnit + ", discountRate=" + discountRate + ", warning=" + warning + "]";
+				+ pricePerUnit + ", discountRate="  + ", warning=" + warning + "]";
 	}
 
 
 
-	public Double getDiscountRate() {
-        return this.discountRate;
-    }
-
-    public void setDiscountRate(Double discountRate) {
-        this.discountRate = discountRate;
-    }
 
     public Integer getWarning() {
         return this.warning;

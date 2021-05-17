@@ -217,7 +217,7 @@ public class EZShop implements EZShopInterface {
         	else if (! productTypeRepository.checkUniqueBarcode(productCode) ) return -1;
         	else { 
         		try {
-        		productTypeRepository.addNewProductType(new ProductTypeClass(productTypeRepository.getMaxId() + 1 , 0, "" , note , description , productCode, pricePerUnit, 0.0, 0)); 
+        		productTypeRepository.addNewProductType(new ProductTypeClass(productTypeRepository.getMaxId() + 1 , 0, "" , note , description , productCode, pricePerUnit, 0)); 
         		return productTypeRepository.getMaxId();
 
         		}
@@ -376,7 +376,6 @@ if(productTypeRepository.getProductTypebyId(String.valueOf(productId)) == null )
 			this.recordBalanceUpdate(-balanceOperationRepository.getOrderByOrderId(String.valueOf(orderId)).getMoney());
 			return true;
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			return false ;
 		}
     }
@@ -396,7 +395,6 @@ if(productTypeRepository.getProductTypebyId(String.valueOf(productId)) == null )
 			balanceOperationRepository.updateState("orderTable", orderId, "COMPLETED");
 			return true;
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			return false ;
 		}
 		
@@ -1218,7 +1216,6 @@ if(productTypeRepository.getProductTypebyId(String.valueOf(productId)) == null )
 			balanceOperationRepository.setBalance(toBeAdded);
 			return true;
     	} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
     	return false;
@@ -1239,7 +1236,6 @@ if(productTypeRepository.getProductTypebyId(String.valueOf(productId)) == null )
     	try {
 			return balanceOperationRepository.getBalance();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return 0.0;
 		} // return balnce

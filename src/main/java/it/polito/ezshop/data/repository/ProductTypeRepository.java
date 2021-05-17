@@ -21,7 +21,7 @@ import it.polito.ezshop.data.util.HashGenerator;
 
 public class ProductTypeRepository {
     private static ProductTypeRepository ourInstance = new ProductTypeRepository();
-    private static final String COLUMNS = "id, quantity, location, note, productDescription, barCode , pricePerUnit , discountRate , warning ";
+    private static final String COLUMNS = "id, quantity, location, note, productDescription, barCode , pricePerUnit  , warning ";
 
    
 	public static ProductTypeRepository getInstance() {
@@ -35,7 +35,7 @@ public class ProductTypeRepository {
     public void initialize() throws SQLException{
         Connection con = DBCPDBConnectionPool.getConnection();
         Statement st = con.createStatement();
-        st.executeUpdate("CREATE TABLE IF NOT EXISTS " + "productType" + " " + "(id INTEGER PRIMARY KEY, quantity INTEGER , location TEXT, note TEXT, productDescription TEXT, barCode TEXT ,pricePerUnit DOUBLE , discountRate DOUBLE , warning TEXT)");
+        st.executeUpdate("CREATE TABLE IF NOT EXISTS " + "productType" + " " + "(id INTEGER PRIMARY KEY, quantity INTEGER , location TEXT, note TEXT, productDescription TEXT, barCode TEXT ,pricePerUnit DOUBLE , warning TEXT)");
         st.close();                                       
         con.close();
     }
@@ -55,7 +55,6 @@ public class ProductTypeRepository {
                         "productDescription",
                         "barCode",
                         "pricePerUnit",
-                        "discountRate",
                         "warning"));
         return attrs;
     }
@@ -154,7 +153,6 @@ public class ProductTypeRepository {
         userData.put("productDescription", pt.getProductDescription());
         userData.put("barCode", pt.getBarCode());
         userData.put("pricePerUnit", pt.getPricePerUnit().toString());
-        userData.put("discountRate", pt.getDiscountRate().toString());
         userData.put("warning", pt.getWarning().toString());
 
 
@@ -182,7 +180,6 @@ public class ProductTypeRepository {
                 rs.getString(5),
                 rs.getString(6), 
                 rs.getDouble(7),
-                rs.getDouble(8),
         		rs.getInt(9)
         );
     }
