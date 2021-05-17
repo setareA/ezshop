@@ -45,7 +45,7 @@ public class BalanceOperationRepository {
         Statement st = con.createStatement();
         st.executeUpdate("CREATE TABLE IF NOT EXISTS " + "orderTable" + " " + "(orderId INTEGER PRIMARY KEY, balanceId INTEGER, productCode TEXT, pricePerUnit DOUBLE, quantity INTEGER, status TEXT, money DOUBLE)");
         st.executeUpdate("CREATE TABLE IF NOT EXISTS " + "sale" + " " + "(ticketNumber INTEGER PRIMARY KEY, discountRate DOUBLE, price DOUBLE, status TEXT)");
-        st.executeUpdate("CREATE TABLE IF NOT EXISTS " + "returnTable" + " " + "(returnId INTEGER PRIMARY KEY, price DOUBLE, status TEXT)");
+        st.executeUpdate("CREATE TABLE IF NOT EXISTS " + "returnTable" + " " + "(returnId INTEGER PRIMARY KEY, price DOUBLE, status TEXT, ticketNumber INTEGER, FOREIGN KEY (ticketNumber) references sale(ticketNumber))");
         st.executeUpdate("CREATE TABLE IF NOT EXISTS " + "ticket" + " " + "(id INTEGER PRIMARY KEY AUTOINCREMENT, barcode TEXT, productDescription TEXT, amount INTEGER , pricePerUnit DOUBLE, discountRate DOUBLE, saleId INTEGER, returnId INTEGER, FOREIGN KEY (saleId) references sale(ticketNumber), FOREIGN KEY (returnId) references returnTable(returnId))");
         st.executeUpdate("CREATE TABLE IF NOT EXISTS " + "balanceTable" + " " + "(id INTEGER PRIMARY KEY , balance DOUBLE )");
         st.executeUpdate("CREATE TABLE IF NOT EXISTS "+ "balanceOperationTable" + " " + "(balanceId INTEGER PRIMARY KEY , localDate TEXT , money DOUBLE , type TEXT)");
