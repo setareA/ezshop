@@ -1001,15 +1001,7 @@ if(productTypeRepository.getProductTypebyId(String.valueOf(productId)) == null )
             throw new  UnauthorizedException();
         }
     }
-    /**
-     * This method deletes a closed return transaction. It affects the quantity of product sold in the connected sale transaction
-     * (and consequently its price) and the quantity of product available on the shelves.
-     *
-     * @return  true if the transaction has been successfully deleted,
-     *          false
-     *
-     *                  if there are some problems with the db
-	 *                  */
+
     @Override
     public boolean deleteReturnTransaction(Integer returnId) throws InvalidTransactionIdException, UnauthorizedException {
         if(checkIfAdministrator()  || checkIfManager()  || checkIfCashier()) {
