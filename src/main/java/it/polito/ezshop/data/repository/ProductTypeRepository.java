@@ -109,9 +109,9 @@ public class ProductTypeRepository {
         return "SELECT " + COLUMNS +
                 " FROM productType" +
                 " WHERE id = ?";
-    }
+    }//UPDATE Products SET Price = Price + 50 WHERE ProductID = 1
     private String getUpdateQuantityStatement(){
-        return "UPDATE productType SET quantity = ? WHERE id = ?";
+        return "UPDATE productType SET quantity = quantity + ? WHERE id = ?";
     }
     public int  getMaxId () throws SQLException {
     	Connection con = DBCPDBConnectionPool.getConnection();
@@ -287,7 +287,7 @@ public class ProductTypeRepository {
         }
         return null;
     }
-
+  //UPDATE Products SET Price = Price + 50 WHERE ProductID = 1
     public boolean updateQuantity(Integer id, int quantity){
         try {
             String sqlCommand = getUpdateQuantityStatement();
@@ -318,8 +318,11 @@ public class ProductTypeRepository {
         if (count == 0) return false;
         return true;
     }
-    public boolean updateQuantity (String id, int nq) throws SQLException {
-    	try {
+    
+
+   /* public boolean updateQuantity (String id, int nq) throws SQLException {
+    	try { //UPDATE Products SET Price = Price + 50 WHERE ProductID = 1
+
     	Connection con = DBCPDBConnectionPool.getConnection();
     	System.out.println("updating quantity");
     	nq += this.getProductTypebyId(id).getQuantity() ;
@@ -334,13 +337,13 @@ public class ProductTypeRepository {
         if (count == 0) return false;
         return true;
     	} catch(SQLException e) { return false;}
-    }
+    }*/
     public boolean updatePosition (String id, String np) 
     { 	try {
     	Connection con = DBCPDBConnectionPool.getConnection();
     	System.out.println("updating position");
     	if(this.getProductTypebyId(id) == null ) return false ;
-    	String sqlCommand = updateCommand("productType",new ArrayList<String>(Arrays.asList("id", "position")),new ArrayList<String>(Arrays.asList(id,np)));
+    	String sqlCommand = updateCommand("productType",new ArrayList<String>(Arrays.asList("id", "location")),new ArrayList<String>(Arrays.asList(id,np)));
     	PreparedStatement prp = con.prepareStatement(sqlCommand);
     	int count = prp.executeUpdate();
     	prp.close();

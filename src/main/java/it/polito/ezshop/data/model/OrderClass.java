@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import it.polito.ezshop.data.Order;
 
 public class OrderClass  implements Order  {
+	
  
 
 
@@ -16,7 +17,7 @@ public class OrderClass  implements Order  {
 	private double  pricePerUnit;
 	private int quantity;
 	private String status ;
-	private LocalDate localDate;
+	private LocalDate localDate; // delete
 	private double money;
 
 
@@ -87,7 +88,7 @@ public class OrderClass  implements Order  {
 	@Override
 	public Integer getBalanceId() {
 		// TODO Auto-generated method stub
-		return null;
+		return balanceId;
 	}
 
 
@@ -95,12 +96,8 @@ public class OrderClass  implements Order  {
 	@Override
 	public void setBalanceId(Integer balanceId) {
 		// TODO Auto-generated method stub
-		
+		this.balanceId = balanceId;
 	}
-
-
-
-	
 
 
 	public double getMoney() {

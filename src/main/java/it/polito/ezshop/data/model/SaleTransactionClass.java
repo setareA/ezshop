@@ -14,7 +14,7 @@ public class SaleTransactionClass implements SaleTransaction{
 	private double discountRate;
 	private double price;
 	private String status;
-	private LocalDate date;
+	private LocalDate date; // delete this
 
 	public SaleTransactionClass(Integer ticketNumber, double discountRate,
 								double price, String state, LocalDate date) {

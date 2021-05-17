@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 public class ReturnTransactionClass{
     private static Integer returnId;
-    private static LocalDate date;
+    private static LocalDate date; // delete 
     private static double price;
     private static String state;
     private static boolean commit;

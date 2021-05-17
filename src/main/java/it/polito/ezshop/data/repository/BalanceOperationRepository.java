@@ -2,6 +2,7 @@ package it.polito.ezshop.data.repository;
 
 
 import it.polito.ezshop.data.EZShop;
+import it.polito.ezshop.data.model.BalanceOperationClass;
 import it.polito.ezshop.data.model.OrderClass;
 import it.polito.ezshop.data.model.ReturnTransactionClass;
 import it.polito.ezshop.data.model.SaleTransactionClass;
@@ -24,25 +25,35 @@ public class BalanceOperationRepository {
 
     private BalanceOperationRepository() {
     }
-
+    
+    private static double balance; // TODO : ADD TO DB NOT HERE
     private static Integer nextTicketNumber = 0;
     private static final String COLUMNS_ORDER = "orderId, balanceId, productCode, pricePerUnit, quantity, status, localDate, money";
     private static final String COLUMNS_SALE = "ticketNumber, discountRate, price, status, LocalDate";
     private static final String COLUMNS_RETURN = "returnId, localDate, price, status";
     private static final String COLUMNS_TICKET_ENTRY = "id, barcode, productDescription, amount, pricePerUnit, discountRate, saleId, returnId";
-
+    private static final String CLUMNS_BALANCE_OPERATION = "balanceId, localDate, money, type";
     public void initialize() throws SQLException {
         Connection con = DBCPDBConnectionPool.getConnection();
         Statement st = con.createStatement();
-        st.executeUpdate("CREATE TABLE IF NOT EXISTS " + "orderTable" + " " + "(balanceId INTEGER PRIMARY KEY, localDate TEXT, money DOUBLE, type TEXT, productCode TEXT, pricePerUnit DOUBLE, quantity INTEGER, status TEXT, orderId INTEGER)");
+        st.executeUpdate("CREATE TABLE IF NOT EXISTS " + "orderTable" + " " + "(orderId INTEGER PRIMARY KEY, balanceId INTEGER, productCode TEXT, pricePerUnit DOUBLE, quantity INTEGER, status TEXT, localDate TEXT, money DOUBLE)");
         st.executeUpdate("CREATE TABLE IF NOT EXISTS " + "sale" + " " + "(ticketNumber INTEGER PRIMARY KEY, discountRate DOUBLE, price DOUBLE, status TEXT, localDate TEXT)");
         st.executeUpdate("CREATE TABLE IF NOT EXISTS " + "returnTable" + " " + "(returnId INTEGER PRIMARY KEY, localDate TEXT, price DOUBLE, status TEXT)");
         st.executeUpdate("CREATE TABLE IF NOT EXISTS " + "ticket" + " " + "(id INTEGER PRIMARY KEY AUTOINCREMENT, barcode TEXT, productDescription TEXT, amount INTEGER , pricePerUnit DOUBLE, discountRate DOUBLE, saleId INTEGER, returnId INTEGER, FOREIGN KEY (saleId) references sale(balanceId), FOREIGN KEY (returnId) references returnTable(returnId))");
-
+        st.executeUpdate("CREATE TABLE IF NOT EXISTS " + "balanceTable" + " " + "(id INTEGER PRIMARY KEY , balance DOUBLE )");
+        st.executeUpdate("CREATE TABLE IF NOT EXISTS "+ "balanceOperationTable" + " " + "(balanceId INTEGER PRIMARY KEY , localDate TEXT , money DOUBLE , type TEXT)");
         st.close();
         con.close();
     }
-
+    
+ 
+    private static ArrayList<String> getAttrsBalOp(){
+        ArrayList<String> attrs = new ArrayList<>(
+                Arrays.asList("balanceId", "localDate", "money"
+                        ,  "type"));
+        return attrs;
+    }
+    
     private static ArrayList<String> getAttrsOrder(){
         ArrayList<String> attrs = new ArrayList<>(
                 Arrays.asList("orderId", "balanceId", "productCode"
@@ -65,7 +76,67 @@ public class BalanceOperationRepository {
 
         return attrs;
     }
-
+    public boolean setBalance(double b)  {
+        try {
+    	Connection con = DBCPDBConnectionPool.getConnection();
+        String sqlCommand = "UPDATE balanceTable SET balance = balance + ? WHERE id = ?";
+        PreparedStatement prp = con.prepareStatement(sqlCommand);
+        prp.setString(1, Double.toString(b));
+        prp.setString(2, "1");
+        prp.executeUpdate();
+        prp.close();
+        con.close();
+        return true;
+        }
+        catch (SQLException e){         	  return false;}
+    }
+    protected static String getBalanceStatement() {
+        return "SELECT " + "balance" +
+                " FROM balanceTable" +
+                " WHERE id = ?"  ;
+    }  
+    public boolean resetBalance()  {
+        try {
+    	Connection con = DBCPDBConnectionPool.getConnection();
+        String sqlCommand = "UPDATE balanceTable SET balance = ?  WHERE id = ?";
+        PreparedStatement prp = con.prepareStatement(sqlCommand);
+        prp.setString(1, "0");
+        prp.setString(2, "1");
+        prp.executeUpdate();
+        prp.close();
+        con.close();
+        return true;
+        }
+        catch (SQLException e){ return false;}
+    }
+    public double getBalance() throws SQLException {
+    
+    		Connection con = DBCPDBConnectionPool.getConnection();
+    		String sqlCommand = getBalanceStatement();
+    		PreparedStatement prp = con.prepareStatement(sqlCommand);
+    		prp.setString(1, "1");
+    		ResultSet rs = prp.executeQuery();
+    		rs.next();
+    		double b = rs.getDouble(1);
+    		 prp.close();
+    	     con.close();
+    	     return b;
+    	
+    }
+    
+    public boolean insertBalance() {
+    	try {
+			Connection con =  DBCPDBConnectionPool.getConnection();
+	        String sqlCommand = insertCommand("balanceTable", new ArrayList<String>(Arrays.asList("balance")));
+	        PreparedStatement prp = con.prepareStatement(sqlCommand);
+            prp.setString( 1, "0");
+            prp.executeUpdate();
+            prp.close();
+            con.close();
+            return true;
+		} catch (SQLException e) {return false ;}
+    	
+    }
     private static String insertCommand(String tableName, ArrayList<String> attributes){
         String sqlCommand = "INSERT INTO " + tableName + "(";
         for(String attr: attributes)
@@ -78,14 +149,34 @@ public class BalanceOperationRepository {
         sqlCommand += ");";
         return sqlCommand;
     }
+    public void addBalanceOperation(BalanceOperationClass b) throws SQLException{
 
+        HashMap<String, String> balanceData = new HashMap<>();
+        balanceData.put("balanceId", String.valueOf(b.getBalanceId()) );
+        balanceData.put("localDate", b.getDate().toString() );
+        balanceData.put("money", String.valueOf(b.getMoney()) );
+        balanceData.put("type", b.getType() );
+
+        Connection con = DBCPDBConnectionPool.getConnection();
+        ArrayList<String> attrs = getAttrsBalOp();
+        Logger.getLogger(EZShop.class.getName()).log(Level.INFO,"adding new balance operation: "+ b.getBalanceId());
+        String sqlCommand = insertCommand("balanceOperationTable", attrs);
+        PreparedStatement prp = con.prepareStatement(sqlCommand);
+        for (int j = 0; j < attrs.size(); j++) {
+                prp.setString(j + 1, balanceData.get(attrs.get(j)));
+        }
+
+        prp.executeUpdate();
+        prp.close();
+        con.close();
+    }
     public void addNewOrder(OrderClass order) throws SQLException{
 
         HashMap<String, String> orderData = new HashMap<>();
         orderData.put("orderId", order.getOrderId().toString());
         orderData.put("balanceId", order.getBalanceId().toString() );
         orderData.put("productCode", order.getProductCode());
-        orderData.put("PricePerUnit",  Double.toString(order.getPricePerUnit()));
+        orderData.put("pricePerUnit",  Double.toString(order.getPricePerUnit()));
         orderData.put("quantity",String.valueOf(order.getQuantity()));
         orderData.put("status", order.getStatus() );
         orderData.put("localDate",order.getLocalDate().toString());
@@ -213,8 +304,28 @@ public class BalanceOperationRepository {
         }
         return false;
     }
+    public boolean updateState(String tableName,Integer id, String state){
+        try {
+            String sqlCommand = getUpdateStateStatement(tableName);
+            Connection con = DBCPDBConnectionPool.getConnection();
+            PreparedStatement prps = con.prepareStatement(sqlCommand);
+            prps.setString(1, String.valueOf(state));
+            prps.setString(2, String.valueOf(id));
+            int returnVal = prps.executeUpdate();
+            prps.close();
+            con.close();
+            return (returnVal == 1);
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+        return false;
+    }
+   
     private String getUpdateQuantityStatement(){
         return "UPDATE ticket SET amount = ? WHERE id = ?";
+    }
+    private String getUpdateStateStatement(String tableName){
+        return "UPDATE "+ tableName +" SET status  = ? WHERE orderId = ?";
     }
     private String getDeleteTicketStatement() {
         return "DELETE FROM ticket WHERE id= ?;";
@@ -260,6 +371,13 @@ public class BalanceOperationRepository {
                 rs.getDouble(6)
         );
     }
+    protected BalanceOperationClass convertResultSetBalanceToDomainModel(ResultSet rs) throws SQLException {
+        return new BalanceOperationClass(rs.getInt(1),
+                rs.getDate(2).toLocalDate(),
+                rs.getDouble(3),
+                rs.getString(4)
+        );
+    }
 
 
     private ArrayList<OrderClass> loadAllOrders(ResultSet rs) throws SQLException{
@@ -299,7 +417,15 @@ public class BalanceOperationRepository {
         }
         return result;
     }
+    private ArrayList<BalanceOperationClass> loadAllBalanceOperation(ResultSet rs) throws SQLException{
 
+        ArrayList <BalanceOperationClass> result = new ArrayList<>();
+        while(rs.next()) {
+        	BalanceOperationClass t = convertResultSetBalanceToDomainModel(rs);
+            result.add(t);
+        }
+        return result;
+    }
 
     public ArrayList<OrderClass> getAllOrders(){
         try {
@@ -311,6 +437,22 @@ public class BalanceOperationRepository {
             prps.close();
             con.close();
             return orders;
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public ArrayList<BalanceOperationClass> getAllBalanceOperation(){
+        try {
+            String sqlCommand = geAllTransStatement("balanceOperationTable");
+            Connection con = DBCPDBConnectionPool.getConnection();
+            PreparedStatement prps = con.prepareStatement(sqlCommand);
+            ResultSet rs = prps.executeQuery();
+            ArrayList<BalanceOperationClass> balances = loadAllBalanceOperation(rs);
+            prps.close();
+            con.close();
+            return balances;
         }catch(SQLException e){
             e.printStackTrace();
         }
@@ -455,10 +597,47 @@ public class BalanceOperationRepository {
             }
       
     }
+    public Integer getHighestBalanceId() throws SQLException{
+        
+        String sqlCommand = getMaxBalanceIdStatement();
+        Connection con = DBCPDBConnectionPool.getConnection();
+        PreparedStatement prps = con.prepareStatement(sqlCommand);
+        ResultSet rs = prps.executeQuery();
+        rs.next();
+        Integer highestId = rs.getInt(1);
+        prps.close();
+        con.close();
+        if (highestId != null) {
+            return highestId;
+        } else {
+            return 0;
+        }
+  
+}
+    public OrderClass getOrderByOrderId(String orderId) throws SQLException{
+        
+        String sqlCommand = getOrderByOrderIdStatement();
+        Connection con = DBCPDBConnectionPool.getConnection();
+        PreparedStatement prps = con.prepareStatement(sqlCommand);
+        prps.setString(1, orderId);
+        ResultSet rs = prps.executeQuery();
+        rs.next();
+        OrderClass o = this.convertResultSetOrderToDomainModel(rs);
+        prps.close();
+        con.close();
+       return o;
+}
+    private String getOrderByOrderIdStatement() {
+    	return "SELECT " + COLUMNS_ORDER +
+                " FROM orderTable" +
+                " WHERE  orderId= ?";
+    }
     private String getMaxOrderIdStatement() {
 		return "SELECT MAX(orderId) FROM orderTable";
 	}
-
+    private String getMaxBalanceIdStatement() {
+		return "SELECT MAX(balanceId) FROM balanceOperationTable";
+	}
 	private String geAllTransStatement(String tableName) {
         String sqlCommand = "SELECT * FROM " + tableName;
         return sqlCommand;
@@ -488,4 +667,6 @@ public class BalanceOperationRepository {
         String sqlCommand = "SELECT MAX(ticketNumber) FROM sale";
         return sqlCommand;
     }
+
+	
 }

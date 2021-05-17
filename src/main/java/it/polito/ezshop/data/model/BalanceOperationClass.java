@@ -7,10 +7,11 @@ import java.time.LocalDate;
 
 public class BalanceOperationClass implements BalanceOperation {
 	
+	
 	protected Integer balanceId ; // protected because sub class can access them
 	protected LocalDate localDate ;
 	protected double money ;
-	protected String type;
+	protected String type; // debit or credit
 	
 	public BalanceOperationClass(Integer balanceId, LocalDate localDate, double money, String type) {
 		this.balanceId = balanceId;
@@ -19,6 +20,11 @@ public class BalanceOperationClass implements BalanceOperation {
 		this.type = type;
 	}
 
+	@Override
+	public String toString() {
+		return "BalanceOperationClass [balanceId=" + balanceId + ", localDate=" + localDate + ", money=" + money
+				+ ", type=" + type + "]";
+	}
 	
 	@Override
 	public int getBalanceId() {
