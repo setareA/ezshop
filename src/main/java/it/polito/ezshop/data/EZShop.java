@@ -890,7 +890,7 @@ if(productTypeRepository.getProductTypebyId(String.valueOf(productId)) == null )
             if (saleNumber == null || saleNumber <= 0) {
                 throw new InvalidTransactionIdException();
             }
-                SaleTransactionClass saleTransaction = balanceOperationRepository.getSalesByTicketNumber(saleNumber);
+            SaleTransactionClass saleTransaction = balanceOperationRepository.getSalesByTicketNumber(saleNumber);
             if(saleTransaction == null || !"payed".equals(saleTransaction.getState())){
                 return -1;
             }
@@ -1008,14 +1008,12 @@ if(productTypeRepository.getProductTypebyId(String.valueOf(productId)) == null )
 				ArrayList<TicketEntry> products = balanceOperationRepository.getTicketsBySaleId(returnTransaction.getTicketNumber());
 				price = computePriceForProducts(products);
 				balanceOperationRepository.updateRow("sale","price", "ticketNumber", saleTransaction.getTicketNumber(), String.valueOf(price*(1-saleTransaction.getDiscountRate())));
-
-
 			}
+			return true;
         }
         else{
             throw new  UnauthorizedException();
         }
-        return false;
     }
     /**
      * This method deletes a closed return transaction. It affects the quantity of product sold in the connected sale transaction
