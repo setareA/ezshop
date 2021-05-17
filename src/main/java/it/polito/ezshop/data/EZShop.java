@@ -804,6 +804,7 @@ if(productTypeRepository.getProductTypebyId(String.valueOf(productId)) == null )
             double price = 0;
             ArrayList<TicketEntry> products = balanceOperationRepository.getTicketsBySaleId(transactionId);
             price = computePriceForProducts(products);
+			System.out.println(price*(1-saleTransaction.getDiscountRate()));
             balanceOperationRepository.updateRow("sale","price", "ticketNumber", transactionId, String.valueOf(price*(1-saleTransaction.getDiscountRate())));
             return balanceOperationRepository.updateRow("sale","status", "ticketNumber", transactionId, "closed");
 
@@ -970,6 +971,7 @@ if(productTypeRepository.getProductTypebyId(String.valueOf(productId)) == null )
      */
     @Override
     public boolean endReturnTransaction(Integer returnId, boolean commit) throws InvalidTransactionIdException, UnauthorizedException {
+		Logger.getLogger(EZShop.class.getName()).log(Level.INFO, "endReturnTransaction => returnId :"+returnId+ " commit :"+ commit);
         if(checkIfAdministrator()  || checkIfManager()  || checkIfCashier()) {
             if (returnId == null || returnId <= 0) {
                 throw new InvalidTransactionIdException();
@@ -996,11 +998,19 @@ if(productTypeRepository.getProductTypebyId(String.valueOf(productId)) == null )
                         balanceOperationRepository.updateRow("ticket","amount", "id",
                                 saleTicketEntry.getId(), String.valueOf(saleTicketEntry.getAmount() - returnedProduct.getAmount()));
                     }
-                    ProductType realProduct = productTypeRepository.getProductTypebyBarCode(returnedProduct.getBarCode());
+                    //increase the quantity of product in the shelves
+					ProductType realProduct = productTypeRepository.getProductTypebyBarCode(returnedProduct.getBarCode());
                     productTypeRepository.updateQuantity(realProduct.getId(),returnedProduct.getAmount());
                 }
+                // update the price of the sale transaction
+				double price = 0;
+				SaleTransactionClass saleTransaction = balanceOperationRepository.getSalesByTicketNumber(returnTransaction.getTicketNumber());
+				ArrayList<TicketEntry> products = balanceOperationRepository.getTicketsBySaleId(returnTransaction.getTicketNumber());
+				price = computePriceForProducts(products);
+				balanceOperationRepository.updateRow("sale","price", "ticketNumber", saleTransaction.getTicketNumber(), String.valueOf(price*(1-saleTransaction.getDiscountRate())));
 
-            }
+
+			}
         }
         else{
             throw new  UnauthorizedException();
