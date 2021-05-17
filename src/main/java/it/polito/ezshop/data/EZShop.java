@@ -954,21 +954,7 @@ if(productTypeRepository.getProductTypebyId(String.valueOf(productId)) == null )
         }
         return false;
     }
-    /**
-     * This method closes a return transaction. A closed return transaction can be committed (i.e. <commit> = true) thus
-     * it increases the product quantity available on the shelves or not (i.e. <commit> = false) thus the whole trasaction
-     * is undone.
-     * This method updates the transaction status (decreasing the number of units sold by the number of returned one and
-     * decreasing the final price).
-     * If committed, the return transaction must be persisted in the system's memory.
 
-     * @param commit whether we want to commit (True) or rollback(false) the transaction
-     *
-     * @return  true if the operation is successful
-     *          false
-     *                  if there is some problem with the db
-     *
-     */
     @Override
     public boolean endReturnTransaction(Integer returnId, boolean commit) throws InvalidTransactionIdException, UnauthorizedException {
 		Logger.getLogger(EZShop.class.getName()).log(Level.INFO, "endReturnTransaction => returnId :"+returnId+ " commit :"+ commit);
@@ -1018,27 +1004,58 @@ if(productTypeRepository.getProductTypebyId(String.valueOf(productId)) == null )
     /**
      * This method deletes a closed return transaction. It affects the quantity of product sold in the connected sale transaction
      * (and consequently its price) and the quantity of product available on the shelves.
-     * It can be invoked only after a user with role "Administrator", "ShopManager" or "Cashier" is logged in.
-     *
-     * @param returnId the identifier of the return transaction to be deleted
      *
      * @return  true if the transaction has been successfully deleted,
-     *          false   if it doesn't exist,
-     *                  if it has been payed,
-     *                  if there are some problems with the db
+     *          false
      *
-     * @throws InvalidTransactionIdException if the transaction id is less than or equal to 0 or if it is null
-     * @throws UnauthorizedException if there is no logged user or if it has not the rights to perform the operation
-     */
+     *                  if there are some problems with the db
+	 *                  */
     @Override
     public boolean deleteReturnTransaction(Integer returnId) throws InvalidTransactionIdException, UnauthorizedException {
         if(checkIfAdministrator()  || checkIfManager()  || checkIfCashier()) {
+			if (returnId == null || returnId <= 0) {
+				throw new InvalidTransactionIdException();
+			}
+			ReturnTransactionClass returnTransaction = balanceOperationRepository.getReturnByReturnId(returnId);
+			if (returnTransaction == null || "payed".equals(returnTransaction.getState())){
+				return false;
+			}
+			//
+			ArrayList<TicketEntry> returnedProducts = balanceOperationRepository.getTicketsByReturnId(returnId);
+			for( TicketEntry returnedProduct: returnedProducts){
+				TicketEntryClass saleTicketEntry = balanceOperationRepository.getTicketsByForeignKeyAndBarcode("saleId", returnTransaction.getTicketNumber(),returnedProduct.getBarCode());
+				if ( saleTicketEntry == null ){ // all amount of product was returned
+					try {
+						balanceOperationRepository.addNewTicketEntry(new TicketEntryClass(null,returnedProduct.getBarCode(),returnedProduct.getProductDescription()
+																						  ,returnedProduct.getAmount(),returnedProduct.getPricePerUnit()
+																						  ,returnedProduct.getDiscountRate()), returnTransaction.getTicketNumber(), null);
+					} catch (SQLException throwables) {
+						throwables.printStackTrace();
+						return false;
+					}
+				}
+				else { // only some part of product was returned
+					balanceOperationRepository.updateRow("ticket","amount", "id",
+							saleTicketEntry.getId(), String.valueOf(saleTicketEntry.getAmount() + returnedProduct.getAmount()));
+				}
+				//increase the quantity of product in the shelves
+				ProductType realProduct = productTypeRepository.getProductTypebyBarCode(returnedProduct.getBarCode());
+				productTypeRepository.updateQuantity(realProduct.getId(),-(returnedProduct.getAmount()));
+				balanceOperationRepository.deleteRow("ticket","returnId", String.valueOf(returnId));
+			}
+			// update the price of the sale transaction
+			double price = 0;
+			SaleTransactionClass saleTransaction = balanceOperationRepository.getSalesByTicketNumber(returnTransaction.getTicketNumber());
+			ArrayList<TicketEntry> products = balanceOperationRepository.getTicketsBySaleId(returnTransaction.getTicketNumber());
+			price = computePriceForProducts(products);
+			balanceOperationRepository.updateRow("sale","price", "ticketNumber", saleTransaction.getTicketNumber(), String.valueOf(price*(1-saleTransaction.getDiscountRate())));
+			//
+			return balanceOperationRepository.deleteRow("returnTable", "returnId", String.valueOf(returnId));
 
         }
         else{
             throw new  UnauthorizedException();
         }
-        return false;
     }
 
     // FR7
