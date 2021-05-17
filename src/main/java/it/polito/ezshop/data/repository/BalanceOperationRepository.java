@@ -35,7 +35,7 @@ public class BalanceOperationRepository {
     private static double balance; // TODO : ADD TO DB NOT HERE
     private static Integer nextTicketNumber = 0;
     private static Integer nextReturnId = 0;
-    private static final String COLUMNS_ORDER = "orderId, balanceId, productCode, pricePerUnit, quantity, status, localDate, money";
+    private static final String COLUMNS_ORDER = "orderId, balanceId, productCode, pricePerUnit, quantity, status, money";
     private static final String COLUMNS_SALE = "ticketNumber, discountRate, price, status";
     private static final String COLUMNS_RETURN = "returnId, price, status, ticketNumber";
     private static final String COLUMNS_TICKET_ENTRY = "id, barcode, productDescription, amount, pricePerUnit, discountRate, saleId, returnId";
@@ -43,10 +43,10 @@ public class BalanceOperationRepository {
     public void initialize() throws SQLException {
         Connection con = DBCPDBConnectionPool.getConnection();
         Statement st = con.createStatement();
-        st.executeUpdate("CREATE TABLE IF NOT EXISTS " + "orderTable" + " " + "(orderId INTEGER PRIMARY KEY, balanceId INTEGER, productCode TEXT, pricePerUnit DOUBLE, quantity INTEGER, status TEXT, localDate TEXT, money DOUBLE)");
-        st.executeUpdate("CREATE TABLE IF NOT EXISTS " + "sale" + " " + "(ticketNumber INTEGER PRIMARY KEY, discountRate DOUBLE, price DOUBLE, status TEXT, localDate TEXT)");
-        st.executeUpdate("CREATE TABLE IF NOT EXISTS " + "returnTable" + " " + "(returnId INTEGER PRIMARY KEY, localDate TEXT, price DOUBLE, status TEXT)");
-        st.executeUpdate("CREATE TABLE IF NOT EXISTS " + "ticket" + " " + "(id INTEGER PRIMARY KEY AUTOINCREMENT, barcode TEXT, productDescription TEXT, amount INTEGER , pricePerUnit DOUBLE, discountRate DOUBLE, saleId INTEGER, returnId INTEGER, FOREIGN KEY (saleId) references sale(balanceId), FOREIGN KEY (returnId) references returnTable(returnId))");
+        st.executeUpdate("CREATE TABLE IF NOT EXISTS " + "orderTable" + " " + "(orderId INTEGER PRIMARY KEY, balanceId INTEGER, productCode TEXT, pricePerUnit DOUBLE, quantity INTEGER, status TEXT, money DOUBLE)");
+        st.executeUpdate("CREATE TABLE IF NOT EXISTS " + "sale" + " " + "(ticketNumber INTEGER PRIMARY KEY, discountRate DOUBLE, price DOUBLE, status TEXT)");
+        st.executeUpdate("CREATE TABLE IF NOT EXISTS " + "returnTable" + " " + "(returnId INTEGER PRIMARY KEY, price DOUBLE, status TEXT)");
+        st.executeUpdate("CREATE TABLE IF NOT EXISTS " + "ticket" + " " + "(id INTEGER PRIMARY KEY AUTOINCREMENT, barcode TEXT, productDescription TEXT, amount INTEGER , pricePerUnit DOUBLE, discountRate DOUBLE, saleId INTEGER, returnId INTEGER, FOREIGN KEY (saleId) references sale(ticketNumber), FOREIGN KEY (returnId) references returnTable(returnId))");
         st.executeUpdate("CREATE TABLE IF NOT EXISTS " + "balanceTable" + " " + "(id INTEGER PRIMARY KEY , balance DOUBLE )");
         st.executeUpdate("CREATE TABLE IF NOT EXISTS "+ "balanceOperationTable" + " " + "(balanceId INTEGER PRIMARY KEY , localDate TEXT , money DOUBLE , type TEXT)");
         try {
@@ -191,7 +191,6 @@ public class BalanceOperationRepository {
         orderData.put("pricePerUnit",  Double.toString(order.getPricePerUnit()));
         orderData.put("quantity",String.valueOf(order.getQuantity()));
         orderData.put("status", order.getStatus() );
-        orderData.put("localDate",order.getLocalDate().toString());
         orderData.put("money", String.valueOf(order.getMoney()));
 
         Connection con = DBCPDBConnectionPool.getConnection();
@@ -360,8 +359,7 @@ public class BalanceOperationRepository {
                 rs.getDouble(4),
                 rs.getInt(5),
                 rs.getString(6),
-                rs.getDate(7).toLocalDate(),
-                rs.getDouble(8)
+                rs.getDouble(7)
         );
     }
 // ticketNumber, discountRate, price, state";

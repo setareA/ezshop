@@ -319,26 +319,7 @@ public class ProductTypeRepository {
         if (count == 0) return false;
         return true;
     }
-    
 
-   /* public boolean updateQuantity (String id, int nq) throws SQLException {
-    	try { //UPDATE Products SET Price = Price + 50 WHERE ProductID = 1
-
-    	Connection con = DBCPDBConnectionPool.getConnection();
-    	System.out.println("updating quantity");
-    	nq += this.getProductTypebyId(id).getQuantity() ;
-    	if(nq<0)return false;
-    	if(this.getProductTypebyId(id) == null ) return false ;
-    	if(this.getProductTypebyId(id).getLocation() == null) return false ;
-    	String sqlCommand = updateCommand("productType",new ArrayList<String>(Arrays.asList("id", "quantity")),new ArrayList<String>(Arrays.asList(id,String.valueOf(nq))));
-    	PreparedStatement prp = con.prepareStatement(sqlCommand);
-    	int count = prp.executeUpdate();
-    	prp.close();
-        con.close();
-        if (count == 0) return false;
-        return true;
-    	} catch(SQLException e) { return false;}
-    }*/
     public boolean updatePosition (String id, String np) 
     { 	try {
     	Connection con = DBCPDBConnectionPool.getConnection();
