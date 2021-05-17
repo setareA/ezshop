@@ -11,7 +11,7 @@ public class EZShop {
         try {                              
            it.polito.ezshop.data.EZShop ezShop = new it.polito.ezshop.data.EZShop();
            EZShopGUI gui = new EZShopGUI(ezShop);
-
+           
         }catch(Exception e){           
      	   e.printStackTrace();
         }
