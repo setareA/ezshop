@@ -611,7 +611,7 @@ if(productTypeRepository.getProductTypebyId(String.valueOf(productId)) == null )
         if(checkIfAdministrator()  || checkIfManager()  || checkIfCashier()) {
             try {
             //    Logger.getLogger(EZShop.class.getName()).log(Level.INFO, String.valueOf(LocalDate.now()));
-                return balanceOperationRepository.addNewSale(new SaleTransactionClass(null,1,0,"open"));
+                return balanceOperationRepository.addNewSale(new SaleTransactionClass(null,0,0,"open"));
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
@@ -646,7 +646,7 @@ if(productTypeRepository.getProductTypebyId(String.valueOf(productId)) == null )
             }
             try {
                 balanceOperationRepository.addNewTicketEntry(new TicketEntryClass(1,productCode,product.getProductDescription(),
-                                                                amount, product.getPricePerUnit(), 1), transactionId, null);
+                                                                amount, product.getPricePerUnit(), 0), transactionId, null);
                 productTypeRepository.updateQuantity(product.getId(),  -amount);
 
                 return true;
