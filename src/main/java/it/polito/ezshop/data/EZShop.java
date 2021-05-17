@@ -854,6 +854,7 @@ public class EZShop implements EZShopInterface {
 */
     @Override
     public boolean returnProduct(Integer returnId, String productCode, int amount) throws InvalidTransactionIdException, InvalidProductCodeException, InvalidQuantityException, UnauthorizedException {
+        Logger.getLogger(EZShop.class.getName()).log(Level.INFO, "returnProduct, returnId: "+returnId+" product: "+productCode+" amount :"+amount);
         if(checkIfAdministrator()  || checkIfManager()  || checkIfCashier()) {
             if (returnId == null || returnId <= 0) {
                 throw new InvalidTransactionIdException();
@@ -870,7 +871,7 @@ public class EZShop implements EZShopInterface {
                 if( saleTransaction != null){
                     ArrayList<TicketEntry> products = balanceOperationRepository.getTicketsBySaleId(saleTransaction.getTicketNumber());
                     List<TicketEntry> toBeReturned = products.stream()
-                            .filter(p -> p.getBarCode() == productCode)
+                            .filter(p -> productCode.equals(p.getBarCode()))
                             .collect(Collectors.toList());
                     if(!toBeReturned.isEmpty()){
                         if(toBeReturned.get(0).getAmount() >= amount){
@@ -881,7 +882,7 @@ public class EZShop implements EZShopInterface {
                             } catch (SQLException throwables) {
                                 throwables.printStackTrace();
                             }
-
+                            System.out.println("before return true");
                             return true;
                         }
                     }
