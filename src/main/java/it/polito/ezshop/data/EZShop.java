@@ -829,7 +829,7 @@ if(productTypeRepository.getProductTypebyId(String.valueOf(productId)) == null )
             //delete tickets add them to real product and then delete sale
             for(TicketEntry p : products){
                 ProductTypeClass realProduct = productTypeRepository.getProductTypebyBarCode(p.getBarCode());
-                productTypeRepository.updateQuantity(realProduct.getId(), realProduct.getQuantity() + p.getAmount());
+                productTypeRepository.updateQuantity(realProduct.getId(),  p.getAmount());
             }
             balanceOperationRepository.deleteRow("ticket","saleId", String.valueOf(saleNumber));
             balanceOperationRepository.deleteRow("sale","ticketNumber", String.valueOf(saleNumber));
