@@ -1,6 +1,5 @@
 package it.polito.ezshop.data.model;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 
 import it.polito.ezshop.data.TicketEntry;
@@ -9,7 +8,6 @@ public class ReturnTransactionClass{
     private static Integer returnId;
     private static double price;
     private static String state;
-    private static boolean commit;
     private ArrayList<TicketEntry> entries ;
     private static Integer ticketNumber;
 
@@ -43,14 +41,6 @@ public class ReturnTransactionClass{
 
     public void setState(String state) {
         ReturnTransactionClass.state = state;
-    }
-
-    public boolean isCommit() {
-        return commit;
-    }
-
-    public void setCommit(boolean commit) {
-        ReturnTransactionClass.commit = commit;
     }
 
     public ArrayList<TicketEntry> getEntries() {
