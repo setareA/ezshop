@@ -1239,9 +1239,20 @@ if(productTypeRepository.getProductTypebyId(String.valueOf(productId)) == null )
     @Override 
     public List<BalanceOperation> getCreditsAndDebits(LocalDate from, LocalDate to) throws UnauthorizedException {
     	if(!(this.checkIfAdministrator() || this.checkIfManager())) throw new UnauthorizedException();
-    	if(from == null || to == null) return null;
     	List<BalanceOperation> bo = new ArrayList<BalanceOperation>(balanceOperationRepository.getAllBalanceOperation());
-    	bo.removeIf(b -> (b.getDate().isBefore(from) || b.getDate().isAfter(to)));
+    	if(from != null && to != null) {
+    		if(to.isBefore(from)) {
+    			LocalDate tmp = from ;
+    			from = to;
+    			to = tmp;
+    		}
+    	}
+    	final LocalDate newFrom = from;
+    	final LocalDate newTo = to;
+    	if(newFrom != null)
+    	bo.removeIf(b -> (b.getDate().isBefore(newFrom) ));
+    	if(newTo != null)
+        bo.removeIf(b -> ( b.getDate().isAfter(newTo)));
     	return bo; // return the balance op table
     }
 

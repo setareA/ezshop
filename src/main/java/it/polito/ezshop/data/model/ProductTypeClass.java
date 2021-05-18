@@ -124,8 +124,7 @@ public class ProductTypeClass implements ProductType {
 
 	public static boolean checkValidityProductcode(String productCode) {
 		// TODO Auto-generated method stub
-		return true;
-		/*int  tmp = 0 ;
+		int  tmp = 0 ;
 		int j= 1;
 		if(productCode == null)return false;
 		if(productCode.length()<12 | productCode.length() >14 ) return false;
@@ -141,6 +140,6 @@ public class ProductTypeClass implements ProductType {
 		tmp1 = (tmp1+1)*10;
 		tmp = tmp1 -tmp;
 		if(Integer.parseInt(String.valueOf(productCode.toCharArray()[j-1])) == tmp) return true;
-		else return false;*/
+		else return false;
 	}
 }
