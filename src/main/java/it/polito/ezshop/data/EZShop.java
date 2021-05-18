@@ -48,8 +48,15 @@ public class EZShop implements EZShopInterface {
 
     @Override
     public void reset() {
-    	// @TODO: this must be done
-    } 
+		try {
+			productTypeRepository.deleteTable();
+			balanceOperationRepository.deleteTables();
+			balanceOperationRepository.resetBalance();
+
+		} catch (SQLException throwables) {
+			throwables.printStackTrace();
+		}
+	}
     
     public UserRepository getUserRepository() {
     	return userRepository;
