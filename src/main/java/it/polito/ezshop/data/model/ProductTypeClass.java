@@ -124,10 +124,7 @@ public class ProductTypeClass implements ProductType {
 
 	public static boolean checkValidityProductcode(String productCode) {
 		// TODO Auto-generated method stub
-<<<<<<< HEAD
-		//return true;
-=======
->>>>>>> 4fc65657e20d239795c72539daca18e796379190
+
 		int  tmp = 0 ;
 		int j= 1;
 		if(productCode == null)return false;
