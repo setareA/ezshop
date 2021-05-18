@@ -16,7 +16,7 @@ public class EZShop {
         try {                              
            it.polito.ezshop.data.EZShop ezShop = new it.polito.ezshop.data.EZShop();
            EZShopGUI gui = new EZShopGUI(ezShop);
-          System.out.println( ezShop.getBalanceOperationRepository().getTicketsBySaleId(12));
+       //   System.out.println( ezShop.getBalanceOperationRepository().getTicketsBySaleId(12));
         }catch(Exception e){           
      	   e.printStackTrace();
         }
