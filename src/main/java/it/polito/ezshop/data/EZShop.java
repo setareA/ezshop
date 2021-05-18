@@ -944,7 +944,7 @@ public class EZShop implements EZShopInterface {
     	}
     	
 
-    	if(returnTransaction != null && recordBalanceUpdate(returnTransaction.getPrice())) {
+    	if(returnTransaction != null && recordBalanceUpdate(-(returnTransaction.getPrice()))) {
     		if(balanceOperationRepository.updateRow("returnTable","status","returnId",returnId,"payed")) {
     			return returnTransaction.getPrice();
     		}
@@ -994,15 +994,12 @@ public class EZShop implements EZShopInterface {
     	if(returnTransaction != null) {
     		// We change the amount of money in the credit card
     		creditCards.put(creditCard,creditCards.get(creditCards)+returnTransaction.getPrice());
-    		
-    		if(recordBalanceUpdate(returnTransaction.getPrice())){
-    			
+    		balanceOperationRepository.changeCreditCardBalance(creditCard,returnTransaction.getPrice());
+    		if(recordBalanceUpdate(-(returnTransaction.getPrice())) && balanceOperationRepository.updateRow("returnTable","status","returnId",returnId,"payed")){  		
+	    			return returnTransaction.getPrice();
+	    		
     		}
     	}
-    		// 
-    		if(balanceOperationRepository.updateRow("returnTable","status","returnId",returnId,"payed")) {
-    			return returnTransaction.getPrice();
-    		}
     	
         
     	return -1;
