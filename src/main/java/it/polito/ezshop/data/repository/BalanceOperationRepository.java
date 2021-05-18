@@ -211,7 +211,7 @@ public class BalanceOperationRepository {
     }
 
     public Integer addNewSale(SaleTransactionClass sale) throws SQLException{
-
+    
         nextTicketNumber = ourInstance.getHighestTicketNumber() + 1;
         HashMap<String, String> saleData = new HashMap<>();
         saleData.put("ticketNumber", String.valueOf(nextTicketNumber));
@@ -395,7 +395,7 @@ public class BalanceOperationRepository {
     }
     protected BalanceOperationClass convertResultSetBalanceToDomainModel(ResultSet rs) throws SQLException {
     	return new BalanceOperationClass(rs.getInt(1),
-                LocalDate.of(Integer.valueOf(rs.getString(2).split("-")[0]), Integer.valueOf(rs.getString(2).split("-")[1]), Integer.valueOf(rs.getString(2).split("-")[2])),
+                LocalDate.of(Integer.valueOf(rs.getString(2).split("-")[0]), Integer.valueOf(rs.getString(2).split("-")[1 ]), Integer.valueOf(rs.getString(2).split("-")[2])),
                 rs.getDouble(3),
                 rs.getString(4)
         );
