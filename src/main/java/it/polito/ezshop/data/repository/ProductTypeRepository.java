@@ -21,8 +21,7 @@ import it.polito.ezshop.data.util.HashGenerator;
 
 public class ProductTypeRepository {
     private static ProductTypeRepository ourInstance = new ProductTypeRepository();
-    private static int lastId = 0 ;
-    private static final String COLUMNS = "id, quantity, location, note, productDescription, barCode , pricePerUnit , discountRate , warning ";
+    private static final String COLUMNS = "id, quantity, location, note, productDescription, barCode , pricePerUnit  , warning ";
 
    
 	public static ProductTypeRepository getInstance() {
@@ -32,19 +31,11 @@ public class ProductTypeRepository {
     private ProductTypeRepository() {
     }
    
-    public  int getLastId() {
- 		return lastId;
- 	}
-
- 	public  void setLastId(int lastId) {
- 		this.lastId = lastId;
- 	}
  	
     public void initialize() throws SQLException{
         Connection con = DBCPDBConnectionPool.getConnection();
         Statement st = con.createStatement();
-        st.executeUpdate("CREATE TABLE IF NOT EXISTS " + "productType" + " " + "(id INTEGER PRIMARY KEY, quantity INTEGER , location TEXT, note TEXT, productDescription TEXT, barCode TEXT ,pricePerUnit DOUBLE , discountRate DOUBLE , warning TEXT)");
-        this.lastId = getMaxId();
+        st.executeUpdate("CREATE TABLE IF NOT EXISTS " + "productType" + " " + "(id INTEGER PRIMARY KEY, quantity INTEGER , location TEXT, note TEXT, productDescription TEXT, barCode TEXT ,pricePerUnit DOUBLE , warning TEXT)");
         st.close();                                       
         con.close();
     }
@@ -64,7 +55,6 @@ public class ProductTypeRepository {
                         "productDescription",
                         "barCode",
                         "pricePerUnit",
-                        "discountRate",
                         "warning"));
         return attrs;
     }
@@ -118,11 +108,12 @@ public class ProductTypeRepository {
         return "SELECT " + COLUMNS +
                 " FROM productType" +
                 " WHERE id = ?";
-    }
+    }//UPDATE Products SET Price = Price + 50 WHERE ProductID = 1
     private String getUpdateQuantityStatement(){
-        return "UPDATE productType SET quantity = ? WHERE id = ?";
+        return "UPDATE productType SET quantity = quantity + ? WHERE id = ?";
     }
-    private Integer  getMaxId () throws SQLException {
+
+    public Integer  getMaxId () throws SQLException {
         Connection con = DBCPDBConnectionPool.getConnection();
         String sqlCommand = getMaxIdCommand("productType", "id");
         PreparedStatement prps = con.prepareStatement(sqlCommand);
@@ -162,7 +153,6 @@ public class ProductTypeRepository {
         userData.put("productDescription", pt.getProductDescription());
         userData.put("barCode", pt.getBarCode());
         userData.put("pricePerUnit", pt.getPricePerUnit().toString());
-        userData.put("discountRate", pt.getDiscountRate().toString());
         userData.put("warning", pt.getWarning().toString());
 
 
@@ -190,8 +180,7 @@ public class ProductTypeRepository {
                 rs.getString(5),
                 rs.getString(6), 
                 rs.getDouble(7),
-                rs.getDouble(8),
-        		rs.getInt(9)
+        		rs.getInt(8)
         );
     }
                                                  
@@ -299,7 +288,7 @@ public class ProductTypeRepository {
         }
         return null;
     }
-
+  //UPDATE Products SET Price = Price + 50 WHERE ProductID = 1
     public boolean updateQuantity(Integer id, int quantity){
         try {
             String sqlCommand = getUpdateQuantityStatement();
@@ -330,29 +319,13 @@ public class ProductTypeRepository {
         if (count == 0) return false;
         return true;
     }
-    public boolean updateQuantity (String id, int nq) throws SQLException {
-    	try {
-    	Connection con = DBCPDBConnectionPool.getConnection();
-    	System.out.println("updating quantity");
-    	nq += this.getProductTypebyId(id).getQuantity() ;
-    	if(nq<0)return false;
-    	if(this.getProductTypebyId(id) == null ) return false ;
-    	if(this.getProductTypebyId(id).getLocation() == null) return false ;
-    	String sqlCommand = updateCommand("productType",new ArrayList<String>(Arrays.asList("id", "quantity")),new ArrayList<String>(Arrays.asList(id,String.valueOf(nq))));
-    	PreparedStatement prp = con.prepareStatement(sqlCommand);
-    	int count = prp.executeUpdate();
-    	prp.close();
-        con.close();
-        if (count == 0) return false;
-        return true;
-    	} catch(SQLException e) { return false;}
-    }
+
     public boolean updatePosition (String id, String np) 
     { 	try {
     	Connection con = DBCPDBConnectionPool.getConnection();
     	System.out.println("updating position");
     	if(this.getProductTypebyId(id) == null ) return false ;
-    	String sqlCommand = updateCommand("productType",new ArrayList<String>(Arrays.asList("id", "position")),new ArrayList<String>(Arrays.asList(id,np)));
+    	String sqlCommand = updateCommand("productType",new ArrayList<String>(Arrays.asList("id", "location")),new ArrayList<String>(Arrays.asList(id,np)));
     	PreparedStatement prp = con.prepareStatement(sqlCommand);
     	int count = prp.executeUpdate();
     	prp.close();

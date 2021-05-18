@@ -10,11 +10,10 @@ public class ProductTypeClass implements ProductType {
     private String productDescription;
     private String barCode;
     private Double pricePerUnit;
-    private Double discountRate;
     private Integer warning;
 
     public ProductTypeClass(Integer id, Integer quantity, String location, String note, String productDescription,
-			String barCode, Double pricePerUnit, Double discountRate, Integer warning) {
+			String barCode, Double pricePerUnit, Integer warning) {
 
 		this.id = id;
 		this.quantity = quantity;
@@ -23,7 +22,6 @@ public class ProductTypeClass implements ProductType {
 		this.productDescription = productDescription;
 		this.barCode = barCode;
 		this.pricePerUnit = pricePerUnit;
-		this.discountRate = discountRate;
 		this.warning = warning;
 	}
     
@@ -33,18 +31,11 @@ public class ProductTypeClass implements ProductType {
 	public String toString() {
 		return "ProductTypeClass [id=" + id + ", quantity=" + quantity + ", location=" + location + ", note=" + note
 				+ ", productDescription=" + productDescription + ", barCode=" + barCode + ", pricePerUnit="
-				+ pricePerUnit + ", discountRate=" + discountRate + ", warning=" + warning + "]";
+				+ pricePerUnit + ", discountRate="  + ", warning=" + warning + "]";
 	}
 
 
 
-	public Double getDiscountRate() {
-        return this.discountRate;
-    }
-
-    public void setDiscountRate(Double discountRate) {
-        this.discountRate = discountRate;
-    }
 
     public Integer getWarning() {
         return this.warning;
@@ -133,9 +124,11 @@ public class ProductTypeClass implements ProductType {
 
 	public static boolean checkValidityProductcode(String productCode) {
 		// TODO Auto-generated method stub
-		int  tmp = 0 ;
+		return true;
+		/*int  tmp = 0 ;
 		int j= 1;
-		if(productCode.length()<12 | productCode.length() >14) return false;
+		if(productCode == null)return false;
+		if(productCode.length()<12 | productCode.length() >14 ) return false;
 		try {
 		for( j=1 ; j< productCode.length() ; j++ ) {
 			int a = Integer.parseInt(String.valueOf(productCode.toCharArray()[j-1])) ;
@@ -148,6 +141,6 @@ public class ProductTypeClass implements ProductType {
 		tmp1 = (tmp1+1)*10;
 		tmp = tmp1 -tmp;
 		if(Integer.parseInt(String.valueOf(productCode.toCharArray()[j-1])) == tmp) return true;
-		else return false;
+		else return false;*/
 	}
 }

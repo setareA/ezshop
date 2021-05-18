@@ -14,7 +14,7 @@ local.properties
 .loadpath
 .recommenders
 data/*
-
+ezshop.db
 
 # External tool builders
 .externalToolBuilders/
