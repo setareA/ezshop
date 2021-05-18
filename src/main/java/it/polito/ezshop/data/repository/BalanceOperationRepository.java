@@ -15,6 +15,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -48,7 +49,7 @@ public class BalanceOperationRepository {
         st.executeUpdate("CREATE TABLE IF NOT EXISTS " + "returnTable" + " " + "(returnId INTEGER PRIMARY KEY, price DOUBLE, status TEXT, ticketNumber INTEGER, FOREIGN KEY (ticketNumber) references sale(ticketNumber))");
         st.executeUpdate("CREATE TABLE IF NOT EXISTS " + "ticket" + " " + "(id INTEGER PRIMARY KEY AUTOINCREMENT, barcode TEXT, productDescription TEXT, amount INTEGER , pricePerUnit DOUBLE, discountRate DOUBLE, saleId INTEGER, returnId INTEGER, FOREIGN KEY (saleId) references sale(ticketNumber), FOREIGN KEY (returnId) references returnTable(returnId))");
         st.executeUpdate("CREATE TABLE IF NOT EXISTS " + "balanceTable" + " " + "(id INTEGER PRIMARY KEY , balance DOUBLE )");
-        st.executeUpdate("CREATE TABLE IF NOT EXISTS "+ "balanceOperationTable" + " " + "(balanceId INTEGER PRIMARY KEY , localDate TEXT , money DOUBLE , type TEXT)");
+        st.executeUpdate("CREATE TABLE IF NOT EXISTS "+ "balanceOperationTable" + " " + "(balanceId INTEGER PRIMARY KEY , localDate DATE , money DOUBLE , type TEXT)");
         try {
         	this.getBalance();
         }catch (SQLException e) {
@@ -391,8 +392,8 @@ public class BalanceOperationRepository {
         );
     }
     protected BalanceOperationClass convertResultSetBalanceToDomainModel(ResultSet rs) throws SQLException {
-        return new BalanceOperationClass(rs.getInt(1),
-                rs.getDate(2).toLocalDate(),
+    	return new BalanceOperationClass(rs.getInt(1),
+                LocalDate.of(Integer.valueOf(rs.getString(2).split("-")[0]), Integer.valueOf(rs.getString(2).split("-")[1]), Integer.valueOf(rs.getString(2).split("-")[2])),
                 rs.getDouble(3),
                 rs.getString(4)
         );
