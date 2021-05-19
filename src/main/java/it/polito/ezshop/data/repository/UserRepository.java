@@ -24,24 +24,16 @@ public class UserRepository {
         return ourInstance;
     }
 
-    private UserRepository() {
+    private UserRepository() { 
     }
 
     
 
-    public  UserClass getLoggedUser( ) {// @ TODO : check if user is null or not  
-    	
-    	// DANI SAYS: I THINK THAT IT IS NOT NECCESARY TO CHECK HERE IF IT IS NULL OR NOT.
-    	// FOR EXAMPLE, IN THE METHOD deleteUser I HAVE CALLED THIS METHOD AND JUST
-    	// CHECK THERE IF THE LOGGEDUSER IS NULL. WE COULD DO THIS IN ALL THE METHODS
-    	// THAT REQUIRE TO KNOW IF THE LOGGEDUSER IS NULL OR NOT
-    	
-    	
+    public  UserClass getLoggedUser( ) {
     	return loggedUser;
-    	
     }
 
-    public void setLoggedUser(UserClass loggedUser) {// @ TODO : check if user is null or not
+    public void setLoggedUser(UserClass loggedUser) {
 
         this.loggedUser = loggedUser;
     }

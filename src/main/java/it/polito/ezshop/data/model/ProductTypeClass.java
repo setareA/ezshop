@@ -130,4 +130,5 @@ public class ProductTypeClass implements ProductType {
 		if(Integer.parseInt(String.valueOf(productCode.toCharArray()[j-1])) == tmp) return true;
 		else return false;
 	}
+
 }

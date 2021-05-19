@@ -43,6 +43,7 @@ public class BalanceOperationRepository {
     private static final String COLUMNS_RETURN = "returnId, price, status, ticketNumber";
     private static final String COLUMNS_TICKET_ENTRY = "id, barcode, productDescription, amount, pricePerUnit, discountRate, saleId, returnId";
     private static final String CLUMNS_BALANCE_OPERATION = "balanceId, localDate, money, type";
+
     public void initialize() throws SQLException {
         Connection con = DBCPDBConnectionPool.getConnection();
         Statement st = con.createStatement();
@@ -661,6 +662,24 @@ public class BalanceOperationRepository {
         con.close();
        return o;
 }
+
+    public void deleteTables() throws SQLException {
+        Logger.getLogger(EZShop.class.getName()).log(Level.INFO,"deleting transactions");
+        Connection con = DBCPDBConnectionPool.getConnection();
+        PreparedStatement prp = con.prepareStatement("DELETE FROM orderTable;");
+        prp.executeUpdate();
+        prp = con.prepareStatement("DELETE FROM sale;");
+        prp.executeUpdate();
+        prp = con.prepareStatement("DELETE FROM returnTable;");
+        prp.executeUpdate();
+        prp = con.prepareStatement("DELETE FROM ticket;");
+        prp.executeUpdate();
+        prp = con.prepareStatement("DELETE FROM balanceOperationTable;");
+        prp.executeUpdate();
+        prp.close();
+        con.close();
+    }
+
     private String getOrderByOrderIdStatement() {
     	return "SELECT " + COLUMNS_ORDER +
                 " FROM orderTable" +
@@ -687,7 +706,7 @@ public class BalanceOperationRepository {
 
     private static String getFindByForeignKeyAndBarcodeStatement(String foreignKey) {
         return "SELECT * FROM ticket WHERE "+foreignKey+" = ? AND barcode = ?"  ;
-    }
+    } 
 
 
     private static String getFindByTicketNumberStatement() {

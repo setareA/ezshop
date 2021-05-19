@@ -40,10 +40,19 @@ public class ProductTypeRepository {
         con.close();
     }
     
-    public boolean checkUniqueBarcode(String barcode) {                                        
-      	
-    	if(this.getProductTypebyBarCode(barcode) == null ) return true;
-    	else return false;
+    public boolean checkUniqueBarcode(String barcode, Integer id) {                                        
+      	ProductTypeClass p = this.getProductTypebyBarCode(barcode);
+      	if(id == -1) {
+      		if(p == null )return true;
+      		else return false;
+      	}
+      	else {
+    	if( p == null ) return true;
+    	else {
+          	if(this.getProductTypebyId(String.valueOf(id)).getBarCode().equals(barcode)) return true;
+          	else return false;
+    	}
+      	}
     }
     
     private static ArrayList<String> getAttrs(){
@@ -74,6 +83,11 @@ public class ProductTypeRepository {
     private static String deleteCommand(String tableName, String columnName){
     	//DELETE FROM user WHERE id = ?
         String sqlCommand = "DELETE FROM " + tableName + " WHERE " + columnName + "= ?;";
+        return sqlCommand;
+    }
+
+    private static String deleteTableCommand(){
+        String sqlCommand = "DELETE FROM productType;";
         return sqlCommand;
     }
     
@@ -112,7 +126,8 @@ public class ProductTypeRepository {
         return "UPDATE productType SET quantity = quantity + ? WHERE id = ?";
     }
 
-    public Integer  getMaxId () throws SQLException {
+    @SuppressWarnings("unused")
+	public Integer  getMaxId () throws SQLException {
         Connection con = DBCPDBConnectionPool.getConnection();
         String sqlCommand = getMaxIdCommand("productType", "id");
         PreparedStatement prps = con.prepareStatement(sqlCommand);
@@ -139,6 +154,16 @@ public class ProductTypeRepository {
         System.out.println(count);
         if(count == 0) return false;
         return true ;
+    }
+
+    public void deleteTable() throws SQLException {
+        Logger.getLogger(EZShop.class.getName()).log(Level.INFO,"deleting product table");
+        Connection con = DBCPDBConnectionPool.getConnection();
+        String sqlCommand = deleteTableCommand();
+        PreparedStatement prp = con.prepareStatement(sqlCommand);
+        prp.executeUpdate();
+        prp.close();
+        con.close();
     }
     
    
@@ -266,7 +291,7 @@ public class ProductTypeRepository {
         return u;
         }
         catch (SQLException e) {
-        
+         
             return null;
         }
     }
