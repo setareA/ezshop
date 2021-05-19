@@ -1362,7 +1362,7 @@ if(productTypeRepository.getProductTypebyId(String.valueOf(productId)) == null )
 
 	 static boolean checkLuhn(String cardNo)
 	 {
-		 if(cardNo==null)return false;
+		 if(cardNo==null || cardNo.length() == 0)return false;
 
 	     int nDigits = cardNo.length();
 	  
