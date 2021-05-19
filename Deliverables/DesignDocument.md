@@ -29,7 +29,7 @@ Inside EZshopApplication package we divided logic, data and model
 
 # Verification traceability matrix
 
-![](Images/design/matrix.png)
+![](Images/design/traciability_matr.PNG)
 
 # Verification sequence diagrams
 
@@ -37,45 +37,17 @@ Inside EZshopApplication package we divided logic, data and model
 
 ![](Images/design/1.png)
 
-- Scenario 2.1
+- Scenario 2.1 2.2 2.3
 
-![](Images/design/2.1.png)
+![](Images/design/2.png)
 
-- Scenario 2.2
+- Scenario 3.1 3.2 3.3
 
-![](Images/design/2.2.png)
+![](Images/design/3.png)
 
-- Scenario 2.3
+- Scenario 4.1 4.2 4.3 4.4
 
-![](Images/design/2.3.png)
-
-- Scenario 3.1
-
-![](Images/design/3.1.png)
-
-- Scenario 3.2
-
-![](Images/design/3.2.png)
-
-- Scenario 3.3
-
-![](Images/design/3.3.png)
-
-- Scenario 4.1
-
-![](Images/design/4.1.png)
-
-- Scenario 4.2
-
-![](Images/design/4.2.png)
-
-- Scenario 4.3
-
-![](Images/design/4.3.png)
-
-- Scenario 4.4
-
-![](Images/design/4.4.png)
+![](Images/design/4.png)
 
 - Scenario 5.1
 
@@ -85,62 +57,19 @@ Inside EZshopApplication package we divided logic, data and model
 
 ![](Images/design/5.2.png)
 
-- Scenario 6.1
+- Scenario 6.1 6.2 6.3
 
-![](Images/design/6.1.png)
+![](Images/design/6_1_3.png)
 
-- Scenario 6.2
+- Scenario 6.4 6.5 6.6
 
-![](Images/design/6.2.png)
+![](Images/design/6_4_6.png)
 
-- Scenario 6.3
+- Scenario 7.1 7.2 7.3 7.4
 
-![](Images/design/6.3.png)
+![](Images/design/7.png)
 
-- Scenario 6.4
+- Scenario 8.1 8.2
 
-![](Images/design/6.4.png)
+![](Images/design/8.png)
 
-- Scenario 6.5
-
-![](Images/design/6.5.png)
-
-- Scenario 6.6
-
-![](Images/design/6.6.png)
-
-- Scenario 7.1
-
-![](Images/design/7.1.png)
-
-- Scenario 7.2
-
-![](Images/design/7.2.png)
-
-- Scenario 7.3
-
-![](Images/design/7.3.png)
-
-- Scenario 7.4
-
-![](Images/design/7.4.png)
-
-- Scenario 8.1
-
-![](Images/design/8.1.png)
-
-- Scenario 8.2
-
-![](Images/design/8.2.png)
-
-- Scenario 9.1
-
-![](Images/design/9.1.png)
-
-- Scenario 10.1
-
-![](Images/design/10.1.png)
-
-- Scenario 10.2
-
-![](Images/design/10.2.png)

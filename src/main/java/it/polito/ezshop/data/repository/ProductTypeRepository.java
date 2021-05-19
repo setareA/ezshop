@@ -77,6 +77,11 @@ public class ProductTypeRepository {
         String sqlCommand = "DELETE FROM " + tableName + " WHERE " + columnName + "= ?;";
         return sqlCommand;
     }
+
+    private static String deleteTableCommand(){
+        String sqlCommand = "DELETE FROM productType;";
+        return sqlCommand;
+    }
     
     private String getMaxIdCommand(String tableName , String columnName) {
     	return "SELECT MAX("+columnName+") FROM "+ tableName; 
@@ -140,6 +145,16 @@ public class ProductTypeRepository {
         System.out.println(count);
         if(count == 0) return false;
         return true ;
+    }
+
+    public void deleteTable() throws SQLException {
+        Logger.getLogger(EZShop.class.getName()).log(Level.INFO,"deleting product table");
+        Connection con = DBCPDBConnectionPool.getConnection();
+        String sqlCommand = deleteTableCommand();
+        PreparedStatement prp = con.prepareStatement(sqlCommand);
+        prp.executeUpdate();
+        prp.close();
+        con.close();
     }
     
    

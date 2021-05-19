@@ -26,52 +26,259 @@ Version:
     to start tests
     >
 
- ### **Class *class_name* - method *name***
+ ### **Class *UserClass* - method *setId***(Integer id)
 
 
 
-**Criteria for method *name*:**
+**Criteria for method *setId*:**
 	
 
- - 
- - 
+ - value of id
 
+   
 
+**Predicates for method setId:**
 
+| Criteria    | Predicate |
+| ----------- | --------- |
+| value of id | Any value |
 
-
-**Predicates for method *name*:**
-
-| Criteria | Predicate |
-| -------- | --------- |
-|          |           |
-|          |           |
-|          |           |
-|          |           |
-
-
-
-
-
-**Boundaries**:
-
-| Criteria | Boundary values |
-| -------- | --------------- |
-|          |                 |
-|          |                 |
-
-
+ 
 
 **Combination of predicates**:
 
 
-| Criteria 1 | Criteria 2 | ... | Valid / Invalid | Description of the test case | JUnit test case |
-|-------|-------|-------|-------|-------|-------|
-|||||||
-|||||||
-|||||||
-|||||||
-|||||||
+| value of id | Valid / Invalid | Description of the test case | JUnit test case |
+| ----------- | --------------- | ---------------------------- | --------------- |
+| value of id | Valid           | T1(2) -> void                | testSetId()     |
+
+
+
+ ### **Class *UserClass* - method *setUsername***(String Username)
+
+
+
+**Criteria for method *setUsername*:**
+	
+
+ - value of userName
+
+   
+
+**Predicates for method setUserName:**
+
+| Criteria          | Predicate |
+| ----------------- | --------- |
+| value of username | Any value |
+
+ 
+
+**Combination of predicates**:
+
+
+| value of id       | Valid / Invalid | Description of the test case | JUnit test case   |
+| ----------------- | --------------- | ---------------------------- | ----------------- |
+| value of username | Valid           | T1("newName") -> void        | testSetUserName() |
+
+
+
+ ### **Class *UserClass* - method *setPassword***(String password)
+
+
+
+**Criteria for method *setPassword*:**
+	
+
+ - value of password
+
+   
+
+**Predicates for method setPassword:**
+
+| Criteria          | Predicate |
+| ----------------- | --------- |
+| value of password | Any value |
+
+ 
+
+**Combination of predicates**:
+
+
+| Criteria          | Valid / Invalid | Description of the test case | JUnit test case   |
+| ----------------- | --------------- | ---------------------------- | ----------------- |
+| value of password | Valid           | T1("123") -> void            | testSetPassword() |
+
+
+
+
+
+ ### **Class *UserClass* - method *setRole***(String role)
+
+
+
+**Criteria for method *setRole*:**
+	
+
+ - value of role
+
+   
+
+**Predicates for method setRole:**
+
+| Criteria      | Predicate |
+| ------------- | --------- |
+| value of role | Any value |
+
+ 
+
+**Combination of predicates**:
+
+
+| Criteria      | Valid / Invalid | Description of the test case | JUnit test case |
+| ------------- | --------------- | ---------------------------- | --------------- |
+| value of role | Valid           | T1("Cashier") -> void        | testSetRole()   |
+
+
+
+ ### **Class *UserClass* - method *setSalt***(String salt)
+
+
+
+**Criteria for method *setSalt*:**
+	
+
+ - value of salt
+
+   
+
+**Predicates for method setSalt:**
+
+| Criteria      | Predicate |
+| ------------- | --------- |
+| value of salt | Any value |
+
+ 
+
+**Combination of predicates**:
+
+
+| Criteria      | Valid / Invalid | Description of the test case | JUnit test case |
+| ------------- | --------------- | ---------------------------- | --------------- |
+| value of salt | Valid           | T1("abc") -> void            | testSetSalt()   |
+
+
+
+ ### **Class *CustomerClass* - method *setId***(Integer id)
+
+
+
+**Criteria for method *setId*:**
+	
+
+ - value of id
+
+   
+
+**Predicates for method setId:**
+
+| Criteria    | Predicate |
+| ----------- | --------- |
+| value of id | Any value |
+
+ 
+
+**Combination of predicates**:
+
+
+| value of id | Valid / Invalid | Description of the test case | JUnit test case |
+| ----------- | --------------- | ---------------------------- | --------------- |
+| value of id | Valid           | T1(2) -> void                | testSetId()     |
+
+
+
+ ### **Class *CustomerClass* - method *setCustomerName***(String customerName)
+
+
+
+**Criteria for method *setCustomerName*:**
+	
+
+ - value of customerName
+
+   
+
+**Predicates for method setUserName:**
+
+| Criteria              | Predicate |
+| --------------------- | --------- |
+| value of customerName | Any value |
+
+ 
+
+**Combination of predicates**:
+
+
+| value of id           | Valid / Invalid | Description of the test case | JUnit test case       |
+| --------------------- | --------------- | ---------------------------- | --------------------- |
+| value of customerName | Valid           | T1("newName") -> void        | testSetCustomerName() |
+
+
+
+ ### **Class *CustomerClass* - method *setCustomerCard***(String customerCard)
+
+
+
+**Criteria for method *setCustomerCard*:**
+	
+
+ - value of customerCard
+
+   
+
+**Predicates for method setCustomerCard:**
+
+| Criteria              | Predicate |
+| --------------------- | --------- |
+| value of customerCard | Any value |
+
+ 
+
+**Combination of predicates**:
+
+
+| Criteria              | Valid / Invalid | Description of the test case | JUnit test case       |
+| --------------------- | --------------- | ---------------------------- | --------------------- |
+| value of customerCard | Valid           | T1("1234567891") -> void     | testSetCustomerCard() |
+
+
+
+
+
+ ### **Class *CustomerClass* - method *setPoints***(Integer points)
+
+
+
+**Criteria for method *setPoints*:**
+	
+
+ - value of points
+
+   
+
+**Predicates for method setRole:**
+
+| Criteria        | Predicate |
+| --------------- | --------- |
+| value of points | Any value |
+
+ 
+
+**Combination of predicates**:
+
+
+| Criteria        | Valid / Invalid | Description of the test case | JUnit test case |
+| --------------- | --------------- | ---------------------------- | --------------- |
+| value of points | Valid           | T1(7) -> void                | testSetPoints() |
 
 
 
@@ -79,7 +286,7 @@ Version:
 # White Box Unit Tests
 
 ### Test cases definition
-    
+
     <JUnit test classes must be in src/test/java/it/polito/ezshop>
     <Report here all the created JUnit test cases, and the units/classes under test >
     <For traceability write the class and method name that contains the test case>
