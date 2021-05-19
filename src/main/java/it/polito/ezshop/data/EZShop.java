@@ -1337,27 +1337,17 @@ if(productTypeRepository.getProductTypebyId(String.valueOf(productId)) == null )
 
       }
     
-    public static boolean 
-    onlyDigits(String str)
-    {
-    	// Regex to check string
-        // contains only digits
+    public static boolean onlyDigits(String str) {
+
         String regex = "[0-9]+";
-  
         // Compile the ReGex
         Pattern p = Pattern.compile(regex);
-  
-        // If the string is empty
-        // return false
+
         if (str == null) {
             return false;
         }
-  
-        // Find match between given string
-        // and regular expression
-        // using Pattern.matcher()
+        // Find match between given strin and regular expression
         Matcher m = p.matcher(str);
-  
         // Return if the string
         // matched the ReGex
         return m.matches();

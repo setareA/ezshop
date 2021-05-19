@@ -59,7 +59,21 @@ public class EZShopTest {
 
 	@Test
 	public void testOnlyDigits() {
-		fail("Not yet implemented");
+		assertTrue(EZShop.onlyDigits("1234"));
+	}
+
+	@Test
+	public void testOnlyDigitsNull() {
+		assertFalse(EZShop.onlyDigits(null));
+	}
+
+	@Test
+	public void testOnlyDigitsWithChars() {
+		assertFalse(EZShop.onlyDigits("askjdfhkshf"));
+	}
+	@Test
+	public void testOnlyDigitsWithCharsAndDigits() {
+		assertFalse(EZShop.onlyDigits("12as987dffg34"));
 	}
 
 	@Test
