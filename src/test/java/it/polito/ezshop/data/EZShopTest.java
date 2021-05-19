@@ -140,8 +140,8 @@ public class EZShopTest  {
 	}
 	@Test
 	public void testCreateRandomInteger(){
-		assertSame(String.class, EZShop.createRandomInteger(1,10,new Random()).getClass());
-		assertSame(String.class, EZShop.createRandomInteger(2,2,new Random()).getClass());
+		assertSame(String.class, EZShop.createRandomInteger(1,9999999999L,new Random()).getClass());
+		assertSame(String.class, EZShop.createRandomInteger(10000,10000,new Random()).getClass());
 	}
 	@Test
 	public void testCreateRandomIntegerWithUnValidArgument(){
@@ -151,7 +151,7 @@ public class EZShopTest  {
 
 	@Test
 	public void testCreateRandomIntegerWithNullRandom(){
-		assertThrows(NullPointerException.class, () -> EZShop.createRandomInteger(1,10,null));
+		assertThrows(NullPointerException.class, () -> EZShop.createRandomInteger(1,1000000,null));
 	}
 
 	@Test
