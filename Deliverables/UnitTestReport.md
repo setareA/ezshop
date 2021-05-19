@@ -50,7 +50,7 @@ Version:
 
 | value of id | Valid / Invalid | Description of the test case | JUnit test case |
 | ----------- | --------------- | ---------------------------- | --------------- |
-| value of id | Valid           | T1(2) -> void                | testSetId()     |
+| *           | Valid           | T1(2) -> void                | testSetId()     |
 
 
 
