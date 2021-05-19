@@ -1361,6 +1361,7 @@ if(productTypeRepository.getProductTypebyId(String.valueOf(productId)) == null )
 	 // card number is valid
 	 static boolean checkLuhn(String cardNo)
 	 {
+		 if(cardNo==null)return false;
 	     int nDigits = cardNo.length();
 	  
 	     int nSum = 0;

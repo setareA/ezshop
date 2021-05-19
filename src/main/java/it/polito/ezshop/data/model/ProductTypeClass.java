@@ -95,7 +95,7 @@ public class ProductTypeClass implements ProductType {
 
     @Override
     public void setPricePerUnit(Double pricePerUnit) {
-        this.pricePerUnit = pricePerUnit;
+        this.pricePerUnit = pricePerUnit; 
 
     }
 

@@ -36,7 +36,7 @@ public class BalanceOperationClass implements BalanceOperation {
 		// TODO Auto-generated method stub
 		this.balanceId = balanceId;
 		
-	}
+	} 
 	@Override
 	public LocalDate getDate() {
 		// TODO Auto-generated method stub
