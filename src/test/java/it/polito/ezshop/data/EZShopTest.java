@@ -6,33 +6,20 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import org.junit.Assert;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
+<<<<<<< HEAD
 import it.polito.ezshop.data.model.TicketEntryClass;
 import java.util.Random;
 
+=======
+
+import it.polito.ezshop.data.model.TicketEntryClass;
+
+import java.util.Random;
+>>>>>>> d8aa265910978c9e4ead2096fa865afd9be0d776
 
 public class EZShopTest  {
-		
-	@BeforeClass
-	public static void setUpBeforeClass() throws Exception {
-	}
-
-	@AfterClass
-	public static void tearDownAfterClass() throws Exception {
-	}
-
-	@Before
-	public void setUp() throws Exception {
-	}
-
-	@After
-	public void tearDown() throws Exception {
-	}
 
 
 	@Test
