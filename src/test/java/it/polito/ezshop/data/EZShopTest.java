@@ -215,6 +215,22 @@ public class EZShopTest  {
 		assertFalse(EZShop.checkValidityProductcode(null));
 	}
 
+	@Test
+	public void TestCheckValidityLongProductcode(){
+		assertFalse(EZShop.checkValidityProductcode("12345678912345678"));
+	}
+
+	@Test
+	public void testCheckValidityShortProductcode(){
+		assertFalse(EZShop.checkValidityProductcode("123"));
+	}
+
+
+	@Test
+	public void testCheckLongBarcodeFormat(){
+
+	}
+
 	
 	
 

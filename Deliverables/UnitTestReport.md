@@ -48,9 +48,9 @@ Version:
 **Combination of predicates**:
 
 
-| value of id | Valid / Invalid | Description of the test case | JUnit test case |
-| ----------- | --------------- | ---------------------------- | --------------- |
-| *           | Valid           | T1(2) -> void                | testSetId()     |
+| value of id | Valid / Invalid | Description of the test case | JUnit test case            |
+| ----------- | --------------- | ---------------------------- | -------------------------- |
+| *           | Valid           | T1(2) -> void                | UserClassTest/ testSetId() |
 
 
 
@@ -76,9 +76,9 @@ Version:
 **Combination of predicates**:
 
 
-| value of id       | Valid / Invalid | Description of the test case | JUnit test case   |
-| ----------------- | --------------- | ---------------------------- | ----------------- |
-| value of username | Valid           | T1("newName") -> void        | testSetUserName() |
+| value of username | Valid / Invalid | Description of the test case | JUnit test case                  |
+| ----------------- | --------------- | ---------------------------- | -------------------------------- |
+| *                 | Valid           | T1("newName") -> void        | UserClassTest/ testSetUserName() |
 
 
 
@@ -104,9 +104,9 @@ Version:
 **Combination of predicates**:
 
 
-| Criteria          | Valid / Invalid | Description of the test case | JUnit test case   |
-| ----------------- | --------------- | ---------------------------- | ----------------- |
-| value of password | Valid           | T1("123") -> void            | testSetPassword() |
+| value of password | Valid / Invalid | Description of the test case | JUnit test case                  |
+| ----------------- | --------------- | ---------------------------- | -------------------------------- |
+| *                 | Valid           | T1("123") -> void            | UserClassTest/ testSetPassword() |
 
 
 
@@ -134,9 +134,9 @@ Version:
 **Combination of predicates**:
 
 
-| Criteria      | Valid / Invalid | Description of the test case | JUnit test case |
-| ------------- | --------------- | ---------------------------- | --------------- |
-| value of role | Valid           | T1("Cashier") -> void        | testSetRole()   |
+| value of role | Valid / Invalid | Description of the test case | JUnit test case              |
+| ------------- | --------------- | ---------------------------- | ---------------------------- |
+| *             | Valid           | T1("Cashier") -> void        | UserClassTest/ testSetRole() |
 
 
 
@@ -162,9 +162,9 @@ Version:
 **Combination of predicates**:
 
 
-| Criteria      | Valid / Invalid | Description of the test case | JUnit test case |
-| ------------- | --------------- | ---------------------------- | --------------- |
-| value of salt | Valid           | T1("abc") -> void            | testSetSalt()   |
+| value of salt | Valid / Invalid | Description of the test case | JUnit test case              |
+| ------------- | --------------- | ---------------------------- | ---------------------------- |
+| *             | Valid           | T1("abc") -> void            | UserClassTest/ testSetSalt() |
 
 
 
@@ -190,9 +190,9 @@ Version:
 **Combination of predicates**:
 
 
-| value of id | Valid / Invalid | Description of the test case | JUnit test case |
-| ----------- | --------------- | ---------------------------- | --------------- |
-| value of id | Valid           | T1(2) -> void                | testSetId()     |
+| value of id | Valid / Invalid | Description of the test case | JUnit test case                |
+| ----------- | --------------- | ---------------------------- | ------------------------------ |
+| *           | Valid           | T1(2) -> void                | CustomerClassTest/ testSetId() |
 
 
 
@@ -218,9 +218,9 @@ Version:
 **Combination of predicates**:
 
 
-| value of id           | Valid / Invalid | Description of the test case | JUnit test case       |
-| --------------------- | --------------- | ---------------------------- | --------------------- |
-| value of customerName | Valid           | T1("newName") -> void        | testSetCustomerName() |
+| value of customerName | Valid / Invalid | Description of the test case | JUnit test case                          |
+| --------------------- | --------------- | ---------------------------- | ---------------------------------------- |
+| *                     | Valid           | T1("newName") -> void        | CustomerClassTest/ testSetCustomerName() |
 
 
 
@@ -246,9 +246,9 @@ Version:
 **Combination of predicates**:
 
 
-| Criteria              | Valid / Invalid | Description of the test case | JUnit test case       |
-| --------------------- | --------------- | ---------------------------- | --------------------- |
-| value of customerCard | Valid           | T1("1234567891") -> void     | testSetCustomerCard() |
+| value of customerCard | Valid / Invalid | Description of the test case | JUnit test case                          |
+| --------------------- | --------------- | ---------------------------- | ---------------------------------------- |
+| *                     | Valid           | T1("1234567891") -> void     | CustomerClassTest/ testSetCustomerCard() |
 
 
 
@@ -276,11 +276,14 @@ Version:
 **Combination of predicates**:
 
 
-| Criteria        | Valid / Invalid | Description of the test case | JUnit test case |
-| --------------- | --------------- | ---------------------------- | --------------- |
-| value of points | Valid           | T1(7) -> void                | testSetPoints() |
+| value of points | Valid / Invalid | Description of the test case | JUnit test case                     |
+| --------------- | --------------- | ---------------------------- | ----------------------------------- |
+| *               | Valid           | T1(7) -> void                | CustomerClassTest/  testSetPoints() |
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 41ea2595c91740e40458a7c884cc31ae48eed4d8
  ### **Class *BalanceOperationClass* - method *setBalanceId***(int balanceId)
 
 
@@ -615,7 +618,7 @@ Version:
 
 | value of productCode | Valid / Invalid | Description of the test case | JUnit test case                       |
 | -------------------- | --------------- | ---------------------------- | ------------------------------------- |
-| *                    | Valid           | T1("1234567890987") -> void  | OrderClassTest/  testSetProductCode() |
+| *                    | Valid           | T1("1000439112766") -> void  | OrderClassTest/  testSetProductCode() |
 
 
 
@@ -701,7 +704,7 @@ Version:
 
 | value of status | Valid / Invalid | Description of the test case | JUnit test case                  |
 | --------------- | --------------- | ---------------------------- | -------------------------------- |
-| *               | Valid           | T1("status") -> void         | OrderClassTest/  testSetStatus() |
+| *               | Valid           | T1("closed") -> void         | OrderClassTest/  testSetStatus() |
 
 
 
@@ -788,9 +791,146 @@ Version:
 
 **Combination of predicates**:
 
+
 | value of money | Valid / Invalid | Description of the test case | JUnit test case                 |
 | -------------- | --------------- | ---------------------------- | ------------------------------- |
 | *              | Valid           | T1(30.0) -> void             | OrderClassTest/  testSetMoney() |
+
+ ### **Class *EZShop* - method *createRandomInteger***(int aStart, long aEnd, Random aRandom)
+
+
+
+**Criteria for method *createRandomInteger*:**
+	
+
+ - order of aStart and aEnd
+
+ - validity of aRandom
+
+   
+
+**Predicates for method setRole:**
+
+| Criteria                 | Predicate             |
+| ------------------------ | --------------------- |
+| order of aStart and aEnd | aStart > aEnd invalid |
+|                          | aStart <= aEnd valid  |
+| validity of aRandom      | == null invalid       |
+|                          | != null valid         |
+
+ 
+
+**Boundaries :**
+
+| Criteria                 | Boundary values |
+| ------------------------ | --------------- |
+| order of aStart and aEnd | aStart = aEnd   |
+
+
+
+**Combination of predicates**:
+
+
+| aStart <= aEnd | order of aStart and aEnd | Valid / Invalid | Description of the test case                                 | JUnit test case                                          |
+| -------------- | ------------------------ | --------------- | ------------------------------------------------------------ | -------------------------------------------------------- |
+| *              | aStart > aEnd            | Invalid         | T1(10,1,new Random()) - > IllegalArgumentException           | EZShopTest/ testCreateRandomIntegerWithUnValidArgument() |
+| != null        | aStart <= aEnd           | Valid           | T2(1,10,new Random()) ->String  T3b(2,2,newRandom()) -> String | EZShopTest/                  testCreateRandomInteger()   |
+| == null        | *                        | Invalid         | T4(1,10,null) -> NullPointerException                        | EZShopTest/ testCreateRandomIntegerWithNullRandom()      |
+
+
+
+ ### **Class *EZShop* - method *onlyDigits***(String str)
+
+
+
+**Criteria for method *createRandomInteger*:**
+
+ - value of str
+
+   
+
+**Predicates for method setRole:**
+
+| Criteria     | Predicate                   |
+| ------------ | --------------------------- |
+| value of str | only digits valid           |
+|              | null valid                  |
+|              | only characters valid       |
+|              | digits and characters valid |
+
+
+
+**Combination of predicates**:
+
+
+| value of str          | Valid / Invalid | Description of the test case | JUnit test case                                |
+| --------------------- | --------------- | ---------------------------- | ---------------------------------------------- |
+| only digits           | Valid           | T1("1234") - > true          | EZShopTest/ testOnlyDigits()                   |
+| == null               | Valid           | T2(null) ->false             | EZShopTest/ testOnlyDigitsNull()               |
+| only characters       | Valid           | T3("askjdfhkshf") -> false   | EZShopTest/ testOnlyDigitsWithChars()          |
+| digits and characters | Valid           | T4("12as987dffg34") -> false | EZShopTest/ testOnlyDigitsWithCharsAndDigits() |
+
+
+
+ ### **Class *EZShop* - method *checkLuhn***(String cardNo)
+
+
+
+**Criteria for method *checkLuhn*:**
+
+ - value of str
+
+   
+
+**Predicates for method checkLuhn:**
+
+| Criteria        | Predicate                  |
+| --------------- | -------------------------- |
+| value of cardNo | valid (luhn format)        |
+|                 | not valid (no luhn format) |
+|                 | null not valid             |
+
+
+
+**Combination of predicates**:
+
+
+| value of cardNo | Valid / Invalid | Description of the test case    | JUnit test case                  |
+| --------------- | --------------- | ------------------------------- | -------------------------------- |
+| luhn format     | Valid           | T1("4005550000000019") - > true | EZShopTest/ testCheckLuhnValid() |
+| not luhn format | Invalid         | T3("1111111111") ->false        | EZShopTest/ testCheckLuhnNull()  |
+| null            | Invalid         | T3(null) ->Exception            | testCheckLuhnInvalid()           |
+
+
+
+ ### **Class *EZShop* - method *checkValidityProductcode***(String productCode)
+
+
+
+**Criteria for method *checkValidityProductcode*:**
+
+ - value of str
+
+   
+
+**Predicates for method checkValidityProductcode:**
+
+| Criteria             | Predicate                  |
+| -------------------- | -------------------------- |
+| value of productCode | valid (goodformat)         |
+|                      | not valid (no good format) |
+|                      | null not valid             |
+
+
+
+**Combination of predicates**:
+
+
+| value of productCode | Valid / Invalid | Description of the test case | JUnit test case                             |
+| -------------------- | --------------- | ---------------------------- | ------------------------------------------- |
+| Good format          | Valid           | T1("0799439112766") - > true | EZShopTest/ testCheckGoodBarcodeFormat()    |
+| not Good format      | Invalid         | T3("1111111111") ->false     | EZShopTest/ testCheckNotGoodBarcodeFormat() |
+| null                 | Invalid         | T3(null) ->false             | testCheckInvalidBarcodeFormat()             |
 
 
 
@@ -845,6 +985,34 @@ Version:
 | Criteria       | Valid / Invalid | Description of the test case | JUnit test case |
 | -------------- | --------------- | ---------------------------- | --------------- |
 | value of price | Valid           | T1(7) -> void                | testSetPrice()  |
+
+ ### Class *ReturnTransactionClass* - method setState(String state)
+
+
+
+**Criteria for method *setState*:**
+	
+
+ - value of state
+
+   
+
+**Predicates for method setState:**
+
+| Criteria       | Predicate |
+| -------------- | --------- |
+| value of state | Any value |
+
+ 
+
+**Combination of predicates**:
+
+
+| Criteria       | Valid / Invalid | Description of the test case | JUnit test case |
+| -------------- | --------------- | ---------------------------- | --------------- |
+| value of state | Valid           | T1("state") -> void          | testsetState()  |
+
+ ### 
 
  ### **Class *ReturnTransactionClass* - method *setEntries***(ArrayList<TicketEntry> entries)
 
@@ -1197,20 +1365,22 @@ Version:
 
 **Predicates for method computePriceForProducts:**
 
-| Criteria          | Predicate      |
-| ----------------- | -------------- |
-| value of products | null INVALID   |
-|                   | not null VALID |
+| Criteria          | Predicate         |
+| ----------------- | ----------------- |
+| value of products | null INVALID      |
+|                   | empty list VALID  |
+|                   | many object VALID |
 
  
 
 **Combination of predicates**:
 
 
-| value of products | Valid / Invalid | Description of the test case | JUnit test case               |
-| ----------------- | --------------- | ---------------------------- | ----------------------------- |
-| null              | Invalid         | T1(null) ->0.0               | testComputePriceForProducts() |
-| not null          | Valid           | T2(products) -> double       | testComputePriceForProducts() |
+| value of products | Valid / Invalid | Description of the test case | JUnit test case                        |
+| ----------------- | --------------- | ---------------------------- | -------------------------------------- |
+| null              | Invalid         | T1(null) ->0.0               | testComputePriceForProductsWithNull()  |
+| empty             | Valid           | T2("") -> 0.0                | testComputePriceForProductsWithEmpty() |
+| manyObject        | Valid           | T3(products)                 | testComputePriceForProductsWithMany()  |
 
 
 
@@ -1241,14 +1411,14 @@ Version:
 **Combination of predicates**:
 
 
-| value of role   | Valid / Invalid | Description of the test case | JUnit test case        |
-| --------------- | --------------- | ---------------------------- | ---------------------- |
-| null            | Invalid         | T1(null) ->false             | testCheckIfValidRole() |
-| empty           | Invalid         | T2("") -> false              | testCheckIfValidRole() |
-| "Administrator" | Valid           | T3("Administrator") -> true  | testCheckIfValidRole() |
-| "Cashier"       | Valid           | T4("Cashier") -> true        | testCheckIfValidRole() |
-| "ShopManager"   | Valid           | T5("ShopManager") -> true    | testCheckIfValidRole() |
-| other string    | Invalid         | T6("BankManager") -> false   | testCheckIfValidRole() |
+| value of role   | Valid / Invalid | Description of the test case | JUnit test case                     |
+| --------------- | --------------- | ---------------------------- | ----------------------------------- |
+| null            | Invalid         | T1(null) ->false             | testCheckIfValidRoleNull()          |
+| empty           | Invalid         | T2("") -> false              | testCheckIfValidRoleEmpty()         |
+| "Administrator" | Valid           | T3("Administrator") -> true  | testCheckIfValidRoleAdministrator() |
+| "Cashier"       | Valid           | T4("Cashier") -> true        | testCheckIfValidRoleCashier()       |
+| "ShopManager"   | Valid           | T5("ShopManager") -> true    | testCheckIfValidRoleShopManager()   |
+| other string    | Invalid         | T6("BankManager") -> false   | testCheckIfValidRoleShopOther()     |
 
 
 
@@ -1279,14 +1449,541 @@ Version:
 **Combination of predicates**:
 
 
-| value of role                           | Valid / Invalid | Description of the test case | JUnit test case |
-| --------------------------------------- | --------------- | ---------------------------- | --------------- |
-| null                                    | Invalid         | T1(null) ->false             | testSetPoints() |
-| empty                                   | Invalid         | T2("") -> false              |                 |
-| "DIGIT + "-" + ALPHABETH + "-" + DIGIT" | Valid           | T3("12-AAA-32") -> true      |                 |
-| other string                            | Invalid         | T4(" - - ") -> false         |                 |
-|                                         | ""              | T5(" -a- ") -> false         |                 |
-|                                         | ""              | T5("12-a-12 ") -> false      |                 |
+| value of role                           | Valid / Invalid | Description of the test case | JUnit test case                   |
+| --------------------------------------- | --------------- | ---------------------------- | --------------------------------- |
+| null                                    | Invalid         | T1(null) ->false             | testCheckLocationNull()           |
+| empty                                   | Invalid         | T2("") -> false              | testCheckLocationEmpty            |
+| "DIGIT + "-" + ALPHABETH + "-" + DIGIT" | Valid           | T3("12-AAA-32") -> true      | testCheckLocationCorrect          |
+| other string                            | Invalid         | T4(" - - ") -> false         | testCheckLocationOnlySpace        |
+|                                         | ""              | T5(" -a- ") -> false         | testCheckLocationOnlyAlpha        |
+|                                         | ""              | T5("12-a-12 ") -> false      | testCheckLocationSpaceInsideDigit |
+
+
+# 
+
+ ### **Class *ReturnTransactionClass* - method *setReturnId***(Integer id)
+
+
+
+**Criteria for method *setReturnId*:**
+	
+
+ - value of id
+
+   
+
+**Predicates for method setReturnId:**
+
+| Criteria    | Predicate |
+| ----------- | --------- |
+| value of id | Any value |
+
+ 
+
+**Combination of predicates**:
+
+
+| Criteria    | Valid / Invalid | Description of the test case | JUnit test case   |
+| ----------- | --------------- | ---------------------------- | ----------------- |
+| value of id | Valid           | T1(7) -> void                | testSetReturnId() |
+
+ ### **Class *ReturnTransactionClass* - method *setPrice***(Integer price)
+
+
+
+**Criteria for method *setPrice*:**
+	
+
+ - value of price
+
+   
+
+**Predicates for method setPrice:**
+
+| Criteria       | Predicate |
+| -------------- | --------- |
+| value of price | Any value |
+
+ 
+
+**Combination of predicates**:
+
+
+| Criteria       | Valid / Invalid | Description of the test case | JUnit test case |
+| -------------- | --------------- | ---------------------------- | --------------- |
+| value of price | Valid           | T1(7) -> void                | testSetPrice()  |
+
+ ### Class *ReturnTransactionClass* - method setState(String state)
+
+
+
+**Criteria for method *setState*:**
+	
+
+ - value of state
+
+   
+
+**Predicates for method setState:**
+
+| Criteria       | Predicate |
+| -------------- | --------- |
+| value of state | Any value |
+
+ 
+
+**Combination of predicates**:
+
+
+| Criteria       | Valid / Invalid | Description of the test case | JUnit test case |
+| -------------- | --------------- | ---------------------------- | --------------- |
+| value of state | Valid           | T1("state") -> void          | testsetState()  |
+
+ ### 
+
+ ### **Class *ReturnTransactionClass* - method *setEntries***(ArrayList<TicketEntry> entries)
+
+
+
+**Criteria for method *setEntries*:**
+	
+
+ - value of entries
+
+   
+
+**Predicates for method setEntries:**
+
+| Criteria         | Predicate |
+| ---------------- | --------- |
+| value of entries | Any value |
+
+ 
+
+**Combination of predicates**:
+
+
+| Criteria         | Valid / Invalid | Description of the test case | JUnit test case  |
+| ---------------- | --------------- | ---------------------------- | ---------------- |
+| value of entries | Valid           | T1(entries) -> void          | testSetEntries() |
+
+ ### **Class *ReturnTransactionClass* - method *setTicketNumber***(Integer TicketNumber)
+
+
+
+**Criteria for method *setTicketNumber*:**
+	
+
+ - value of TicketNumber
+
+   
+
+**Predicates for method setTicketNumber:**
+
+| Criteria              | Predicate |
+| --------------------- | --------- |
+| value of TicketNumber | Any value |
+
+ 
+
+**Combination of predicates**:
+
+
+| Criteria              | Valid / Invalid | Description of the test case | JUnit test case       |
+| --------------------- | --------------- | ---------------------------- | --------------------- |
+| value of TicketNumber | Valid           | T1(1) -> void                | testSetTicketNumber() |
+
+ ### **Class *SaleTransactionClass* - method *setTicketNumber***(Integer TicketNumber)
+
+
+
+**Criteria for method *setTicketNumber*:**
+	
+
+ - value of TicketNumber
+
+   
+
+**Predicates for method setTicketNumber:**
+
+| Criteria              | Predicate |
+| --------------------- | --------- |
+| value of TicketNumber | Any value |
+
+ 
+
+**Combination of predicates**:
+
+
+| Criteria              | Valid / Invalid | Description of the test case | JUnit test case       |
+| --------------------- | --------------- | ---------------------------- | --------------------- |
+| value of TicketNumber | Valid           | T1(7) -> void                | testSetTicketNumber() |
+
+ ### **Class *SaleTransactionClass* - method *setEntries***(ArrayList<TicketEntry> entries)
+
+
+
+**Criteria for method *setEntries*:**
+	
+
+ - value of entries
+
+   
+
+**Predicates for method setEntries:**
+
+| Criteria         | Predicate |
+| ---------------- | --------- |
+| value of entries | Any value |
+
+ 
+
+**Combination of predicates**:
+
+
+| Criteria         | Valid / Invalid | Description of the test case | JUnit test case  |
+| ---------------- | --------------- | ---------------------------- | ---------------- |
+| value of entries | Valid           | T1(entries) -> void          | testSetEntries() |
+
+ ### **Class *SaleTransactionClass* - method *setDiscountRate***(double discountRate)
+
+
+
+**Criteria for method *setDiscountRate*:**
+	
+
+ - value of discount rate
+
+   
+
+**Predicates for method setDiscountRate:**
+
+| Criteria               | Predicate |
+| ---------------------- | --------- |
+| value of discount rate | Any value |
+
+ 
+
+**Combination of predicates**:
+
+
+| Criteria               | Valid / Invalid | Description of the test case | JUnit test case       |
+| ---------------------- | --------------- | ---------------------------- | --------------------- |
+| value of discount rate | Valid           | T1(7) -> void                | testSetDiscountRate() |
+
+ ### **Class *SaleTransactionClass* - method *setPrice***(double price)
+
+
+
+**Criteria for method *setPrice*:**
+	
+
+ - value of price
+
+   
+
+**Predicates for method setPrice:**
+
+| Criteria       | Predicate |
+| -------------- | --------- |
+| value of price | Any value |
+
+ 
+
+**Combination of predicates**:
+
+
+| Criteria       | Valid / Invalid | Description of the test case | JUnit test case  |
+| -------------- | --------------- | ---------------------------- | ---------------- |
+| value of price | Valid           | T1(7) -> void                | testSetEntries() |
+
+ ### **Class *SaleTransactionClass* - method *setState***(String state)
+
+
+
+**Criteria for method *setState*:**
+	
+
+ - value of state
+
+   
+
+**Predicates for method setState:**
+
+| Criteria       | Predicate |
+| -------------- | --------- |
+| value of state | Any value |
+
+ 
+
+**Combination of predicates**:
+
+
+| Criteria       | Valid / Invalid | Description of the test case | JUnit test case |
+| -------------- | --------------- | ---------------------------- | --------------- |
+| value of state | Valid           | T1("state") -> void          | testSetState()  |
+
+ ### **Class *TicketEntryClass* - method *setId***(Integer id)
+
+
+
+**Criteria for method *setId*:**
+	
+
+ - value of id
+
+   
+
+**Predicates for method setId:**
+
+| Criteria    | Predicate |
+| ----------- | --------- |
+| value of id | Any value |
+
+ 
+
+**Combination of predicates**:
+
+
+| value of id | Valid / Invalid | Description of the test case | JUnit test case |
+| ----------- | --------------- | ---------------------------- | --------------- |
+| value of id | Valid           | T1(2) -> void                | testSetId()     |
+
+ ### **Class *TicketEntryClass* - method *setBarCode***(String BarCode)
+
+
+
+**Criteria for method setBarCode**
+	
+
+ - value of BarCode
+
+   
+
+**Predicates for method setBarCode:**
+
+| Criteria         | Predicate |
+| ---------------- | --------- |
+| value of BarCode | Any value |
+
+ 
+
+**Combination of predicates**:
+
+
+| value of id      | Valid / Invalid | Description of the test case | JUnit test case  |
+| ---------------- | --------------- | ---------------------------- | ---------------- |
+| value of BarCode | Valid           | T1("2") -> void              | testSetBarCode() |
+
+ ### **Class *TicketEntryClass* - method *setProductDescription***(String productDescription)
+
+
+
+**Criteria for method setProductDescription**
+	
+
+ - value of ProductDescription
+
+   
+
+**Predicates for method setProductDescription:**
+
+| Criteria                    | Predicate |
+| --------------------------- | --------- |
+| value of ProductDescription | Any value |
+
+ 
+
+**Combination of predicates**:
+
+
+| value of id                 | Valid / Invalid | Description of the test case | JUnit test case             |
+| --------------------------- | --------------- | ---------------------------- | --------------------------- |
+| value of ProductDescription | Valid           | T1("pane") -> void           | testSetProductDescription() |
+
+ ### **Class *TicketEntryClass* - method *setAmount***(double amount)
+
+
+
+**Criteria for method *setAmount*:**
+	
+
+ - value of Amount
+
+   
+
+**Predicates for method setAmount:**
+
+| Criteria        | Predicate |
+| --------------- | --------- |
+| value of Amount | Any value |
+
+ 
+
+**Combination of predicates**:
+
+
+| Criteria        | Valid / Invalid | Description of the test case | JUnit test case |
+| --------------- | --------------- | ---------------------------- | --------------- |
+| value of Amount | Valid           | T1(7) -> void                | testSetAmount() |
+
+ ### **Class *TicketEntryClass* - method *setPricePerUnit***(double pricePerUnit)
+
+
+
+**Criteria for method *setPricePerUnit*:**
+	
+
+ - value of PricePerUnit
+
+   
+
+**Predicates for method setPricePerUnit:**
+
+| Criteria              | Predicate |
+| --------------------- | --------- |
+| value of PricePerUnit | Any value |
+
+ 
+
+**Combination of predicates**:
+
+
+| Criteria              | Valid / Invalid | Description of the test case | JUnit test case       |
+| --------------------- | --------------- | ---------------------------- | --------------------- |
+| value of PricePerUnit | Valid           | T1(7) -> void                | testSetPricePerUnit() |
+
+ ### **Class *TicketEntryClass* - method *setDiscountRate***(double discountRate)
+
+
+
+**Criteria for method *setDiscountRate*:**
+	
+
+ - value of discount rate
+
+   
+
+**Predicates for method setDiscountRate:**
+
+| Criteria               | Predicate |
+| ---------------------- | --------- |
+| value of discount rate | Any value |
+
+ 
+
+**Combination of predicates**:
+
+
+| Criteria               | Valid / Invalid | Description of the test case | JUnit test case       |
+| ---------------------- | --------------- | ---------------------------- | --------------------- |
+| value of discount rate | Valid           | T1(7) -> void                | testSetDiscountRate() |
+
+ ### **Class *EZShop* - method *computePriceForProducts***(ArrayList<TicketEntryClass products)
+
+
+
+**Criteria for method *computePriceForProducts*:**
+	
+
+ - value of products
+
+   
+
+**Predicates for method computePriceForProducts:**
+
+| Criteria          | Predicate         |
+| ----------------- | ----------------- |
+| value of products | null INVALID      |
+|                   | empty list VALID  |
+|                   | many object VALID |
+
+ 
+
+**Combination of predicates**:
+
+
+| value of products | Valid / Invalid | Description of the test case | JUnit test case                        |
+| ----------------- | --------------- | ---------------------------- | -------------------------------------- |
+| null              | Invalid         | T1(null) ->0.0               | testComputePriceForProductsWithNull()  |
+| empty             | Valid           | T2("") -> 0.0                | testComputePriceForProductsWithEmpty() |
+| manyObject        | Valid           | T3(products)                 | testComputePriceForProductsWithMany()  |
+
+
+
+ ### **Class *EZShop* - method *checkIfValidRole***(String role)
+
+
+
+**Criteria for method *checkIfValidRole*:**
+	
+
+ - value of role
+
+   
+
+**Predicates for method checkIfValidRole:**
+
+| Criteria      | Predicate             |
+| ------------- | --------------------- |
+| value of role | null INVALID          |
+|               | empty INVALID         |
+|               | "Administrator" VALID |
+|               | "Cashier" VALID       |
+|               | "ShopManager" VALID   |
+|               | other string INVALID  |
+
+ 
+
+**Combination of predicates**:
+
+
+| value of role   | Valid / Invalid | Description of the test case | JUnit test case                     |
+| --------------- | --------------- | ---------------------------- | ----------------------------------- |
+| null            | Invalid         | T1(null) ->false             | testCheckIfValidRoleNull()          |
+| empty           | Invalid         | T2("") -> false              | testCheckIfValidRoleEmpty()         |
+| "Administrator" | Valid           | T3("Administrator") -> true  | testCheckIfValidRoleAdministrator() |
+| "Cashier"       | Valid           | T4("Cashier") -> true        | testCheckIfValidRoleCashier()       |
+| "ShopManager"   | Valid           | T5("ShopManager") -> true    | testCheckIfValidRoleShopManager()   |
+| other string    | Invalid         | T6("BankManager") -> false   | testCheckIfValidRoleShopOther()     |
+
+
+
+
+
+ ### **Class *EZShop* - method *checkLocation***(String location)
+
+
+
+**Criteria for method *checkLocation*:**
+	
+
+ - value of location
+
+   
+
+**Predicates for method checkLocation:**
+
+| Criteria          | Predicate                                   |
+| ----------------- | ------------------------------------------- |
+| value of location | null INVALID                                |
+|                   | empty INVALID                               |
+|                   | DIGIT + "-" + ALPHABETH + "-" + DIGIT VALID |
+|                   | other string INVALID                        |
+
+ 
+
+**Combination of predicates**:
+
+
+| value of role                           | Valid / Invalid | Description of the test case | JUnit test case                   |
+| --------------------------------------- | --------------- | ---------------------------- | --------------------------------- |
+| null                                    | Invalid         | T1(null) ->false             | testCheckLocationNull()           |
+| empty                                   | Invalid         | T2("") -> false              | testCheckLocationEmpty            |
+| "DIGIT + "-" + ALPHABETH + "-" + DIGIT" | Valid           | T3("12-AAA-32") -> true      | testCheckLocationCorrect          |
+| other string                            | Invalid         | T4(" - - ") -> false         | testCheckLocationOnlySpace        |
+|                                         | ""              | T5(" -a- ") -> false         | testCheckLocationOnlyAlpha        |
+|                                         | ""              | T5("12-a-12 ") -> false      | testCheckLocationSpaceInsideDigit |
 
 
 # White Box Unit Tests
@@ -1299,10 +1996,10 @@ Version:
 
 
 | Unit name | JUnit test case |
-|--|--|
-|||
-|||
-||||
+| --------- | --------------- |
+|           |                 |
+|           |                 |
+|           |                 |
 
 ### Code coverage report
 
@@ -1315,11 +2012,15 @@ Version:
     <Identify significant loops in the units and reports the test cases
     developed to cover zero, one or multiple iterations >
 
-|Unit name | Loop rows | Number of iterations | JUnit test case |
-|---|---|---|---|
-|||||
-|||||
-||||||
+| Unit name                                               | Loop rows | Number of iterations | JUnit test case                      |
+| ------------------------------------------------------- | --------- | -------------------- | ------------------------------------ |
+| EZShop/ computePriceForProducts(ArrayList<TicketEntry>) | 797       | 0                    | testComputePriceForProductsWithEmpty |
+|                                                         |           | 1                    | testComputePriceForProductWithOnes   |
+|                                                         |           | 3                    | testComputePriceForProductsWithMany  |
+| EZShop/CheckLuhnInvalid(String CardNo)                  | 1365      | 0                    | testCheckLuhnEmpthy()                |
+|                                                         |           | 1                    | testCheckLuhnOne()                   |
+|                                                         |           | 2                    | testCheckLuhnTwo()                   |
+|                                                         |           | 15                   | testCheckLuhnValid()                 |
 
 
 
