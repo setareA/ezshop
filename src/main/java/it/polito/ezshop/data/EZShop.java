@@ -51,6 +51,7 @@ public class EZShop implements EZShopInterface {
     @Override
     public void reset() {
 		try {
+			Logger.getLogger(EZShop.class.getName()).log(Level.INFO, "reset");
 			productTypeRepository.deleteTable();
 			balanceOperationRepository.deleteTables();
 			balanceOperationRepository.resetBalance();
@@ -1362,7 +1363,7 @@ if(productTypeRepository.getProductTypebyId(String.valueOf(productId)) == null )
 
 	 static boolean checkLuhn(String cardNo)
 	 {
-		 if(cardNo==null)return false;
+		 if(cardNo==null || cardNo.length() == 0)return false;
 
 	     int nDigits = cardNo.length();
 	  
