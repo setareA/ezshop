@@ -281,7 +281,7 @@ Version:
 | value of points | Valid           | T1(7) -> void                | testSetPoints() |
 
 <<<<<<< HEAD
- ### **Class *ReturnTransactionClass* - method *setReturnId***(Integer id)
+ ### 
 =======
  ### **Class *BalanceOperationClass* - method *setBalanceId***(int balanceId)
 
@@ -790,11 +790,14 @@ Version:
 
 **Combination of predicates**:
 
->>>>>>> 2a55775569e443c950b87f38d42dfd36bfde5d69
-
 | value of money | Valid / Invalid | Description of the test case | JUnit test case                 |
 | -------------- | --------------- | ---------------------------- | ------------------------------- |
 | *              | Valid           | T1(30.0) -> void             | OrderClassTest/  testSetMoney() |
+
+
+
+ ### **Class *ReturnTransactionClass* - method *setReturnId***(Integer id)
+
 
 
 **Criteria for method *setReturnId*:**
