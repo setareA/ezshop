@@ -12,7 +12,13 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+<<<<<<< HEAD
 import it.polito.ezshop.data.model.TicketEntryClass;
+=======
+import java.util.Random;
+
+public class EZShopTest {
+>>>>>>> 7be1b580723adb05a241ca45285155278a4e883c
 
 public class EZShopTest  {
 		
@@ -73,8 +79,37 @@ public class EZShopTest  {
 	}
 
 	@Test
+	public void testCreateRandomInteger(){
+		assertSame(String.class, EZShop.createRandomInteger(1,10,new Random()).getClass());
+		assertSame(String.class, EZShop.createRandomInteger(2,2,new Random()).getClass());
+	}
+	@Test
+	public void testCreateRandomIntegerWithUnValidArgument(){
+		assertThrows(IllegalArgumentException.class, () -> EZShop.createRandomInteger(10,1,new Random()));
+	}
+
+	@Test
+	public void testCreateRandomIntegerWithNullRandom(){
+		assertThrows(NullPointerException.class, () -> EZShop.createRandomInteger(1,10,null));
+	}
+
+	@Test
 	public void testOnlyDigits() {
-		fail("Not yet implemented");
+		assertTrue(EZShop.onlyDigits("1234"));
+	}
+
+	@Test
+	public void testOnlyDigitsNull() {
+		assertFalse(EZShop.onlyDigits(null));
+	}
+
+	@Test
+	public void testOnlyDigitsWithChars() {
+		assertFalse(EZShop.onlyDigits("askjdfhkshf"));
+	}
+	@Test
+	public void testOnlyDigitsWithCharsAndDigits() {
+		assertFalse(EZShop.onlyDigits("12as987dffg34"));
 	}
 
 	@Test

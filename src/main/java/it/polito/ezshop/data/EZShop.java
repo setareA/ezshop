@@ -1316,7 +1316,7 @@ if(productTypeRepository.getProductTypebyId(String.valueOf(productId)) == null )
     	return location.matches("\\d+-\\p{Alpha}+-\\d+");
     }
     
-    private static String createRandomInteger(int aStart, long aEnd, Random aRandom){
+    public static String createRandomInteger(int aStart, long aEnd, Random aRandom){
         if ( aStart > aEnd ) {
           throw new IllegalArgumentException("Start cannot exceed End.");
         }
@@ -1334,31 +1334,20 @@ if(productTypeRepository.getProductTypebyId(String.valueOf(productId)) == null )
         	randomValueString = zeros.substring(0, 10 - lengthRandom)+randomValueString;
         }
         return randomValueString;
-        
 
       }
     
-    public static boolean 
-    onlyDigits(String str)
-    {
-    	// Regex to check string
-        // contains only digits
+    public static boolean onlyDigits(String str) {
+
         String regex = "[0-9]+";
-  
         // Compile the ReGex
         Pattern p = Pattern.compile(regex);
-  
-        // If the string is empty
-        // return false
+
         if (str == null) {
             return false;
         }
-  
-        // Find match between given string
-        // and regular expression
-        // using Pattern.matcher()
+        // Find match between given strin and regular expression
         Matcher m = p.matcher(str);
-  
         // Return if the string
         // matched the ReGex
         return m.matches();

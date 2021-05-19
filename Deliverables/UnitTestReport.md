@@ -48,9 +48,9 @@ Version:
 **Combination of predicates**:
 
 
-| value of id | Valid / Invalid | Description of the test case | JUnit test case |
-| ----------- | --------------- | ---------------------------- | --------------- |
-| *           | Valid           | T1(2) -> void                | testSetId()     |
+| value of id | Valid / Invalid | Description of the test case | JUnit test case            |
+| ----------- | --------------- | ---------------------------- | -------------------------- |
+| *           | Valid           | T1(2) -> void                | UserClassTest/ testSetId() |
 
 
 
@@ -76,9 +76,9 @@ Version:
 **Combination of predicates**:
 
 
-| value of username | Valid / Invalid | Description of the test case | JUnit test case   |
-| ----------------- | --------------- | ---------------------------- | ----------------- |
-| *                 | Valid           | T1("newName") -> void        | testSetUserName() |
+| value of username | Valid / Invalid | Description of the test case | JUnit test case                  |
+| ----------------- | --------------- | ---------------------------- | -------------------------------- |
+| *                 | Valid           | T1("newName") -> void        | UserClassTest/ testSetUserName() |
 
 
 
@@ -104,9 +104,9 @@ Version:
 **Combination of predicates**:
 
 
-| value of password | Valid / Invalid | Description of the test case | JUnit test case   |
-| ----------------- | --------------- | ---------------------------- | ----------------- |
-| *                 | Valid           | T1("123") -> void            | testSetPassword() |
+| value of password | Valid / Invalid | Description of the test case | JUnit test case                  |
+| ----------------- | --------------- | ---------------------------- | -------------------------------- |
+| *                 | Valid           | T1("123") -> void            | UserClassTest/ testSetPassword() |
 
 
 
@@ -134,9 +134,9 @@ Version:
 **Combination of predicates**:
 
 
-| value of role | Valid / Invalid | Description of the test case | JUnit test case |
-| ------------- | --------------- | ---------------------------- | --------------- |
-| *             | Valid           | T1("Cashier") -> void        | testSetRole()   |
+| value of role | Valid / Invalid | Description of the test case | JUnit test case              |
+| ------------- | --------------- | ---------------------------- | ---------------------------- |
+| *             | Valid           | T1("Cashier") -> void        | UserClassTest/ testSetRole() |
 
 
 
@@ -162,9 +162,9 @@ Version:
 **Combination of predicates**:
 
 
-| value of salt | Valid / Invalid | Description of the test case | JUnit test case |
-| ------------- | --------------- | ---------------------------- | --------------- |
-| *             | Valid           | T1("abc") -> void            | testSetSalt()   |
+| value of salt | Valid / Invalid | Description of the test case | JUnit test case              |
+| ------------- | --------------- | ---------------------------- | ---------------------------- |
+| *             | Valid           | T1("abc") -> void            | UserClassTest/ testSetSalt() |
 
 
 
@@ -190,9 +190,9 @@ Version:
 **Combination of predicates**:
 
 
-| value of id | Valid / Invalid | Description of the test case | JUnit test case |
-| ----------- | --------------- | ---------------------------- | --------------- |
-| *           | Valid           | T1(2) -> void                | testSetId()     |
+| value of id | Valid / Invalid | Description of the test case | JUnit test case                |
+| ----------- | --------------- | ---------------------------- | ------------------------------ |
+| *           | Valid           | T1(2) -> void                | CustomerClassTest/ testSetId() |
 
 
 
@@ -218,9 +218,9 @@ Version:
 **Combination of predicates**:
 
 
-| value of customerName | Valid / Invalid | Description of the test case | JUnit test case       |
-| --------------------- | --------------- | ---------------------------- | --------------------- |
-| *                     | Valid           | T1("newName") -> void        | testSetCustomerName() |
+| value of customerName | Valid / Invalid | Description of the test case | JUnit test case                          |
+| --------------------- | --------------- | ---------------------------- | ---------------------------------------- |
+| *                     | Valid           | T1("newName") -> void        | CustomerClassTest/ testSetCustomerName() |
 
 
 
@@ -246,9 +246,9 @@ Version:
 **Combination of predicates**:
 
 
-| value of customerCard | Valid / Invalid | Description of the test case | JUnit test case       |
-| --------------------- | --------------- | ---------------------------- | --------------------- |
-| *                     | Valid           | T1("1234567891") -> void     | testSetCustomerCard() |
+| value of customerCard | Valid / Invalid | Description of the test case | JUnit test case                          |
+| --------------------- | --------------- | ---------------------------- | ---------------------------------------- |
+| *                     | Valid           | T1("1234567891") -> void     | CustomerClassTest/ testSetCustomerCard() |
 
 
 
@@ -276,9 +276,85 @@ Version:
 **Combination of predicates**:
 
 
-| value of points | Valid / Invalid | Description of the test case | JUnit test case |
-| --------------- | --------------- | ---------------------------- | --------------- |
-| *               | Valid           | T1(7) -> void                | testSetPoints() |
+| value of points | Valid / Invalid | Description of the test case | JUnit test case                     |
+| --------------- | --------------- | ---------------------------- | ----------------------------------- |
+| *               | Valid           | T1(7) -> void                | CustomerClassTest/  testSetPoints() |
+
+
+
+ ### **Class *EZShop* - method *createRandomInteger***(int aStart, long aEnd, Random aRandom)
+
+
+
+**Criteria for method *createRandomInteger*:**
+	
+
+ - order of aStart and aEnd
+
+ - validity of aRandom
+
+   
+
+**Predicates for method setRole:**
+
+| Criteria                 | Predicate             |
+| ------------------------ | --------------------- |
+| order of aStart and aEnd | aStart > aEnd invalid |
+|                          | aStart <= aEnd valid  |
+| validity of aRandom      | == null invalid       |
+|                          | != null valid         |
+
+ 
+
+**Boundaries :**
+
+| Criteria                 | Boundary values |
+| ------------------------ | --------------- |
+| order of aStart and aEnd | aStart = aEnd   |
+
+
+
+**Combination of predicates**:
+
+
+| aStart <= aEnd | order of aStart and aEnd | Valid / Invalid | Description of the test case                                 | JUnit test case                                          |
+| -------------- | ------------------------ | --------------- | ------------------------------------------------------------ | -------------------------------------------------------- |
+| *              | aStart > aEnd            | Invalid         | T1(10,1,new Random()) - > IllegalArgumentException           | EZShopTest/ testCreateRandomIntegerWithUnValidArgument() |
+| != null        | aStart <= aEnd           | Valid           | T2(1,10,new Random()) ->String  T3b(2,2,newRandom()) -> String | EZShopTest/                  testCreateRandomInteger()   |
+| == null        | *                        | Invalid         | T4(1,10,null) -> NullPointerException                        | EZShopTest/ testCreateRandomIntegerWithNullRandom()      |
+
+
+
+ ### **Class *EZShop* - method *onlyDigits***(String str)
+
+
+
+**Criteria for method *createRandomInteger*:**
+
+ - value of str
+
+   
+
+**Predicates for method setRole:**
+
+| Criteria     | Predicate                   |
+| ------------ | --------------------------- |
+| value of str | only digits valid           |
+|              | null valid                  |
+|              | only characters valid       |
+|              | digits and characters valid |
+
+
+
+**Combination of predicates**:
+
+
+| value of str          | Valid / Invalid | Description of the test case | JUnit test case                                |
+| --------------------- | --------------- | ---------------------------- | ---------------------------------------------- |
+| only digits           | Valid           | T1("1234") - > true          | EZShopTest/ testOnlyDigits()                   |
+| == null               | Valid           | T2(null) ->false             | EZShopTest/ testOnlyDigitsNull()               |
+| only characters       | Valid           | T3("askjdfhkshf") -> false   | EZShopTest/ testOnlyDigitsWithChars()          |
+| digits and characters | Valid           | T4("12as987dffg34") -> false | EZShopTest/ testOnlyDigitsWithCharsAndDigits() |
 
 
 
