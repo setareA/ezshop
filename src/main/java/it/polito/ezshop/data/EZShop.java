@@ -25,6 +25,8 @@ import java.util.List;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 
@@ -219,9 +221,9 @@ public class EZShop implements EZShopInterface {
         if(this.checkIfAdministrator() || this.checkIfManager()) { // loggedUser check
         	if( description == null) throw new InvalidProductDescriptionException(); // descriptor != null check
         	if( description.isEmpty()) throw new InvalidProductDescriptionException(); // descriptor != null check
-        	else if(!ProductTypeClass.checkValidityProductcode(productCode)) throw new InvalidProductCodeException(); // barcode check
+        	else if(!checkValidityProductcode(productCode)) throw new InvalidProductCodeException(); // barcode check
         	else if (pricePerUnit <= 0 ) throw new InvalidPricePerUnitException(); // price per unit check
-        	else if (! productTypeRepository.checkUniqueBarcode(productCode) ) return -1;
+        	else if (! productTypeRepository.checkUniqueBarcode(productCode,-1) ) return -1;
         	else { 
         		try {
         		productTypeRepository.addNewProductType(new ProductTypeClass(productTypeRepository.getMaxId() + 1 , 0, "" , note , description , productCode, pricePerUnit, 0)); 
@@ -236,18 +238,18 @@ public class EZShop implements EZShopInterface {
     }
 
 
-    @Override
+    @Override 
     public boolean updateProduct(Integer id, String newDescription, String newCode, double newPrice, String newNote) throws InvalidProductIdException, InvalidProductDescriptionException, InvalidProductCodeException, InvalidPricePerUnitException, UnauthorizedException {
-        if(this.checkIfAdministrator() | this.checkIfManager()) { // loggedUser check
+        if(this.checkIfAdministrator() || this.checkIfManager()) { // loggedUser check
         	if( id == null) throw new InvalidProductIdException();
         	if( id < 1) throw new InvalidProductIdException();
         	if( newDescription == null) throw new InvalidProductDescriptionException();
         	if( newDescription.isEmpty()) throw new InvalidProductDescriptionException();
         Logger.getLogger(EZShop.class.getName()).log(Level.INFO, "updateProduct");
-
-        	if(!ProductTypeClass.checkValidityProductcode(newCode)) throw new InvalidProductCodeException();
+        	
+        	if(!checkValidityProductcode(newCode)) throw new InvalidProductCodeException();
         	if(newPrice <= 0) throw new InvalidPricePerUnitException();
-        	if(!productTypeRepository.checkUniqueBarcode(newCode)) return false;
+        	if(!productTypeRepository.checkUniqueBarcode(newCode,id)) return false;
         	try {
         		return productTypeRepository.updateProductType(id.toString(), newDescription, newCode, String.valueOf(newPrice) , newNote);
         	}catch (SQLException e) {return false; }
@@ -285,7 +287,7 @@ public class EZShop implements EZShopInterface {
     @Override
     public ProductType getProductTypeByBarCode(String barCode) throws InvalidProductCodeException, UnauthorizedException {
     	if(this.checkIfAdministrator() || this.checkIfManager()) {
-    		if(!ProductTypeClass.checkValidityProductcode(barCode)) throw new InvalidProductCodeException();
+    		if(!checkValidityProductcode(barCode)) throw new InvalidProductCodeException();
     		return  productTypeRepository.getProductTypebyBarCode(barCode);
     		
         }else {
@@ -344,7 +346,7 @@ if(productTypeRepository.getProductTypebyId(String.valueOf(productId)) == null )
     	if(!(this.checkIfAdministrator() || this.checkIfManager())) throw new UnauthorizedException();
     	if(pricePerUnit <= 0) throw new InvalidPricePerUnitException ();
     	if(quantity <= 0) throw new  InvalidQuantityException();
-    	if(!ProductTypeClass.checkValidityProductcode(productCode)) throw new InvalidProductCodeException();
+    	if(!checkValidityProductcode(productCode)) throw new InvalidProductCodeException();
     	if(productTypeRepository.getProductTypebyBarCode(productCode) == null) return -1;
     	try {
     		balanceOperationRepository.addNewOrder(new OrderClass(balanceOperationRepository.getHighestOrderId() + 1, 0, productCode, pricePerUnit, quantity, "ORDERED", quantity*pricePerUnit));
@@ -358,7 +360,7 @@ if(productTypeRepository.getProductTypebyId(String.valueOf(productId)) == null )
     	if(!(this.checkIfAdministrator() || this.checkIfManager())) throw new UnauthorizedException();
     	if(pricePerUnit <= 0) throw new InvalidPricePerUnitException ();
     	if(quantity <= 0) throw new  InvalidQuantityException();
-    	if(!ProductTypeClass.checkValidityProductcode(productCode)) throw new InvalidProductCodeException();
+    	if(!checkValidityProductcode(productCode)) throw new InvalidProductCodeException();
     	if(productTypeRepository.getProductTypebyBarCode(productCode) == null) return -1;
     	try {    
     		if(this.computeBalance()-quantity*pricePerUnit<0)return -1;
@@ -448,7 +450,7 @@ if(productTypeRepository.getProductTypebyId(String.valueOf(productId)) == null )
     	
     	// Check InvalidCustomerCardException: (empty, null or bad format(string with 10 digits))
     	// the bad format is check in two steps : is it a string? and is the size equals to 10 digits?
-    	if (newCustomerCard == null || !(("").getClass().equals(newCustomerCard.getClass())) || ("").equals(newCustomerCard) || !(newCustomerCard.length()==10 || !onlyDigits(newCustomerCard,newCustomerCard.length())) ) {
+    	if (newCustomerCard == null || !(("").getClass().equals(newCustomerCard.getClass())) || ("").equals(newCustomerCard) || !(newCustomerCard.length()==10 || !onlyDigits(newCustomerCard)) ) {
     		throw new InvalidCustomerCardException();
     	}
     	// Check UnauthorizedException: check if there is a loggedUser and if its role is a "Administrator", "ShopManager" or "Cashier"
@@ -544,7 +546,7 @@ if(productTypeRepository.getProductTypebyId(String.valueOf(productId)) == null )
     	
     	// Check InvalidCustomerCardException: (empty, null or bad format(string with 10 digits))
     	// the bad format is check in two steps : is it a string? and is the size equals to 10 digits?
-    	if (customerCard == null || !(("").getClass().equals(customerCard.getClass())) || ("").equals(customerCard) || !(customerCard.length()==10 || !onlyDigits(customerCard,customerCard.length())) ) {
+    	if (customerCard == null || !(("").getClass().equals(customerCard.getClass())) || ("").equals(customerCard) || !(customerCard.length()==10 || !onlyDigits(customerCard)) ) {
     		throw new InvalidCustomerCardException();
     	}
     	// Check UnauthorizedException: check if there is a loggedUser and if its role is a "Administrator", "ShopManager" or "Cashier"
@@ -592,7 +594,7 @@ if(productTypeRepository.getProductTypebyId(String.valueOf(productId)) == null )
     public boolean modifyPointsOnCard(String customerCard, int pointsToBeAdded) throws InvalidCustomerCardException, UnauthorizedException {
     	// Check InvalidCustomerCardException: (empty, null or bad format(string with 10 digits))
     	// the bad format is check in two steps : is it a string? and is the size equals to 10 digits?
-    	if (customerCard == null || !(("").getClass().equals(customerCard.getClass())) || ("").equals(customerCard) || !(customerCard.length()==10 || !onlyDigits(customerCard,customerCard.length())) ) {
+    	if (customerCard == null || !(("").getClass().equals(customerCard.getClass())) || ("").equals(customerCard) || !(customerCard.length()==10 || !onlyDigits(customerCard)) ) {
     		throw new InvalidCustomerCardException();
     	}
     	
@@ -636,7 +638,7 @@ if(productTypeRepository.getProductTypebyId(String.valueOf(productId)) == null )
             if (transactionId == null || transactionId <= 0){
                 throw new InvalidTransactionIdException();
             }
-            if (productCode == null || productCode.isEmpty() || !ProductTypeClass.checkValidityProductcode(productCode)){
+            if (productCode == null || productCode.isEmpty() || !checkValidityProductcode(productCode)){
                 Logger.getLogger(EZShop.class.getName()).log(Level.INFO, "productCode: "+ productCode);
                 throw new InvalidProductCodeException();
             }
@@ -675,7 +677,7 @@ if(productTypeRepository.getProductTypebyId(String.valueOf(productId)) == null )
             if (transactionId == null || transactionId <= 0){
                 throw new InvalidTransactionIdException();
             }
-            if (productCode == null || productCode.isEmpty() || !ProductTypeClass.checkValidityProductcode(productCode)){
+            if (productCode == null || productCode.isEmpty() || !checkValidityProductcode(productCode)){
                 throw new InvalidProductCodeException();
             }
             if (amount < 0){
@@ -717,7 +719,7 @@ if(productTypeRepository.getProductTypebyId(String.valueOf(productId)) == null )
             if (transactionId == null || transactionId <= 0){
                 throw new InvalidTransactionIdException();
             }
-            if (productCode == null || productCode.isEmpty() || !ProductTypeClass.checkValidityProductcode(productCode)){
+            if (productCode == null || productCode.isEmpty() || !checkValidityProductcode(productCode)){
                 throw new InvalidProductCodeException();
             }
             if(discountRate < 0 || discountRate >= 1){
@@ -925,7 +927,7 @@ if(productTypeRepository.getProductTypebyId(String.valueOf(productId)) == null )
             if (returnId == null || returnId <= 0) {
                 throw new InvalidTransactionIdException();
             }
-            if (productCode == null || productCode.isEmpty() || !ProductTypeClass.checkValidityProductcode(productCode)){
+            if (productCode == null || productCode.isEmpty() || !checkValidityProductcode(productCode)){
                 throw new InvalidProductCodeException();
             }
             if(amount <= 0){
@@ -1177,7 +1179,7 @@ if(productTypeRepository.getProductTypebyId(String.valueOf(productId)) == null )
     	return -1;
     }
 
-    @Override
+    @Override // TODO : check warnign
     public double returnCreditCardPayment(Integer returnId, String creditCard) throws InvalidTransactionIdException, InvalidCreditCardException, UnauthorizedException {
     	// Check InvalidTransactionIdException (id is null or id has an invalid value (<=0))
     	if(returnId==null || returnId<=0) {
@@ -1213,7 +1215,7 @@ if(productTypeRepository.getProductTypebyId(String.valueOf(productId)) == null )
 
     	if(returnTransaction != null) {
     		// We change the amount of money in the credit card
-    		creditCards.put(creditCard,creditCards.get(creditCards)+returnTransaction.getPrice());
+    		creditCards.put(creditCard,creditCards.get(creditCard)+returnTransaction.getPrice());
     		
     		if(recordBalanceUpdate(returnTransaction.getPrice())){
     			
@@ -1334,26 +1336,30 @@ if(productTypeRepository.getProductTypebyId(String.valueOf(productId)) == null )
 
       }
     
-    public static boolean
-    onlyDigits(String str, int n)
+    public static boolean 
+    onlyDigits(String str)
     {
-        // Traverse the string from
-        // start to end
-        for (int i = 0; i < n; i++) {
+    	// Regex to check string
+        // contains only digits
+        String regex = "[0-9]+";
   
-            // Check if character is
-            // digit from 0-9
-            // then return true
-            // else false
-            if (str.charAt(i) >= '0'
-                && str.charAt(i) <= '9') {
-                return true;
-            }
-            else {
-                return false;
-            }
+        // Compile the ReGex
+        Pattern p = Pattern.compile(regex);
+  
+        // If the string is empty
+        // return false
+        if (str == null) {
+            return false;
         }
-        return false;
+  
+        // Find match between given string
+        // and regular expression
+        // using Pattern.matcher()
+        Matcher m = p.matcher(str);
+  
+        // Return if the string
+        // matched the ReGex
+        return m.matches();
     }
     
 	 // Returns true if given
@@ -1383,4 +1389,26 @@ if(productTypeRepository.getProductTypebyId(String.valueOf(productId)) == null )
 	     return (nSum % 10 == 0);
 	 }
   
+		public static boolean checkValidityProductcode(String productCode) {
+			// TODO Auto-generated method stub
+
+			int  tmp = 0 ;
+			int j= 1;
+			if(productCode == null)return false;
+			if(productCode.length()<12 || productCode.length() >14 ) return false;
+			try {
+			for( j=productCode.length()-2 ; j>= 0 ; j-- ) {
+				int a = Integer.parseInt(String.valueOf(productCode.toCharArray()[j])) ;
+				if((j-productCode.length()-2)%2==0) tmp +=  a*3; 	
+
+				else tmp += a;
+			}}
+			catch (NumberFormatException e) { return false; }
+			int tmp1 = tmp/10;		
+			tmp1 = (tmp1+1)*10;
+			tmp = tmp1 -tmp;
+			if(Integer.parseInt(String.valueOf(productCode.toCharArray()[productCode.length()-1])) == tmp) return true;
+
+			else return false;
+		}
 }
