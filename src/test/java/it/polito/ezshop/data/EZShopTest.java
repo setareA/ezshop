@@ -46,6 +46,7 @@ public class EZShopTest {
 	@Test
 	public void testCreateRandomInteger(){
 		assertSame(String.class, EZShop.createRandomInteger(1,10,new Random()).getClass());
+		assertSame(String.class, EZShop.createRandomInteger(2,2,new Random()).getClass());
 	}
 	@Test
 	public void testCreateRandomIntegerWithUnValidArgument(){

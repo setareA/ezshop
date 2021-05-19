@@ -282,6 +282,49 @@ Version:
 
 
 
+ ### **Class *EZShop* - method *createRandomInteger***(int aStart, long aEnd, Random aRandom)
+
+
+
+**Criteria for method *createRandomInteger*:**
+	
+
+ - order of aStart and aEnd
+
+ - validity of aRandom
+
+   
+
+**Predicates for method setRole:**
+
+| Criteria                 | Predicate             |
+| ------------------------ | --------------------- |
+| order of aStart and aEnd | aStart > aEnd invalid |
+|                          | aStart <= aEnd valid  |
+| validity of aRandom      | == null invalid       |
+|                          | != null valid         |
+
+ 
+
+**Boundaries :**
+
+| Criteria                 | Boundary values |
+| ------------------------ | --------------- |
+| order of aStart and aEnd | aStart = aEnd   |
+
+
+
+**Combination of predicates**:
+
+
+| aStart <= aEnd | order of aStart and aEnd | Valid / Invalid | Description of the test case                                 | JUnit test case                              |
+| -------------- | ------------------------ | --------------- | ------------------------------------------------------------ | -------------------------------------------- |
+| *              | aStart > aEnd            | Invalid         | T1(10,1,new Random()) - > IllegalArgumentException           | testCreateRandomIntegerWithUnValidArgument() |
+| != null        | aStart <= aEnd           | Valid           | T2(1,10,new Random()) ->String  T3b(2,2,newRandom()) -> String | testCreateRandomInteger()                    |
+| == null        | *                        | Invalid         | T4(1,10,null) -> NullPointerException                        | testCreateRandomIntegerWithNullRandom()      |
+
+
+
 
 # White Box Unit Tests
 
