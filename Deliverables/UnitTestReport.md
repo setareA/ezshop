@@ -280,6 +280,10 @@ Version:
 | --------------- | --------------- | ---------------------------- | ----------------------------------- |
 | *               | Valid           | T1(7) -> void                | CustomerClassTest/  testSetPoints() |
 
+<<<<<<< HEAD
+
+=======
+>>>>>>> 41ea2595c91740e40458a7c884cc31ae48eed4d8
  ### **Class *BalanceOperationClass* - method *setBalanceId***(int balanceId)
 
 
