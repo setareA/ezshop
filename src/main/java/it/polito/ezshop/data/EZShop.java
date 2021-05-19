@@ -1316,7 +1316,7 @@ if(productTypeRepository.getProductTypebyId(String.valueOf(productId)) == null )
     	return location.matches("\\d+-\\p{Alpha}+-\\d+");
     }
     
-    private static String createRandomInteger(int aStart, long aEnd, Random aRandom){
+    public String createRandomInteger(int aStart, long aEnd, Random aRandom){
         if ( aStart > aEnd ) {
           throw new IllegalArgumentException("Start cannot exceed End.");
         }
@@ -1334,7 +1334,6 @@ if(productTypeRepository.getProductTypebyId(String.valueOf(productId)) == null )
         	randomValueString = zeros.substring(0, 10 - lengthRandom)+randomValueString;
         }
         return randomValueString;
-        
 
       }
     

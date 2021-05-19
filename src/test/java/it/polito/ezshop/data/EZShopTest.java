@@ -42,6 +42,10 @@ public class EZShopTest {
 	}
 
 	@Test
+	public void testCreateRandomInteger(){
+		fail("Not yet implemented");
+	}
+	@Test
 	public void testOnlyDigits() {
 		fail("Not yet implemented");
 	}
