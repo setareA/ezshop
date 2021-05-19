@@ -280,9 +280,7 @@ Version:
 | --------------- | --------------- | ---------------------------- | --------------- |
 | value of points | Valid           | T1(7) -> void                | testSetPoints() |
 
-<<<<<<< HEAD
- ### 
-=======
+
  ### **Class *BalanceOperationClass* - method *setBalanceId***(int balanceId)
 
 

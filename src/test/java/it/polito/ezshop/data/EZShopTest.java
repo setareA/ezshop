@@ -187,7 +187,19 @@ public class EZShopTest  {
 	public void testCheckLuhnNull() {
 		assertFalse(EZShop.checkLuhn(null));
 	}
-
+	
+	@Test
+	public void testCheckLuhnEmpthy() {
+		assertFalse(EZShop.checkLuhn(""));
+	}
+	@Test
+	public void testCheckLuhnOne() {
+		assertFalse(EZShop.checkLuhn("1"));
+	}
+	@Test
+	public void testCheckLuhnTwo() {
+		assertFalse(EZShop.checkLuhn("11"));
+	}
 	@Test
 	public void testCheckGoodBarcodeFormat() {
 		assertTrue(EZShop.checkValidityProductcode("0799439112766"));
