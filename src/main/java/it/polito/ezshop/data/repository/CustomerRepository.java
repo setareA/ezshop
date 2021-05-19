@@ -158,14 +158,7 @@ public class CustomerRepository {
             con.close();
             return count >0;
         }
-       
-        
-        protected String getFindStatement() {
-            return "SELECT " + COLUMNS +
-                    " FROM customer" +
-                    " WHERE id = ?";
-        }
-        
+
         protected static String getFindByIdStatement() {
             return "SELECT " + COLUMNS +
                     " FROM customer" +
