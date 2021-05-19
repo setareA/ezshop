@@ -13,6 +13,7 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -756,7 +757,7 @@ public class BalanceOperationRepository {
     public static Double getBalanceOfACreditCard(String creditCard) throws IOException {
     	String filePath = new File("").getAbsolutePath();
     	filePath = filePath.concat("\\src\\main\\java\\it\\polito\\ezshop\\utils\\CreditCards.txt");
-    	
+    	 
     	File file = new File(filePath);
 	  
 	  BufferedReader br = new BufferedReader(new FileReader(file));
@@ -772,7 +773,7 @@ public class BalanceOperationRepository {
 	return 0.0;
 }
     
-    public Boolean changeCreditCardBalance(String creditCard,Double price) {
+    public Boolean changeCreditCardBalance2(String creditCard,Double price) {
 	    try {
 	    	String filePath = new File("").getAbsolutePath();
 	    	filePath = filePath.concat("\\src\\main\\java\\it\\polito\\ezshop\\utils\\CreditCards.txt");
@@ -790,6 +791,47 @@ public class BalanceOperationRepository {
 	      e.printStackTrace();
 	    }
     	return false;
+    }
+    
+    
+    public  void changeCreditCardBalance(String creditCard, Double price) {
+        try {
+            // input the file content to the StringBuffer "input"
+	    	String filePath = new File("").getAbsolutePath();
+	    	filePath = filePath.concat("\\src\\main\\java\\it\\polito\\ezshop\\utils\\CreditCards.txt");
+            BufferedReader file = new BufferedReader(new FileReader(filePath));
+            StringBuffer inputBuffer = new StringBuffer();
+            String line;
+
+            while ((line = file.readLine()) != null) {
+                inputBuffer.append(line);
+                inputBuffer.append('\n');
+            }
+            file.close();
+            String inputStr = inputBuffer.toString();
+            
+            String[] lines = inputStr.split("\r\n|\n|\r");
+
+            System.out.println(inputStr); // display the original file for debugging
+            for (int i=1;i<lines.length;i++) {
+            	System.out.println(lines[i]);
+            	if(lines[i].contains(creditCard)) {
+            		inputStr= inputStr.replace(lines[i],creditCard+";"+price.toString());
+            	}
+            }
+
+            
+            // display the new file for debugging
+            System.out.println("----------------------------------\n" + inputStr);
+
+            // write the new string with the replaced line OVER the same file
+            FileOutputStream fileOut = new FileOutputStream(filePath);
+            fileOut.write(inputStr.getBytes());
+            fileOut.close();
+
+        } catch (Exception e) {
+            System.out.println("Problem reading file.");
+        }
     }
 
 }

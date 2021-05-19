@@ -1128,10 +1128,13 @@ if(productTypeRepository.getProductTypebyId(String.valueOf(productId)) == null )
     		moneyInCard=creditCards.get(creditCard);
     	}
     	
+    	
     	// If the saleTransaction does not exist or there is a problem with the DB returns false
     	// If the money in the card is enough and the balance of the system can be changed, update the status of the sale and return true
     	if(saleTransaction != null && (moneyInCard-saleTransaction.getPrice())>=0 && recordBalanceUpdate(saleTransaction.getPrice())) {
     		if(balanceOperationRepository.updateRow("sale","status","ticketNumber",ticketNumber,"payed")) {
+    			creditCards.put(creditCard, moneyInCard-saleTransaction.getPrice());
+    			balanceOperationRepository.changeCreditCardBalance(creditCard, moneyInCard);
     			return true;
     		}
     	}
@@ -1181,7 +1184,7 @@ if(productTypeRepository.getProductTypebyId(String.valueOf(productId)) == null )
     	return -1;
     }
 
-    @Override // TODO : check warnign
+    @Override 
     public double returnCreditCardPayment(Integer returnId, String creditCard) throws InvalidTransactionIdException, InvalidCreditCardException, UnauthorizedException {
     	// Check InvalidTransactionIdException (id is null or id has an invalid value (<=0))
     	if(returnId==null || returnId<=0) {
@@ -1200,11 +1203,11 @@ if(productTypeRepository.getProductTypebyId(String.valueOf(productId)) == null )
 
     	ReturnTransactionClass returnTransaction = getReturnTransaction(returnId);
     	HashMap<String, Double> creditCards = new HashMap<String, Double>();
-    	
+    	 
     	
     	try {
     		creditCards = balanceOperationRepository.getCreditCards();
-    	}catch(Exception e) {
+    	}catch(Exception e) { 
     		return -1; // The files of the creditCards cannot be read
     	}
     	
@@ -1218,17 +1221,13 @@ if(productTypeRepository.getProductTypebyId(String.valueOf(productId)) == null )
     	if(returnTransaction != null) {
     		// We change the amount of money in the credit card
 
-    		creditCards.put(creditCard,creditCards.get(creditCards)+returnTransaction.getPrice());
-    		balanceOperationRepository.changeCreditCardBalance(creditCard,returnTransaction.getPrice());
+    		//balanceOperationRepository.changeCreditCardBalance(creditCard,returnTransaction.getPrice());
     		if(recordBalanceUpdate(-(returnTransaction.getPrice())) && balanceOperationRepository.updateRow("returnTable","status","returnId",returnId,"payed")){  		
-	    			return returnTransaction.getPrice();
+    			balanceOperationRepository.changeCreditCardBalance(creditCard,creditCards.get(creditCard)+returnTransaction.getPrice());
+    			return returnTransaction.getPrice();
     		}
 	    		
     		creditCards.put(creditCard,creditCards.get(creditCard)+returnTransaction.getPrice());
-    		
-    		if(recordBalanceUpdate(returnTransaction.getPrice())){
-    			
-    		}
     	}
     	
     	
