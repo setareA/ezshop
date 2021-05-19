@@ -269,7 +269,7 @@ public class ProductTypeRepository {
         return u;
         }
         catch (SQLException e) {
-        
+         
             return null;
         }
     }

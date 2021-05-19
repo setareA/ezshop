@@ -685,7 +685,7 @@ public class BalanceOperationRepository {
 
     private static String getFindByForeignKeyAndBarcodeStatement(String foreignKey) {
         return "SELECT * FROM ticket WHERE "+foreignKey+" = ? AND barcode = ?"  ;
-    }
+    } 
 
 
     private static String getFindByTicketNumberStatement() {
