@@ -791,8 +791,9 @@ if(productTypeRepository.getProductTypebyId(String.valueOf(productId)) == null )
         }
     }
 
-    private double computePriceForProducts(ArrayList<TicketEntry> products) {
+    public double computePriceForProducts(ArrayList<TicketEntry> products) {
         double price = 0;
+        if(products == null) return 0;
         for(TicketEntry p : products){
             price += p.getAmount() * p.getPricePerUnit() * (1 - p.getDiscountRate());
         }
@@ -1311,6 +1312,7 @@ if(productTypeRepository.getProductTypebyId(String.valueOf(productId)) == null )
         }
     }
     public boolean checkLocation(String location) {
+    	if(location == null) return false;
     	return location.matches("\\d+-\\p{Alpha}+-\\d+");
     }
     

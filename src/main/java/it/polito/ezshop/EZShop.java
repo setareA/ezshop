@@ -17,7 +17,8 @@ public class EZShop {
         try {                              
            it.polito.ezshop.data.EZShop ezShop = new it.polito.ezshop.data.EZShop();
            EZShopGUI gui = new EZShopGUI(ezShop);
-
+          System.out.println( ezShop.computePriceForProducts(null));
+          System.out.println( ezShop.checkLocation("12-a-12 "));
         }catch(Exception e){           
      	   e.printStackTrace();
         }
