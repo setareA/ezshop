@@ -1995,11 +1995,10 @@ Version:
     <For traceability write the class and method name that contains the test case>
 
 
-| Unit name | JUnit test case |
-| --------- | --------------- |
-|           |                 |
-|           |                 |
-|           |                 |
+| Unit name                            | JUnit test case                               |
+| ------------------------------------ | --------------------------------------------- |
+| EZShopTest/ checkValidityProductcode | EZShopTest/ TestCheckValidityLongProductcode  |
+| EZShopTest/ checkValidityProductcode | EZShopTest/ testCheckValidityShortProductcode |
 
 ### Code coverage report
 
@@ -2012,15 +2011,15 @@ Version:
     <Identify significant loops in the units and reports the test cases
     developed to cover zero, one or multiple iterations >
 
-| Unit name                                               | Loop rows | Number of iterations | JUnit test case                      |
-| ------------------------------------------------------- | --------- | -------------------- | ------------------------------------ |
-| EZShop/ computePriceForProducts(ArrayList<TicketEntry>) | 797       | 0                    | testComputePriceForProductsWithEmpty |
-|                                                         |           | 1                    | testComputePriceForProductWithOnes   |
-|                                                         |           | 3                    | testComputePriceForProductsWithMany  |
-| EZShop/CheckLuhnInvalid(String CardNo)                  | 1365      | 0                    | testCheckLuhnEmpthy()                |
-|                                                         |           | 1                    | testCheckLuhnOne()                   |
-|                                                         |           | 2                    | testCheckLuhnTwo()                   |
-|                                                         |           | 15                   | testCheckLuhnValid()                 |
+| Unit name                                               | Loop rows | Number of iterations | JUnit test case                                  |
+| ------------------------------------------------------- | --------- | -------------------- | ------------------------------------------------ |
+| EZShop/ computePriceForProducts(ArrayList<TicketEntry>) | 797       | 0                    | EZShopTest/ testComputePriceForProductsWithEmpty |
+|                                                         |           | 1                    | EZShopTest/ testComputePriceForProductWithOnes   |
+|                                                         |           | 3                    | EZShopTest/ testComputePriceForProductsWithMany  |
+| EZShop/CheckLuhnInvalid(String CardNo)                  | 1365      | 0                    | EZShopTest/ testCheckLuhnEmpthy()                |
+|                                                         |           | 1                    | EZShopTest/ testCheckLuhnOne()                   |
+|                                                         |           | 2                    | EZShopTest/ testCheckLuhnTwo()                   |
+|                                                         |           | 15                   | EZShopTest/ testCheckLuhnValid()                 |
 
 
 
