@@ -8,6 +8,8 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import java.util.Random;
+
 public class EZShopTest {
 
 	@BeforeClass
@@ -43,8 +45,18 @@ public class EZShopTest {
 
 	@Test
 	public void testCreateRandomInteger(){
-		fail("Not yet implemented");
+		assertSame(String.class, EZShop.createRandomInteger(1,10,new Random()).getClass());
 	}
+	@Test
+	public void testCreateRandomIntegerWithUnValidArgument(){
+		assertThrows(IllegalArgumentException.class, () -> EZShop.createRandomInteger(10,1,new Random()));
+	}
+
+	@Test
+	public void testCreateRandomIntegerWithNullRandom(){
+		assertThrows(NullPointerException.class, () -> EZShop.createRandomInteger(1,10,null));
+	}
+
 	@Test
 	public void testOnlyDigits() {
 		fail("Not yet implemented");
