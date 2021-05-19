@@ -12,13 +12,9 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-<<<<<<< HEAD
 import it.polito.ezshop.data.model.TicketEntryClass;
-=======
 import java.util.Random;
 
-public class EZShopTest {
->>>>>>> 7be1b580723adb05a241ca45285155278a4e883c
 
 public class EZShopTest  {
 		

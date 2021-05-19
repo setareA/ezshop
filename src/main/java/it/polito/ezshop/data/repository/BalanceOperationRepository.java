@@ -71,7 +71,7 @@ public class BalanceOperationRepository {
     private static ArrayList<String> getAttrsOrder(){
         ArrayList<String> attrs = new ArrayList<>(
                 Arrays.asList("orderId", "balanceId", "productCode"
-                        ,  "pricePerUnit", "quantity", "status", "localDate", "money"));
+                        ,  "pricePerUnit", "quantity", "status", "money"));
         return attrs;
     }
     private static ArrayList<String> getAttrsSale(){
