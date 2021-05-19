@@ -76,9 +76,9 @@ Version:
 **Combination of predicates**:
 
 
-| value of id       | Valid / Invalid | Description of the test case | JUnit test case   |
+| value of username | Valid / Invalid | Description of the test case | JUnit test case   |
 | ----------------- | --------------- | ---------------------------- | ----------------- |
-| value of username | Valid           | T1("newName") -> void        | testSetUserName() |
+| *                 | Valid           | T1("newName") -> void        | testSetUserName() |
 
 
 
@@ -104,9 +104,9 @@ Version:
 **Combination of predicates**:
 
 
-| Criteria          | Valid / Invalid | Description of the test case | JUnit test case   |
+| value of password | Valid / Invalid | Description of the test case | JUnit test case   |
 | ----------------- | --------------- | ---------------------------- | ----------------- |
-| value of password | Valid           | T1("123") -> void            | testSetPassword() |
+| *                 | Valid           | T1("123") -> void            | testSetPassword() |
 
 
 
@@ -134,9 +134,9 @@ Version:
 **Combination of predicates**:
 
 
-| Criteria      | Valid / Invalid | Description of the test case | JUnit test case |
+| value of role | Valid / Invalid | Description of the test case | JUnit test case |
 | ------------- | --------------- | ---------------------------- | --------------- |
-| value of role | Valid           | T1("Cashier") -> void        | testSetRole()   |
+| *             | Valid           | T1("Cashier") -> void        | testSetRole()   |
 
 
 
@@ -162,9 +162,9 @@ Version:
 **Combination of predicates**:
 
 
-| Criteria      | Valid / Invalid | Description of the test case | JUnit test case |
+| value of salt | Valid / Invalid | Description of the test case | JUnit test case |
 | ------------- | --------------- | ---------------------------- | --------------- |
-| value of salt | Valid           | T1("abc") -> void            | testSetSalt()   |
+| *             | Valid           | T1("abc") -> void            | testSetSalt()   |
 
 
 
@@ -192,7 +192,7 @@ Version:
 
 | value of id | Valid / Invalid | Description of the test case | JUnit test case |
 | ----------- | --------------- | ---------------------------- | --------------- |
-| value of id | Valid           | T1(2) -> void                | testSetId()     |
+| *           | Valid           | T1(2) -> void                | testSetId()     |
 
 
 
@@ -218,9 +218,9 @@ Version:
 **Combination of predicates**:
 
 
-| value of id           | Valid / Invalid | Description of the test case | JUnit test case       |
+| value of customerName | Valid / Invalid | Description of the test case | JUnit test case       |
 | --------------------- | --------------- | ---------------------------- | --------------------- |
-| value of customerName | Valid           | T1("newName") -> void        | testSetCustomerName() |
+| *                     | Valid           | T1("newName") -> void        | testSetCustomerName() |
 
 
 
@@ -246,9 +246,9 @@ Version:
 **Combination of predicates**:
 
 
-| Criteria              | Valid / Invalid | Description of the test case | JUnit test case       |
+| value of customerCard | Valid / Invalid | Description of the test case | JUnit test case       |
 | --------------------- | --------------- | ---------------------------- | --------------------- |
-| value of customerCard | Valid           | T1("1234567891") -> void     | testSetCustomerCard() |
+| *                     | Valid           | T1("1234567891") -> void     | testSetCustomerCard() |
 
 
 
@@ -276,9 +276,9 @@ Version:
 **Combination of predicates**:
 
 
-| Criteria        | Valid / Invalid | Description of the test case | JUnit test case |
+| value of points | Valid / Invalid | Description of the test case | JUnit test case |
 | --------------- | --------------- | ---------------------------- | --------------- |
-| value of points | Valid           | T1(7) -> void                | testSetPoints() |
+| *               | Valid           | T1(7) -> void                | testSetPoints() |
 
 
 
