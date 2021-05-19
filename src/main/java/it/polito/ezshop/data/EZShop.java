@@ -217,7 +217,7 @@ public class EZShop implements EZShopInterface {
         	else if (! productTypeRepository.checkUniqueBarcode(productCode) ) return -1;
         	else { 
         		try {
-        		productTypeRepository.addNewProductType(new ProductTypeClass(productTypeRepository.getMaxId() + 1 , 0, "" , note , description , productCode, pricePerUnit, 0)); 
+        		productTypeRepository.addNewProductType(new ProductTypeClass(productTypeRepository.getMaxId() + 1 , 0, "" , note , description , productCode, pricePerUnit)); 
         		return productTypeRepository.getMaxId();
 
         		}

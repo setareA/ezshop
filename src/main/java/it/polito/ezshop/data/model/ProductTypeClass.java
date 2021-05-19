@@ -10,10 +10,9 @@ public class ProductTypeClass implements ProductType {
     private String productDescription;
     private String barCode;
     private Double pricePerUnit;
-    private Integer warning;
 
     public ProductTypeClass(Integer id, Integer quantity, String location, String note, String productDescription,
-			String barCode, Double pricePerUnit, Integer warning) {
+			String barCode, Double pricePerUnit) {
 
 		this.id = id;
 		this.quantity = quantity;
@@ -22,7 +21,6 @@ public class ProductTypeClass implements ProductType {
 		this.productDescription = productDescription;
 		this.barCode = barCode;
 		this.pricePerUnit = pricePerUnit;
-		this.warning = warning;
 	}
     
     
@@ -31,19 +29,9 @@ public class ProductTypeClass implements ProductType {
 	public String toString() {
 		return "ProductTypeClass [id=" + id + ", quantity=" + quantity + ", location=" + location + ", note=" + note
 				+ ", productDescription=" + productDescription + ", barCode=" + barCode + ", pricePerUnit="
-				+ pricePerUnit + ", discountRate="  + ", warning=" + warning + "]";
+				+ pricePerUnit +"]";
 	}
 
-
-
-
-    public Integer getWarning() {
-        return this.warning;
-    }
-
-    public void setWarning(Integer warning) {
-        this.warning = warning;
-    }
 
     @Override
     public Integer getQuantity() {
@@ -127,7 +115,7 @@ public class ProductTypeClass implements ProductType {
 		int  tmp = 0 ;
 		int j= 1;
 		if(productCode == null)return false;
-		if(productCode.length()<12 | productCode.length() >14 ) return false;
+		if(productCode.length()<12 || productCode.length() >14 ) return false;
 		try {
 		for( j=1 ; j< productCode.length() ; j++ ) {
 			int a = Integer.parseInt(String.valueOf(productCode.toCharArray()[j-1])) ;
