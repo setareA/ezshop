@@ -10,9 +10,11 @@ import it.polito.ezshop.data.model.SaleTransactionClass;
 import it.polito.ezshop.data.model.TicketEntryClass;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.*;
 import java.time.LocalDate;
@@ -749,6 +751,45 @@ public class BalanceOperationRepository {
         	n=n+1;
     	  }
 		return creditCards;
+    }
+    
+    public static Double getBalanceOfACreditCard(String creditCard) throws IOException {
+    	String filePath = new File("").getAbsolutePath();
+    	filePath = filePath.concat("\\src\\main\\java\\it\\polito\\ezshop\\utils\\CreditCards.txt");
+    	
+    	File file = new File(filePath);
+	  
+	  BufferedReader br = new BufferedReader(new FileReader(file));
+	  String st;
+	  
+	  int n=0;
+	  while ((st = br.readLine()) != null) {
+		if(creditCard.equals(st.substring(0,16))) {
+			return Double.parseDouble(st.substring(17,st.length()-1));
+		}
+    	n=n+1;
+	  }
+	return 0.0;
+}
+    
+    public Boolean changeCreditCardBalance(String creditCard,Double price) {
+	    try {
+	    	String filePath = new File("").getAbsolutePath();
+	    	filePath = filePath.concat("\\src\\main\\java\\it\\polito\\ezshop\\utils\\CreditCards.txt");
+	    	File file = new File(filePath);
+	    	BufferedWriter outStream= new BufferedWriter(new FileWriter(file, true));
+	    	
+	    	
+	    	price = price + getBalanceOfACreditCard(creditCard);
+	        outStream.newLine();
+	        outStream.write(creditCard+";"+price);
+	        outStream.close();
+	        
+	    } catch (IOException e) {
+	      System.out.println("An error occurred.");
+	      e.printStackTrace();
+	    }
+    	return false;
     }
 
 }

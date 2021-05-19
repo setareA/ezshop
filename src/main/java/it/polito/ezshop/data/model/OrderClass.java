@@ -69,7 +69,7 @@ public class OrderClass  implements Order  {
     @Override
     public void setStatus(String status) {
     	this.status = status ;
-    }
+    } 
 
     @Override
     public Integer getOrderId() {

@@ -8,16 +8,13 @@ import java.util.ArrayList;
 import org.junit.Assert;
 import org.junit.Test;
 
-<<<<<<< HEAD
 import it.polito.ezshop.data.model.TicketEntryClass;
 import java.util.Random;
-
-=======
 
 import it.polito.ezshop.data.model.TicketEntryClass;
 
 import java.util.Random;
->>>>>>> d8aa265910978c9e4ead2096fa865afd9be0d776
+
 
 public class EZShopTest  {
 
@@ -80,7 +77,7 @@ public class EZShopTest  {
 	public void testOnlyDigits() {
 		assertTrue(EZShop.onlyDigits("1234"));
 	}
-
+ 
 	@Test
 	public void testOnlyDigitsNull() {
 		assertFalse(EZShop.onlyDigits(null));
@@ -96,13 +93,36 @@ public class EZShopTest  {
 	}
 
 	@Test
-	public void testCheckLuhn() {
-		fail("Not yet implemented");
+	public void testCheckLuhnValid() {
+		assertTrue(EZShop.checkLuhn("4005550000000019"));
+	}
+	
+	@Test
+	public void testCheckLuhnInvalid() {
+		assertFalse(EZShop.checkLuhn("1111111111"));
+	}
+	
+	@Test
+	public void testCheckLuhnNull() {
+		assertFalse(EZShop.checkLuhn(null));
 	}
 
 	@Test
-	public void testCheckValidityProductcode() {
-		fail("Not yet implemented");
+	public void testCheckGoodBarcodeFormat() {
+		assertTrue(EZShop.checkValidityProductcode("0799439112766"));
 	}
+	
+	@Test
+	public void testCheckNotGoodBarcodeFormat() {
+		assertFalse(EZShop.checkValidityProductcode("1111111111"));
+	}
+	
+	@Test
+	public void testCheckInvalidBarcodeFormat() {
+		assertFalse(EZShop.checkValidityProductcode(null));
+	}
+
+	
+	
 
 }

@@ -265,7 +265,7 @@ Version:
 
    
 
-**Predicates for method setRole:**
+**Predicates for method setPoints:**
 
 | Criteria        | Predicate |
 | --------------- | --------- |
@@ -280,8 +280,521 @@ Version:
 | --------------- | --------------- | ---------------------------- | --------------- |
 | value of points | Valid           | T1(7) -> void                | testSetPoints() |
 
+<<<<<<< HEAD
  ### **Class *ReturnTransactionClass* - method *setReturnId***(Integer id)
+=======
+ ### **Class *BalanceOperationClass* - method *setBalanceId***(int balanceId)
 
+
+
+**Criteria for method *setBalanceId*:**
+	
+
+ - value of balanceId
+
+   
+
+**Predicates for method setBalanceId:**
+
+| Criteria           | Predicate |
+| ------------------ | --------- |
+| value of balanceId | Any value |
+
+ 
+
+**Combination of predicates**:
+
+
+| value of balanceId | Valid / Invalid | Description of the test case | JUnit test case                           |
+| ------------------ | --------------- | ---------------------------- | ----------------------------------------- |
+| *                  | Valid           | T1(7) -> void                | ProductTypeClassTest/  testSetBalanceId() |
+
+
+
+ ### **Class *BalanceOperationClass* - method *setDate***(LocalDate date)
+
+
+
+**Criteria for method *setDate*:**
+	
+
+ - value of date
+
+   
+
+**Predicates for method setDate:**
+
+| Criteria      | Predicate |
+| ------------- | --------- |
+| value of date | Any value |
+
+ 
+
+**Combination of predicates**:
+
+
+| value of date | Valid / Invalid | Description of the test case | JUnit test case                      |
+| ------------- | --------------- | ---------------------------- | ------------------------------------ |
+| *             | Valid           | T1(new LocalDate()) -> void  | ProductTypeClassTest/  testSetDate() |
+
+
+
+ ### **Class *BalanceOperationClass* - method *setType***(String type)
+
+
+
+**Criteria for method *setType*:**
+	
+
+ - value of type
+
+   
+
+**Predicates for method setType:**
+
+| Criteria      | Predicate |
+| ------------- | --------- |
+| value of type | Any value |
+
+ 
+
+**Combination of predicates**:
+
+
+| value of type | Valid / Invalid | Description of the test case | JUnit test case                      |
+| ------------- | --------------- | ---------------------------- | ------------------------------------ |
+| *             | Valid           | T1("type") -> void           | ProductTypeClassTest/  testSetType() |
+
+
+
+ ### **Class *BalanceOperationClass* - method *setMoney***(double money)
+
+
+
+**Criteria for method *setMoney*:**
+	
+
+ - value of money
+
+   
+
+**Predicates for method   setMoney:**
+
+| Criteria       | Predicate |
+| -------------- | --------- |
+| value of money | Any value |
+
+ 
+
+**Combination of predicates**:
+
+
+| value of money | Valid / Invalid | Description of the test case | JUnit test case                       |
+| -------------- | --------------- | ---------------------------- | ------------------------------------- |
+| *              | Valid           | T1(30.5) -> void             | ProductTypeClassTest/  testSetMoney() |
+
+ ### **Class *ProductTypeClass* - method *setQuantity***(Integer quantity)
+
+
+
+**Criteria for method *setQuantity*:**
+	
+
+ - value of quantity
+
+   
+
+**Predicates for method setQuantity:**
+
+| Criteria          | Predicate |
+| ----------------- | --------- |
+| value of quantity | Any value |
+
+ 
+
+**Combination of predicates**:
+
+
+| value of quantity | Valid / Invalid | Description of the test case | JUnit test case                          |
+| ----------------- | --------------- | ---------------------------- | ---------------------------------------- |
+| *                 | Valid           | T1(30) -> void               | ProductTypeClassTest/  testSetQuantity() |
+
+
+
+
+
+ ### **Class *ProductTypeClass* - method *setLocation***(String location)
+
+
+
+**Criteria for method *setLocation*:**
+	
+
+ - value of location
+
+   
+
+**Predicates for method setLocation:**
+
+| Criteria          | Predicate |
+| ----------------- | --------- |
+| value of location | Any value |
+
+ 
+
+**Combination of predicates**:
+
+
+| value of location | Valid / Invalid | Description of the test case | JUnit test case                          |
+| ----------------- | --------------- | ---------------------------- | ---------------------------------------- |
+| *                 | Valid           | T1("location") -> void       | ProductTypeClassTest/  testSetLocation() |
+
+
+
+ ### **Class *ProductTypeClass* - method *setNote***(String note)
+
+
+
+**Criteria for method *setNote*:**
+	
+
+ - value of note
+
+   
+
+**Predicates for method setNote:**
+
+| Criteria      | Predicate |
+| ------------- | --------- |
+| value of note | Any value |
+
+ 
+
+**Combination of predicates**:
+
+
+| value of note | Valid / Invalid | Description of the test case | JUnit test case                      |
+| ------------- | --------------- | ---------------------------- | ------------------------------------ |
+| *             | Valid           | T1("note") -> void           | ProductTypeClassTest/  testSetNote() |
+
+
+
+ ### **Class *ProductTypeClass* - method *setProductDescription***(String description)
+
+
+
+**Criteria for method *setProductDescription*:**
+	
+
+ - value of description
+
+   
+
+**Predicates for method setProductDescription:**
+
+| Criteria             | Predicate |
+| -------------------- | --------- |
+| value of description | Any value |
+
+ 
+
+**Combination of predicates**:
+
+
+| value of description | Valid / Invalid | Description of the test case | JUnit test case                                    |
+| -------------------- | --------------- | ---------------------------- | -------------------------------------------------- |
+| *                    | Valid           | T1("description") -> void    | ProductTypeClassTest/  testSetProductDescription() |
+
+
+
+ ### **Class *ProductTypeClass* - method *setBarCode***(String barCode)
+
+
+
+**Criteria for method *setBarCode*:**
+	
+
+ - value of barCode
+
+   
+
+**Predicates for method setBarCode:**
+
+| Criteria             | Predicate |
+| -------------------- | --------- |
+| value of description | Any value |
+
+ 
+
+**Combination of predicates**:
+
+
+| value of barcode | Valid / Invalid | Description of the test case | JUnit test case                         |
+| ---------------- | --------------- | ---------------------------- | --------------------------------------- |
+| *                | Valid           | T1("1234567890987") -> void  | ProductTypeClassTest/  testSetBarCode() |
+
+
+
+ ### **Class *ProductTypeClass* - method *setPricePerUnit***(Double pricePerUnit)
+
+
+
+**Criteria for method *setPricePerUnit*:**
+	
+
+ - value of pricePerUnit
+
+   
+
+**Predicates for method setPricePerUnit:**
+
+| Criteria              | Predicate |
+| --------------------- | --------- |
+| value of pricePerUnit | Any value |
+
+ 
+
+**Combination of predicates**:
+
+
+| value of pricePerUnit | Valid / Invalid | Description of the test case | JUnit test case                           |
+| --------------------- | --------------- | ---------------------------- | ----------------------------------------- |
+| *                     | Valid           | T1(0.30) -> void             | ProductTypeClassTest/  testPricePerUnit() |
+
+
+
+
+
+ ### **Class *ProductTypeClass* - method *setId***(Double Id)
+
+
+
+**Criteria for method *setId*:**
+	
+
+ - value of id
+
+   
+
+**Predicates for method setPricePerUnit:**
+
+| Criteria    | Predicate |
+| ----------- | --------- |
+| value of id | Any value |
+
+ 
+
+**Combination of predicates**:
+
+
+| value of id | Valid / Invalid | Description of the test case | JUnit test case                    |
+| ----------- | --------------- | ---------------------------- | ---------------------------------- |
+| *           | Valid           | T1(3) -> void                | ProductTypeClassTest/  testSetId() |
+
+
+
+ ### **Class *OrderClass* - method *setProductCode***(String productCode)
+
+
+
+**Criteria for method *setProductCode*:**
+	
+
+ - value of productCode
+
+   
+
+**Predicates for method setProductCode:**
+
+| Criteria             | Predicate |
+| -------------------- | --------- |
+| value of productCode | Any value |
+
+ 
+
+**Combination of predicates**:
+
+
+| value of productCode | Valid / Invalid | Description of the test case | JUnit test case                       |
+| -------------------- | --------------- | ---------------------------- | ------------------------------------- |
+| *                    | Valid           | T1("1234567890987") -> void  | OrderClassTest/  testSetProductCode() |
+
+
+
+ ### **Class *OrderClass* - method *setPricePerUnit***(String pricePerUnit)
+
+
+
+**Criteria for method *setPricePerUnit*:**
+	
+
+ - value of pricePerUnit
+
+   
+
+**Predicates for method setPricePerUnit:**
+
+| Criteria              | Predicate |
+| --------------------- | --------- |
+| value of pricePerUnit | Any value |
+
+ 
+
+**Combination of predicates**:
+
+
+| value of pricePerUnit | Valid / Invalid | Description of the test case | JUnit test case                        |
+| --------------------- | --------------- | ---------------------------- | -------------------------------------- |
+| *                     | Valid           | T1(0.30) -> void             | OrderClassTest/  testSetPricePerUnit() |
+
+
+
+
+
+ ### **Class *OrderClass* - method *setQuantity***(int quantity)
+
+
+
+**Criteria for method *setQuantity*:**
+	
+
+ - value of quantity
+
+   
+
+**Predicates for method setQuantity:**
+
+| Criteria          | Predicate |
+| ----------------- | --------- |
+| value of quantity | Any value |
+
+ 
+
+**Combination of predicates**:
+
+
+| value of quantity | Valid / Invalid | Description of the test case | JUnit test case                    |
+| ----------------- | --------------- | ---------------------------- | ---------------------------------- |
+| *                 | Valid           | T1(30) -> void               | OrderClassTest/  testSetQuantity() |
+
+
+
+ ### **Class *OrderClass* - method *setStatus***(String status)
+
+
+
+**Criteria for method *setStatus*:**
+	
+
+ - value of status
+
+   
+
+**Predicates for method setStatus:**
+
+| Criteria        | Predicate |
+| --------------- | --------- |
+| value of status | Any value |
+
+ 
+
+**Combination of predicates**:
+
+
+| value of status | Valid / Invalid | Description of the test case | JUnit test case                  |
+| --------------- | --------------- | ---------------------------- | -------------------------------- |
+| *               | Valid           | T1("status") -> void         | OrderClassTest/  testSetStatus() |
+
+
+
+ ### **Class *OrderClass* - method *setOrderId***(Integer orderId)
+
+
+
+**Criteria for method *setOrderId*:**
+	
+
+ - value of orderId
+
+   
+
+**Predicates for method setOrderId:**
+
+| Criteria         | Predicate |
+| ---------------- | --------- |
+| value of orderId | Any value |
+
+ 
+
+**Combination of predicates**:
+
+
+| value of orderId | Valid / Invalid | Description of the test case | JUnit test case                   |
+| ---------------- | --------------- | ---------------------------- | --------------------------------- |
+| *                | Valid           | T1(30) -> void               | OrderClassTest/  testSetOrderId() |
+
+
+
+
+
+
+
+ ### **Class *OrderClass* - method *setBalanceId***(Integer balanceId)
+
+
+
+**Criteria for method *setBalanceId*:**
+	
+
+ - value of balanceId
+
+   
+
+**Predicates for method setBalanceId:**
+
+| Criteria           | Predicate |
+| ------------------ | --------- |
+| value of balanceId | Any value |
+
+ 
+
+**Combination of predicates**:
+
+
+| value of balanceId | Valid / Invalid | Description of the test case | JUnit test case                     |
+| ------------------ | --------------- | ---------------------------- | ----------------------------------- |
+| *                  | Valid           | T1(30) -> void               | OrderClassTest/  testSetBalanceId() |
+
+
+
+
+
+ ### **Class *OrderClass* - method *setMoney***(double money)
+
+
+
+**Criteria for method *setMoney*:**
+	
+
+ - value of setMoney
+
+   
+
+**Predicates for method setMoney:**
+
+| Criteria       | Predicate |
+| -------------- | --------- |
+| value of money | Any value |
+
+ 
+
+**Combination of predicates**:
+
+>>>>>>> 2a55775569e443c950b87f38d42dfd36bfde5d69
+
+| value of money | Valid / Invalid | Description of the test case | JUnit test case                 |
+| -------------- | --------------- | ---------------------------- | ------------------------------- |
+| *              | Valid           | T1(30.0) -> void             | OrderClassTest/  testSetMoney() |
 
 
 **Criteria for method *setReturnId*:**

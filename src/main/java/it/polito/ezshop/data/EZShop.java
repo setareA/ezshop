@@ -226,7 +226,7 @@ public class EZShop implements EZShopInterface {
         	else if (! productTypeRepository.checkUniqueBarcode(productCode,-1) ) return -1;
         	else { 
         		try {
-        		productTypeRepository.addNewProductType(new ProductTypeClass(productTypeRepository.getMaxId() + 1 , 0, "" , note , description , productCode, pricePerUnit, 0)); 
+        		productTypeRepository.addNewProductType(new ProductTypeClass(productTypeRepository.getMaxId() + 1 , 0, "" , note , description , productCode, pricePerUnit)); 
         		return productTypeRepository.getMaxId();
 
         		}
@@ -1167,7 +1167,7 @@ if(productTypeRepository.getProductTypebyId(String.valueOf(productId)) == null )
     	}
     	
 
-    	if(returnTransaction != null && recordBalanceUpdate(returnTransaction.getPrice())) {
+    	if(returnTransaction != null && recordBalanceUpdate(-(returnTransaction.getPrice()))) {
     		if(balanceOperationRepository.updateRow("returnTable","status","returnId",returnId,"payed")) {
     			return returnTransaction.getPrice();
     		}
@@ -1216,16 +1216,20 @@ if(productTypeRepository.getProductTypebyId(String.valueOf(productId)) == null )
 
     	if(returnTransaction != null) {
     		// We change the amount of money in the credit card
+
+    		creditCards.put(creditCard,creditCards.get(creditCards)+returnTransaction.getPrice());
+    		balanceOperationRepository.changeCreditCardBalance(creditCard,returnTransaction.getPrice());
+    		if(recordBalanceUpdate(-(returnTransaction.getPrice())) && balanceOperationRepository.updateRow("returnTable","status","returnId",returnId,"payed")){  		
+	    			return returnTransaction.getPrice();
+    		}
+	    		
     		creditCards.put(creditCard,creditCards.get(creditCard)+returnTransaction.getPrice());
     		
     		if(recordBalanceUpdate(returnTransaction.getPrice())){
     			
     		}
     	}
-    		// 
-    		if(balanceOperationRepository.updateRow("returnTable","status","returnId",returnId,"payed")) {
-    			return returnTransaction.getPrice();
-    		}
+    	
     	
         
     	return -1;
@@ -1355,7 +1359,11 @@ if(productTypeRepository.getProductTypebyId(String.valueOf(productId)) == null )
     
 	 // Returns true if given
 	 // card number is valid
-	 static boolean checkLuhn(String cardNo) {
+
+	 static boolean checkLuhn(String cardNo)
+	 {
+		 if(cardNo==null)return false;
+
 	     int nDigits = cardNo.length();
 	  
 	     int nSum = 0;

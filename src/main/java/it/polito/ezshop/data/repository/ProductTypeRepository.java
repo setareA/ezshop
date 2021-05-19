@@ -21,7 +21,7 @@ import it.polito.ezshop.data.util.HashGenerator;
 
 public class ProductTypeRepository {
     private static ProductTypeRepository ourInstance = new ProductTypeRepository();
-    private static final String COLUMNS = "id, quantity, location, note, productDescription, barCode , pricePerUnit  , warning ";
+    private static final String COLUMNS = "id, quantity, location, note, productDescription, barCode , pricePerUnit";
 
    
 	public static ProductTypeRepository getInstance() {
@@ -35,7 +35,7 @@ public class ProductTypeRepository {
     public void initialize() throws SQLException{
         Connection con = DBCPDBConnectionPool.getConnection();
         Statement st = con.createStatement();
-        st.executeUpdate("CREATE TABLE IF NOT EXISTS " + "productType" + " " + "(id INTEGER PRIMARY KEY, quantity INTEGER , location TEXT, note TEXT, productDescription TEXT, barCode TEXT ,pricePerUnit DOUBLE , warning TEXT)");
+        st.executeUpdate("CREATE TABLE IF NOT EXISTS " + "productType" + " " + "(id INTEGER PRIMARY KEY, quantity INTEGER , location TEXT, note TEXT, productDescription TEXT, barCode TEXT ,pricePerUnit DOUBLE);");
         st.close();                                       
         con.close();
     }
@@ -63,8 +63,7 @@ public class ProductTypeRepository {
                         "note",
                         "productDescription",
                         "barCode",
-                        "pricePerUnit",
-                        "warning"));
+                        "pricePerUnit"));
         return attrs;
     }
     
@@ -169,7 +168,7 @@ public class ProductTypeRepository {
     
    
     public void addNewProductType(ProductTypeClass pt) throws SQLException{
-
+    	
         HashMap<String, String> userData = new HashMap<>();
         userData.put("id", pt.getId().toString());
         userData.put("quantity", pt.getQuantity().toString());
@@ -178,7 +177,6 @@ public class ProductTypeRepository {
         userData.put("productDescription", pt.getProductDescription());
         userData.put("barCode", pt.getBarCode());
         userData.put("pricePerUnit", pt.getPricePerUnit().toString());
-        userData.put("warning", pt.getWarning().toString());
 
 
         Connection con = DBCPDBConnectionPool.getConnection();
@@ -204,8 +202,7 @@ public class ProductTypeRepository {
                 rs.getString(4),
                 rs.getString(5),
                 rs.getString(6), 
-                rs.getDouble(7),
-        		rs.getInt(8)
+                rs.getDouble(7)
         );
     }
                                                  
