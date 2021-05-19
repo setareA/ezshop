@@ -13,7 +13,7 @@ public class BalanceOperationClassTest {
     @Test
     public void testSetBalanceId() {
         balance.setBalanceId(7);
-        assertTrue(balance.getBalanceId()==7);
+        assertEquals(balance.getBalanceId(),7);
     }
 
     @Test
@@ -32,6 +32,6 @@ public class BalanceOperationClassTest {
     @Test
     public void testSetMoney() {
         balance.setMoney(30.5);
-        assertTrue(balance.getMoney()==30.5);
+        assertEquals(balance.getMoney(),30.5,0.001);
     }
 }
