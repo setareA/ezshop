@@ -51,6 +51,7 @@ public class EZShop implements EZShopInterface {
     @Override
     public void reset() {
 		try {
+			Logger.getLogger(EZShop.class.getName()).log(Level.INFO, "reset");
 			productTypeRepository.deleteTable();
 			balanceOperationRepository.deleteTables();
 			balanceOperationRepository.resetBalance();
