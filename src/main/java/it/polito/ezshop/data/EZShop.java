@@ -1394,14 +1394,14 @@ if(productTypeRepository.getProductTypebyId(String.valueOf(productId)) == null )
 			int j= 1;
 			if(productCode == null)return false;
 			if(productCode.length()<12 || productCode.length() >14 ) return false;
-			try {
+
 			for( j=productCode.length()-2 ; j>= 0 ; j-- ) {
 				int a = Integer.parseInt(String.valueOf(productCode.toCharArray()[j])) ;
 				if((j-productCode.length()-2)%2==0) tmp +=  a*3; 	
 
 				else tmp += a;
-			}}
-			catch (NumberFormatException e) { return false; }
+			}
+
 			int tmp1 = tmp/10;		
 			tmp1 = (tmp1+1)*10;
 			tmp = tmp1 -tmp;
