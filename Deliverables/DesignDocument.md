@@ -29,7 +29,7 @@ Inside EZshopApplication package we divided logic, data and model
 
 # Verification traceability matrix
 
-![](Images/design/traciability_matr.PNG)
+![](Images/design/matrix.PNG)
 
 # Verification sequence diagrams
 

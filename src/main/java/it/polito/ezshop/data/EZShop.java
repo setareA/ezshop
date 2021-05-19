@@ -1293,21 +1293,21 @@ if(productTypeRepository.getProductTypebyId(String.valueOf(productId)) == null )
     	}
     }
     
-    public boolean checkIfManager () {
+    private boolean checkIfManager () {
         if(userRepository.getLoggedUser() != null && "ShopManager".equals(userRepository.getLoggedUser().getRole())) {
     	   return true;
 		} else {
 			return false;
 		}
     }
-    public boolean checkIfCashier () {
+    private boolean checkIfCashier () {
         if(userRepository.getLoggedUser() != null && "Cashier".equals(userRepository.getLoggedUser().getRole())) {
             return true;
         }else {
         	return false;
         }
     }
-    public boolean checkIfAdministrator() {
+    private boolean checkIfAdministrator() {
     	System.out.println(userRepository.getLoggedUser());
         if(userRepository.getLoggedUser() != null && "Administrator".equals(userRepository.getLoggedUser().getRole())) {
             return true;
@@ -1359,9 +1359,11 @@ if(productTypeRepository.getProductTypebyId(String.valueOf(productId)) == null )
     
 	 // Returns true if given
 	 // card number is valid
+
 	 static boolean checkLuhn(String cardNo)
 	 {
 		 if(cardNo==null)return false;
+
 	     int nDigits = cardNo.length();
 	  
 	     int nSum = 0;
