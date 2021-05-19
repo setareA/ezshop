@@ -614,7 +614,7 @@ Version:
 
 | value of productCode | Valid / Invalid | Description of the test case | JUnit test case                       |
 | -------------------- | --------------- | ---------------------------- | ------------------------------------- |
-| *                    | Valid           | T1("1234567890987") -> void  | OrderClassTest/  testSetProductCode() |
+| *                    | Valid           | T1("1000439112766") -> void  | OrderClassTest/  testSetProductCode() |
 
 
 
@@ -700,7 +700,7 @@ Version:
 
 | value of status | Valid / Invalid | Description of the test case | JUnit test case                  |
 | --------------- | --------------- | ---------------------------- | -------------------------------- |
-| *               | Valid           | T1("status") -> void         | OrderClassTest/  testSetStatus() |
+| *               | Valid           | T1("closed") -> void         | OrderClassTest/  testSetStatus() |
 
 
 
@@ -867,6 +867,66 @@ Version:
 | digits and characters | Valid           | T4("12as987dffg34") -> false | EZShopTest/ testOnlyDigitsWithCharsAndDigits() |
 
 
+
+ ### **Class *EZShop* - method *checkLuhn***(String cardNo)
+
+
+
+**Criteria for method *checkLuhn*:**
+
+ - value of str
+
+   
+
+**Predicates for method checkLuhn:**
+
+| Criteria        | Predicate                  |
+| --------------- | -------------------------- |
+| value of cardNo | valid (luhn format)        |
+|                 | not valid (no luhn format) |
+|                 | null not valid             |
+
+
+
+**Combination of predicates**:
+
+
+| value of cardNo | Valid / Invalid | Description of the test case    | JUnit test case                  |
+| --------------- | --------------- | ------------------------------- | -------------------------------- |
+| luhn format     | Valid           | T1("4005550000000019") - > true | EZShopTest/ testCheckLuhnValid() |
+| not luhn format | Invalid         | T3("1111111111") ->false        | EZShopTest/ testCheckLuhnNull()  |
+| null            | Invalid         | T3(null) ->Exception            | testCheckLuhnInvalid()           |
+
+
+
+ ### **Class *EZShop* - method *checkValidityProductcode***(String productCode)
+
+
+
+**Criteria for method *checkValidityProductcode*:**
+
+ - value of str
+
+   
+
+**Predicates for method checkValidityProductcode:**
+
+| Criteria             | Predicate                  |
+| -------------------- | -------------------------- |
+| value of productCode | valid (goodformat)         |
+|                      | not valid (no good format) |
+|                      | null not valid             |
+
+
+
+**Combination of predicates**:
+
+
+| value of productCode | Valid / Invalid | Description of the test case | JUnit test case                             |
+| -------------------- | --------------- | ---------------------------- | ------------------------------------------- |
+| Good format          | Valid           | T1("0799439112766") - > true | EZShopTest/ testCheckGoodBarcodeFormat()    |
+| not Good format      | Invalid         | T3("1111111111") ->false     | EZShopTest/ testCheckNotGoodBarcodeFormat() |
+| null                 | Invalid         | T3(null) ->false             | testCheckInvalidBarcodeFormat()             |
 
 
 # White Box Unit Tests
