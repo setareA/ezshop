@@ -142,14 +142,16 @@ public class BalanceOperationRepository {
     public boolean insertBalance() {
     	try {
 			Connection con =  DBCPDBConnectionPool.getConnection();
-	        String sqlCommand = insertCommand("balanceTable", new ArrayList<String>(Arrays.asList("balance")));
+	        String sqlCommand = insertCommand("balanceTable", new ArrayList<String>(Arrays.asList("id","balance")));
 	        PreparedStatement prp = con.prepareStatement(sqlCommand);
-            prp.setString( 1, "0");
+            prp.setString( 1, "1");
+            prp.setString( 2, "0");
             prp.executeUpdate();
             prp.close();
             con.close();
             return true;
-		} catch (SQLException e) {return false ;}
+		} catch (SQLException e) {
+			return false ;}
     	
     }
     private static String insertCommand(String tableName, ArrayList<String> attributes){

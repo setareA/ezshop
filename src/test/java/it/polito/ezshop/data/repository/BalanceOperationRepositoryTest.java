@@ -2,6 +2,8 @@ package it.polito.ezshop.data.repository;
 
 import static org.junit.Assert.*;
 
+import java.sql.SQLException;
+
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -9,9 +11,13 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class BalanceOperationRepositoryTest {
+	static BalanceOperationRepository balanceOperationRepository;
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
+		balanceOperationRepository = BalanceOperationRepository.getInstance();
+        balanceOperationRepository.initialize();
+
 	}
 
 	@AfterClass
@@ -27,18 +33,25 @@ public class BalanceOperationRepositoryTest {
 	}
 
 	@Test
-	public void testGetInstance() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testInitialize() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testSetBalance() {
-		fail("Not yet implemented");
+	public void testSetBalance()  {
+		double balanceUpdate = 10;
+		double balanceNow;
+		try {
+		balanceNow = balanceOperationRepository.getBalance();
+	
+		
+		balanceOperationRepository.setBalance(balanceUpdate);
+		assertEquals(balanceOperationRepository.getBalance(), balanceNow + balanceUpdate , 0.001);
+		
+		balanceUpdate = -10;
+		balanceNow = balanceOperationRepository.getBalance();
+		
+		balanceOperationRepository.setBalance(balanceUpdate);
+		assertEquals(balanceOperationRepository.getBalance(), balanceNow + balanceUpdate , 0.001);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Test
@@ -48,18 +61,27 @@ public class BalanceOperationRepositoryTest {
 
 	@Test
 	public void testResetBalance() {
-		fail("Not yet implemented");
+		double balance = 0;
+		balanceOperationRepository.resetBalance();
+		try {
+			assertEquals(balanceOperationRepository.getBalance(), balance , 0.001);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 	}
 
-	@Test
-	public void testGetBalance() {
-		fail("Not yet implemented");
-	}
 
 	@Test
 	public void testInsertBalance() {
-		fail("Not yet implemented");
-	}
+		assertEquals(balanceOperationRepository.insertBalance(),false);
+		balanceOperationRepository.deleteRow("balanceTable", "id", "1");
+		assertEquals(balanceOperationRepository.insertBalance(),true);
+		assertEquals(balanceOperationRepository.insertBalance(),false);
+
+
+		}
 
 	@Test
 	public void testAddBalanceOperation() {
