@@ -1,14 +1,7 @@
 package it.polito.ezshop.data;
 
 
-import it.polito.ezshop.data.model.BalanceOperationClass;
-import it.polito.ezshop.data.model.CustomerClass;
-import it.polito.ezshop.data.model.OrderClass;
-import it.polito.ezshop.data.model.ProductTypeClass;
-import it.polito.ezshop.data.model.ReturnTransactionClass;
-import it.polito.ezshop.data.model.SaleTransactionClass;
-import it.polito.ezshop.data.model.TicketEntryClass;
-import it.polito.ezshop.data.model.UserClass;
+import it.polito.ezshop.data.model.*;
 import it.polito.ezshop.data.repository.BalanceOperationRepository;
 import it.polito.ezshop.data.repository.CustomerRepository;
 import it.polito.ezshop.data.repository.ProductTypeRepository;
@@ -18,11 +11,7 @@ import it.polito.ezshop.exceptions.*;
 
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
@@ -32,19 +21,23 @@ import java.util.stream.Collectors;
 
 public class EZShop implements EZShopInterface {
 
-    private static UserRepository userRepository = UserRepository.getInstance();
-    private static CustomerRepository customerRepository = CustomerRepository.getInstance();
-    private static ProductTypeRepository productTypeRepository = ProductTypeRepository.getInstance();
-    private static BalanceOperationRepository balanceOperationRepository = BalanceOperationRepository.getInstance();
+    private static final UserRepository userRepository = UserRepository.getInstance();
+    private static final CustomerRepository customerRepository = CustomerRepository.getInstance();
+    private static final ProductTypeRepository productTypeRepository = ProductTypeRepository.getInstance();
+    private static final BalanceOperationRepository balanceOperationRepository = BalanceOperationRepository.getInstance();
 
 
-    public EZShop() throws SQLException {
+    public EZShop() {
         super();
-        userRepository.initialize();
-        customerRepository.initialize();
-        productTypeRepository.initialize();
-        balanceOperationRepository.initialize();
-        
+		try {
+			userRepository.initialize();
+			customerRepository.initialize();
+			productTypeRepository.initialize();
+			balanceOperationRepository.initialize();
+
+		} catch (SQLException throwables) {
+			throwables.printStackTrace();
+		}
 
     }
 
@@ -1286,34 +1279,18 @@ if(productTypeRepository.getProductTypebyId(String.valueOf(productId)) == null )
     
     public boolean checkIfValidRole (String role) {
        	ArrayList<String> roles = new ArrayList<String>(Arrays.asList("Administrator","Cashier","ShopManager"));
-    	if(role == null || role.equals("") || !roles.contains(role)) {
-    		return false;
-    	}else {
-    		return true;
-    	}
+		return role != null && !role.equals("") && roles.contains(role);
     }
     
     private boolean checkIfManager () {
-        if(userRepository.getLoggedUser() != null && "ShopManager".equals(userRepository.getLoggedUser().getRole())) {
-    	   return true;
-		} else {
-			return false;
-		}
+		return userRepository.getLoggedUser() != null && "ShopManager".equals(userRepository.getLoggedUser().getRole());
     }
     private boolean checkIfCashier () {
-        if(userRepository.getLoggedUser() != null && "Cashier".equals(userRepository.getLoggedUser().getRole())) {
-            return true;
-        }else {
-        	return false;
-        }
+		return userRepository.getLoggedUser() != null && "Cashier".equals(userRepository.getLoggedUser().getRole());
     }
     private boolean checkIfAdministrator() {
     	System.out.println(userRepository.getLoggedUser());
-        if(userRepository.getLoggedUser() != null && "Administrator".equals(userRepository.getLoggedUser().getRole())) {
-            return true;
-        } else {
-        	return false;
-        }
+		return userRepository.getLoggedUser() != null && "Administrator".equals(userRepository.getLoggedUser().getRole());
     }
     public boolean checkLocation(String location) {
     	if(location == null) return false;
@@ -1405,8 +1382,6 @@ if(productTypeRepository.getProductTypebyId(String.valueOf(productId)) == null )
 			int tmp1 = tmp/10;		
 			tmp1 = (tmp1+1)*10;
 			tmp = tmp1 -tmp;
-			if(Integer.parseInt(String.valueOf(productCode.toCharArray()[productCode.length()-1])) == tmp) return true;
-
-			else return false;
+			return Integer.parseInt(String.valueOf(productCode.toCharArray()[productCode.length() - 1])) == tmp;
 		}
 }
