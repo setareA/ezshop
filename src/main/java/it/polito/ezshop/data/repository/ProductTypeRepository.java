@@ -7,17 +7,12 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import it.polito.ezshop.data.EZShop;
-import it.polito.ezshop.data.ProductType;
 import it.polito.ezshop.data.model.ProductTypeClass;
-import it.polito.ezshop.data.model.UserClass;
-import it.polito.ezshop.data.util.HashGenerator;
 
 public class ProductTypeRepository {
     private static ProductTypeRepository ourInstance = new ProductTypeRepository();

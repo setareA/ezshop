@@ -19,13 +19,13 @@ public class OrderClassTest {
     @Test
     public void testSetPricePerUnit() {
     	productType.setPricePerUnit(0.30);
-        assertTrue(productType.getPricePerUnit()==0.30);
+        assertEquals(productType.getPricePerUnit(),0.30,0.001);
     }
 
     @Test
     public void testSetQuantity() {
     	productType.setQuantity(120);
-        assertTrue(productType.getQuantity()==120);
+        assertEquals(productType.getQuantity(),120);
     }
 
     @Test
@@ -37,19 +37,19 @@ public class OrderClassTest {
     @Test
     public void testSetOrderId() {
     	productType.setOrderId(30);
-        assertTrue(productType.getOrderId()==30);
+        assertEquals(productType.getOrderId(),Integer.valueOf(30));
     }
     
     @Test
     public void testSetBalanceId() {
     	productType.setBalanceId(30);
-        assertTrue(productType.getBalanceId()==30);
+        assertEquals(productType.getBalanceId(),Integer.valueOf(30));
     }
     
     @Test
     public void testSetMoney() {
     	productType.setMoney(9.20);
-        assertTrue(productType.getMoney()==9.20);
+        assertEquals(productType.getMoney(),9.20,0.001);
     }
     
 }

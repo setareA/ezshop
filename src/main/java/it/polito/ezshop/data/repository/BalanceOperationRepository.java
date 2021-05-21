@@ -12,7 +12,6 @@ import it.polito.ezshop.data.model.TicketEntryClass;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -22,7 +21,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -144,14 +142,16 @@ public class BalanceOperationRepository {
     public boolean insertBalance() {
     	try {
 			Connection con =  DBCPDBConnectionPool.getConnection();
-	        String sqlCommand = insertCommand("balanceTable", new ArrayList<String>(Arrays.asList("balance")));
+	        String sqlCommand = insertCommand("balanceTable", new ArrayList<String>(Arrays.asList("id","balance")));
 	        PreparedStatement prp = con.prepareStatement(sqlCommand);
-            prp.setString( 1, "0");
+            prp.setString( 1, "1");
+            prp.setString( 2, "0");
             prp.executeUpdate();
             prp.close();
             con.close();
             return true;
-		} catch (SQLException e) {return false ;}
+		} catch (SQLException e) {
+			return false ;}
     	
     }
     private static String insertCommand(String tableName, ArrayList<String> attributes){

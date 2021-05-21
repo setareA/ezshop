@@ -13,7 +13,7 @@ public class ProductTypeClassTest {
     @Test
     public void testSetQuantity() {
     	productType.setQuantity(7);
-        assertTrue(productType.getQuantity()==7);
+        assertEquals(productType.getQuantity(),Integer.valueOf(7));
     }
 
     @Test
@@ -42,13 +42,13 @@ public class ProductTypeClassTest {
     @Test
     public void testPricePerUnit() {
     	productType.setPricePerUnit(0.55);
-        assertTrue(productType.getPricePerUnit()==0.55);
+        assertEquals(productType.getPricePerUnit(),0.55,0.001);
     }
     
     @Test
     public void testSetId() {
     	productType.setId(9);
-        assertTrue(productType.getId()==9);
+        assertEquals(productType.getId(),Integer.valueOf(9));
     }
     
 }

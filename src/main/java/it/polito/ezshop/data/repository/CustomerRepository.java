@@ -7,7 +7,6 @@ import java.util.List;
 
 import it.polito.ezshop.data.Customer;
 import it.polito.ezshop.data.model.CustomerClass;
-import it.polito.ezshop.data.model.UserClass;
 
 import java.util.Arrays;
 import java.sql.Connection;

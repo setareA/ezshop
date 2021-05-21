@@ -22,7 +22,7 @@ public class EZShop {
            it.polito.ezshop.data.EZShop ezShop = new it.polito.ezshop.data.EZShop();
            EZShopGUI gui = new EZShopGUI(ezShop);
            ezShop.getUserRepository().setLoggedUser(new UserClass(4,"Sara","1234","1234","Administrator"));
-           ezShop.recordBalanceUpdate(100);
+           ezShop.recordBalanceUpdate(3000);
            ezShop.returnCreditCardPayment(1,"5100293991053009");
          
         }catch(Exception e){           
