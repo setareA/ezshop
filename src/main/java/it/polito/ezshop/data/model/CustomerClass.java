@@ -9,7 +9,7 @@ public class CustomerClass implements Customer {
     private String customerCard;
     private Integer points;
 
-    public CustomerClass(Integer id, String customerName, String customerCard, Integer points){
+    public CustomerClass(Integer id, String customerName, String customerCard, Integer points) {
         this.id = id;
         this.customerName = customerName;
         this.customerCard = customerCard;
@@ -48,12 +48,12 @@ public class CustomerClass implements Customer {
 
     @Override
     public Integer getPoints() {
-       // get it from customer repository
+        // get it from customer repository
         return this.points;
     }
 
     @Override
     public void setPoints(Integer points) {
-    	this.points = points;
-}
+        this.points = points;
+    }
 }

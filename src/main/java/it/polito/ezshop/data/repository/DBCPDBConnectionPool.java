@@ -2,9 +2,8 @@ package it.polito.ezshop.data.repository;
 
 import org.apache.commons.dbcp.BasicDataSource;
 
-import java.sql.SQLException;
 import java.sql.Connection;
-import java.sql.DriverManager;
+import java.sql.SQLException;
 
 
 /***
@@ -13,8 +12,8 @@ import java.sql.DriverManager;
 
 public class DBCPDBConnectionPool {
 
-    private static BasicDataSource ds = new BasicDataSource();
     private final static String dbURL = "jdbc:sqlite:ezshop.db";
+    private static final BasicDataSource ds = new BasicDataSource();
 
     static {
         ds.setDriverClassName("org.sqlite.JDBC");
@@ -23,15 +22,15 @@ public class DBCPDBConnectionPool {
         ds.setMaxIdle(10);
     }
 
+    private DBCPDBConnectionPool() {
+    }
+
     public static Connection getConnection() throws SQLException {
         return ds.getConnection();
     }
 
     public static void close() throws SQLException {
         ds.close();
-    }
-
-    private DBCPDBConnectionPool() {
     }
 
 }
