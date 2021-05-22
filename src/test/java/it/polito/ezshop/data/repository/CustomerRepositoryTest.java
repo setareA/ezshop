@@ -19,6 +19,7 @@ public class CustomerRepositoryTest {
 
     @Before
     public void setUp() throws Exception {
+        customerRepository.initialize();
         Connection con = DBCPDBConnectionPool.getConnection();
         PreparedStatement prp = con.prepareStatement("DELETE FROM customer;");
         prp.executeUpdate();
@@ -36,6 +37,7 @@ public class CustomerRepositoryTest {
             while (rs.next()) {
                 tableNames.add(rs.getString("TABLE_NAME"));
             }
+            con.close();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }

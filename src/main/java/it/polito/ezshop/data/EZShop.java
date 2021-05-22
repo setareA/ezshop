@@ -269,7 +269,7 @@ public class EZShop implements EZShopInterface {
             throw new InvalidPasswordException();
         }
         // Try to get the UserClass corresponding to username (in case of errors in db, u will be null)
-        UserClass u = UserRepository.getUserByUsername(username);
+        UserClass u = userRepository.getUserByUsername(username);
         if (u == null) return null;
         // Check if the entered password matches the password of the instance of Userclass obtained
         // In case correct : return the UserClass. In case incorrect: return null

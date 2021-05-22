@@ -37,6 +37,15 @@ public class UserRepository {
         return attrs;
     }
 
+    public void initialize() throws SQLException {
+        Connection con = DBCPDBConnectionPool.getConnection();
+        Statement st = con.createStatement();
+        st.executeUpdate("CREATE TABLE IF NOT EXISTS " + "user" + " " + "(id INTEGER PRIMARY KEY, username TEXT NOT NULL UNIQUE, password TEXT, salt TEXT, role TEXT)");
+        st.close();
+        con.close();
+    }
+
+
     private static String insertCommand(String tableName, ArrayList<String> attributes) {
         String sqlCommand = "INSERT INTO " + tableName + "(";
         for (String attr : attributes)
@@ -85,11 +94,13 @@ public class UserRepository {
         );
     }
 
-    public static UserClass getUserByUsername(String username) {
+    public UserClass getUserByUsername(String username) {
+        Connection con = null;
+        PreparedStatement prps = null;
         try {
             String sqlCommand = getFindByUsernameStatement();
-            Connection con = DBCPDBConnectionPool.getConnection();
-            PreparedStatement prps = con.prepareStatement(sqlCommand);
+            con = DBCPDBConnectionPool.getConnection();
+            prps = con.prepareStatement(sqlCommand);
             prps.setString(1, username);
             ResultSet rs = prps.executeQuery();
             rs.next();
@@ -99,6 +110,13 @@ public class UserRepository {
             return u;
         } catch (SQLException e) {
             e.printStackTrace();
+                try {
+                    if(prps != null)
+                        prps.close();
+                    con.close();
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
         }
         return null;
     }
@@ -110,15 +128,6 @@ public class UserRepository {
     public void setLoggedUser(UserClass loggedUser) {
 
         this.loggedUser = loggedUser;
-    }
-
-    public void initialize() throws SQLException {
-        Connection con = DBCPDBConnectionPool.getConnection();
-        Statement st = con.createStatement();
-        st.executeUpdate("CREATE TABLE IF NOT EXISTS " + "user" + " " + "(id INTEGER PRIMARY KEY, username TEXT NOT NULL UNIQUE, password TEXT, salt TEXT, role TEXT)");
-        // We look for the highest ID in the database
-        st.close();
-        con.close();
     }
 
     public Integer addNewUser(UserClass user) throws SQLException {
