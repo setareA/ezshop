@@ -67,25 +67,27 @@ digraph ez {
 ## Step 1
 | Classes  | JUnit test cases |
 |--|--|
-|UserClass||
-|CustomerClass||
-|HashGenerator||
-|ReturnTransactionClass||
-|SaleTransactionClass||
-|TicketEntryClass||
-|OrderClass||
-|BalanceOperationClass||
-|ProductTypeClass||
+|UserClass|data/model/UserClassTest|
+|CustomerClass|data/model/CustomerClassTest|
+|HashGenerator|data/util/HashGeneratorTest|
+|ReturnTransactionClass|data/model/ReturnTransactionClassTest|
+|SaleTransactionClass|data/model/SaleTransactionClassTest|
+|TicketEntryClass|data/model/TicketEntryClassTest|
+|OrderClass|data/model/OrderClassTest|
+|BalanceOperationClass|data/model/BalanceOperationClassTest|
+|ProductTypeClass|data/model/ProductTypeClassTest|
 
 
 ## Step 2
 | Classes  | JUnit test cases |
 |--|--|
-|CustomerClass + CustomerRepository||
-|[UserClass+HashGenerator] + UserRepository||
+|CustomerClass + CustomerRepository|data/repository/CustomerRepositoryTest|
+|[UserClass+HashGenerator] + UserRepository|data/repository/UserRepositoryTest|
+|ProductTypeClass + ProductTypeRepository|data/repository/ProductTypeRepositoryTest|
+|[SaleTransactionClass+ReturnTransactionClass+TicketEntryClass+OrderClass] + BalanceOperationRepository|data/repository/BalanceOperationRepositoryTest|
 
 
-## Step n 
+## Step 3 
 
    
 
