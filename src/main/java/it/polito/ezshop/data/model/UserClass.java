@@ -9,11 +9,11 @@ public class UserClass implements User {
     private String password;
     private String role;
     private String salt;
-  
+
 
     public UserClass(Integer id, String username, String password, String salt, String role) {
         this.id = id;
-    	this.username = username;
+        this.username = username;
         this.password = password;
         this.role = role;
         this.salt = salt;
@@ -36,14 +36,14 @@ public class UserClass implements User {
     }
 
     @Override
-	public String toString() {
-		return "UserClass [id=" + id + ", username=" + username + ", password=" + password + ", role=" + role
-				+ ", salt=" + salt + "]";
-	}
-
-	@Override
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    @Override
+    public String toString() {
+        return "UserClass [id=" + id + ", username=" + username + ", password=" + password + ", role=" + role
+                + ", salt=" + salt + "]";
     }
 
     @Override

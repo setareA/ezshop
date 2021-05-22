@@ -280,7 +280,6 @@ Version:
 | --------------- | --------------- | ---------------------------- | ----------------------------------- |
 | *               | Valid           | T1(7) -> void                | CustomerClassTest/  testSetPoints() |
 
-
  ### **Class *BalanceOperationClass* - method *setBalanceId***(int balanceId)
 
 
@@ -1456,7 +1455,7 @@ Version:
 |                                         | ""              | T5("12-a-12 ") -> false      | testCheckLocationSpaceInsideDigit |
 
 
- 
+
 
 
 # White Box Unit Tests
@@ -1468,10 +1467,11 @@ Version:
     <For traceability write the class and method name that contains the test case>
 
 
-| Unit name                            | JUnit test case                               |
-| ------------------------------------ | --------------------------------------------- |
-| EZShopTest/ checkValidityProductcode | EZShopTest/ TestCheckValidityLongProductcode  |
-| EZShopTest/ checkValidityProductcode | EZShopTest/ testCheckValidityShortProductcode |
+| Unit name | JUnit test case |
+| --------- | --------------- |
+|           |                 |
+|           |                 |
+|           |                 |
 
 ### Code coverage report
 
@@ -1481,13 +1481,13 @@ Version:
 ### Loop coverage analysis
 
 
-| Unit name                                               | Loop rows | Number of iterations | JUnit test case                                  |
-| ------------------------------------------------------- | --------- | -------------------- | ------------------------------------------------ |
-| EZShop/ computePriceForProducts(ArrayList<TicketEntry>) | 797       | 0                    | EZShopTest/ testComputePriceForProductsWithEmpty |
-|                                                         |           | 1                    | EZShopTest/ testComputePriceForProductWithOnes   |
-|                                                         |           | 3                    | EZShopTest/ testComputePriceForProductsWithMany  |
-| EZShop/CheckLuhnInvalid(String CardNo)                  | 1365      | 0                    | EZShopTest/ testCheckLuhnEmpthy()                |
-|                                                         |           | 1                    | EZShopTest/ testCheckLuhnOne()                   |
-|                                                         |           | 2                    | EZShopTest/ testCheckLuhnTwo()                   |
-|                                                         |           | 15                   | EZShopTest/ testCheckLuhnValid()                 |
+| Unit name                                               | Loop rows | Number of iterations | JUnit test case                      |
+| ------------------------------------------------------- | --------- | -------------------- | ------------------------------------ |
+| EZShop/ computePriceForProducts(ArrayList<TicketEntry>) | 797       | 0                    | testComputePriceForProductsWithEmpty |
+|                                                         |           | 1                    | testComputePriceForProductWithOnes   |
+|                                                         |           | 3                    | testComputePriceForProductsWithMany  |
+| EZShop/CheckLuhnInvalid(String CardNo)                  | 1365      | 0                    | testCheckLuhnEmpthy()                |
+|                                                         |           | 1                    | testCheckLuhnOne()                   |
+|                                                         |           | 2                    | testCheckLuhnTwo()                   |
+|                                                         |           | 15                   | testCheckLuhnValid()                 |
 
