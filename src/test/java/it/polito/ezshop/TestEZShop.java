@@ -14,6 +14,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
 
+
 @RunWith(Suite.class)
 @Suite.SuiteClasses({UserClassTest.class, CustomerClassTest.class, ProductTypeClassTest.class,
 	OrderClassTest.class,BalanceOperationClassTest.class,EZShopTest.class, ReturnTransactionTest.class, SaleTransactionTest.class, TicketEntryTest.class})
