@@ -128,8 +128,6 @@ public class CustomerRepository {
     }
 
     public boolean AssignCustomerCard(Integer id, String newCustomerCard) throws SQLException {
-        // This method assumes that the id that you are passing is already checked
-        // This method assumes that the newCustomerCard that you are passing is already checked
         Connection con = DBCPDBConnectionPool.getConnection();
         System.out.println("updating Card of a customer");
         String sqlCommand = updateCommand("customer", "customerCard", newCustomerCard, null, null, "id", id.toString());

@@ -11,6 +11,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 public class CustomerRepositoryTest {
 
@@ -82,21 +83,48 @@ public class CustomerRepositoryTest {
 
     @Test
     public void testAssignCustomerCard() {
+        assertThrows(NullPointerException.class, ()-> customerRepository.AssignCustomerCard(null,"5467385846"));
+        try {
+            assertFalse(customerRepository.AssignCustomerCard(1,"7564538957"));
+            Integer id = customerRepository.addNewCustomer(new CustomerClass(null,"newName","43444567891",20));
+            assertTrue(customerRepository.AssignCustomerCard(id, "6578442758"));
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
     }
 
     @Test
     public void testChangePointsOfACustomer() {
+        try {
+            assertFalse( customerRepository.changePointsOfACustomer("6574859876",97));
+            customerRepository.addNewCustomer(new CustomerClass(null,"newName","43444567891",20));
+            assertTrue(customerRepository.changePointsOfACustomer("43444567891",97));
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
     }
 
     @Test
     public void testGetCustomerById() {
+        assertThrows(NullPointerException.class,() -> customerRepository.getCustomerById(null));
+        assertEquals(null,customerRepository.getCustomerById(1));
+        try {
+            Integer id = customerRepository.addNewCustomer(new CustomerClass(null,"newName","43444567891",20));
+            assertEquals(CustomerClass.class, customerRepository.getCustomerById(id).getClass());
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
     }
 
     @Test
     public void testGetAllCustomers() {
+        assertEquals(ArrayList.class,customerRepository.getAllCustomers().getClass());
     }
 
     @Test
     public void testGetCustomerCardsList() {
+        assertEquals(ArrayList.class, customerRepository.getCustomerCardsList().getClass());
     }
 }
