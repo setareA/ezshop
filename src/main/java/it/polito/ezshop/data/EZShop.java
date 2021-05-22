@@ -500,10 +500,7 @@ public class EZShop implements EZShopInterface {
 
     @Override
     public List<Order> getAllOrders() throws UnauthorizedException {
-        // Check UnauthorizedException: check if there is a loggedUser and if its role is a "Administrator", "ShopManager" or "Cashier"
-        if (userRepository.getLoggedUser() == null || !checkIfValidRole(userRepository.getLoggedUser().getRole())) {
-            throw new UnauthorizedException();
-        }
+        if (!(this.checkIfAdministrator() || this.checkIfManager())) throw new UnauthorizedException();
         List<Order> o = new ArrayList<Order>(balanceOperationRepository.getAllOrders());
         return o;
     }
