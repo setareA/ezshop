@@ -64,19 +64,19 @@ public class UserRepository {
         return sqlCommand;
     }
 
-    protected static String getFindByUsernameStatement() {
+    private static String getFindByUsernameStatement() {
         return "SELECT " + COLUMNS +
                 " FROM user" +
                 " WHERE username = ?";
     }
 
-    protected static String getFindByIdStatement() {
+    private static String getFindByIdStatement() {
         return "SELECT " + COLUMNS +
                 " FROM user" +
                 " WHERE id = ?";
     }
 
-    protected static UserClass convertResultSetToDomainModel(ResultSet rs) throws SQLException {
+    private static UserClass convertResultSetToDomainModel(ResultSet rs) throws SQLException {
         return new UserClass(rs.getInt(1),
                 rs.getString(2),
                 rs.getString(3),
@@ -182,12 +182,6 @@ public class UserRepository {
         return count > 0;
     }
 
-    protected String getFindStatement() {
-        return "SELECT " + COLUMNS +
-                " FROM user" +
-                " WHERE id = ?";
-    }
-
     private List<User> loadAll(ResultSet rs) throws SQLException {
 
         List<User> result = new ArrayList<>();
@@ -233,7 +227,7 @@ public class UserRepository {
         }
     }
 
-    public Integer getHighestId() {
+    private Integer getHighestId() {
         try {
             String sqlCommand = getMaxIdStatement();
             Connection con = DBCPDBConnectionPool.getConnection();
