@@ -102,7 +102,6 @@ public class CustomerRepository {
     }
 
     public boolean deleteCustomerFromDB(Integer id) throws SQLException {
-        // This method assumes that the id that you are passing is already checked
         Connection con = DBCPDBConnectionPool.getConnection();
         System.out.println("deleting a customer");
         String sqlCommand = deleteCommand("customer", "id");
@@ -114,7 +113,7 @@ public class CustomerRepository {
         return count > 0;
     }
 
-    public void changeDataOfACustomer(Integer id, String newCustomerName, String newCustomerCard) throws SQLException {
+    public Boolean changeDataOfACustomer(Integer id, String newCustomerName, String newCustomerCard) throws SQLException {
         // This method assumes that the id that you are passing is already checked
         // This method assumes that the newCustomername and the newCustomerCard
         //that you are passing is already checked
@@ -122,9 +121,10 @@ public class CustomerRepository {
         System.out.println("updating Name and Card of a customer");
         String sqlCommand = updateCommand("customer", "customerName", newCustomerName, "customerCard", newCustomerCard, "id", id.toString());
         PreparedStatement prp = con.prepareStatement(sqlCommand);
-        prp.executeUpdate();
+        int count = prp.executeUpdate();
         prp.close();
         con.close();
+        return count >0;
     }
 
     public boolean AssignCustomerCard(Integer id, String newCustomerCard) throws SQLException {

@@ -551,8 +551,7 @@ public class EZShop implements EZShopInterface {
         // Change the Role of the User in the DB (return True).
         // In case of an error during the change (return False).
         try {
-            customerRepository.changeDataOfACustomer(id, newCustomerName, newCustomerCard);
-            return true;
+            return customerRepository.changeDataOfACustomer(id, newCustomerName, newCustomerCard);
         } catch (SQLException e) {
             e.printStackTrace();
             return false;

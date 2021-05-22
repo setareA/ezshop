@@ -1,7 +1,6 @@
 package it.polito.ezshop.data.repository;
 
 import it.polito.ezshop.data.model.CustomerClass;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -59,10 +58,26 @@ public class CustomerRepositoryTest {
 
     @Test
     public void testDeleteCustomerFromDB() {
+        try {
+            Integer id = customerRepository.addNewCustomer(new CustomerClass(null,"newName","43444567891",20));
+            assertTrue(customerRepository.deleteCustomerFromDB(id));
+            assertFalse(customerRepository.deleteCustomerFromDB(id));
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
     }
 
     @Test
     public void testChangeDataOfACustomer() {
+        assertThrows(NullPointerException.class, ()-> customerRepository.changeDataOfACustomer(null,"name","6453875936"));
+        try {
+            assertFalse(customerRepository.changeDataOfACustomer(1,"name","6453875936"));
+            Integer id = customerRepository.addNewCustomer(new CustomerClass(null,"newName","43444567891",20));
+            assertTrue(customerRepository.changeDataOfACustomer(id,"newName","54783650926"));
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
     }
 
     @Test
