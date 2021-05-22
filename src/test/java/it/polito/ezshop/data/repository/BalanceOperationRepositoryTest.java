@@ -87,14 +87,17 @@ public class BalanceOperationRepositoryTest {
 
 	@Test
 	public void testAddNewOrder() throws SQLException {
-		OrderClass order = new OrderClass(1, 0, null, 0, 0, null, 0);
-		balanceOperationRepository.addNewOrder(order);
-	
-		assertThrows(SQLException.class, ()-> balanceOperationRepository.addNewOrder(order));
-		order.setOrderId(2);
-	
-		balanceOperationRepository.addNewOrder(order);
+		OrderClass order = new OrderClass(0, 0, null, 0, 0, null, 0);
 		
+		balanceOperationRepository.addNewOrder(order);
+
+		order.setOrderId(1);
+	
+		balanceOperationRepository.addNewOrder(order);
+		balanceOperationRepository.addNewOrder(order);
+
+		order.setOrderId(2);
+		balanceOperationRepository.addNewOrder(order);
 	}
 
 	@Test
@@ -141,25 +144,43 @@ public class BalanceOperationRepositoryTest {
 
 	}
 
-	@Test // "orderTable" "orderId" "1" TO FINISH
+	@Test 
 	public void testDeleteRow() throws SQLException {
 		assertEquals(balanceOperationRepository.deleteRow(null, null, null),false);
 		assertEquals(balanceOperationRepository.deleteRow("orderTable", null, null),false);
 		assertEquals(balanceOperationRepository.deleteRow("orderTable", "orderId", null),false);
-		assertEquals(balanceOperationRepository.deleteRow("orderTable", "orderId", "1"),false);
-		balanceOperationRepository.addNewOrder(new OrderClass(1, 0, null, 0, 0, null, 0));
-		assertEquals(balanceOperationRepository.deleteRow("orderTable", "orderId", "1"),false);
+		assertEquals(balanceOperationRepository.deleteRow("orderTable", "orderId", "10"),false);
+		Integer i = balanceOperationRepository.addNewOrder(new OrderClass(0, 0, null, 0, 0, null, 0));
+		assertEquals(balanceOperationRepository.deleteRow("orderTable", "orderId", i.toString()),true);
 
 	 }
 
 	@Test
-	public void testUpdateRow() {
-		fail("Not yet implemented");
+	public void testUpdateRow() throws SQLException {
+		assertEquals(balanceOperationRepository.updateRow(null, null, null, null, null),false);
+		assertEquals(balanceOperationRepository.updateRow("orderTable", null, null, null, null),false);
+		assertEquals(balanceOperationRepository.updateRow("orderTable", "productCode", null, null, null),false);
+		assertEquals(balanceOperationRepository.updateRow("orderTable", "productCode", "orderId", null, null),false);
+		assertEquals(balanceOperationRepository.updateRow("orderTable", "productCode", "orderId", 12, null),false);
+		assertEquals(balanceOperationRepository.updateRow("orderTable", "productCode", "orderId", 12, "18377125254"),false);
+		Integer i = balanceOperationRepository.addNewOrder(new OrderClass(0, 0, null, 0, 0, null, 0));
+		assertEquals(balanceOperationRepository.updateRow("orderTable", "productCode", "orderId", i, "18377125254"),true);
+		assertEquals(balanceOperationRepository.updateRow("orderTable", "productCode", "otherString", i, "18377125254"),false);
+		assertEquals(balanceOperationRepository.updateRow("otherString", "productCode", "orderId", i, "18377125254"),false);
+		assertEquals(balanceOperationRepository.updateRow("orderTable", "otherString", "orderId", 12, "18377125254"),false);
+
+
 	}
 
 	@Test
-	public void testUpdateState() {
-		fail("Not yet implemented");
+	public void testUpdateState() throws SQLException {
+		Integer o = balanceOperationRepository.addNewOrder(new OrderClass(0, 0, null, 0, 0, null, 0));
+		Integer s = balanceOperationRepository.addNewSale(new SaleTransactionClass(0, 0, 0, null));
+		assertEquals(balanceOperationRepository.updateState(null, null, null),false);
+		assertEquals(balanceOperationRepository.updateState("orderTable", o, null),true);
+		assertEquals(balanceOperationRepository.updateState("orderTable", o, "newState"),true);
+		assertEquals(balanceOperationRepository.updateState("sale", s, "newState"),true);
+
 	}
 
 	@Test

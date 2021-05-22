@@ -233,10 +233,10 @@ public class BalanceOperationRepository {
         con.close();
     }
 
-    public void addNewOrder(OrderClass order) throws SQLException {
-
+    public Integer addNewOrder(OrderClass order) throws SQLException {
+    	Integer nextOrderId = this.getHighestOrderId() +1;
         HashMap<String, String> orderData = new HashMap<>();
-        orderData.put("orderId", order.getOrderId().toString());
+        orderData.put("orderId", String.valueOf(nextOrderId));
         orderData.put("balanceId", order.getBalanceId().toString());
         orderData.put("productCode", order.getProductCode());
         orderData.put("pricePerUnit", Double.toString(order.getPricePerUnit()));
@@ -256,6 +256,7 @@ public class BalanceOperationRepository {
         prp.executeUpdate();
         prp.close();
         con.close();
+        return this.getHighestOrderId();
     }
 
     public Integer addNewSale(SaleTransactionClass sale) throws SQLException {
@@ -341,8 +342,8 @@ public class BalanceOperationRepository {
             return (returnVal == 1);
         } catch (SQLException e) {
             e.printStackTrace();
+            return false;
         }
-        return false;
     }
 
     /**

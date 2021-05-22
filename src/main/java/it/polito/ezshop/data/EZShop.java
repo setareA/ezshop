@@ -429,8 +429,7 @@ public class EZShop implements EZShopInterface {
         if (!checkValidityProductcode(productCode)) throw new InvalidProductCodeException();
         if (productTypeRepository.getProductTypebyBarCode(productCode) == null) return -1;
         try {
-            balanceOperationRepository.addNewOrder(new OrderClass(balanceOperationRepository.getHighestOrderId() + 1, 0, productCode, pricePerUnit, quantity, "ORDERED", quantity * pricePerUnit));
-            return balanceOperationRepository.getHighestOrderId();
+            return balanceOperationRepository.addNewOrder(new OrderClass(0, 0, productCode, pricePerUnit, quantity, "ORDERED", quantity * pricePerUnit));
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -449,7 +448,7 @@ public class EZShop implements EZShopInterface {
         if (productTypeRepository.getProductTypebyBarCode(productCode) == null) return -1;
         try {
             if (this.computeBalance() - quantity * pricePerUnit < 0) return -1;
-            balanceOperationRepository.addNewOrder(new OrderClass(balanceOperationRepository.getHighestOrderId() + 1, 0, productCode, pricePerUnit, quantity, "PAYED", quantity * pricePerUnit));
+            balanceOperationRepository.addNewOrder(new OrderClass(0, 0, productCode, pricePerUnit, quantity, "PAYED", quantity * pricePerUnit));
             this.recordBalanceUpdate(-quantity * pricePerUnit);
             return balanceOperationRepository.getHighestOrderId();
         } catch (SQLException e) {
