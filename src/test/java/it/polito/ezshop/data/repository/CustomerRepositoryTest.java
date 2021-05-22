@@ -7,7 +7,9 @@ import org.junit.Test;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import static org.junit.Assert.*;
 
@@ -24,17 +26,21 @@ public class CustomerRepositoryTest {
         con.close();
     }
 
-
-    @After
-    public void tearDown() throws Exception {
-    }
-
-    @Test
-    public void testGetInstance() {
-    }
-
     @Test
     public void testInitialize() {
+        ArrayList<String> tableNames = new ArrayList<>();
+        try {
+            customerRepository.initialize();
+            Connection con = DBCPDBConnectionPool.getConnection();
+            ResultSet rs = con.getMetaData().getTables(null, null, null, null);
+            while (rs.next()) {
+                tableNames.add(rs.getString("TABLE_NAME"));
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        assertTrue(tableNames.contains("customer"));
+
     }
 
     @Test
