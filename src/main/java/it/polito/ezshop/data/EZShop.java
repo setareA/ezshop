@@ -500,6 +500,10 @@ public class EZShop implements EZShopInterface {
 
     @Override
     public List<Order> getAllOrders() throws UnauthorizedException {
+        // Check UnauthorizedException: check if there is a loggedUser and if its role is a "Administrator", "ShopManager" or "Cashier"
+        if (userRepository.getLoggedUser() == null || !checkIfValidRole(userRepository.getLoggedUser().getRole())) {
+            throw new UnauthorizedException();
+        }
         List<Order> o = new ArrayList<Order>(balanceOperationRepository.getAllOrders());
         return o;
     }
@@ -533,11 +537,14 @@ public class EZShop implements EZShopInterface {
         if (id == null || id <= 0) {
             throw new InvalidCustomerIdException();
         }
-        // Check InvalidCustomerNameException: (empty or null) (NOT APPLICABLE SLACK QUESTION)
+        // Check InvalidCustomerNameException: (empty or null)
+        if (newCustomerName == null || ("").equals(newCustomerName)) {
+            throw new InvalidCustomerNameException();
+        }
 
-        // Check InvalidCustomerCardException: (empty, null or bad format(string with 10 digits))
+        // Check InvalidCustomerCardException: (bad format(string with 10 digits)) (empty or null, NOT APPLICABLE SLACK QUESTION)
         // the bad format is check in two steps : is it a string? and is the size equals to 10 digits?
-        if (newCustomerCard == null || !(("").getClass().equals(newCustomerCard.getClass())) || ("").equals(newCustomerCard) || !(newCustomerCard.length() == 10 || !onlyDigits(newCustomerCard))) {
+        if ((("").getClass().equals(newCustomerCard.getClass())) && !(newCustomerCard.length() == 10 || !onlyDigits(newCustomerCard))) {
             throw new InvalidCustomerCardException();
         }
         // Check UnauthorizedException: check if there is a loggedUser and if its role is a "Administrator", "ShopManager" or "Cashier"
