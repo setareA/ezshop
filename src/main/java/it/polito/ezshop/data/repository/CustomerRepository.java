@@ -63,7 +63,7 @@ public class CustomerRepository {
         return sqlCommand;
     }
 
-    protected static String getFindByIdStatement() {
+    private static String getFindByIdStatement() {
         return "SELECT " + COLUMNS +
                 " FROM customer" +
                 " WHERE id = ?";
@@ -158,7 +158,7 @@ public class CustomerRepository {
         return count > 0;
     }
 
-    protected CustomerClass convertResultSetToDomainModel(ResultSet rs) throws SQLException {
+    private CustomerClass convertResultSetToDomainModel(ResultSet rs) throws SQLException {
         return new CustomerClass(
                 rs.getInt(1),
                 rs.getString(2),
@@ -238,7 +238,7 @@ public class CustomerRepository {
         }
     }
 
-    public Integer getHighestId() {
+    private Integer getHighestId() {
         try {
             String sqlCommand = getMaxIdStatement();
             Connection con = DBCPDBConnectionPool.getConnection();
