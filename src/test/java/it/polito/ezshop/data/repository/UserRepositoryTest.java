@@ -56,12 +56,12 @@ public class UserRepositoryTest {
     }
 
     @Test
-    public void testGetLoggedUser() {
+    public void testSetLoggedUser() {
+        UserClass user = new UserClass(1,"ss","sdfsdf","","Cashier");
+        userRepository.setLoggedUser(user);
+        assertEquals(userRepository.getLoggedUser(),user);
     }
 
-    @Test
-    public void testSetLoggedUser() {
-    }
 
     @Test
     public void testAddNewUser() {
