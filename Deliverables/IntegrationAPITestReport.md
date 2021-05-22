@@ -23,7 +23,32 @@ Version:
 
 # Dependency graph 
 
-     <report the here the dependency graph of the classes in EzShop, using plantuml>
+```plantuml
+@startuml
+digraph ez {
+
+ EZShop -> UserRepository ;
+ EZShop -> CustomerRepository;
+ EZShop -> BalanceOperationRepository;
+ EZShop -> ProductTypeRepository
+ EZShop -> HashGenerator;
+
+ UserRepository -> HashGenerator;
+ UserRepository -> UserClass;
+
+ CustomerRepository -> CustomerClass;
+
+ BalanceOperationRepository -> OrderClass;
+ BalanceOperationRepository -> ReturnTransactionClass;
+ BalanceOperationRepository -> SaleTransactionClass;
+ BalanceOperationRepository -> TicketEntryClass;
+ BalanceOperationRepository -> BalanceOperationClass;
+
+ ProductTypeRepository-> ProductTypeClass;
+
+}
+@enduml
+```
      
 # Integration approach
 
