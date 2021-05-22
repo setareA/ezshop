@@ -56,6 +56,14 @@ digraph ez {
     (ex: step1: class A, step 2: class A+B, step 3: class A+B+C, etc)> 
     <Some steps may  correspond to unit testing (ex step1 in ex above), presented in other document UnitTestReport.md>
     <One step will  correspond to API testing>
+    
+    We adopted the **bottom-up** approach. 
+    
+    **Step 1** corresponds to unit testing, which consists of the leaves of the dependency graph. 
+    
+    **Step 2** consists of testing our repository classes which are dependent on models(step 1)
+    
+    **Step 3** (the root) is the EZShop class which contains all testing of the APIs'.  Inside API tests, methods of repositories are called.
 
 
 
