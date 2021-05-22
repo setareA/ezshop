@@ -81,5 +81,6 @@ public class UserRepositoryTest {
 
     @Test
     public void testGetAllUsers() {
+        assertEquals(ArrayList.class, userRepository.getAllUsers().getClass());
     }
 }
