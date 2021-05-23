@@ -1,0 +1,2442 @@
+[33mcommit e3e8ab50ca56ca4663c4c3625824464509566024[m[33m ([m[1;36mHEAD -> [m[1;32mphase_3[m[33m, [m[1;31morigin/phase_3[m[33m)[m
+Author: setareh askari <s288485@studenti.polito.it>
+Date:   Sun May 23 17:12:44 2021 +0200
+
+    test delete user
+
+[33mcommit e7943bf2e206d2aa06bb3b27872c170fb963445e[m
+Author: setareh askari <s288485@studenti.polito.it>
+Date:   Sun May 23 17:05:57 2021 +0200
+
+    catch exception in deleteUser
+
+[33mcommit 121089e790ea3d462ba9ac6271977b44d1ec8f82[m
+Author: setareh askari <s288485@studenti.polito.it>
+Date:   Sun May 23 16:57:10 2021 +0200
+
+    test addNewUser
+
+[33mcommit a1f17bf93cb9c3838231013b3b641df2c1e2e963[m
+Author: setareh askari <s288485@studenti.polito.it>
+Date:   Sun May 23 16:37:11 2021 +0200
+
+    catch exception in addNewUser
+
+[33mcommit 6bfbeb49757e2ab9c84b7478a0f85bc7ce82cf20[m
+Author: Eugenio Ressa <s281642@studenti.polito.it>
+Date:   Sun May 23 16:30:28 2021 +0200
+
+     till testDeleteTables
+
+[33mcommit 5a37695d757bf5e4d2468093d11fccde05d33d70[m
+Author: Eugenio Ressa <s281642@studenti.polito.it>
+Date:   Sun May 23 12:06:50 2021 +0200
+
+     test till testTicketByReturnId
+
+[33mcommit c1c6709d4245131cc23c9d901fe1a17f8e8e1787[m
+Author: Eugenio Ressa <s281642@studenti.polito.it>
+Date:   Sun May 23 09:38:46 2021 +0200
+
+     i dont remember
+
+[33mcommit f531d10e07b45e43db157d3125d8e19f8e3732d9[m
+Author: Eugenio Ressa <s281642@studenti.polito.it>
+Date:   Sun May 23 09:01:10 2021 +0200
+
+     close connection if exception throwed in balance op rep
+
+[33mcommit 404fb63fe3eb9a2485612f8101374dff0380d039[m
+Author: setareh askari <s288485@studenti.polito.it>
+Date:   Sun May 23 00:38:43 2021 +0200
+
+    testGetAllUsers done
+
+[33mcommit a72afadd01ac47e7776cd90972e6ab9d27e32c89[m
+Author: setareh askari <s288485@studenti.polito.it>
+Date:   Sun May 23 00:37:17 2021 +0200
+
+    testSetLoggedUser done
+
+[33mcommit bbe35fec2fd0c53984d96639b2fd2748fc37b9f1[m
+Merge: 295bef5 0033272
+Author: setareh askari <s288485@studenti.polito.it>
+Date:   Sun May 23 00:33:45 2021 +0200
+
+    Merge remote-tracking branch 'origin/phase_3' into phase_3
+
+[33mcommit 295bef5402f30d35b3bcde2a62de8d070a03813b[m
+Author: setareh askari <s288485@studenti.polito.it>
+Date:   Sun May 23 00:33:37 2021 +0200
+
+    user repository test added
+
+[33mcommit 0033272674641623881b4e2bbd9aeea84cfd9319[m
+Author: Setareh Askarifirouzjaei <s288485@studenti.polito.it>
+Date:   Sat May 22 20:05:29 2021 +0000
+
+    Update IntegrationAPITestReport.md
+
+[33mcommit 2640067602dff9d40b86c0c7bee7a44fd91f3bea[m
+Author: setareh askari <s288485@studenti.polito.it>
+Date:   Sat May 22 22:02:50 2021 +0200
+
+    add description
+
+[33mcommit 24e234c6d33f3313d9731515764ae11c81336de6[m
+Author: setareh askari <s288485@studenti.polito.it>
+Date:   Sat May 22 20:07:18 2021 +0200
+
+    complete step 1 and 2 of report
+
+[33mcommit 3ae8937a9711cf3b59efbe59dba55e1c0e9a2d61[m
+Author: setareh askari <s288485@studenti.polito.it>
+Date:   Sat May 22 20:00:39 2021 +0200
+
+    create UserRepositoryTest
+
+[33mcommit 88e3d10dfc4da2eb0db4c46f68fccffd83f77f48[m
+Author: setareh askari <s288485@studenti.polito.it>
+Date:   Sat May 22 19:56:06 2021 +0200
+
+    adding some part of step 1 and step 2 in report
+
+[33mcommit 0278efb5227ca0791c699f8111b0f6cd6545eca1[m
+Author: setareh askari <s288485@studenti.polito.it>
+Date:   Sat May 22 19:49:03 2021 +0200
+
+    CustomerRepositoryTest done
+
+[33mcommit b96986cbb66fbb5a212f9f5b91fe4d3d8ab69a68[m
+Author: Eugenio Ressa <s281642@studenti.polito.it>
+Date:   Sat May 22 18:01:28 2021 +0200
+
+     test done till testUpdateTest ( junit dont test all test)
+
+[33mcommit d88346539e954cfdef9ff602e14d3a2ff4f9c4bc[m
+Author: DANIEL PEÑA LÓPEZ s286489 <s286489@studenti.polito.it>
+Date:   Sat May 22 16:54:11 2021 +0200
+
+    ProductTypeRepository test not finished
+
+[33mcommit 993c94d323c2423b6701a09a1216c4d4f80d6358[m
+Author: setareh askari <s288485@studenti.polito.it>
+Date:   Sat May 22 15:28:42 2021 +0200
+
+    test ChangeDataOfACustomer
+
+[33mcommit 17eee52bb300a2d2629273f06fc76cf6455c9e5c[m
+Author: setareh askari <s288485@studenti.polito.it>
+Date:   Sat May 22 13:02:11 2021 +0200
+
+    test initialize
+
+[33mcommit 8b41ff4e9ff9716bcd459cde4d21f594d11772d1[m
+Author: setareh askari <s288485@studenti.polito.it>
+Date:   Sat May 22 12:21:59 2021 +0200
+
+    test addNewCustomer, unit test for hashgenerator created needs to be implemented
+
+[33mcommit a38cd8dbb5fbac89a4a48f92ab9612ba763a5d16[m
+Author: Setareh Askarifirouzjaei <s288485@studenti.polito.it>
+Date:   Sat May 22 08:45:51 2021 +0000
+
+    add dependency graph
+
+[33mcommit 8421161f9e213ebcf3ca56e2e9ad34b366b98d66[m
+Author: setareh askari <s288485@studenti.polito.it>
+Date:   Sat May 22 10:35:11 2021 +0200
+
+    check role for get all orders
+
+[33mcommit b9e4ef21bbe1bc56f007629467bbdbdc3db1396d[m
+Author: DANIEL PEÑA LÓPEZ s286489 <s286489@studenti.polito.it>
+Date:   Sat May 22 10:09:59 2021 +0200
+
+    changes in modifyCustomer and getAllOrders
+
+[33mcommit 51a05ac93eaf3932ed60600f76e3d9866024f1c1[m
+Merge: 37e305e 0601395
+Author: DANIEL PEÑA LÓPEZ s286489 <s286489@studenti.polito.it>
+Date:   Sat May 22 09:19:01 2021 +0200
+
+    Merge branch 'phase_3' of https://git-softeng.polito.it/se-2021/group-12/ezshop into phase_3
+
+[33mcommit 37e305e80a04e15f2d31e56af30a61d0d4e0cac6[m
+Author: DANIEL PEÑA LÓPEZ s286489 <s286489@studenti.polito.it>
+Date:   Sat May 22 09:18:56 2021 +0200
+
+    little changes
+
+[33mcommit 0601395720181a8c380ca6023410a763ddec7b35[m
+Author: setareh askari <s288485@studenti.polito.it>
+Date:   Fri May 21 20:11:48 2021 +0200
+
+    reformat code
+
+[33mcommit d7d2fbad3a368e60069b2a6f00de927b18623f8f[m
+Merge: a19ee93 c7a933d
+Author: setareh askari <s288485@studenti.polito.it>
+Date:   Fri May 21 20:09:43 2021 +0200
+
+    Merge remote-tracking branch 'origin/phase_3' into phase_3
+
+[33mcommit a19ee932574d1db13af8fd6684bb0300a0c93b09[m
+Author: setareh askari <s288485@studenti.polito.it>
+Date:   Fri May 21 20:09:32 2021 +0200
+
+    fix #5
+
+[33mcommit c7a933d604eeedac4e502fcab95dccddfa364a34[m
+Author: Eugenio Ressa <s281642@studenti.polito.it>
+Date:   Fri May 21 19:27:30 2021 +0200
+
+     test of add method in balance repository
+
+[33mcommit 0f05402ab225cb9e45e02cb4498d49e2e5c073c5[m
+Author: Eugenio Ressa <s281642@studenti.polito.it>
+Date:   Fri May 21 18:44:31 2021 +0200
+
+     'balanceTable' test done
+
+[33mcommit 449fe33edbfde8356d9ec049fb882dd261cafa4c[m
+Author: Eugenio Ressa <s281642@studenti.polito.it>
+Date:   Fri May 21 16:35:29 2021 +0200
+
+    balanceOperationRepositoryTest class created
+
+[33mcommit ac11f210096788061202f092d36bd325579f8005[m
+Author: Eugenio Ressa <s281642@studenti.polito.it>
+Date:   Thu May 20 00:01:50 2021 +0200
+
+     change stuff
+
+[33mcommit 536872238a1e79f4ff58e72fa67f0c8937fc7a19[m
+Merge: 131e459 198a3c5
+Author: Eugenio Ressa <s281642@studenti.polito.it>
+Date:   Thu May 20 00:00:48 2021 +0200
+
+     change stuff
+
+[33mcommit 131e4599072e114c33d8d346898bc5dce67c675a[m
+Author: Eugenio Ressa <s281642@studenti.polito.it>
+Date:   Wed May 19 23:59:05 2021 +0200
+
+     change stuff
+
+[33mcommit 198a3c5501746f23e632d6fbcf6eef271ac8fb12[m
+Author: DANIEL PEÑA LÓPEZ s286489 <s286489@studenti.polito.it>
+Date:   Wed May 19 23:47:20 2021 +0200
+
+    things
+
+[33mcommit 74c61278b78d47d479d4d128c1051885886d1978[m
+Author: DANIEL PEÑA LÓPEZ s286489 <s286489@studenti.polito.it>
+Date:   Wed May 19 23:35:42 2021 +0200
+
+    balances of creditcards
+
+[33mcommit d7a882db879cb5f8f0efd9754d18421e60a5d836[m
+Merge: 249f84c d7ee93e
+Author: DANIEL PEÑA LÓPEZ s286489 <s286489@studenti.polito.it>
+Date:   Wed May 19 23:34:36 2021 +0200
+
+    credit card and conflict inside report
+
+[33mcommit 249f84c4b43538deffe23236833ba427e3536b1c[m
+Author: DANIEL PEÑA LÓPEZ s286489 <s286489@studenti.polito.it>
+Date:   Wed May 19 23:24:54 2021 +0200
+
+    write credit card file
+
+[33mcommit d7ee93edebd7dd6698d6105357684720773b32b9[m
+Author: setareh askari <s288485@studenti.polito.it>
+Date:   Wed May 19 23:23:01 2021 +0200
+
+    complete unit test report
+
+[33mcommit 5cfa863fbf5b38441c424ecea5ca21a781088116[m
+Merge: 89df622 0ff6d0e
+Author: Eugenio Ressa <s281642@studenti.polito.it>
+Date:   Wed May 19 23:15:18 2021 +0200
+
+    Merge branch 'phase_3' of git-softeng.polito.it:se-2021/group-12/ezshop into phase_3
+
+[33mcommit 0ff6d0ee085893a94e25106afad5c9ba8ac6c0b6[m
+Author: setareh askari <s288485@studenti.polito.it>
+Date:   Wed May 19 23:11:57 2021 +0200
+
+    add logger
+
+[33mcommit 6a4046075071a575577e77fafdf1373323b1bdff[m
+Author: setareh askari <s288485@studenti.polito.it>
+Date:   Wed May 19 23:08:14 2021 +0200
+
+    fix bug
+
+[33mcommit 89df62293e8acf8de8971d6872ad6586ca2b99f7[m
+Merge: cefdff2 a24b26e
+Author: Eugenio Ressa <s281642@studenti.polito.it>
+Date:   Wed May 19 23:07:23 2021 +0200
+
+    Merge branch 'phase_3' of git-softeng.polito.it:se-2021/group-12/ezshop into phase_3
+
+[33mcommit cefdff2d39a1ff3cfaff3337bbee08e8d17b7e5f[m
+Author: Eugenio Ressa <s281642@studenti.polito.it>
+Date:   Wed May 19 23:07:04 2021 +0200
+
+     UT restoring
+
+[33mcommit a24b26eafecbc81a03b7ca6d3c4827347fe50319[m
+Merge: a7f4664 030a72c
+Author: setareh askari <s288485@studenti.polito.it>
+Date:   Wed May 19 23:01:43 2021 +0200
+
+    Merge remote-tracking branch 'origin/phase_3' into phase_3
+
+[33mcommit a7f466433221db577e012676fe805f8af147e202[m
+Author: setareh askari <s288485@studenti.polito.it>
+Date:   Wed May 19 23:01:34 2021 +0200
+
+    add wb tests
+
+[33mcommit 030a72c6efd965be70fa18ce9137589e665bf057[m
+Merge: 39c1344 41ea259
+Author: Eugenio Ressa <s281642@studenti.polito.it>
+Date:   Wed May 19 23:00:07 2021 +0200
+
+    sincronizing
+
+[33mcommit 39c134445f48538d2342e8fb6d28123eb9b4f13c[m
+Author: Eugenio Ressa <s281642@studenti.polito.it>
+Date:   Wed May 19 22:59:31 2021 +0200
+
+    sincronizing
+
+[33mcommit 41ea2595c91740e40458a7c884cc31ae48eed4d8[m
+Author: setareh askari <s288485@studenti.polito.it>
+Date:   Wed May 19 22:58:58 2021 +0200
+
+    add new wb tests
+
+[33mcommit 11dcc169b934946aa9ae02748e6c97c4a5aa706e[m
+Merge: 5d0eb22 a616ec9
+Author: setareh askari <s288485@studenti.polito.it>
+Date:   Wed May 19 22:53:48 2021 +0200
+
+    Merge remote-tracking branch 'origin/phase_3' into phase_3
+
+[33mcommit 5d0eb220b50c8e025418fcde575976f2390adb41[m
+Author: setareh askari <s288485@studenti.polito.it>
+Date:   Wed May 19 22:53:34 2021 +0200
+
+    complete unit test report
+
+[33mcommit a616ec91a913b31b3605537f1af8b1a0913e9a4e[m
+Merge: 9a8da84 ab4f869
+Author: Eugenio Ressa <s281642@studenti.polito.it>
+Date:   Wed May 19 22:19:29 2021 +0200
+
+    BB and WB testing
+
+[33mcommit 9a8da84988ce3e9dc28a68f0b51d8f0435232ac3[m
+Author: Eugenio Ressa <s281642@studenti.polito.it>
+Date:   Wed May 19 22:19:09 2021 +0200
+
+    BB and WB testing
+
+[33mcommit ab4f869cae1478ff684b434e1dbc1d491dd39215[m
+Merge: ec58abf 124b715
+Author: setareh askari <s288485@studenti.polito.it>
+Date:   Wed May 19 22:13:52 2021 +0200
+
+    Merge remote-tracking branch 'origin/phase_3' into phase_3
+
+[33mcommit ec58abf4d3d3ac43a582ca587ec1507a112a35f9[m
+Author: setareh askari <s288485@studenti.polito.it>
+Date:   Wed May 19 22:13:45 2021 +0200
+
+    change parameters in create random int test
+
+[33mcommit 124b715d82ef041cdf978cb480f917558896270d[m
+Author: Eugenio Ressa <s281642@studenti.polito.it>
+Date:   Wed May 19 21:06:14 2021 +0200
+
+     conflixt correction
+
+[33mcommit 97a43c67d80b94059340c229bc7d59c8593b83e8[m
+Merge: 1c20828 2a55775
+Author: Eugenio Ressa <s281642@studenti.polito.it>
+Date:   Wed May 19 20:57:03 2021 +0200
+
+     BB report upload
+
+[33mcommit 1c208285f8262af95c56216f820aaa6678165212[m
+Author: Eugenio Ressa <s281642@studenti.polito.it>
+Date:   Wed May 19 20:56:34 2021 +0200
+
+     BB report upload
+
+[33mcommit 2a55775569e443c950b87f38d42dfd36bfde5d69[m
+Merge: 3b12d3c 805d10d
+Author: DANIEL PEÑA LÓPEZ s286489 <s286489@studenti.polito.it>
+Date:   Wed May 19 20:43:03 2021 +0200
+
+    bb dani
+
+[33mcommit 3b12d3c8c75d463ff270aa49d95948853f75be7d[m
+Author: DANIEL PEÑA LÓPEZ s286489 <s286489@studenti.polito.it>
+Date:   Wed May 19 20:30:31 2021 +0200
+
+    bb dani
+
+[33mcommit 805d10dbbea4e22c9fd639a8e410c4be2ecb683b[m
+Merge: f77c877 d8aa265
+Author: Eugenio Ressa <s281642@studenti.polito.it>
+Date:   Wed May 19 20:05:01 2021 +0200
+
+     fix bug : localDate still present in createStatement
+
+[33mcommit f77c8776656fb1b19d9aa8475a95ae2207d4e356[m
+Author: Eugenio Ressa <s281642@studenti.polito.it>
+Date:   Wed May 19 20:04:03 2021 +0200
+
+     fix bug : localDate still present in createStatement
+
+[33mcommit d8aa265910978c9e4ead2096fa865afd9be0d776[m
+Author: Eugenio Ressa <s281642@studenti.polito.it>
+Date:   Wed May 19 17:19:11 2021 +0000
+
+    Update Deliverables/Images/design/matrix.PNG, Deliverables/DesignDocument.md files
+
+[33mcommit 4107af15e73d11b7da37e1a02661e4d291394859[m
+Author: setareh askari <s288485@studenti.polito.it>
+Date:   Wed May 19 19:00:51 2021 +0200
+
+    add classes to suite
+
+[33mcommit 3949607c5902f5f08397089ed5da396fb4e1ab81[m
+Author: setareh askari <s288485@studenti.polito.it>
+Date:   Wed May 19 18:29:48 2021 +0200
+
+    fix error
+
+[33mcommit cd3fd73298cf201e7e1c62994543310526635e06[m
+Merge: cec8317 7be1b58
+Author: Eugenio Ressa <s281642@studenti.polito.it>
+Date:   Wed May 19 18:15:56 2021 +0200
+
+    eugenio BB
+
+[33mcommit cec8317477cc87bfdcaea9cb514e43c159a256fb[m
+Author: Eugenio Ressa <s281642@studenti.polito.it>
+Date:   Wed May 19 18:15:30 2021 +0200
+
+    eugenio BB
+
+[33mcommit 7a5a72cea4b6b6c651d3e3d236223322f81d8077[m
+Merge: 9022afb 7be1b58
+Author: DANIEL PEÑA LÓPEZ s286489 <s286489@studenti.polito.it>
+Date:   Wed May 19 17:49:35 2021 +0200
+
+    little changes
+
+[33mcommit 9022afb2e9a19c82a95af27ae191253a4b05aa10[m
+Author: DANIEL PEÑA LÓPEZ s286489 <s286489@studenti.polito.it>
+Date:   Wed May 19 17:24:38 2021 +0200
+
+    little changes
+
+[33mcommit 7be1b580723adb05a241ca45285155278a4e883c[m
+Author: setareh askari <s288485@studenti.polito.it>
+Date:   Wed May 19 17:10:18 2021 +0200
+
+    test onlyDigits report also done
+
+[33mcommit 179531c68d9431aa121d8a273c7a78c27eb0f290[m
+Author: setareh askari <s288485@studenti.polito.it>
+Date:   Wed May 19 16:59:26 2021 +0200
+
+    test createRandomInteger report also done
+
+[33mcommit 82c9f4510c5ebec476c6bcc1d7269a07e0454377[m
+Author: setareh askari <s288485@studenti.polito.it>
+Date:   Wed May 19 16:19:36 2021 +0200
+
+    onlyDigits test done
+
+[33mcommit 16809e774a05f232c78d2136228a228eaeef0e9e[m
+Author: setareh askari <s288485@studenti.polito.it>
+Date:   Wed May 19 16:11:29 2021 +0200
+
+    createRandomInteger test done
+
+[33mcommit dd1d5957ba42dc440e244adb5ce8f35d063c627e[m
+Author: setareh askari <s288485@studenti.polito.it>
+Date:   Wed May 19 15:53:55 2021 +0200
+
+    make create random int public
+
+[33mcommit 5e77b3b339c73a914a5df89cecb0433f1bf592a2[m
+Merge: 8a59b49 69f1e61
+Author: Eugenio Ressa <s281642@studenti.polito.it>
+Date:   Wed May 19 15:25:35 2021 +0200
+
+    Merge branch 'phase_3' of git-softeng.polito.it:se-2021/group-12/ezshop into phase_3
+
+[33mcommit 8a59b49761a99c319fa17561e1e03de3658e1d95[m
+Author: Eugenio Ressa <s281642@studenti.polito.it>
+Date:   Wed May 19 15:25:19 2021 +0200
+
+    EZShoptest created
+
+[33mcommit 69f1e61ec97785ba7200332a5fc498525952ebfa[m
+Author: setareh askari <s288485@studenti.polito.it>
+Date:   Wed May 19 15:25:09 2021 +0200
+
+    modify unit test report
+
+[33mcommit 54b115b3082dcc3f54f9e07f0e069dbe7658ae69[m
+Author: Eugenio Ressa <s281642@studenti.polito.it>
+Date:   Wed May 19 15:18:40 2021 +0200
+
+    EZShoptest created
+
+[33mcommit d0b995a421d113b278c8e6673835c1743f6e30f0[m
+Merge: 1b7dbbe 460fc7e
+Author: Eugenio Ressa <s281642@studenti.polito.it>
+Date:   Wed May 19 14:18:18 2021 +0200
+
+    Merge branch 'phase_3' of git-softeng.polito.it:se-2021/group-12/ezshop into phase_3
+
+[33mcommit 1b7dbbefa1e6f761a56e37630a24b5804f7c3cda[m
+Author: Eugenio Ressa <s281642@studenti.polito.it>
+Date:   Wed May 19 14:17:55 2021 +0200
+
+     fixed checkUniqueProductCode error
+
+[33mcommit 460fc7e5361dc594edc8892c8cca12b3fdb279ea[m
+Author: Eugenio Ressa <s281642@studenti.polito.it>
+Date:   Wed May 19 10:59:16 2021 +0000
+
+    Update Deliverables/UnitTestReport.md
+
+[33mcommit b782d2350b67d1a1980168b224a5dc61dd127445[m
+Merge: e1239ed 2a47b33
+Author: Eugenio Ressa <s281642@studenti.polito.it>
+Date:   Wed May 19 11:29:35 2021 +0200
+
+     BalanceOperationRepositoryTest.java created
+
+[33mcommit e1239ed2ccf8b5e3b3c26b6edf008af71baaa7fe[m
+Author: Eugenio Ressa <s281642@studenti.polito.it>
+Date:   Wed May 19 11:28:25 2021 +0200
+
+     BalanceOperationRepositoryTest.java created
+
+[33mcommit 2a47b33ba13ceaad46026c60575170bff27f0460[m
+Merge: b4aae62 5a1ffa4
+Author: setareh askari <s288485@studenti.polito.it>
+Date:   Wed May 19 10:54:26 2021 +0200
+
+    Merge remote-tracking branch 'origin/phase_3' into phase_3
+
+[33mcommit b4aae6240f9b2a515534f6f1cdafc87cf5b42d23[m
+Author: setareh askari <s288485@studenti.polito.it>
+Date:   Wed May 19 10:54:19 2021 +0200
+
+    create CustomerRepositoryTest
+
+[33mcommit e7f4ec86082c12eb0e6f0590b3a686be6d3a6e29[m
+Merge: 4875b38 5a1ffa4
+Author: Eugenio Ressa <s281642@studenti.polito.it>
+Date:   Wed May 19 10:40:42 2021 +0200
+
+    Merge branch 'phase_3' of git-softeng.polito.it:se-2021/group-12/ezshop into phase_3
+
+[33mcommit 4875b38a281e60dd114423ad4e0f4970c7f9aff6[m
+Author: Eugenio Ressa <s281642@studenti.polito.it>
+Date:   Wed May 19 10:40:18 2021 +0200
+
+     sincronizing
+
+[33mcommit 5a1ffa4df56d174684a696653a9e1e2a111bb46f[m
+Author: Eugenio Ressa <s281642@studenti.polito.it>
+Date:   Wed May 19 08:33:03 2021 +0000
+
+    Update Deliverables/Images/design/1.png, Deliverables/Images/design/2.png, Deliverables/Images/design/3.png, Deliverables/Images/design/4.png, Deliverables/Images/design/6_1_3.png, Deliverables/Images/design/6_4_6.png, Deliverables/Images/design/7.png, Deliverables/Images/design/8.png, Deliverables/Images/design/class_diagram.png, Deliverables/Images/design/traciability matr.PNG files
+
+[33mcommit dc582052ba9d2bef3c42ea0bfde108d57b244667[m
+Author: Eugenio Ressa <s281642@studenti.polito.it>
+Date:   Wed May 19 08:23:27 2021 +0000
+
+    Update 1.png, 2.png, 3.png, 4.png, 6_1_3.png, 6_4_6.png, 7.png, 8.png, traciability matr.PNG, class_diagram.png, Deliverables/DesignDocument.md files
+    Deleted Deliverables/Images/design/1.png, Deliverables/Images/design/2.1.png, Deliverables/Images/design/2.2.png, Deliverables/Images/design/2.3.png, Deliverables/Images/design/3.1.png, Deliverables/Images/design/3.2.png, Deliverables/Images/design/3.3.png, Deliverables/Images/design/4.1.png, Deliverables/Images/design/4.2.png, Deliverables/Images/design/4.3.png, Deliverables/Images/design/4.4.png, Deliverables/Images/design/6.1.png, Deliverables/Images/design/6.2.png, Deliverables/Images/design/6.3.png, Deliverables/Images/design/6.4.png, Deliverables/Images/design/6.5.png, Deliverables/Images/design/6.6.png, Deliverables/Images/design/7.1.png, Deliverables/Images/design/7.2.png, Deliverables/Images/design/7.3.png, Deliverables/Images/design/7.4.png, Deliverables/Images/design/8.1.png, Deliverables/Images/design/8.2.png, Deliverables/Images/design/9.1.png, Deliverables/Images/design/matrix.png, Deliverables/Images/design/class_diagram.png, Deliverables/Images/design/10.1.png, Deliverables/Images/design/10.2.png files
+
+[33mcommit ae991fbd9112d56cdb8b9539bdabd902b0b1d9d7[m
+Author: setareh askari <s288485@studenti.polito.it>
+Date:   Wed May 19 00:47:24 2021 +0200
+
+    customer and user model bb test report
+
+[33mcommit 7979150c1a1b9bc7d5ecff03ba293d70cf69057e[m
+Author: setareh askari <s288485@studenti.polito.it>
+Date:   Tue May 18 23:12:16 2021 +0200
+
+    CustomerClassTest done
+
+[33mcommit 13e067bb179337287ea2d03bc6087a631fa1e29f[m
+Author: setareh askari <s288485@studenti.polito.it>
+Date:   Tue May 18 22:50:40 2021 +0200
+
+    UserClassTest done
+
+[33mcommit 4e4e0b6c5ef9d2aa90116d3a8904c1c72a0e6458[m
+Author: setareh askari <s288485@studenti.polito.it>
+Date:   Tue May 18 21:09:44 2021 +0200
+
+    implement reset
+
+[33mcommit 913a451c8d8d918e839758114b04226f52e105ea[m
+Author: setareh askari <s288485@studenti.polito.it>
+Date:   Tue May 18 19:48:20 2021 +0200
+
+    fix conflict
+
+[33mcommit a04ba83afae67f08523bfe55896dfe91624cdb6c[m
+Author: Eugenio Ressa <s281642@studenti.polito.it>
+Date:   Tue May 18 17:46:54 2021 +0200
+
+     correction of checkProductCode
+
+[33mcommit 4f83e184385f8310e7285f714961d00290bdb72e[m
+Merge: 6151455 4fc6565
+Author: Eugenio Ressa <s281642@studenti.polito.it>
+Date:   Tue May 18 17:44:16 2021 +0200
+
+     correction of checkProductCode
+
+[33mcommit 6151455398af4c3a96e485458f4ebb74ff3bc485[m
+Author: Eugenio Ressa <s281642@studenti.polito.it>
+Date:   Tue May 18 17:43:34 2021 +0200
+
+     correction of checkProductCode
+
+[33mcommit ac96fe3ff8deb1fd91897fb255c2216eab8d7166[m
+Merge: 2bd9369 4fc6565
+Author: DANIEL PEÑA LÓPEZ s286489 <s286489@studenti.polito.it>
+Date:   Tue May 18 17:28:20 2021 +0200
+
+    Merge branch 'phase_3' of https://git-softeng.polito.it/se-2021/group-12/ezshop into phase_3
+
+[33mcommit 2bd936949463a1c24d1107e2e0cc0cf16e8f5bf8[m
+Author: DANIEL PEÑA LÓPEZ s286489 <s286489@studenti.polito.it>
+Date:   Tue May 18 17:25:48 2021 +0200
+
+    little changes
+
+[33mcommit 4fc65657e20d239795c72539daca18e796379190[m
+Author: setareh askari <s288485@studenti.polito.it>
+Date:   Tue May 18 17:20:14 2021 +0200
+
+    uncomment barcode checker
+
+[33mcommit ac015ca3cd47a1bb77d898e9e3b02401b882ce4e[m
+Author: Eugenio Ressa <s281642@studenti.polito.it>
+Date:   Tue May 18 16:41:30 2021 +0200
+
+     getCreditAndDebit : implementation of swapped from/to
+
+[33mcommit c85bcb8fc3ca3ab6487951ef03b1c2d52e2cb1b1[m
+Merge: 3200dc6 6b07d7d
+Author: DANIEL PEÑA LÓPEZ s286489 <s286489@studenti.polito.it>
+Date:   Tue May 18 16:06:24 2021 +0200
+
+    Merge branch 'phase_3' of https://git-softeng.polito.it/se-2021/group-12/ezshop into phase_3
+
+[33mcommit 6b07d7d33580c6d826b62b4088d95651a2c71ac2[m
+Author: Eugenio Ressa <s281642@studenti.polito.it>
+Date:   Tue May 18 15:53:39 2021 +0200
+
+    added control of from/to parameter inside getCreditAndDebit()
+
+[33mcommit 3200dc6bf1fe362c0c3673b430adb8eb41beaa69[m
+Merge: d84953f a5a2b8f
+Author: DANIEL PEÑA LÓPEZ s286489 <s286489@studenti.polito.it>
+Date:   Tue May 18 15:40:21 2021 +0200
+
+    Merge branch 'phase_3' of https://git-softeng.polito.it/se-2021/group-12/ezshop into phase_3
+
+[33mcommit d84953fff7b38b61a712b9ab5327f5beed18b639[m
+Author: DANIEL PEÑA LÓPEZ s286489 <s286489@studenti.polito.it>
+Date:   Tue May 18 15:40:11 2021 +0200
+
+    changes
+
+[33mcommit a5a2b8f06b255337a02427c0b000ed4e475536d4[m
+Author: setareh askari <s288485@studenti.polito.it>
+Date:   Tue May 18 14:47:07 2021 +0200
+
+    create user repository test
+
+[33mcommit 88fbf719a25ff2e69c64db468b98be69b6db4ab1[m
+Author: setareh askari <s288485@studenti.polito.it>
+Date:   Tue May 18 14:38:13 2021 +0200
+
+    add test suite
+
+[33mcommit 455c960feb42942c0b8de9b96c6a45ca32c696c2[m
+Author: setareh askari <s288485@studenti.polito.it>
+Date:   Tue May 18 11:12:31 2021 +0200
+
+    remove api test for now
+
+[33mcommit e04db7d3ac1ee6fd808fcf13ecd9d575d549ec74[m
+Merge: 9c6a6ae 87a7ff3
+Author: setareh askari <s288485@studenti.polito.it>
+Date:   Tue May 18 09:21:09 2021 +0200
+
+    Merge remote-tracking branch 'origin/phase_3' into phase_3
+
+[33mcommit 9c6a6ae1cfdaf99a5381894b26b91940fd8b2382[m
+Author: setareh askari <s288485@studenti.polito.it>
+Date:   Tue May 18 09:20:59 2021 +0200
+
+    remove commit
+
+[33mcommit 87a7ff3ed127961a01bb7bbc3a34cb531b11a66b[m
+Author: Eugenio Ressa <s281642@studenti.polito.it>
+Date:   Mon May 17 16:56:45 2021 +0200
+
+    getCreditAndDebit error caused by rs.getDate() solved
+
+[33mcommit edf4b1caeefe338119cebaccae90ce1bf948b979[m
+Author: setareh askari <s288485@studenti.polito.it>
+Date:   Mon May 17 14:17:53 2021 +0200
+
+    delete return transaction works fine
+
+[33mcommit 8d6a62e19bd23206d147fbd37b34c218bfcfddf7[m
+Author: setareh askari <s288485@studenti.polito.it>
+Date:   Mon May 17 14:11:21 2021 +0200
+
+    delete return transaction
+
+[33mcommit 2e5367235bb4efe7bea8ed890fd13d969cc96091[m
+Author: setareh askari <s288485@studenti.polito.it>
+Date:   Mon May 17 13:37:38 2021 +0200
+
+    fix bug in end return
+
+[33mcommit 8977fd6eb79558179269e1edc60ace3a4c091831[m
+Author: setareh askari <s288485@studenti.polito.it>
+Date:   Mon May 17 13:31:45 2021 +0200
+
+    remove unused code
+
+[33mcommit e6eac96c2db0296a5268e856f80556a838d9af12[m
+Author: setareh askari <s288485@studenti.polito.it>
+Date:   Mon May 17 13:13:59 2021 +0200
+
+    Revert "uncomment check barcode"
+    
+    This reverts commit a2bdf370
+
+[33mcommit a2bdf3701c0d42dc63d04d15e9b8061c63fca482[m
+Author: setareh askari <s288485@studenti.polito.it>
+Date:   Mon May 17 13:07:53 2021 +0200
+
+    uncomment check barcode
+
+[33mcommit a594f8a8d8cdc6d33db2eeb482adb72eb407bc26[m
+Author: setareh askari <s288485@studenti.polito.it>
+Date:   Mon May 17 13:06:49 2021 +0200
+
+    fix bug
+
+[33mcommit 976238a4366c5837271eb32515e93a4c8aa45fd2[m
+Author: setareh askari <s288485@studenti.polito.it>
+Date:   Mon May 17 12:54:00 2021 +0200
+
+    fix bug
+
+[33mcommit 9cdbe1ba8f991f162d5edfbef7a0ca7083d2e390[m
+Author: setareh askari <s288485@studenti.polito.it>
+Date:   Mon May 17 12:50:00 2021 +0200
+
+    fix bug
+
+[33mcommit 7b3abde22ccb5b8728d34486962def4a0915077e[m
+Merge: 192f283 9af2332
+Author: setareh askari <s288485@studenti.polito.it>
+Date:   Mon May 17 12:47:19 2021 +0200
+
+    Merge remote-tracking branch 'origin/phase_3' into phase_3
+    
+    # Conflicts:
+    #       ezshop.db
+
+[33mcommit 192f283a38bf9004a29d3a47fb0bca8e86787074[m
+Author: setareh askari <s288485@studenti.polito.it>
+Date:   Mon May 17 12:46:52 2021 +0200
+
+    update the price of sale transaction
+
+[33mcommit 9af2332c87b35f778f6ac3a2b405f190726a6e46[m
+Merge: ddad4e3 3a53d28
+Author: Eugenio Ressa <s281642@studenti.polito.it>
+Date:   Mon May 17 12:39:18 2021 +0200
+
+     inizialize() now create the balance row if it not exist yet
+
+[33mcommit ddad4e31336bf6eefc2d37a34ca3c9c4c3262538[m
+Author: Eugenio Ressa <s281642@studenti.polito.it>
+Date:   Mon May 17 12:37:14 2021 +0200
+
+     inizialize() now create the balance row if it not exist yet
+
+[33mcommit 3a53d28468e59db43c3a022361b8b8d4f9ec1bee[m
+Author: setareh askari <s288485@studenti.polito.it>
+Date:   Mon May 17 12:13:15 2021 +0200
+
+    remove unused code
+
+[33mcommit bab1856dd1bfe24ec32b5e500634dc3188a32ad1[m
+Author: setareh askari <s288485@studenti.polito.it>
+Date:   Mon May 17 12:12:46 2021 +0200
+
+    inconsistencies are fixed hopefully
+
+[33mcommit 42d4e042ff2b362472fb1f0dc844132544127789[m
+Author: Eugenio Ressa <s281642@studenti.polito.it>
+Date:   Mon May 17 11:54:20 2021 +0200
+
+     removed discountRate 2
+
+[33mcommit 65fe7907fc77e52e3eca4864bf272863b1e60b05[m
+Merge: f02aaa5 5a13072
+Author: Eugenio Ressa <s281642@studenti.polito.it>
+Date:   Mon May 17 11:49:17 2021 +0200
+
+    Merge branch 'phase_3' of git-softeng.polito.it:se-2021/group-12/ezshop into phase_3
+
+[33mcommit f02aaa5cf8684af7c1de8a9409b5c262f44d27c3[m
+Author: Eugenio Ressa <s281642@studenti.polito.it>
+Date:   Mon May 17 11:49:02 2021 +0200
+
+    removed discount rate from productType
+
+[33mcommit 5a1307258d33813ce9bdcdc02c9d0c12c16f53df[m
+Author: setareh askari <s288485@studenti.polito.it>
+Date:   Mon May 17 11:46:06 2021 +0200
+
+    remove unused code from main
+
+[33mcommit 3aab598b6206bb1d95429be3b8273741cc5059d2[m
+Author: setareh askari <s288485@studenti.polito.it>
+Date:   Mon May 17 11:45:01 2021 +0200
+
+    change bitwise or to logical or
+
+[33mcommit cb922c49457663c8ec5d2265cc4a18e8177d61cb[m
+Author: setareh askari <s288485@studenti.polito.it>
+Date:   Mon May 17 11:43:09 2021 +0200
+
+    remove db
+
+[33mcommit dbfe362c1e5ebbc416e04a7b0cab475210b79f17[m
+Merge: 2bcd7aa 72da3d5
+Author: Eugenio Ressa <s281642@studenti.polito.it>
+Date:   Mon May 17 11:11:57 2021 +0200
+
+    Merge branch 'phase_3' of git-softeng.polito.it:se-2021/group-12/ezshop into phase_3
+
+[33mcommit 2bcd7aadf4789ba8aee8de3a2ca122a454941fd2[m
+Merge: c1578c6 228c5db
+Author: Eugenio Ressa <s281642@studenti.polito.it>
+Date:   Mon May 17 11:11:39 2021 +0200
+
+     conflict resolved
+
+[33mcommit 72da3d5c4e4ac488970abbab3051078c5a936ea9[m
+Author: setareh askari <s288485@studenti.polito.it>
+Date:   Mon May 17 11:10:51 2021 +0200
+
+    end return transaction
+
+[33mcommit c1578c6b833f0a5d8abe33bc11bd641b08a54a88[m
+Author: Eugenio Ressa <s281642@studenti.polito.it>
+Date:   Mon May 17 10:47:36 2021 +0200
+
+     FR4 & FR7
+
+[33mcommit 228c5db428127ecab3e9a44ee13792942abe7744[m
+Author: setareh askari <s288485@studenti.polito.it>
+Date:   Mon May 17 02:42:00 2021 +0200
+
+    fix bug, return product works correctly
+
+[33mcommit d384a70c687e8ddb9fb7501e4c080f6d56730ad2[m
+Author: setareh askari <s288485@studenti.polito.it>
+Date:   Mon May 17 01:28:06 2021 +0200
+
+    return product, needs to be tested
+
+[33mcommit ec1d47958115a8d980d95ba03ff005030d74482c[m
+Author: setareh askari <s288485@studenti.polito.it>
+Date:   Mon May 17 01:03:45 2021 +0200
+
+    start return transaction
+
+[33mcommit e6facf1c4bee7a40ac6c9b1bab2380da0e3300ec[m
+Author: setareh askari <s288485@studenti.polito.it>
+Date:   Mon May 17 00:51:56 2021 +0200
+
+    remove unused code
+
+[33mcommit 7462cd9dd12cb10ea35d269b98473ebb908d6cb6[m
+Author: setareh askari <s288485@studenti.polito.it>
+Date:   Mon May 17 00:46:07 2021 +0200
+
+    add ticketNumber to return,
+    change structure in db,
+    start return transaction not complete yet
+
+[33mcommit c3b0cad2dca592bad84a538c3022e954e53b1dbe[m
+Merge: 4a3c187 e5f1688
+Author: setareh askari <s288485@studenti.polito.it>
+Date:   Sun May 16 22:39:28 2021 +0200
+
+    resolve conflict
+
+[33mcommit 4a3c187a40890964531fb6eb152566ebbbb36342[m
+Author: setareh askari <s288485@studenti.polito.it>
+Date:   Sun May 16 22:38:19 2021 +0200
+
+    resolve conflict
+
+[33mcommit e5f1688a1ea8139f4c77184a46a79b9822a9f77b[m
+Author: DANIEL PEÑA LÓPEZ s286489 <s286489@studenti.polito.it>
+Date:   Sun May 16 18:26:08 2021 +0200
+
+    FR7 everything except the function that writes Requirements.txt
+
+[33mcommit a442f31bedbe52d7c716aa9878178a28c5a8442f[m
+Merge: 2d04282 7ddc4c3
+Author: DANIEL PEÑA LÓPEZ s286489 <s286489@studenti.polito.it>
+Date:   Sun May 16 12:29:14 2021 +0200
+
+    little changes
+
+[33mcommit 7ddc4c31d0f164b7b6b2b702573a32919da73f67[m
+Author: setareh askari <s288485@studenti.polito.it>
+Date:   Sun May 16 00:13:02 2021 +0200
+
+    fix bug in calculating price
+
+[33mcommit 308f2f9780c68998f5e9dbec3bb6ef032c297dd0[m
+Author: setareh askari <s288485@studenti.polito.it>
+Date:   Sat May 15 23:52:42 2021 +0200
+
+    fix bug in printing ticket, set ticket for sales
+
+[33mcommit 8859328859e0c15246024fe4ec777b6b6ca53738[m
+Author: setareh askari <s288485@studenti.polito.it>
+Date:   Sat May 15 23:22:03 2021 +0200
+
+    add logger
+
+[33mcommit aa840eb00d471f0f09f42451ce6a2222d5d61407[m
+Author: setareh askari <s288485@studenti.polito.it>
+Date:   Sat May 15 22:43:44 2021 +0200
+
+    undo changes of return of endSaleTransaction
+
+[33mcommit de715278e1857394397898897e7d04a64d9864d4[m
+Author: setareh askari <s288485@studenti.polito.it>
+Date:   Sat May 15 22:36:54 2021 +0200
+
+    add logger
+
+[33mcommit 879d4af36e43c4b93bd4f3585021ba3980484e12[m
+Author: setareh askari <s288485@studenti.polito.it>
+Date:   Sat May 15 22:24:49 2021 +0200
+
+    fix #3
+
+[33mcommit 364e64f8e8a101ed2aa87f25887909a1f7619f5a[m
+Author: setareh askari <s288485@studenti.polito.it>
+Date:   Sat May 15 22:23:43 2021 +0200
+
+    replace | with ||
+
+[33mcommit 2d1a3176760695077d801366041212e6b36b108c[m
+Author: setareh askari <s288485@studenti.polito.it>
+Date:   Sat May 15 22:17:34 2021 +0200
+
+    fix logout bug
+
+[33mcommit 9e3e0f3859bed9b0060be88387cc4b2a4607376f[m
+Author: setareh askari <s288485@studenti.polito.it>
+Date:   Sat May 15 19:41:26 2021 +0200
+
+    fix bug
+
+[33mcommit 5506abda9cce2d75f0782a1f8f55006245579413[m
+Author: setareh askari <s288485@studenti.polito.it>
+Date:   Sat May 15 19:28:09 2021 +0200
+
+    delete sale transaction
+
+[33mcommit c3381eee22be8c28a15444d276ad1be9aa25088a[m
+Author: setareh askari <s288485@studenti.polito.it>
+Date:   Sat May 15 19:08:15 2021 +0200
+
+    return closed sale transaction
+
+[33mcommit 799ca20b256276bbf18f32bffa4357a34c2bcb44[m
+Author: setareh askari <s288485@studenti.polito.it>
+Date:   Sat May 15 17:38:27 2021 +0200
+
+    end sale transaction
+
+[33mcommit 3bc77c5229f34a425bcf1f0e5f97f7466714eaf2[m
+Merge: 6671519 8397ca7
+Author: setareh askari <s288485@studenti.polito.it>
+Date:   Sat May 15 17:26:14 2021 +0200
+
+    fix conflict
+
+[33mcommit 66715190f3af6f53b6390cf00fb0afa96cd4946c[m
+Author: setareh askari <s288485@studenti.polito.it>
+Date:   Sat May 15 17:21:30 2021 +0200
+
+    set price for sale, calculate points
+
+[33mcommit 8397ca7c0725cbef4526a655b2ad38b9d038c658[m
+Author: setareh askari <s288485@studenti.polito.it>
+Date:   Sat May 15 17:21:30 2021 +0200
+
+    set price for sale
+
+[33mcommit 752330be6ca0eb6ea89d6bbe4d9d30bdca144dc9[m
+Author: setareh askari <s288485@studenti.polito.it>
+Date:   Sat May 15 16:49:56 2021 +0200
+
+    set initial discount rate of product to 1 instead of 0
+
+[33mcommit 8602cf897457af22c4e56a90d84efd8054c333f2[m
+Author: setareh askari <s288485@studenti.polito.it>
+Date:   Sat May 15 16:40:30 2021 +0200
+
+    apply discount rate to sale
+
+[33mcommit 2d04282c69938069b528f5711d6aa4ed9407e0af[m
+Merge: d13bbe2 0352837
+Author: DANIEL PEÑA LÓPEZ s286489 <s286489@studenti.polito.it>
+Date:   Sat May 15 13:43:10 2021 +0200
+
+    not finished, some tests of Customer and FR7 basic checks
+
+[33mcommit d13bbe20e7016573ce5b84007ff1192a97b9397a[m
+Author: DANIEL PEÑA LÓPEZ s286489 <s286489@studenti.polito.it>
+Date:   Sat May 15 13:42:38 2021 +0200
+
+    not finished, some tests of Customer and FR7 basic checks
+
+[33mcommit c17bb808e1af9cf4d8ddfb192058ab0d04096c37[m
+Author: DANIEL PEÑA LÓPEZ s286489 <s286489@studenti.polito.it>
+Date:   Sat May 15 13:26:28 2021 +0200
+
+    change file of test out of the acceptance folder
+
+[33mcommit 03528379fa270b4cc7995977fc4bff038e204322[m
+Author: setareh askari <s288485@studenti.polito.it>
+Date:   Sat May 15 12:01:01 2021 +0200
+
+    implement update row in balance op. rep.
+
+[33mcommit b6763f9b02660435db372e4f9d87b08092938958[m
+Author: setareh askari <s288485@studenti.polito.it>
+Date:   Sat May 15 00:24:31 2021 +0200
+
+    implement applyDiscountRateToProduct
+
+[33mcommit 5cccf72ab1ee82c985652286eb7946d5320bf373[m
+Author: setareh askari <s288485@studenti.polito.it>
+Date:   Fri May 14 23:52:25 2021 +0200
+
+    fix bug
+
+[33mcommit 712b90817852fdc68a9ede2e9be2a8f35ba92902[m
+Author: setareh askari <s288485@studenti.polito.it>
+Date:   Fri May 14 23:19:29 2021 +0200
+
+    fix bug in finding max id when db is empty
+
+[33mcommit 375be4e85b5bf2d715f3a83bc60a07bbb2e7b809[m
+Author: setareh askari <s288485@studenti.polito.it>
+Date:   Fri May 14 22:45:27 2021 +0200
+
+    remove date from return and sale
+
+[33mcommit afb1f18bdf5f167201becda0e465a18947a69c8f[m
+Merge: 5fa5f4a 9ae2690
+Author: DANIEL PEÑA LÓPEZ s286489 <s286489@studenti.polito.it>
+Date:   Fri May 14 13:13:32 2021 +0200
+
+    Tests of FR1
+
+[33mcommit 5fa5f4ac00b734674bffb6169a42166d3cf461f4[m
+Author: DANIEL PEÑA LÓPEZ s286489 <s286489@studenti.polito.it>
+Date:   Fri May 14 13:09:47 2021 +0200
+
+    Tests of FR1
+
+[33mcommit ac7d72cfaa62486fdfb00dc705d543a1ae9ef17b[m
+Merge: 22e2f0c 9ae2690
+Author: Eugenio Ressa <s281642@studenti.polito.it>
+Date:   Fri May 14 12:01:55 2021 +0200
+
+     merging
+
+[33mcommit 22e2f0c4c00c879ec0e79fbde3e1e735cfd59710[m
+Author: Eugenio Ressa <s281642@studenti.polito.it>
+Date:   Fri May 14 11:57:44 2021 +0200
+
+     create newOrder()
+
+[33mcommit 9ae2690a29de1d826210c0ec0f764ece2bd23bc1[m
+Author: setare askari <setare@setares-MacBook-Pro.local>
+Date:   Fri May 14 11:49:11 2021 +0200
+
+    fix delete product from sale
+
+[33mcommit c1f466f265d933e7a205f1ebd47fa8a746993d0a[m
+Author: Eugenio Ressa <s281642@studenti.polito.it>
+Date:   Fri May 14 11:08:47 2021 +0200
+
+     try it se
+
+[33mcommit ac37c0c1d25cdd17e096951aec255888cab94ef3[m
+Merge: c6627b2 292f711
+Author: Eugenio Ressa <s281642@studenti.polito.it>
+Date:   Fri May 14 10:50:37 2021 +0200
+
+     as before
+
+[33mcommit c6627b257319169014b2bfbc18fa1bc33f00ac43[m
+Author: Eugenio Ressa <s281642@studenti.polito.it>
+Date:   Fri May 14 10:45:21 2021 +0200
+
+     some changes \ updateLocation
+
+[33mcommit 292f711367f500bea9d95b2719e08a7057396312[m
+Author: setare askari <setare@setares-MacBook-Pro.local>
+Date:   Fri May 14 10:44:51 2021 +0200
+
+    fix bug
+
+[33mcommit bfd69e202964171dd73ddedc28e784d01e87b0e4[m
+Merge: 1db5269 3dcdfd4
+Author: setare askari <setare@setares-MacBook-Pro.local>
+Date:   Fri May 14 10:41:18 2021 +0200
+
+    fix conflict
+
+[33mcommit 1db526966ad00b92721cd7484ee64cd35fbcbe6f[m
+Author: setare askari <setare@setares-MacBook-Pro.local>
+Date:   Fri May 14 10:37:57 2021 +0200
+
+    fix error
+
+[33mcommit 936bcc09ef03799f009b3f0d601aa9b3de5047f9[m
+Author: setare askari <setare@setares-MacBook-Pro.local>
+Date:   Fri May 14 10:33:33 2021 +0200
+
+    fix #2
+
+[33mcommit 3ccfbb0a1730011f43597922485d39f77704f44b[m
+Author: setare askari <setare@setares-MacBook-Pro.local>
+Date:   Fri May 14 00:12:37 2021 +0200
+
+    add logger
+
+[33mcommit 3eb0a17504110a03c5f7103fd4207986ab9ba43d[m
+Author: setare askari <setare@setares-MacBook-Pro.local>
+Date:   Fri May 14 00:05:04 2021 +0200
+
+    implement add and delete product from sale
+
+[33mcommit 3dcdfd4dca865686aa439c246df6ce611d944508[m
+Merge: 8aeac76 8c1cd0d
+Author: DANIEL PEÑA LÓPEZ s286489 <s286489@studenti.polito.it>
+Date:   Thu May 13 16:41:56 2021 +0200
+
+    all customer part
+
+[33mcommit 8aeac76f38bb71ada30bc4f972754d20e549921a[m
+Author: DANIEL PEÑA LÓPEZ s286489 <s286489@studenti.polito.it>
+Date:   Thu May 13 16:35:41 2021 +0200
+
+    all customer part
+
+[33mcommit 31f18c4a9be996ce25fcdc540d5a4733813c80f9[m
+Author: DANIEL PEÑA LÓPEZ s286489 <s286489@studenti.polito.it>
+Date:   Thu May 13 16:33:45 2021 +0200
+
+    All customer part
+
+[33mcommit 8c1cd0d6dc6847976298db1cda7b5eb67524eeea[m
+Author: setare askari <setare@setares-MacBook-Pro.local>
+Date:   Thu May 13 11:47:18 2021 +0200
+
+    fix localdate bug in db
+
+[33mcommit 07aa2ca1ddec21d6a6f4bb37103dd27ea59ac229[m
+Author: setare askari <setare@setares-MacBook-Pro.local>
+Date:   Thu May 13 11:16:24 2021 +0200
+
+    start new sale transaction, check format of local date in db
+
+[33mcommit bb4d92ccea1a9f3b6dd311abc2b754c3b7bbde21[m
+Merge: 3182076 5b64740
+Author: setare askari <setare@setares-MacBook-Pro.local>
+Date:   Thu May 13 10:33:46 2021 +0200
+
+    Merge branch 'phase_3' of https://git-softeng.polito.it/se-2021/group-12/ezshop into phase_3
+
+[33mcommit 3182076dbce9f613c3290617df11b42e4924e429[m
+Author: setare askari <setare@setares-MacBook-Pro.local>
+Date:   Thu May 13 10:33:33 2021 +0200
+
+    starting to implement start transaction
+
+[33mcommit 48eee303c0353944fea5bdc31151025778a36fe6[m
+Author: setare askari <setare@setares-MacBook-Pro.local>
+Date:   Thu May 13 10:31:20 2021 +0200
+
+    adding new sale returns the id
+
+[33mcommit 5b64740d4b6ae53e39ae99619e50e26732f12c06[m
+Author: Eugenio Ressa <s281642@studenti.polito.it>
+Date:   Thu May 13 10:22:21 2021 +0200
+
+     checkBarCode implementation
+
+[33mcommit 2aa6c96a1b1ccc30eb5d26e0e1fc9a05fc894a55[m
+Author: setare askari <setare@setares-MacBook-Pro.local>
+Date:   Thu May 13 10:13:23 2021 +0200
+
+    fix bug in creating id
+
+[33mcommit 552351de2c67ca55a6f315dee941f0bc3c049d09[m
+Merge: 421fbf1 80e0d64
+Author: setare askari <setare@setares-MacBook-Pro.local>
+Date:   Wed May 12 21:41:42 2021 +0200
+
+    Merge branch 'master' into phase_3
+
+[33mcommit 421fbf18f884aad9c7efaf2e47cd6c518cd0845b[m
+Author: setare askari <setare@setares-MacBook-Pro.local>
+Date:   Wed May 12 21:37:48 2021 +0200
+
+    fix #1
+
+[33mcommit 72ae933c3391eb683fc1d4a1437c609231759f40[m
+Author: Eugenio Ressa <s281642@studenti.polito.it>
+Date:   Wed May 12 14:09:51 2021 +0200
+
+     ALL FR3 IS DONE AND WORK. I HAVE TO IMPLEMENT CHECKBARCODE... I'M WAITING FOR PROFESSOR ANSWER
+
+[33mcommit d1754d6b9eda6f2abadb19fcf27d124ef5020f5c[m
+Merge: 82b03b6 7a88c4c
+Author: Eugenio Ressa <s281642@studenti.polito.it>
+Date:   Wed May 12 11:31:47 2021 +0200
+
+    Merge branch 'phase_3' of git-softeng.polito.it:se-2021/group-12/ezshop into phase_3
+
+[33mcommit 7a88c4c43eac9970ffabe1c06a33340494221a57[m
+Author: setare askari <setare@setares-MacBook-Pro.local>
+Date:   Wed May 12 13:15:45 2021 +0200
+
+    fix bug
+
+[33mcommit cebba264338b595fa453da0ac8351334e6c504b6[m
+Author: setare askari <setare@setares-MacBook-Pro.local>
+Date:   Wed May 12 13:07:34 2021 +0200
+
+    modify balance op repository according to changes of models
+
+[33mcommit 48088f33b075089d0a8cada836238f58b1df4a27[m
+Merge: 0d0527f 5604372
+Author: setare askari <setare@setares-MacBook-Pro.local>
+Date:   Wed May 12 12:38:25 2021 +0200
+
+    fix confilct
+
+[33mcommit 0d0527f2a3d32721384c4c47d2ca5ebef86f44ec[m
+Author: setare askari <setare@setares-MacBook-Pro.local>
+Date:   Wed May 12 11:36:56 2021 +0200
+
+    change structure of return transaction class
+
+[33mcommit 82b03b63cc914205fb4e2326f1044bbb50dac821[m
+Author: Eugenio Ressa <s281642@studenti.polito.it>
+Date:   Wed May 12 11:31:33 2021 +0200
+
+    deleteProduct implementation
+
+[33mcommit c8f1f891eb0fd89a73c43eb640ae9095781eabf3[m
+Author: setare askari <setare@setares-MacBook-Pro.local>
+Date:   Wed May 12 11:16:01 2021 +0200
+
+    change structure of sale transaction class
+
+[33mcommit 5604372b47b444b16eee41ea6f1c7bfbf34c6c87[m
+Merge: edf6e05 c8f1f89
+Author: Eugenio Ressa <s281642@studenti.polito.it>
+Date:   Wed May 12 10:21:08 2021 +0200
+
+     same as before
+
+[33mcommit edf6e055f8eb08a42384297aa9f259619b5268f0[m
+Merge: c3e5e95 1880320
+Author: Eugenio Ressa <s281642@studenti.polito.it>
+Date:   Wed May 12 10:15:57 2021 +0200
+
+     implemented updateProductType , modified OrderClass & OrderRepository
+
+[33mcommit 1dd8e3da8bca9b8a7a3f1663aad8a2f61e3a753d[m
+Author: setare askari <setare@setares-MacBook-Pro.local>
+Date:   Wed May 12 09:42:19 2021 +0200
+
+    add initilizaiton of repositories, fix bug in balance operation repository
+
+[33mcommit 1880320725cad5f19ade72c657fc71be05f05431[m
+Author: DANIEL PEÑA LÓPEZ s286489 <s286489@studenti.polito.it>
+Date:   Wed May 12 09:12:21 2021 +0200
+
+    getIfAdministrator corrected
+
+[33mcommit c3e5e951b47adc7b423ee5bc54b56df49d228cce[m
+Author: Eugenio Ressa <s281642@studenti.polito.it>
+Date:   Wed May 12 07:22:04 2021 +0200
+
+    start working update PT
+
+[33mcommit 12de712bb10f9e1b0586afcfd4de3c4b9d1f407e[m
+Merge: b759fc5 d95abd8
+Author: DANIEL PEÑA LÓPEZ s286489 <s286489@studenti.polito.it>
+Date:   Tue May 11 21:24:18 2021 +0200
+
+    Merge branch 'phase_3' of https://git-softeng.polito.it/se-2021/group-12/ezshop into phase_3
+
+[33mcommit b759fc5833cdbea3d07e3e33efc380b4a65f4254[m
+Author: DANIEL PEÑA LÓPEZ s286489 <s286489@studenti.polito.it>
+Date:   Tue May 11 21:24:07 2021 +0200
+
+    User methods of EZShop
+
+[33mcommit d95abd891dc6dbc997a3bdbbc4b1206d2da11140[m
+Merge: 77b83a8 8acec4f
+Author: setareh askari s288485 <s288485@studenti.polito.it>
+Date:   Tue May 11 18:09:53 2021 +0200
+
+    Merge branch 'phase_3' of https://git-softeng.polito.it/se-2021/group-12/ezshop into phase_3
+
+[33mcommit 77b83a883f22e8f4b90490b78e3f336f3d27a044[m
+Author: setareh askari s288485 <s288485@studenti.polito.it>
+Date:   Tue May 11 18:09:36 2021 +0200
+
+    implement balance operation repository and return transaction class
+
+[33mcommit adf388a93d17d8259d86b5bf8ce676a17b06b67e[m
+Merge: 880e99d 8acec4f
+Author: Eugenio Ressa <s281642@studenti.polito.it>
+Date:   Tue May 11 16:41:15 2021 +0200
+
+    Merge branch 'phase_3' of git-softeng.polito.it:se-2021/group-12/ezshop into phase_3
+
+[33mcommit 880e99debd6dc845eb60c6424975665ef0b33da0[m
+Author: Eugenio Ressa <s281642@studenti.polito.it>
+Date:   Tue May 11 16:40:57 2021 +0200
+
+     createProductType implemented
+
+[33mcommit 8acec4fe7663db16001103d488f553a393224130[m
+Merge: b6f3de5 7f760fd
+Author: DANIEL PEÑA LÓPEZ s286489 <s286489@studenti.polito.it>
+Date:   Tue May 11 16:36:04 2021 +0200
+
+    change in UserRepository
+
+[33mcommit b6f3de5e8bd6c7bae6670f3ef3c2524ce636be5c[m
+Author: DANIEL PEÑA LÓPEZ s286489 <s286489@studenti.polito.it>
+Date:   Tue May 11 16:32:08 2021 +0200
+
+    change in UserRepository
+
+[33mcommit 7f760fde26b1b643638488a9b1d5c6f0bedf6649[m
+Author: setareh askari s288485 <s288485@studenti.polito.it>
+Date:   Tue May 11 13:42:45 2021 +0200
+
+    fix bug in user repository, "checking roles" moved to ezshop
+
+[33mcommit 15aaf7488b9cfeb67eeb92ab1f05059593ae638d[m
+Merge: ff31868 9898bd0
+Author: DANIEL PEÑA LÓPEZ s286489 <s286489@studenti.polito.it>
+Date:   Tue May 11 11:35:14 2021 +0200
+
+    Merge branch 'phase_3' of https://git-softeng.polito.it/se-2021/group-12/ezshop into phase_3
+
+[33mcommit ff318681f421f4ba5c127d8d0d8d82c1549e7b35[m
+Author: DANIEL PEÑA LÓPEZ s286489 <s286489@studenti.polito.it>
+Date:   Tue May 11 11:35:06 2021 +0200
+
+    create_user method
+
+[33mcommit 9898bd01ce01106c203e7601b8a1b8b8c3635a17[m
+Author: Eugenio Ressa <s281642@studenti.polito.it>
+Date:   Tue May 11 10:34:34 2021 +0200
+
+     created check roles
+
+[33mcommit 80e0d6415669eba8f462483b76a1eca22f9a554f[m
+Merge: 09de510 b0b3fbd
+Author: SimoneLeonardiRD <simone.leonardi.rd@gmail.com>
+Date:   Tue May 11 09:58:07 2021 +0200
+
+    Merge remote-tracking branch 'upstream/master'
+
+[33mcommit b0b3fbdcbc8f4decf3c121a9cb6a64e14ec8ef9e[m
+Author: SimoneLeonardiRD <simone.leonardi.rd@gmail.com>
+Date:   Tue May 11 09:47:38 2021 +0200
+
+    IntegrationAPITestReport e UnitTestReport
+
+[33mcommit 1318a562de447b990f33a7cc18af0221b34cca2c[m
+Author: setareh askari s288485 <s288485@studenti.polito.it>
+Date:   Mon May 10 20:11:20 2021 +0200
+
+    fix creating auto increase id bug, reformat code
+
+[33mcommit f5869e3a731ab1b9298b87bc6b4ae8a24efd5e17[m
+Merge: e6d1a1a 047aae1
+Author: Eugenio Ressa <s281642@studenti.polito.it>
+Date:   Mon May 10 19:36:20 2021 +0200
+
+    Merge branch 'phase_3' of git-softeng.polito.it:se-2021/group-12/ezshop into phase_3
+
+[33mcommit 047aae18544da0a84f6b71420f5c5045272c9a71[m
+Author: setareh askari s288485 <s288485@studenti.polito.it>
+Date:   Mon May 10 19:36:22 2021 +0200
+
+    delete .vscode
+
+[33mcommit e6d1a1a66ab9de8cc13f584044c229719959e00a[m
+Author: Eugenio Ressa <s281642@studenti.polito.it>
+Date:   Mon May 10 19:36:02 2021 +0200
+
+    move login from userRepository to exshop
+
+[33mcommit 9664398194c09e2c7dec7e52e45eae0db511b00c[m
+Author: setareh askari s288485 <s288485@studenti.polito.it>
+Date:   Mon May 10 19:34:13 2021 +0200
+
+    use getInt instead converting returned string to Integer
+
+[33mcommit 653cff3f78f81b680509215ef6c3c9f536bfd837[m
+Author: Luca Ardito <luca.ardito@polito.it>
+Date:   Mon May 10 15:59:53 2021 +0200
+
+    update: bring junit version to 4.13
+
+[33mcommit 0ce557e6cfc1724f18cff97ccc9cb7c40373001c[m
+Author: Luca Ardito <luca.ardito@polito.it>
+Date:   Mon May 10 15:56:30 2021 +0200
+
+    fix: update gui
+
+[33mcommit 0d4e606ae87c11cdefed0a23f6ecffd5c90aa151[m
+Merge: 878a8de 394ba1c
+Author: DANIEL PEÑA LÓPEZ s286489 <s286489@studenti.polito.it>
+Date:   Mon May 10 13:19:53 2021 +0200
+
+    Changes Dani in UserRepository and EZShop
+
+[33mcommit 878a8de068b7ab1709d6795a53d2b840ce7af0fe[m
+Author: DANIEL PEÑA LÓPEZ s286489 <s286489@studenti.polito.it>
+Date:   Mon May 10 13:17:19 2021 +0200
+
+    changes Dani in API and UserRepository
+
+[33mcommit 394ba1cd334559369e1cc514ecf554854265c3ea[m
+Merge: 4073d9d 29f6385
+Author: Eugenio Ressa <s281642@studenti.polito.it>
+Date:   Mon May 10 13:10:56 2021 +0200
+
+     login implementation
+
+[33mcommit 4073d9dd8a986a5b0555d8c1f9e5d932e723b2f4[m
+Author: Eugenio Ressa <s281642@studenti.polito.it>
+Date:   Mon May 10 12:58:23 2021 +0200
+
+     implementation login()
+
+[33mcommit 29f6385acadc170fa30d5c5f69fde918ad59c0fe[m
+Author: setareh askari s288485 <s288485@studenti.polito.it>
+Date:   Mon May 10 12:45:58 2021 +0200
+
+    modify table name
+
+[33mcommit 83197423dafbbee801b13238ee935cdf2a1e4665[m
+Merge: 8dfcc9a acd855a
+Author: DANIEL PEÑA LÓPEZ s286489 <s286489@studenti.polito.it>
+Date:   Mon May 10 11:02:17 2021 +0200
+
+    Merge branch 'phase_3' of https://git-softeng.polito.it/se-2021/group-12/ezshop into phase_3
+
+[33mcommit 8dfcc9a3f61a488bfc82835cd0926398e50c165f[m
+Author: DANIEL PEÑA LÓPEZ s286489 <s286489@studenti.polito.it>
+Date:   Mon May 10 11:02:09 2021 +0200
+
+    errors of CustomerRepository
+
+[33mcommit acd855aa9036358cdf12b48bcd42af2f3b8dcf8a[m
+Merge: 40865b2 767b0e5
+Author: Eugenio Ressa <s281642@studenti.polito.it>
+Date:   Mon May 10 10:41:16 2021 +0200
+
+    Merge branch 'phase_3' of git-softeng.polito.it:se-2021/group-12/ezshop into phase_3
+
+[33mcommit 40865b24ea4053d325eabcdfb665990e943482a2[m
+Author: Eugenio Ressa <s281642@studenti.polito.it>
+Date:   Mon May 10 10:40:46 2021 +0200
+
+     productTypeRepository implemented
+
+[33mcommit 767b0e58587e633ddd1e5b5895f6e961ebd6b1ba[m
+Merge: 0ad3b9e 500440c
+Author: DANIEL PEÑA LÓPEZ s286489 <s286489@studenti.polito.it>
+Date:   Mon May 10 10:35:50 2021 +0200
+
+    Customer Repository
+
+[33mcommit 0ad3b9e657e6e81fdeb12249c1b16e071133f392[m
+Author: DANIEL PEÑA LÓPEZ s286489 <s286489@studenti.polito.it>
+Date:   Mon May 10 10:34:33 2021 +0200
+
+    Customer Repository
+
+[33mcommit 500440c09bd1eea40134c52cba0c5c4cb304a9a4[m
+Author: setareh askari s288485 <s288485@studenti.polito.it>
+Date:   Mon May 10 10:29:55 2021 +0200
+
+    danger: changing return value in balance operation interface temporarily just to avoid error for now
+
+[33mcommit f5f86062f01e9a26b1af81d11774ac879b1d5527[m
+Merge: b12c060 ec8b2b7
+Author: setareh askari s288485 <s288485@studenti.polito.it>
+Date:   Mon May 10 10:03:01 2021 +0200
+
+    Merge branch 'phase_3' of https://git-softeng.polito.it/se-2021/group-12/ezshop into phase_3
+
+[33mcommit ec8b2b74fc5b463f7e7378c6e6b4c16545a608d9[m
+Author: Setareh Askarifirouzjaei <s288485@studenti.polito.it>
+Date:   Mon May 10 07:59:11 2021 +0000
+
+    Update .gitignore
+
+[33mcommit b12c06000c39e0b5bbe1749ea5c88967138785b1[m
+Author: setareh askari s288485 <s288485@studenti.polito.it>
+Date:   Mon May 10 09:58:15 2021 +0200
+
+    modify balance operation
+
+[33mcommit b32b2603a1d4b5778f4cce75642a84287fbe18f5[m
+Merge: 50430b8 442e3f6
+Author: setareh askari s288485 <s288485@studenti.polito.it>
+Date:   Mon May 10 01:44:54 2021 +0200
+
+    Merge branch 'phase_3' of https://git-softeng.polito.it/se-2021/group-12/ezshop into phase_3
+
+[33mcommit 50430b804a12e11be8cb646cdabfc0f18432bc3d[m
+Author: setareh askari s288485 <s288485@studenti.polito.it>
+Date:   Mon May 10 01:44:35 2021 +0200
+
+    remove mapper
+
+[33mcommit 442e3f6850f3b8abd395a0d1aa34d8c0c9117079[m
+Author: Eugenio Ressa <s281642@studenti.polito.it>
+Date:   Fri May 7 12:51:04 2021 +0200
+
+    create TicketClass,put some costructor
+
+[33mcommit 65004ae8331a934dd59ce4f137b1a30629b0fdff[m
+Author: setareh askari s288485 <s288485@studenti.polito.it>
+Date:   Fri May 7 09:34:37 2021 +0200
+
+    make org.apache.maven.plugins as it was before
+
+[33mcommit 0ccc0d0cc437aa0f8ec9c1c7d536b38db25ff743[m
+Author: setareh askari s288485 <s288485@studenti.polito.it>
+Date:   Fri May 7 09:18:51 2021 +0200
+
+    make sure interfaces don't change
+
+[33mcommit 5506b4023dbd1e60f93018648018fc51bc5d3b15[m
+Author: setareh askari s288485 <s288485@studenti.polito.it>
+Date:   Fri May 7 02:41:44 2021 +0200
+
+    dabase creation done, user repository implemented, storing actual user needs to be done
+
+[33mcommit 84a207b77d62391de030b4dca378826a5275b5a0[m
+Author: setareh askari s288485 <s288485@studenti.polito.it>
+Date:   Fri May 7 01:27:28 2021 +0200
+
+    add hash generator
+
+[33mcommit 0f24ee5e61a2dc90f57159e01c7f64b7024858db[m
+Author: setareh askari s288485 <s288485@studenti.polito.it>
+Date:   Thu May 6 23:48:22 2021 +0200
+
+    add DBCPDB Connection Pool
+
+[33mcommit c7b3d2bb851ac8a5a10fd5e954f556f20aa471e9[m
+Author: setareh askari s288485 <s288485@studenti.polito.it>
+Date:   Thu May 6 23:34:53 2021 +0200
+
+    change repositories into singleton
+
+[33mcommit 08b363d59120a92a6f7e4e9b69fe4ce47c2394eb[m
+Author: setareh askari s288485 <s288485@studenti.polito.it>
+Date:   Thu May 6 20:45:15 2021 +0200
+
+    fix conflict
+
+[33mcommit 4a684a0affe65e85ee259744864c5844c806725a[m
+Merge: ea15d32 e7871d5
+Author: Eugenio Ressa <s281642@studenti.polito.it>
+Date:   Thu May 6 18:41:26 2021 +0200
+
+    class updating
+
+[33mcommit e7871d5136647ca5f05131141461d333ffe0002f[m
+Author: setareh askari s288485 <s288485@studenti.polito.it>
+Date:   Thu May 6 17:21:59 2021 +0200
+
+    implement productType class
+
+[33mcommit 7e49037980ecbbde80926c584ef0b3aefe69b62e[m
+Author: setareh askari s288485 <s288485@studenti.polito.it>
+Date:   Thu May 6 17:12:33 2021 +0200
+
+    implement user class
+
+[33mcommit d746f06cd0a8ec4849d0eb2a7180e9b0a7cc2b51[m
+Author: setareh askari s288485 <s288485@studenti.polito.it>
+Date:   Thu May 6 17:08:07 2021 +0200
+
+    fix customerclass error
+
+[33mcommit 43699503de58e7b63c394943d18b57432f42e82d[m
+Author: Setareh Askarifirouzjaei <s288485@studenti.polito.it>
+Date:   Thu May 6 15:05:34 2021 +0000
+
+    Update .gitignore
+
+[33mcommit ea15d32e54327ab3b8fa193e35c7cefb1ed3d4b5[m
+Merge: 4dd0447 55acf98
+Author: Eugenio Ressa <s281642@studenti.polito.it>
+Date:   Thu May 6 16:44:28 2021 +0200
+
+    implements some classes
+
+[33mcommit 55acf98ca3af201bf7a5069365462cce04471aaa[m
+Author: setareh askari s288485 <s288485@studenti.polito.it>
+Date:   Thu May 6 16:25:23 2021 +0200
+
+    implement some models
+
+[33mcommit 4dd0447deac8697c709b5cf495e62ffbe954a931[m
+Author: Eugenio Ressa <s281642@studenti.polito.it>
+Date:   Thu May 6 16:23:57 2021 +0200
+
+    implements some classes
+
+[33mcommit 5e56dac49dd1f5cf11bfd4c3f217dcfccfb3019c[m
+Author: setareh askari s288485 <s288485@studenti.polito.it>
+Date:   Thu May 6 15:55:27 2021 +0200
+
+    rename order class
+
+[33mcommit c18ea7a753db69f156a29084c07c5e0fef970cc5[m
+Merge: 313ecef 82bfeb4
+Author: setareh askari s288485 <s288485@studenti.polito.it>
+Date:   Thu May 6 15:52:58 2021 +0200
+
+    Merge branch 'phase_3' of https://git-softeng.polito.it/se-2021/group-12/ezshop into phase_3
+
+[33mcommit 313ecef8ee77aee549a4e649bce6b3fb949b9651[m
+Author: setareh askari s288485 <s288485@studenti.polito.it>
+Date:   Thu May 6 15:52:02 2021 +0200
+
+    rename model classes
+
+[33mcommit 82bfeb4d03046aa70c6322a11c46e052d5583eef[m
+Author: Eugenio Ressa <s281642@studenti.polito.it>
+Date:   Thu May 6 15:46:11 2021 +0200
+
+    rename model classes
+
+[33mcommit 7910b54beae2d2a4e0a7ed1d67ca258938f4fa24[m
+Author: setareh askari s288485 <s288485@studenti.polito.it>
+Date:   Thu May 6 15:34:59 2021 +0200
+
+    models and repositories added
+
+[33mcommit e72a2847fbbd1da70f3f6206f4ed55ccf194a315[m
+Author: DANIEL PEÑA LÓPEZ s286489 <s286489@studenti.polito.it>
+Date:   Thu May 6 15:21:25 2021 +0200
+
+    some folders created
+
+[33mcommit 60a5c5ffa26d583f99a47efa905f334e90be102f[m
+Author: setareh askari s288485 <s288485@studenti.polito.it>
+Date:   Wed May 5 00:12:54 2021 +0200
+
+    .gitignore for Intellij
+
+[33mcommit 09de5105405539478f8b2f1c361ab15f3e6df365[m
+Merge: 4aa9e27 4017e96
+Author: SimoneLeonardiRD <simone.leonardi.rd@gmail.com>
+Date:   Sat May 1 10:12:01 2021 +0200
+
+    Merge remote-tracking branch 'upstream/master'
+
+[33mcommit 4aa9e274ef27aa1d19f44dfa7dcd19b99f192fc2[m
+Merge: 5d4cda5 54c3233
+Author: Luca Ardito <luca.ardito@polito.it>
+Date:   Sat May 1 07:10:41 2021 +0000
+
+    Merge branch 'phase_2' into 'master'
+    
+    Design Document and Estimation
+    
+    See merge request se-2021/group-12/ezshop!2
+
+[33mcommit 54c32335a607bb37d8d6db6c85da3a87efd0f96b[m
+Author: setareh askari s288485 <s288485@studenti.polito.it>
+Date:   Fri Apr 30 23:50:04 2021 +0200
+
+    design: change main package name
+
+[33mcommit fde4ae3c9eb9539930be160a460dc877f098d970[m
+Author: setareh askari s288485 <s288485@studenti.polito.it>
+Date:   Fri Apr 30 23:42:02 2021 +0200
+
+    fix package diagram
+
+[33mcommit af1c66a251be02022ee2ab50d62d95be2edd615f[m
+Author: setareh askari s288485 <s288485@studenti.polito.it>
+Date:   Fri Apr 30 20:06:31 2021 +0200
+
+    Desing: change high level design image
+
+[33mcommit 4017e96982af1373913721b92a1fb1c520644e78[m
+Author: Luca Ardito <luca.ardito@polito.it>
+Date:   Fri Apr 30 18:55:28 2021 +0200
+
+    fix: remove maven warning
+
+[33mcommit f39e97b7ef42b5cabb370e610620506b5da61df6[m
+Author: Luca Ardito <luca.ardito@polito.it>
+Date:   Fri Apr 30 18:19:01 2021 +0200
+
+    feat: add starting code with GUI
+
+[33mcommit 86d1d976947bf9e36555e0d91e8a9be51a5b2cb7[m
+Merge: 1defe74 e913627
+Author: DANIEL PEÑA LÓPEZ s286489 <s286489@studenti.polito.it>
+Date:   Fri Apr 30 17:21:07 2021 +0200
+
+    new photo of matrix
+
+[33mcommit 1defe74b30bd0cea3004d97595a770420203f373[m
+Author: DANIEL PEÑA LÓPEZ s286489 <s286489@studenti.polito.it>
+Date:   Fri Apr 30 17:20:49 2021 +0200
+
+    new photo of matrix
+
+[33mcommit e91362770cc20d9c928f2110114213aa2b67d7a2[m
+Author: Eugenio Ressa <s281642@studenti.polito.it>
+Date:   Fri Apr 30 12:59:22 2021 +0000
+
+    Update DesignDocument.md with scenario from 1 to 6
+
+[33mcommit 72de072f9414674e23dbf1ff28554f4cbf9d5f58[m
+Author: setareh askari s288485 <s288485@studenti.polito.it>
+Date:   Fri Apr 30 14:57:14 2021 +0200
+
+    design: bug fixed
+
+[33mcommit b25a96be994ae4ad4e76187ae71ab8ed79f0b24c[m
+Author: Eugenio Ressa <s281642@studenti.polito.it>
+Date:   Fri Apr 30 12:49:20 2021 +0000
+
+    Upload New File
+
+[33mcommit b2febf9ba6a12276e06f47ea1b4b76d4cdc51891[m
+Author: Eugenio Ressa <s281642@studenti.polito.it>
+Date:   Fri Apr 30 12:49:04 2021 +0000
+
+    Upload New File
+
+[33mcommit 86d68c23b436f4da261ba058629ec63976e1b426[m
+Author: Eugenio Ressa <s281642@studenti.polito.it>
+Date:   Fri Apr 30 12:48:50 2021 +0000
+
+    Upload New File
+
+[33mcommit 46929e4d8dd5faada0a1f76654946f04cc0e7b79[m
+Author: Eugenio Ressa <s281642@studenti.polito.it>
+Date:   Fri Apr 30 12:48:39 2021 +0000
+
+    Upload New File
+
+[33mcommit 005fe8a153938fd79cd73a44a183216d630d66fb[m
+Author: Eugenio Ressa <s281642@studenti.polito.it>
+Date:   Fri Apr 30 12:48:30 2021 +0000
+
+    Upload New File
+
+[33mcommit 3268e43daad586b4ab532350f70658fd01268752[m
+Author: Eugenio Ressa <s281642@studenti.polito.it>
+Date:   Fri Apr 30 12:48:20 2021 +0000
+
+    Upload New File
+
+[33mcommit 3b563244a6e8b7ca2403d7c5480269456a6e8726[m
+Author: Eugenio Ressa <s281642@studenti.polito.it>
+Date:   Fri Apr 30 12:47:58 2021 +0000
+
+    Upload New File
+
+[33mcommit f1d1e8608561731e2cc0fb11d3c1abb48326299a[m
+Author: Eugenio Ressa <s281642@studenti.polito.it>
+Date:   Fri Apr 30 12:47:41 2021 +0000
+
+    Upload New File
+
+[33mcommit 1a5c60809e2037eeec17781c3ee4582776ed4710[m
+Author: Eugenio Ressa <s281642@studenti.polito.it>
+Date:   Fri Apr 30 12:47:28 2021 +0000
+
+    Upload New File
+
+[33mcommit bb369bf1e41d4012b16bcd3d554cae4f57bd93f9[m
+Author: Eugenio Ressa <s281642@studenti.polito.it>
+Date:   Fri Apr 30 12:47:15 2021 +0000
+
+    Upload New File
+
+[33mcommit 0475941db172c8cb645fa68a8ad157e6e4eda3af[m
+Author: Eugenio Ressa <s281642@studenti.polito.it>
+Date:   Fri Apr 30 12:47:01 2021 +0000
+
+    Upload New File
+
+[33mcommit df46854d3c44e74d4b44c41b66f2f0b35eeede82[m
+Author: Eugenio Ressa <s281642@studenti.polito.it>
+Date:   Fri Apr 30 12:46:47 2021 +0000
+
+    Upload New File
+
+[33mcommit 3fb712ba7db4c104e01dc6f42452765dc01d7af2[m
+Author: Eugenio Ressa <s281642@studenti.polito.it>
+Date:   Fri Apr 30 12:46:32 2021 +0000
+
+    Upload New File
+
+[33mcommit a53628cf15ff1d467a09322106c8c12452dfd56c[m
+Author: Eugenio Ressa <s281642@studenti.polito.it>
+Date:   Fri Apr 30 12:46:20 2021 +0000
+
+    Upload New File
+
+[33mcommit 3481012904d04014fcad90f82b6dccfba806cfaf[m
+Author: Eugenio Ressa <s281642@studenti.polito.it>
+Date:   Fri Apr 30 12:46:01 2021 +0000
+
+    Upload New File
+
+[33mcommit 5630aae4bcc598a986288616e5208543717a570e[m
+Author: Eugenio Ressa <s281642@studenti.polito.it>
+Date:   Fri Apr 30 12:45:48 2021 +0000
+
+    Upload New File
+
+[33mcommit 8192e8e773d20c59848c3be2ddef47ae24729556[m
+Author: Eugenio Ressa <s281642@studenti.polito.it>
+Date:   Fri Apr 30 12:45:01 2021 +0000
+
+    Upload New File
+
+[33mcommit fe73dfa9ae6c8564d26a5e25b47541786b5f2852[m
+Author: Eugenio Ressa <s281642@studenti.polito.it>
+Date:   Fri Apr 30 12:44:43 2021 +0000
+
+    Upload New File
+
+[33mcommit 1913729a8fe4f771de4bb9f7105621ed48703b61[m
+Author: Eugenio Ressa <s281642@studenti.polito.it>
+Date:   Fri Apr 30 12:44:24 2021 +0000
+
+    Upload New File
+
+[33mcommit b1606239e0e94b3739a46d144910bf25ff42e0a1[m
+Merge: a93da18 c9dd397
+Author: DANIEL PEÑA LÓPEZ s286489 <s286489@studenti.polito.it>
+Date:   Fri Apr 30 13:37:32 2021 +0200
+
+    little change in the photo
+
+[33mcommit a93da18a2494e760c076e419ebde1ac7f2bc97cd[m
+Author: DANIEL PEÑA LÓPEZ s286489 <s286489@studenti.polito.it>
+Date:   Fri Apr 30 13:37:05 2021 +0200
+
+    little change in the photo
+
+[33mcommit c9dd39738f977e0e9733e06588b5fe399175f2ca[m
+Author: Daniel Pena Lopez <s286489@studenti.polito.it>
+Date:   Fri Apr 30 11:14:04 2021 +0000
+
+    Update DesignDocument.md
+
+[33mcommit 656ec26768943aafc52471d47d09d3b6e6cf4194[m
+Merge: c09959d 2f12833
+Author: setareh askari s288485 <s288485@studenti.polito.it>
+Date:   Fri Apr 30 13:12:43 2021 +0200
+
+    Merge branch 'phase_2' of https://git-softeng.polito.it/se-2021/group-12/ezshop into phase_2
+
+[33mcommit c09959d04cfd0a6e2f356f602ddf09dec68e262e[m
+Author: setareh askari s288485 <s288485@studenti.polito.it>
+Date:   Fri Apr 30 13:12:17 2021 +0200
+
+    High level design added
+
+[33mcommit 2f1283303fe7b1ca1717bccf0a0a008b07dbde05[m
+Merge: ea76d5d add30b2
+Author: DANIEL PEÑA LÓPEZ s286489 <s286489@studenti.polito.it>
+Date:   Fri Apr 30 13:09:32 2021 +0200
+
+    matrix
+
+[33mcommit ea76d5d9bb39be80bb29a744811cb9095d4e8db6[m
+Author: DANIEL PEÑA LÓPEZ s286489 <s286489@studenti.polito.it>
+Date:   Fri Apr 30 13:07:34 2021 +0200
+
+    verification matrix
+
+[33mcommit add30b2a1e2bc75bbce4e44dd7e1f9cc233327c5[m
+Merge: 8a88eb3 8bb3d4a
+Author: setareh askari s288485 <s288485@studenti.polito.it>
+Date:   Fri Apr 30 13:03:27 2021 +0200
+
+    Merge branch 'phase_2' of https://git-softeng.polito.it/se-2021/group-12/ezshop into phase_2
+
+[33mcommit 8a88eb3997a80817febaa0e5285bb142b1e5509a[m
+Author: setareh askari s288485 <s288485@studenti.polito.it>
+Date:   Fri Apr 30 13:03:07 2021 +0200
+
+    Desing: fix bug in sequence diagram
+
+[33mcommit 8bb3d4a277d1a484b336d3d2224a1578d9cbbb41[m
+Merge: 6bf506a 0c63d65
+Author: DANIEL PEÑA LÓPEZ s286489 <s286489@studenti.polito.it>
+Date:   Fri Apr 30 12:53:42 2021 +0200
+
+    class diagram
+
+[33mcommit 6bf506a6e41ed5d380a6eabcdb0230faf631f68b[m
+Author: DANIEL PEÑA LÓPEZ s286489 <s286489@studenti.polito.it>
+Date:   Fri Apr 30 12:51:00 2021 +0200
+
+    class diagram
+
+[33mcommit 0c63d656f44d9c1ae43b0825a8c273c02f5c887d[m
+Author: Daniel Pena Lopez <s286489@studenti.polito.it>
+Date:   Fri Apr 30 10:06:22 2021 +0000
+
+    Update Estimation.md
+
+[33mcommit de37c28ca11f4a4d89e74e229cbf5c0961e917f0[m
+Author: Daniel Pena Lopez <s286489@studenti.polito.it>
+Date:   Fri Apr 30 10:06:02 2021 +0000
+
+    Update Estimation.md
+
+[33mcommit 1f8eb424f198163b8e9ab845654852fd199569ea[m
+Author: DANIEL PEÑA LÓPEZ s286489 <s286489@studenti.polito.it>
+Date:   Fri Apr 30 12:04:52 2021 +0200
+
+    gantt chart
+
+[33mcommit 8b8a37c8ae971a504f965bf3b5946f7c833fc0ae[m
+Author: Daniel Pena Lopez <s286489@studenti.polito.it>
+Date:   Fri Apr 30 08:39:39 2021 +0000
+
+    Update Estimation.md
+
+[33mcommit 55e9d4413eeed01588c3d4c1a91669493f3e2a38[m
+Author: Daniel Pena Lopez <s286489@studenti.polito.it>
+Date:   Fri Apr 30 08:33:46 2021 +0000
+
+    Update Estimation.md
+
+[33mcommit 2320e67c48b97b393ef5041802f629ea884d2ed1[m
+Author: Daniel Pena Lopez <s286489@studenti.polito.it>
+Date:   Fri Apr 30 07:30:37 2021 +0000
+
+    Update Estimation.md
+
+[33mcommit 181fc5b075d6364a36810cd32d6e120188890c87[m
+Author: Daniel Pena Lopez <s286489@studenti.polito.it>
+Date:   Fri Apr 30 07:26:23 2021 +0000
+
+    Update Estimation.md
+
+[33mcommit 362ea85cd5924cbf52c0fbf845ec86516bf664cf[m
+Author: Daniel Pena Lopez <s286489@studenti.polito.it>
+Date:   Fri Apr 30 07:08:31 2021 +0000
+
+    Update TimeSheet.md
+
+[33mcommit b48d8563b07355ce7878c566d12c82ab83bd500b[m
+Author: Daniel Pena Lopez <s286489@studenti.polito.it>
+Date:   Fri Apr 30 07:00:44 2021 +0000
+
+    Update TimeSheet.md
+
+[33mcommit ce8c3da5f7fe00117395fde8df2ed910bf86c886[m
+Author: setareh askari s288485 <s288485@studenti.polito.it>
+Date:   Fri Apr 30 03:20:38 2021 +0200
+
+    Design: sequence diagram of usecase 8 done
+
+[33mcommit 430b0283131a33645c822c275c332aa64ba27e3f[m
+Author: setareh askari s288485 <s288485@studenti.polito.it>
+Date:   Fri Apr 30 01:27:26 2021 +0200
+
+    Design: sequence diagram of usecase 9 done
+
+[33mcommit dced2fd7226d70dc4bf03ccc2518a3637a5bb686[m
+Author: setareh askari s288485 <s288485@studenti.polito.it>
+Date:   Fri Apr 30 01:13:04 2021 +0200
+
+    Design: sequence diagram of usecase 10 done
+
+[33mcommit c349b7b8e117cb68c9706bebfbaad258c592a67c[m
+Author: Setareh Askarifirouzjaei <s288485@studenti.polito.it>
+Date:   Thu Apr 29 22:36:28 2021 +0000
+
+    Design: use case 7 of sequence diagram is done
+
+[33mcommit f974c72a304dc37b6e3d4515c3d24a2c7cce944c[m
+Author: setareh askari s288485 <s288485@studenti.polito.it>
+Date:   Fri Apr 30 00:31:16 2021 +0200
+
+    Design: images for usecase 7 added
+
+[33mcommit 5d4cda5eb65e83717a8e989f6eb2e30a628ab5e1[m
+Merge: c28900b 28bb6d1
+Author: Luca Ardito <luca.ardito@polito.it>
+Date:   Tue Apr 27 15:40:29 2021 +0000
+
+    Merge branch 'phase_1' into 'master'
+    
+    Requirement Document and GUI Prototype
+    
+    See merge request se-2021/group-12/ezshop!1
+
+[33mcommit c28900ba7b7f92a5c26b4d6339d2dad8b03acb27[m
+Author: Maurizio Morisio <maurizio.morisio@polito.it>
+Date:   Fri Apr 23 07:34:31 2021 +0000
+
+    Add new file
+
+[33mcommit 4769000db6e9b0ef8dba1c29a3ab57dd1d626ea4[m
+Author: Maurizio Morisio <maurizio.morisio@polito.it>
+Date:   Thu Apr 22 15:04:47 2021 +0000
+
+    Update DesignDocument.md
+
+[33mcommit 7bee976e6c7b0603a8aee114323e5da069ff53c1[m
+Author: Maurizio Morisio <maurizio.morisio@polito.it>
+Date:   Thu Apr 22 15:03:24 2021 +0000
+
+    Add new file
+
+[33mcommit 28bb6d17fec0485cc878e59facb92f24b8e2d7a5[m
+Author: Daniel Pena Lopez <s286489@studenti.polito.it>
+Date:   Wed Apr 21 21:00:27 2021 +0000
+
+    Update RequirementsDocument.md
+
+[33mcommit 9954140a570828778eec7a07ca9271f61b965b76[m
+Author: Daniel Pena Lopez <s286489@studenti.polito.it>
+Date:   Wed Apr 21 20:59:20 2021 +0000
+
+    Update RequirementsDocument.md
+
+[33mcommit 1089cbc029175a9b5bfd29dce67fe000b3e1b547[m
+Author: Daniel Pena Lopez <s286489@studenti.polito.it>
+Date:   Wed Apr 21 20:58:45 2021 +0000
+
+    Update RequirementsDocument.md
+
+[33mcommit 860944c5ade0750dc2f985aae376ce1209ccdb8b[m
+Author: setareh askari s288485 <s288485@studenti.polito.it>
+Date:   Wed Apr 21 22:50:14 2021 +0200
+
+    GUI: log out button added to cashier main page
+
+[33mcommit d7d7788869fb0801db395e3ce1382d988b7153b7[m
+Author: setareh askari s288485 <s288485@studenti.polito.it>
+Date:   Wed Apr 21 22:46:57 2021 +0200
+
+    RD: logging out of clerk is fixed
+
+[33mcommit b8c4842ce6143be37379ba926c4e5513f54ed738[m
+Author: setareh askari s288485 <s288485@studenti.polito.it>
+Date:   Wed Apr 21 22:30:13 2021 +0200
+
+    RD: minor changes
+
+[33mcommit 693d848ad92181982ceb146db8171ea807434537[m
+Author: setareh askari s288485 <s288485@studenti.polito.it>
+Date:   Wed Apr 21 22:21:52 2021 +0200
+
+    Gui: minor changes
+
+[33mcommit 5960aaf4062c3262c2bc55e1b775019ab2bf763c[m
+Author: setareh askari s288485 <s288485@studenti.polito.it>
+Date:   Wed Apr 21 22:07:48 2021 +0200
+
+    deployment diagram editted
+
+[33mcommit 821e489b32b500ea57d5012258272f815bd150cd[m
+Author: DANIEL PEÑA LÓPEZ s286489 <s286489@studenti.polito.it>
+Date:   Wed Apr 21 21:21:05 2021 +0200
+
+    more changes in general
+
+[33mcommit 0b0aa17b8f1156fd8e471460c5a7a3c40fae9f01[m
+Author: DANIEL PEÑA LÓPEZ s286489 <s286489@studenti.polito.it>
+Date:   Wed Apr 21 20:50:29 2021 +0200
+
+    changes in general
+
+[33mcommit 0077bf1cf9170ff328edfd46425dbc15ea639f53[m
+Author: DANIEL PEÑA LÓPEZ s286489 <s286489@studenti.polito.it>
+Date:   Wed Apr 21 19:45:01 2021 +0200
+
+    Gui: scenarios 11.2 and 11.3
+
+[33mcommit 312b4c9336fcebeabbf643caec8de379e398608a[m
+Author: DANIEL PEÑA LÓPEZ s286489 <s286489@studenti.polito.it>
+Date:   Wed Apr 21 19:29:29 2021 +0200
+
+    GUI: Use cases 1, 2 and 11 (except scenarios 11.2,11.3
+
+[33mcommit cbe7afca12deb50648cf079674d708df23e5c33b[m
+Author: setareh askari s288485 <s288485@studenti.polito.it>
+Date:   Wed Apr 21 19:13:43 2021 +0200
+
+    fix usecase9
+
+[33mcommit ba0201a69b12a6f9d64dd27739b31364bf7dcc27[m
+Author: setareh askari s288485 <s288485@studenti.polito.it>
+Date:   Wed Apr 21 19:08:44 2021 +0200
+
+    use case 12 added again
+
+[33mcommit 1bb1693318adfa76ff960008ff307aafc9b3a348[m
+Merge: 53b3f4c fa35652
+Author: setareh askari s288485 <s288485@studenti.polito.it>
+Date:   Wed Apr 21 19:03:54 2021 +0200
+
+    Merge branch 'phase_1' of https://git-softeng.polito.it/se-2021/group-12/ezshop into phase_1
+
+[33mcommit 53b3f4c08b38e470a0f21120656264ace474134d[m
+Author: setareh askari s288485 <s288485@studenti.polito.it>
+Date:   Wed Apr 21 19:03:45 2021 +0200
+
+    scenario 10 completed
+
+[33mcommit fa35652aece871744bd7056d86d67b600348c729[m
+Author: Eugenio Ressa <s281642@studenti.polito.it>
+Date:   Wed Apr 21 16:37:09 2021 +0000
+
+    Update GUIPrototype.md - added description of images in scenarios 4 5 6 7
+
+[33mcommit 5de1325f8f3c90603ede98462bf941484e89ea7e[m
+Author: Eugenio Ressa <s281642@studenti.polito.it>
+Date:   Wed Apr 21 16:24:47 2021 +0000
+
+    Update RequirementsDocument.md
+    Check of correctness of values of scenario and description of it
+
+[33mcommit 219016ba68fb0c9743050d0166cee327fba172bb[m
+Merge: 6f0bf47 e88b1a0
+Author: setareh askari s288485 <s288485@studenti.polito.it>
+Date:   Wed Apr 21 18:21:00 2021 +0200
+
+    scenario 10.1 10.2 10.3 added
+
+[33mcommit 6f0bf4714d7b5f513b04285efec270dd3485c331[m
+Author: setareh askari s288485 <s288485@studenti.polito.it>
+Date:   Wed Apr 21 18:14:00 2021 +0200
+
+    scenario 10.1 10.2 10.3 added
+
+[33mcommit e88b1a05d2bc81c1d07a8018ca3e302b76e47200[m
+Author: Eugenio Ressa <s281642@studenti.polito.it>
+Date:   Wed Apr 21 16:09:48 2021 +0000
+
+    Update GUIPrototype.md - Added uc 4 5 6 7 9 - Added %20 insted of space in
+
+[33mcommit d597054aec08f0ada9f645e81f24db8de2462402[m
+Merge: dfc48d9 cc05204
+Author: setareh askari s288485 <s288485@studenti.polito.it>
+Date:   Wed Apr 21 17:32:16 2021 +0200
+
+    Merge branch 'phase_1' of https://git-softeng.polito.it/se-2021/group-12/ezshop into phase_1
+
+[33mcommit dfc48d90a41c2927c277768ef67435e752d9b881[m
+Author: setareh askari s288485 <s288485@studenti.polito.it>
+Date:   Wed Apr 21 17:32:04 2021 +0200
+
+    use case 12 added
+
+[33mcommit cc0520499d0f4a0443da7b0834bf9ca4dfb76b5a[m
+Author: Setareh Askarifirouzjaei <s288485@studenti.polito.it>
+Date:   Wed Apr 21 14:42:54 2021 +0000
+
+    fix title of scenario 4.1
+
+[33mcommit 73e8851c7a85ac678d5f4c56490b0a6726e79561[m
+Author: Setareh Askarifirouzjaei <s288485@studenti.polito.it>
+Date:   Wed Apr 21 14:32:28 2021 +0000
+
+    fix use case 12
+
+[33mcommit bdb89ae0fe0f2545aa482a6be2475aa82daaec5a[m
+Merge: 0dc9392 e7ae911
+Author: setareh askari s288485 <s288485@studenti.polito.it>
+Date:   Wed Apr 21 16:25:03 2021 +0200
+
+    Merge branch 'phase_1' of https://git-softeng.polito.it/se-2021/group-12/ezshop into phase_1
+
+[33mcommit 0dc9392e53473ae48b96f8c80ff24d94c986f0e0[m
+Author: setareh askari s288485 <s288485@studenti.polito.it>
+Date:   Wed Apr 21 16:24:51 2021 +0200
+
+    use-case-8 added
+
+[33mcommit e7ae91168f1c4791e1acf9c817a40f252ccff6a2[m
+Author: Daniel Pena Lopez <s286489@studenti.polito.it>
+Date:   Wed Apr 21 11:58:54 2021 +0000
+
+    Non functional Requirements
+
+[33mcommit 61c2f8a1923ef0671a0a925181063d3d7132f447[m
+Merge: 3d7d509 15a49b0
+Author: setareh askari s288485 <s288485@studenti.polito.it>
+Date:   Wed Apr 21 13:58:30 2021 +0200
+
+    Merge branch 'phase_1' of https://git-softeng.polito.it/se-2021/group-12/ezshop into phase_1
+
+[33mcommit 3d7d509315f45fe605e9f1394d6c39715513fbd7[m
+Author: setareh askari s288485 <s288485@studenti.polito.it>
+Date:   Wed Apr 21 13:58:16 2021 +0200
+
+    fix picture
+
+[33mcommit 15a49b063060ee0c3f9110d4512bf534681278af[m
+Author: Setareh Askarifirouzjaei <s288485@studenti.polito.it>
+Date:   Wed Apr 21 11:51:05 2021 +0000
+
+    scenario 3.1 and 3.2.1 added to gui
+
+[33mcommit 88e5d300a4606c1024b096adab85a64bbb422313[m
+Author: Daniel Pena Lopez <s286489@studenti.polito.it>
+Date:   Wed Apr 21 11:49:25 2021 +0000
+
+    Dani review until Functional Requirements
+
+[33mcommit e14d54a4851c903a4fe73cc703454b165d7f31e6[m
+Author: setareh askari s288485 <s288485@studenti.polito.it>
+Date:   Wed Apr 21 13:32:40 2021 +0200
+
+    gui images added
+
+[33mcommit df4f9834844bef81c725a9e8af859912c4fe7f69[m
+Author: setareh askari s288485 <s288485@studenti.polito.it>
+Date:   Wed Apr 21 13:18:25 2021 +0200
+
+    system design and deployment diagram editted
+
+[33mcommit 3eaf01eea80239bbc5287a60061d98fcab5d0683[m
+Author: setareh askari s288485 <s288485@studenti.polito.it>
+Date:   Wed Apr 21 12:40:41 2021 +0200
+
+    glossary added
+
+[33mcommit 4cd3f891d4ba7197b3fb7fc36bdda54a04d12c02[m
+Author: setareh askari s288485 <s288485@studenti.polito.it>
+Date:   Wed Apr 21 10:43:53 2021 +0200
+
+    UCD added, FR5 editted
+
+[33mcommit 8c94af2f5645bb1a07dd78f23a842d085142f378[m
+Merge: 92074ed b7f9399
+Author: DANIEL PEÑA LÓPEZ s286489 <s286489@studenti.polito.it>
+Date:   Wed Apr 21 01:17:57 2021 +0200
+
+    all scenarios
+
+[33mcommit 92074eda3912e47c55022b1b80e75aeb0fefaafb[m
+Author: DANIEL PEÑA LÓPEZ s286489 <s286489@studenti.polito.it>
+Date:   Wed Apr 21 01:10:38 2021 +0200
+
+    all the scenarios
+
+[33mcommit b7f9399b777eac0396d5fabf8e9a18a4d6d97046[m
+Merge: 797484e f9b74cc
+Author: setareh askari s288485 <s288485@studenti.polito.it>
+Date:   Wed Apr 21 00:08:55 2021 +0200
+
+    use-case-1 added
+
+[33mcommit 797484e07d14c29fa1bf53c73c71188b3eebbe49[m
+Author: setareh askari s288485 <s288485@studenti.polito.it>
+Date:   Wed Apr 21 00:04:21 2021 +0200
+
+    use-case-1 added
+
+[33mcommit f9b74cc5691ec5bce09a64d8329bb6480e4857e4[m
+Author: DANIEL PEÑA LÓPEZ s286489 <s286489@studenti.polito.it>
+Date:   Tue Apr 20 23:50:15 2021 +0200
+
+    Use case 2
+
+[33mcommit 3241ddb54db6e9c2d5a0fccd2ee8992c5b67f268[m
+Author: setareh askari s288485 <s288485@studenti.polito.it>
+Date:   Tue Apr 20 21:17:17 2021 +0200
+
+    FR added
+
+[33mcommit 6872b3a4e916d6bafcab7aa744344425e1f0025d[m
+Author: setareh askari s288485 <s288485@studenti.polito.it>
+Date:   Tue Apr 20 20:43:58 2021 +0200
+
+    add NFR
+
+[33mcommit 96fa5c82e5bb5b96bb9a2628c5cf24a8e7976cdb[m
+Author: setareh askari s288485 <s288485@studenti.polito.it>
+Date:   Tue Apr 20 20:36:49 2021 +0200
+
+    description, context diagram, interfaces and stories added
+
+[33mcommit 58cf6139721b2dcb70489b39c1007d1e166fde02[m
+Author: setareh askari s288485 <s288485@studenti.polito.it>
+Date:   Tue Apr 20 20:03:02 2021 +0200
+
+    add deployment diagram and system design
+
+[33mcommit ddfa963d44eecccfc3943c025aae7f2fcf853f73[m
+Author: setareh askari s288485 <s288485@studenti.polito.it>
+Date:   Sun Apr 4 17:03:09 2021 +0200
+
+    stakeholders done
+
+[33mcommit 74e7621851f009416f9ff538b0856814b6856605[m
+Author: SimoneLeonardiRD <simone.leonardi.rd@gmail.com>
+Date:   Thu Apr 1 14:31:42 2021 +0200
+
+    change name to Deliverables
+
+[33mcommit beee32e363c10da75b9a3d788d957c06226f4821[m
+Author: Maurizio Morisio <maurizio.morisio@polito.it>
+Date:   Thu Apr 1 10:48:20 2021 +0000
+
+    Update TimeSheet.md
+
+[33mcommit 845481672ba5b83424fab3c2a32a6bc3da7264a1[m
+Author: Maurizio Morisio <maurizio.morisio@polito.it>
+Date:   Thu Apr 1 10:39:33 2021 +0000
+
+    Update TimeSheet.md
+
+[33mcommit fc2d79ea16739d5f5be405d65791e5fc6b0df584[m
+Author: Maurizio Morisio <maurizio.morisio@polito.it>
+Date:   Thu Apr 1 10:34:58 2021 +0000
+
+    Update RequirementsDocument.md
+
+[33mcommit 7d74ca07f49e99dcc58717e1e9a45dd5c3f6eddc[m
+Author: Maurizio Morisio <maurizio.morisio@polito.it>
+Date:   Thu Apr 1 10:34:23 2021 +0000
+
+    Update RequirementsDocument.md
+
+[33mcommit 36461b242d22a5140af8c4b5ff2e2a29a43422bf[m
+Author: Maurizio Morisio <maurizio.morisio@polito.it>
+Date:   Thu Apr 1 10:33:20 2021 +0000
+
+    Update RequirementsDocument.md
+
+[33mcommit a691a33827ce7c5f5da034073e45be71622d43d3[m
+Author: Maurizio Morisio <maurizio.morisio@polito.it>
+Date:   Thu Apr 1 10:32:20 2021 +0000
+
+    Update RequirementsDocument.md
+
+[33mcommit e3130439bf34d2a530881a5b150fba93e79e9b7f[m
+Author: Maurizio Morisio <maurizio.morisio@polito.it>
+Date:   Thu Apr 1 10:30:50 2021 +0000
+
+    Update RequirementsDocument.md
+
+[33mcommit 2036e5fdf8d9ec0f98566eea651443d18621a165[m
+Author: Maurizio Morisio <maurizio.morisio@polito.it>
+Date:   Thu Apr 1 10:24:51 2021 +0000
+
+    Update RequirementsDocument.md
+
+[33mcommit 9ff168e1a7929d0764dfab2920373263d2a22a5a[m
+Author: Maurizio Morisio <maurizio.morisio@polito.it>
+Date:   Thu Apr 1 10:23:34 2021 +0000
+
+    Update RequirementsDocument.md
+
+[33mcommit 82857a157d21bf25258826c4a36258f84927a86b[m
+Author: Maurizio Morisio <maurizio.morisio@polito.it>
+Date:   Thu Apr 1 10:21:57 2021 +0000
+
+    Update RequirementsDocument.md
+
+[33mcommit 5afe79fee7de845cc863c07dca3c2eadbaf24f2b[m
+Author: Maurizio Morisio <maurizio.morisio@polito.it>
+Date:   Thu Apr 1 10:15:27 2021 +0000
+
+    Update UI_prototype.md
+
+[33mcommit 2bdde2ca1f10b70c8467772444fe352fe5f7f63c[m
+Author: Luca Ardito <luca.ardito@polito.it>
+Date:   Wed Mar 31 15:58:11 2021 +0200
+
+    docs: add project documents
