@@ -137,7 +137,7 @@ public class BalanceOperationRepositoryTest {
 		balanceOperationRepository.addNewTicketEntry(ticket, null, null);
 		balanceOperationRepository.addNewTicketEntry(ticket, null, null);
 	}
-
+ 
 	@Test 
 	public void testDeleteRow() throws SQLException {
 		assertEquals(balanceOperationRepository.deleteRow(null, null, null),false);
@@ -148,7 +148,7 @@ public class BalanceOperationRepositoryTest {
 		assertEquals(balanceOperationRepository.deleteRow("orderTable", "orderId", i.toString()),true);
 	 }
 
-	@Test
+	@Test 
 	public void testUpdateRow() throws SQLException {
 		assertEquals(balanceOperationRepository.updateRow(null, null, null, null, null),false);
 		assertEquals(balanceOperationRepository.updateRow("orderTable", null, null, null, null),false);
@@ -158,9 +158,10 @@ public class BalanceOperationRepositoryTest {
 		assertEquals(balanceOperationRepository.updateRow("orderTable", "productCode", "orderId", 12, "18377125254"),false);
 		Integer i = balanceOperationRepository.addNewOrder(new OrderClass(0, 0, null, 0, 0, null, 0));
 		assertEquals(balanceOperationRepository.updateRow("orderTable", "productCode", "orderId", i, "18377125254"),true);
+		assertEquals(balanceOperationRepository.updateRow("orderTable", "productCode", "orderId", 78, "18377125254"),false);
 		assertEquals(balanceOperationRepository.updateRow("orderTable", "productCode", "otherString", i, "18377125254"),false);
 		assertEquals(balanceOperationRepository.updateRow("otherString", "productCode", "orderId", i, "18377125254"),false);
-		assertEquals(balanceOperationRepository.updateRow("orderTable", "otherString", "orderId", 12, "18377125254"),false);
+		assertEquals(balanceOperationRepository.updateRow("orderTable", "otherString", "orderId", i, "18377125254"),false);
 	}
 
 	@Test
@@ -170,6 +171,7 @@ public class BalanceOperationRepositoryTest {
 		assertEquals(balanceOperationRepository.updateState(null, null, null),false);
 		assertEquals(balanceOperationRepository.updateState("orderTable", o, null),true);
 		assertEquals(balanceOperationRepository.updateState("orderTable", o, "newState"),true);
+		assertEquals(balanceOperationRepository.updateState("orderTable", 76, "newState"),false);
 		assertEquals(balanceOperationRepository.updateState("sale", s, "newState"),false);
 	}
 
@@ -209,8 +211,16 @@ public class BalanceOperationRepositoryTest {
 	}
 
 	@Test
-	public void testGetTicketsBySaleId() {
-		fail("Not yet implemented");
+	public void testGetTicketsBySaleId() throws SQLException {
+		TicketEntryClass t = new TicketEntryClass(1, null, null, 0, 0, 0);
+		TicketEntryClass t2 = new TicketEntryClass(2, null, null, 0, 0, 0);
+		balanceOperationRepository.addNewTicketEntry(t, 1, null);
+		balanceOperationRepository.addNewTicketEntry(t2, 2, null);
+		assertEquals(balanceOperationRepository.getTicketsBySaleId(1),t);
+		assertEquals(balanceOperationRepository.getTicketsBySaleId(2),t2);
+		assertEquals(balanceOperationRepository.getTicketsBySaleId(3),null);
+
+
 	}
 
 	@Test

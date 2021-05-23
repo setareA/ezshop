@@ -346,7 +346,6 @@ public class BalanceOperationRepository {
             e.printStackTrace();
             try {
                 con.close();
-                prps.close();
 			} catch (SQLException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
@@ -379,7 +378,6 @@ public class BalanceOperationRepository {
             e.printStackTrace();
             try {
                 con.close();
-                prps.close();
 			} catch (SQLException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
@@ -405,7 +403,6 @@ public class BalanceOperationRepository {
             e.printStackTrace();
             try {
                 con.close();
-                prps.close();
 			} catch (SQLException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
