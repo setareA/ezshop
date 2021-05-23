@@ -197,20 +197,37 @@ public class UserRepository {
             }
 
         }
+        catch ( NullPointerException e){
+            try {
+                con.close();
+            } catch (SQLException exception) {
+                exception.printStackTrace();
+            }
+        }
         return false;
     }
 
-    public boolean changeRoleOfAUser(Integer id, String role) throws SQLException {
-        // This method assumes that the id that you are passing is already checked
+    public boolean changeRoleOfAUser(Integer id, String role){
         // This method assumes that the role that you are passing is already checked
-        Connection con = DBCPDBConnectionPool.getConnection();
-        System.out.println("updating role of a user");
-        String sqlCommand = updateCommand("user", "role", role, "id", id.toString());
-        PreparedStatement prp = con.prepareStatement(sqlCommand);
-        Integer count = prp.executeUpdate();
-        prp.close();
-        con.close();
-        return count > 0;
+        Connection con = null;
+        try {
+            con = DBCPDBConnectionPool.getConnection();
+            System.out.println("updating role of a user");
+            String sqlCommand = updateCommand("user", "role", role, "id", id.toString());
+            PreparedStatement prp = con.prepareStatement(sqlCommand);
+            Integer count = prp.executeUpdate();
+            prp.close();
+            con.close();
+            return count > 0;
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            try {
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return false;
     }
 
     private List<User> loadAll(ResultSet rs) throws SQLException {

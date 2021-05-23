@@ -68,14 +68,19 @@ public class UserRepositoryTest {
 
     @Test
     public void testDeleteUserFromDB() {
-        assertThrows(NullPointerException.class, ()->userRepository.deleteUserFromDB(null));
-        assertEquals(false, userRepository.deleteUserFromDB(1));
+        assertFalse(userRepository.deleteUserFromDB(null));
+        userRepository.deleteUserFromDB(null);
+        assertFalse(userRepository.deleteUserFromDB(1));
         Integer id = userRepository.addNewUser(new UserClass(null,"user","pass3434","","Cashier"));
-        assertEquals(true, userRepository.deleteUserFromDB(id));
+        assertTrue(userRepository.deleteUserFromDB(id));
     }
 
     @Test
     public void testChangeRoleOfAUser() {
+        assertThrows(NullPointerException.class, ()->userRepository.changeRoleOfAUser(null, "Cashier"));
+        Integer id = userRepository.addNewUser(new UserClass(null,"user","pass3434","","Cashier"));
+        assertTrue(userRepository.changeRoleOfAUser(id, "Administrator"));
+
     }
 
     @Test
