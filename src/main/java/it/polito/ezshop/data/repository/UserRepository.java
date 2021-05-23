@@ -177,11 +177,10 @@ public class UserRepository {
     }
 
     public boolean deleteUserFromDB(Integer id){
-        // This method assumes that the id that you are passing is already checked
         Connection con = null;
         try {
             con = DBCPDBConnectionPool.getConnection();
-            Logger.getLogger(EZShop.class.getName()).log(Level.SEVERE, "deleting user with id: " + id);
+            Logger.getLogger(EZShop.class.getName()).log(Level.INFO, "deleting user with id: " + id);
             String sqlCommand = deleteCommand("user", "id");
             PreparedStatement prp = con.prepareStatement(sqlCommand);
             prp.setString(1, id.toString());

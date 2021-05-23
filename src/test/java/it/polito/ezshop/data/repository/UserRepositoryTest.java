@@ -61,13 +61,17 @@ public class UserRepositoryTest {
 
     @Test
     public void testAddNewUser() {
-        assertThrows(NullPointerException.class, null);
+        assertThrows(NullPointerException.class, ()->userRepository.addNewUser(null));
         assertEquals(Integer.class, userRepository.addNewUser(new UserClass(null,"username","ajsdfh","","Cashier")).getClass()) ;
         assertEquals(Integer.valueOf(-1), userRepository.addNewUser(new UserClass(null,"username","khkjh","","Cashier")));
     }
 
     @Test
     public void testDeleteUserFromDB() {
+        assertThrows(NullPointerException.class, ()->userRepository.deleteUserFromDB(null));
+        assertEquals(false, userRepository.deleteUserFromDB(1));
+        Integer id = userRepository.addNewUser(new UserClass(null,"user","pass3434","","Cashier"));
+        assertEquals(true, userRepository.deleteUserFromDB(id));
     }
 
     @Test
