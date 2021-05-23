@@ -172,14 +172,10 @@ public class EZShop implements EZShopInterface {
 
         // Creation of the user that will be added to the Repository
         UserClass newUser = new UserClass(1, username, password, "", role);
-        try {
+
             // Add the user to the repository, assign it a unique id and throws an error
             // if the username is not unique since, it is indicated in DB that username must be unique
             return userRepository.addNewUser(newUser);
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return -1;
-        }
     }
 
     @Override

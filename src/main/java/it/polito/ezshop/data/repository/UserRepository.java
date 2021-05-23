@@ -130,7 +130,7 @@ public class UserRepository {
         this.loggedUser = loggedUser;
     }
 
-    public Integer addNewUser(UserClass user) throws SQLException {
+    public Integer addNewUser(UserClass user) {
 
         nextId = ourInstance.getHighestId() + 1;
         HashMap<String, String> userData = new HashMap<>();
@@ -140,29 +140,40 @@ public class UserRepository {
         userData.put("salt", user.getSalt());
         userData.put("role", user.getRole());
 
-        Connection con = DBCPDBConnectionPool.getConnection();
-        ArrayList<String> attrs = getAttrs();
-        Logger.getLogger(EZShop.class.getName()).log(Level.INFO, "adding new user with username: " + user.getUsername());
-        String sqlCommand = insertCommand("user", attrs);
-        PreparedStatement prp = con.prepareStatement(sqlCommand);
-        for (int j = 0; j < attrs.size(); j++) {
-            if (attrs.get(j) == "password") {
-                String password = userData.get(attrs.get(j));
-                String[] passAndSalt = HashGenerator.getPasswordHashAndSalt(password);
-                String hashedPassword = passAndSalt[0];
-                String salt = passAndSalt[1];
+        Connection con = null;
+        try {
+            con = DBCPDBConnectionPool.getConnection();
+            ArrayList<String> attrs = getAttrs();
+            Logger.getLogger(EZShop.class.getName()).log(Level.INFO, "adding new user with username: " + user.getUsername());
+            String sqlCommand = insertCommand("user", attrs);
+            PreparedStatement prp = con.prepareStatement(sqlCommand);
+            for (int j = 0; j < attrs.size(); j++) {
+                if (attrs.get(j) == "password") {
+                    String password = userData.get(attrs.get(j));
+                    String[] passAndSalt = HashGenerator.getPasswordHashAndSalt(password);
+                    String hashedPassword = passAndSalt[0];
+                    String salt = passAndSalt[1];
 
-                prp.setString(j + 1, hashedPassword);
-                prp.setString(j + 2, salt);
-                j = j + 1;
-            } else
-                prp.setString(j + 1, userData.get(attrs.get(j)));
+                    prp.setString(j + 1, hashedPassword);
+                    prp.setString(j + 2, salt);
+                    j = j + 1;
+                } else
+                    prp.setString(j + 1, userData.get(attrs.get(j)));
+            }
+
+            prp.executeUpdate();
+            prp.close();
+            con.close();
+            return nextId;
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            try {
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
-
-        prp.executeUpdate();
-        prp.close();
-        con.close();
-        return nextId;
+       return -1;
     }
 
     public boolean deleteUserFromDB(Integer id) throws SQLException {

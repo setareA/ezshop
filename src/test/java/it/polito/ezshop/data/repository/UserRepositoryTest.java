@@ -47,12 +47,8 @@ public class UserRepositoryTest {
     public void testGetUserByUsername() {
         assertNull(userRepository.getUserByUsername(null));
         assertNull(userRepository.getUserByUsername("ss"));
-        try {
-            userRepository.addNewUser(new UserClass(null,"ss","sdiyuasdf","","Cashier"));
-            assertEquals(UserClass.class, userRepository.getUserByUsername("ss").getClass());
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
+        userRepository.addNewUser(new UserClass(null,"ss","sdiyuasdf","","Cashier"));
+        assertEquals(UserClass.class, userRepository.getUserByUsername("ss").getClass());
     }
 
     @Test
