@@ -338,12 +338,7 @@ public class EZShop implements EZShopInterface {
         Logger.getLogger(EZShop.class.getName()).log(Level.INFO, "deleteProductType");
         if (this.checkIfAdministrator() || this.checkIfManager()) { // loggedUser check
             if (id == null || id <= 0) throw new InvalidProductIdException();
-            try {
                 return productTypeRepository.deleteProductTypeFromDB(id);
-
-            } catch (SQLException e) {
-                return false;
-            }
         } else {
             throw new UnauthorizedException();
         }

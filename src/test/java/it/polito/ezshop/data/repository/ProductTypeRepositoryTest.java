@@ -8,6 +8,8 @@ import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -16,6 +18,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import it.polito.ezshop.data.EZShop;
+import it.polito.ezshop.data.model.CustomerClass;
 import it.polito.ezshop.data.model.ProductTypeClass;
 import it.polito.ezshop.data.model.UserClass;
 import it.polito.ezshop.exceptions.InvalidLocationException;
@@ -26,29 +29,65 @@ import it.polito.ezshop.exceptions.InvalidProductIdException;
 import it.polito.ezshop.exceptions.UnauthorizedException;
 
 public class ProductTypeRepositoryTest {
-	private static EZShop ezShop;
-	private static ProductTypeRepository productTypeRepository;
-	private static UserRepository userRepository;
+    private static ProductTypeRepository productTypeRepository = ProductTypeRepository.getInstance();
 	
 	  @Before
-	  public void clearDBandRestartEzshop() throws SQLException {
+	  public void setUp() throws SQLException {
+		  productTypeRepository.initialize();
 	      Connection con = DBCPDBConnectionPool.getConnection();
-	      Statement st = con.createStatement();
-	      String cleanUser = "DROP TABLE IF EXISTS user;";
-	      String cleanCustomer = "DROP TABLE IF EXISTS customer;";
-	      String cleanProductType = "DROP TABLE IF EXISTS productType;";
-	      st.executeUpdate(cleanUser + cleanCustomer + cleanProductType);
-	      st.close();
+	      PreparedStatement prp = con.prepareStatement("DELETE FROM productType;");
+	      prp.executeUpdate();
+	      prp.close();
 	      con.close();
-		    ezShop = new EZShop();
-		    productTypeRepository = ezShop.getProductTypeRepository();
-		    userRepository = ezShop.getUserRepository();
 	  }
 	  
-	  @Test
-	  public void testAddNewProductType() throws SQLException {
-		  assertThrows("T1(NULL)->SQLException",Exception.class, () ->productTypeRepository.addNewProductType(null));
-	  }
+	  
+	    @Test
+	    public void testInitialize() {
+	    	Connection con = null;
+	    	PreparedStatement prps = null;
+	        ArrayList<String> tableNames = new ArrayList<>();
+	        try {
+	        	productTypeRepository.initialize();
+	            con = DBCPDBConnectionPool.getConnection();
+	            ResultSet rs = con.getMetaData().getTables(null, null, null, null);
+	            while (rs.next()) {
+	                tableNames.add(rs.getString("TABLE_NAME"));
+	            }
+	            con.close();
+	        } catch (SQLException e) {
+	        	e.printStackTrace();
+	        	try {
+	        		con.close();
+	        	
+		        } catch (SQLException throwables) {
+		            throwables.printStackTrace();
+		        }
+	        }
+	        assertTrue(tableNames.contains("productType"));
+	    }
+	    
+	    @Test
+	    public void testDeleteProductTypeFromDB() {
+            productTypeRepository.addNewProductType(new ProductTypeClass(1,30,"A-2-C","note","Apples","0799439112766", 0.30));
+            assertTrue(productTypeRepository.deleteProductTypeFromDB(1));
+            assertFalse(productTypeRepository.deleteProductTypeFromDB(1));
+	    }
+	    
+	    
+	    @Test
+	    public void testAddNewProductType() {
+	        assertFalse(productTypeRepository.addNewProductType(null));
+            assertTrue(productTypeRepository.addNewProductType(new ProductTypeClass(1,30,"A-2-C","note","Apples","0799439112766", 0.30)));
+            assertEquals(productTypeRepository.addNewProductType(new ProductTypeClass(2,30,"A-2-C","note","Apples","0799439112766", 0.30)), Boolean.class );
+	        assertFalse(productTypeRepository.addNewProductType(new ProductTypeClass(1,30,"A-2-C","note","Apples","0799439112766", 0.30)));
+
+	       }
+	    
+	   
+	 
+	  
+	  /*
 	  
 	  @Test
 	  public void testGetProductTypeByLocation() throws InvalidProductDescriptionException, InvalidProductCodeException, InvalidPricePerUnitException, UnauthorizedException, InvalidProductIdException, InvalidLocationException {
@@ -119,6 +158,7 @@ public class ProductTypeRepositoryTest {
 		  assertFalse(productTypeRepository.updateProductType("-3","description","barcode","0.50","note"));
 		  assertTrue(productTypeRepository.updateProductType("1","description","barcode","noDoubleFormat","note"));
 	  }
+	  */
 	  
 	  
 	  

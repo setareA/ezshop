@@ -132,32 +132,61 @@ public class ProductTypeRepository {
         }
     }
 
-    public boolean deleteProductTypeFromDB(Integer id) throws SQLException {
-        Connection con = DBCPDBConnectionPool.getConnection();
-        System.out.println("deleting a product type");
-        String sqlCommand = deleteCommand("productType", "id");
-        PreparedStatement prp = con.prepareStatement(sqlCommand);
-        prp.setString(1, id.toString());
-        int count = prp.executeUpdate();
-        prp.close();
-        con.close();
-        System.out.println(count);
-        return count != 0;
+    public boolean deleteProductTypeFromDB(Integer id) {
+    	PreparedStatement prp = null;
+    	Connection con = null;
+    	try {
+	        con = DBCPDBConnectionPool.getConnection();
+	        System.out.println("deleting a product type");
+	        String sqlCommand = deleteCommand("productType", "id");
+	        prp = con.prepareStatement(sqlCommand);
+	        prp.setString(1, id.toString());
+	        int count = prp.executeUpdate();
+	        prp.close();
+	        con.close();
+	        return count != 0;
+    	}catch (SQLException e) {
+            e.printStackTrace();
+            try {
+                con.close();
+                prp.close();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+        }
+        return false;
+    	
     }
 
-    public void deleteTable() throws SQLException {
-        Logger.getLogger(EZShop.class.getName()).log(Level.INFO, "deleting product table");
-        Connection con = DBCPDBConnectionPool.getConnection();
-        String sqlCommand = deleteTableCommand();
-        PreparedStatement prp = con.prepareStatement(sqlCommand);
-        prp.executeUpdate();
-        prp.close();
-        con.close();
+    public boolean deleteTable() {
+    	PreparedStatement prp = null;
+    	Connection con = null;
+    	try {
+	        Logger.getLogger(EZShop.class.getName()).log(Level.INFO, "deleting product table");
+	        con = DBCPDBConnectionPool.getConnection();
+	        String sqlCommand = deleteTableCommand();
+	        prp = con.prepareStatement(sqlCommand);
+	        Integer count = prp.executeUpdate();
+	        prp.close();
+	        con.close();
+	        return count>0;
+		}catch (SQLException e) {
+	        e.printStackTrace();
+	        try {
+	            con.close();
+	            prp.close();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+	    }
+    	return false;
     }
 
 
-    public void addNewProductType(ProductTypeClass pt) throws SQLException {
-
+    public boolean addNewProductType(ProductTypeClass pt) {
+    	PreparedStatement prp = null;
+    	Connection con = null;
+    	try {
         HashMap<String, String> userData = new HashMap<>();
         userData.put("id", pt.getId().toString());
         userData.put("quantity", pt.getQuantity().toString());
@@ -168,18 +197,29 @@ public class ProductTypeRepository {
         userData.put("pricePerUnit", pt.getPricePerUnit().toString());
 
 
-        Connection con = DBCPDBConnectionPool.getConnection();
+        con = DBCPDBConnectionPool.getConnection();
         ArrayList<String> attrs = getAttrs();
         System.out.println("adding new product type");
         String sqlCommand = insertCommand("productType", attrs);
-        PreparedStatement prp = con.prepareStatement(sqlCommand);
+        prp = con.prepareStatement(sqlCommand);
         for (int j = 0; j < attrs.size(); j++) {
             prp.setString(j + 1, userData.get(attrs.get(j)));
         }
 
-        prp.executeUpdate();
+        Integer count = prp.executeUpdate();
         prp.close();
         con.close();
+        return count>0;
+		}catch (SQLException e) {
+	        e.printStackTrace();
+	        try {
+	            con.close();
+	            prp.close();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+	    }
+    	return false;
     }
 
 
