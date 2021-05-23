@@ -61,6 +61,9 @@ public class UserRepositoryTest {
 
     @Test
     public void testAddNewUser() {
+        assertThrows(NullPointerException.class, null);
+        assertEquals(Integer.class, userRepository.addNewUser(new UserClass(null,"username","ajsdfh","","Cashier")).getClass()) ;
+        assertEquals(Integer.valueOf(-1), userRepository.addNewUser(new UserClass(null,"username","khkjh","","Cashier")));
     }
 
     @Test
