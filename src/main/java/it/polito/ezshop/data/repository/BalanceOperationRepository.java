@@ -673,6 +673,27 @@ public class BalanceOperationRepository {
         return null;
     }
 
+    public Integer getHighestTicketNumberInTicket() {
+        try {
+            String sqlCommand = getMaxTicketNumberInTicketStatement();
+            Connection con = DBCPDBConnectionPool.getConnection();
+            PreparedStatement prps = con.prepareStatement(sqlCommand);
+            ResultSet rs = prps.executeQuery();
+            rs.next();
+            Integer highestId = rs.getInt(1);
+            prps.close();
+            con.close();
+            if (highestId != null) {
+                return highestId;
+            } else {
+                return 0;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    
     public Integer getHighestOrderId() throws SQLException {
 
         String sqlCommand = getMaxOrderIdStatement();
@@ -785,7 +806,10 @@ public class BalanceOperationRepository {
         String sqlCommand = "SELECT MAX(ticketNumber) FROM sale";
         return sqlCommand;
     }
-
+    private String getMaxTicketNumberInTicketStatement() {
+        String sqlCommand = "SELECT MAX(ticketNumber) FROM ticket";
+        return sqlCommand;
+    }
     private String getMaxReturnIdStatement() {
         String sqlCommand = "SELECT MAX(returnId) FROM returnTable";
         return sqlCommand;

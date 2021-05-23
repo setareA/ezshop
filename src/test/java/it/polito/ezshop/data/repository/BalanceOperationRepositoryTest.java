@@ -3,6 +3,8 @@ package it.polito.ezshop.data.repository;
 import static org.junit.Assert.*;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -10,6 +12,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import it.polito.ezshop.data.TicketEntry;
 import it.polito.ezshop.data.model.OrderClass;
 import it.polito.ezshop.data.model.ReturnTransactionClass;
 import it.polito.ezshop.data.model.SaleTransactionClass;
@@ -210,37 +213,62 @@ public class BalanceOperationRepositoryTest {
 		fail("Not yet implemented");
 	}
 
-	@Test
+	@Test //TODO
 	public void testGetTicketsBySaleId() throws SQLException {
-		TicketEntryClass t = new TicketEntryClass(1, null, null, 0, 0, 0);
-		TicketEntryClass t2 = new TicketEntryClass(2, null, null, 0, 0, 0);
-		balanceOperationRepository.addNewTicketEntry(t, 1, null);
-		balanceOperationRepository.addNewTicketEntry(t2, 2, null);
-		assertEquals(balanceOperationRepository.getTicketsBySaleId(1),t);
-		assertEquals(balanceOperationRepository.getTicketsBySaleId(2),t2);
-		assertEquals(balanceOperationRepository.getTicketsBySaleId(3),null);
+		TicketEntryClass t1 = new TicketEntryClass(1,null , "prodotto1", 0, 0, 0);
+		TicketEntryClass t2 = new TicketEntryClass(1,null , "prodotto2", 0, 0, 0);
+		TicketEntryClass t3 = new TicketEntryClass(1, null , "prodotto3", 0, 0, 0);
+		ArrayList<String> s1 = new ArrayList<>();
+		ArrayList<String> s2 = new ArrayList<>();
+		balanceOperationRepository.addNewTicketEntry(t1, 10, null);
+		balanceOperationRepository.addNewTicketEntry(t2, 11, null);
+		balanceOperationRepository.addNewTicketEntry(t3, 11, null);
+
+		balanceOperationRepository.getTicketsBySaleId(10).forEach(k -> s1.add(k.getProductDescription()));
+		assertEquals(s1,new ArrayList<String>(Arrays.asList(t1.getProductDescription())));
+		balanceOperationRepository.getTicketsBySaleId(11).forEach(k -> s2.add(k.getProductDescription()));
+		assertEquals(s2,new ArrayList<String>(Arrays.asList(t2.getProductDescription(),t3.getProductDescription())));
 
 
 	}
 
-	@Test
+	@Test // TODO
 	public void testGetSalesByTicketNumber() {
 		fail("Not yet implemented");
 	}
 
 	@Test
-	public void testGetReturnByReturnId() {
-		fail("Not yet implemented");
-	}
+	public void testGetReturnByReturnId() throws SQLException {
+		ReturnTransactionClass O1 = new ReturnTransactionClass(null, 0, null, 0);
+		ReturnTransactionClass O2 = new ReturnTransactionClass(null, 0, null, null);
+		Integer o1 = balanceOperationRepository.addNewReturn(O1);
+		Integer o2 = balanceOperationRepository.addNewReturn(O2);
+		assertEquals(balanceOperationRepository.getReturnByReturnId(o1).getReturnId(),o1);
+		assertEquals(balanceOperationRepository.getReturnByReturnId(o2).getReturnId(),o2);
+		assertEquals(balanceOperationRepository.getReturnByReturnId(13),null);
+
+		}
 
 	@Test
-	public void testGetTicketsByReturnId() {
-		fail("Not yet implemented");
+	public void testGetTicketsByReturnId() throws SQLException {
+		String s1 = "prodotto1";
+		String s2 = "prodotto1";
+		String s3 = "prodotto1";
+
+		balanceOperationRepository.addNewTicketEntry(new TicketEntryClass(null, null, s1, 0, 0, 0), null, 1);
+		balanceOperationRepository.addNewTicketEntry(new TicketEntryClass(null, null, s2, 0, 0, 0), null, 2);
+		balanceOperationRepository.addNewTicketEntry(new TicketEntryClass(null, null, s3, 0, 0, 0), null, 2);
+
+		assertEquals(balanceOperationRepository.getTicketsByReturnId(1).get(0).getProductDescription(), s1);
+		assertEquals(balanceOperationRepository.getTicketsByReturnId(2).get(0).getProductDescription(), s2);
+		assertEquals(balanceOperationRepository.getTicketsByReturnId(2).get(1).getProductDescription(), s3);
+
+
 	}
 
 	@Test
 	public void testGetTicketsByForeignKeyAndBarcode() {
-		fail("Not yet implemented");
+
 	}
 
 	@Test

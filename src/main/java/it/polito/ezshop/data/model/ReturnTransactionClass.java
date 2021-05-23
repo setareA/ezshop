@@ -5,18 +5,26 @@ import it.polito.ezshop.data.TicketEntry;
 import java.util.ArrayList;
 
 public class ReturnTransactionClass {
-    private static Integer returnId;
-    private static double price;
-    private static String state;
-    private static Integer ticketNumber;
+  
+
+	@Override
+	public String toString() {
+		return "ReturnTransactionClass [returnId=" + returnId + ", price=" + price + ", state=" + state
+				+ ", ticketNumber=" + ticketNumber + ", entries=" + entries + "]";
+	}
+
+	private  Integer returnId;
+    private  double price;
+    private  String state;
+    private  Integer ticketNumber;
     private ArrayList<TicketEntry> entries;
 
 
     public ReturnTransactionClass(Integer returnId, double price, String state, Integer ticketNumber) {
-        ReturnTransactionClass.returnId = returnId;
-        ReturnTransactionClass.price = price;
-        ReturnTransactionClass.state = state;
-        ReturnTransactionClass.ticketNumber = ticketNumber;
+        this.returnId = returnId;
+        this.price = price;
+        this.state = state;
+        this.ticketNumber = ticketNumber;
     }
 
     public Integer getReturnId() {
@@ -24,7 +32,7 @@ public class ReturnTransactionClass {
     }
 
     public void setReturnId(Integer returnId) {
-        ReturnTransactionClass.returnId = returnId;
+    	this.returnId = returnId;
     }
 
     public double getPrice() {
@@ -32,7 +40,7 @@ public class ReturnTransactionClass {
     }
 
     public void setPrice(double price) {
-        ReturnTransactionClass.price = price;
+    	this.price = price;
     }
 
     public String getState() {
@@ -40,7 +48,7 @@ public class ReturnTransactionClass {
     }
 
     public void setState(String state) {
-        ReturnTransactionClass.state = state;
+    	this.state = state;
     }
 
     public ArrayList<TicketEntry> getEntries() {
@@ -56,6 +64,6 @@ public class ReturnTransactionClass {
     }
 
     public void setTicketNumber(Integer ticketNumber) {
-        ReturnTransactionClass.ticketNumber = ticketNumber;
+    	this.ticketNumber = ticketNumber;
     }
 }
