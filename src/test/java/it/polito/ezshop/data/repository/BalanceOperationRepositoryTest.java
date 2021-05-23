@@ -2,9 +2,12 @@ package it.polito.ezshop.data.repository;
 
 import static org.junit.Assert.*;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -347,13 +350,17 @@ public class BalanceOperationRepositoryTest {
 	}
 
 	@Test
-	public void testGetCreditCards() {
-		fail("Not yet implemented");
+	public void testGetCreditCards() throws IOException {
+		assertNotEquals(balanceOperationRepository.getCreditCards(),null);
 	}
 
 	@Test
-	public void testGetBalanceOfACreditCard() {
-		fail("Not yet implemented");
+	public void testGetBalanceOfACreditCard() throws IOException {
+		HashMap<String,Double> cc = new HashMap<>();
+		cc = balanceOperationRepository.getCreditCards();
+		for(Map.Entry<String,Double> x : cc.entrySet()) {
+		assertEquals(balanceOperationRepository.getBalanceOfACreditCard(x.getKey()), x.getValue());
+		}
 	}
 
 	@Test
