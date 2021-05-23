@@ -132,16 +132,16 @@ public class UserRepository {
 
     public Integer addNewUser(UserClass user) {
 
-        nextId = ourInstance.getHighestId() + 1;
-        HashMap<String, String> userData = new HashMap<>();
-        userData.put("id", nextId.toString());
-        userData.put("username", user.getUsername());
-        userData.put("password", user.getPassword());
-        userData.put("salt", user.getSalt());
-        userData.put("role", user.getRole());
-
         Connection con = null;
         try {
+            nextId = ourInstance.getHighestId() + 1;
+            HashMap<String, String> userData = new HashMap<>();
+            userData.put("id", nextId.toString());
+            userData.put("username", user.getUsername());
+            userData.put("password", user.getPassword());
+            userData.put("salt", user.getSalt());
+            userData.put("role", user.getRole());
+
             con = DBCPDBConnectionPool.getConnection();
             ArrayList<String> attrs = getAttrs();
             Logger.getLogger(EZShop.class.getName()).log(Level.INFO, "adding new user with username: " + user.getUsername());
@@ -167,13 +167,17 @@ public class UserRepository {
             return nextId;
         } catch (SQLException throwables) {
             throwables.printStackTrace();
-            try {
-                con.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
         }
-       return -1;
+        catch (NullPointerException exception){
+            exception.printStackTrace();
+        }
+        try {
+            if(con != null)
+            con.close();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return -1;
     }
 
     public boolean deleteUserFromDB(Integer id){
@@ -221,10 +225,14 @@ public class UserRepository {
             return count > 0;
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+        } catch (NullPointerException exception){
+            exception.printStackTrace();
+        }
+        if (con != null) {
             try {
                 con.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
             }
         }
         return false;
@@ -241,9 +249,10 @@ public class UserRepository {
     }
 
     public UserClass getUserById(Integer id) {
+        Connection con = null;
         try {
             String sqlCommand = getFindByIdStatement();
-            Connection con = DBCPDBConnectionPool.getConnection();
+            con = DBCPDBConnectionPool.getConnection();
             PreparedStatement prps = con.prepareStatement(sqlCommand);
             prps.setString(1, id.toString());
             ResultSet rs = prps.executeQuery();
@@ -254,6 +263,14 @@ public class UserRepository {
             return u;
         } catch (SQLException e) {
             e.printStackTrace();
+        }
+        catch (NullPointerException exception){
+            exception.printStackTrace();
+        }
+        try {
+            con.close();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
         }
         return null;
     }
