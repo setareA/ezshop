@@ -662,11 +662,8 @@ public class BalanceOperationRepository {
             Integer highestId = rs.getInt(1);
             prps.close();
             con.close();
-            if (highestId != null) {
-                return highestId;
-            } else {
-                return 0;
-            }
+            return highestId;
+           
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -683,11 +680,8 @@ public class BalanceOperationRepository {
             Integer highestId = rs.getInt(1);
             prps.close();
             con.close();
-            if (highestId != null) {
-                return highestId;
-            } else {
-                return 0;
-            }
+            return highestId;
+            
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -704,11 +698,8 @@ public class BalanceOperationRepository {
         Integer highestId = rs.getInt(1);
         prps.close();
         con.close();
-        if (highestId != null) {
-            return highestId;
-        } else {
-            return 0;
-        }
+        return highestId;
+        
     }
 
     public Integer getHighestReturnId() {
@@ -721,11 +712,8 @@ public class BalanceOperationRepository {
             Integer highestId = rs.getInt(1);
             prps.close();
             con.close();
-            if (highestId != null) {
-                return highestId;
-            } else {
-                return 0;
-            }
+            return highestId;
+           
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -743,12 +731,8 @@ public class BalanceOperationRepository {
         Integer highestId = rs.getInt(1);
         prps.close();
         con.close();
-        if (highestId != null) {
-            return highestId;
-        } else {
-            return 0;
-        }
-
+        return highestId;
+      
     }
 
     public OrderClass getOrderByOrderId(String orderId) throws SQLException {
@@ -833,7 +817,7 @@ public class BalanceOperationRepository {
                 creditCards.put(st.substring(0, 16), Double.parseDouble(st.substring(17, st.length() - 1)));
             }
             n = n + 1;
-        }
+        } 
         return creditCards;
     }
 

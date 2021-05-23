@@ -267,24 +267,64 @@ public class BalanceOperationRepositoryTest {
 	}
 
 	@Test
-	public void testGetTicketsByForeignKeyAndBarcode() {
+	public void testGetTicketsByForeignKeyAndBarcode() throws SQLException {
+		Integer saleId = balanceOperationRepository.addNewSale(new SaleTransactionClass(null, 0, 0, null));
+		Integer returnId = balanceOperationRepository.addNewReturn(new ReturnTransactionClass(null, 0, null, null));
+		String barcode1 = "1245234512885";
+		String barcode2 = "12453244512887";
+		balanceOperationRepository.addNewTicketEntry(new TicketEntryClass(null, barcode1, null, 0, 0, 0), saleId, null);
+		balanceOperationRepository.addNewTicketEntry(new TicketEntryClass(null, barcode2, null, 0, 0, 0), null, returnId);
+		assertEquals(balanceOperationRepository.getTicketsByForeignKeyAndBarcode("saleId", saleId, barcode1).getBarCode(),barcode1);
+		assertEquals(balanceOperationRepository.getTicketsByForeignKeyAndBarcode("returnId", returnId, barcode2).getBarCode(), barcode2);
+		assertEquals(balanceOperationRepository.getTicketsByForeignKeyAndBarcode("saleId", 496, barcode1),null);
+		assertEquals(balanceOperationRepository.getTicketsByForeignKeyAndBarcode("returnId", 24, barcode2), null);
+		assertEquals(balanceOperationRepository.getTicketsByForeignKeyAndBarcode("saleId", saleId, null),null);
+		assertEquals(balanceOperationRepository.getTicketsByForeignKeyAndBarcode("", saleId, null),null);
 
 	}
 
 	@Test
-	public void testGetHighestTicketNumber() {
-		fail("Not yet implemented");
+	public void testGetHighestTicketNumber() throws SQLException {
+		balanceOperationRepository.deleteTables();
+		Integer ix = balanceOperationRepository.getHighestTicketNumber();
+		System.out.println(ix);
+		assertEquals(ix,Integer.valueOf(0));
+		Integer i = balanceOperationRepository.addNewSale(new SaleTransactionClass(null, 0, 0, null));
+		assertEquals(balanceOperationRepository.getHighestTicketNumber(),i);
+		balanceOperationRepository.addNewSale(new SaleTransactionClass(null, 0, 0, null));
+		assertNotEquals(balanceOperationRepository.getHighestTicketNumber(),i);
+		
+		i = balanceOperationRepository.addNewSale(new SaleTransactionClass(null, 0, 0, null));
+		assertEquals(balanceOperationRepository.getHighestTicketNumber(),i);
+		balanceOperationRepository.deleteRow("sale","ticketNumber" , String.valueOf(i));
+		assertNotEquals(balanceOperationRepository.getHighestTicketNumber(),i);
+
 	}
 
 	@Test
-	public void testGetHighestOrderId() {
-		fail("Not yet implemented");
-	}
+	public void testGetHighestOrderId() throws SQLException {
+		Integer i = balanceOperationRepository.addNewOrder(new OrderClass(0, 0, null, 0, 0, null, 0));
+		assertEquals(balanceOperationRepository.getHighestOrderId(),i);
+		balanceOperationRepository.addNewOrder(new OrderClass(0, 0, null, 0, 0, null, 0));
+		assertNotEquals(balanceOperationRepository.getHighestOrderId(),i);
+		
+		i = balanceOperationRepository.addNewOrder(new OrderClass(0, 0, null, 0, 0, null, 0));
+		assertEquals(balanceOperationRepository.getHighestOrderId(),i);
+		balanceOperationRepository.deleteRow("orderTable","orderId" , String.valueOf(i));
+		assertNotEquals(balanceOperationRepository.getHighestOrderId(),i);
+		}
 
 	@Test
-	public void testGetHighestReturnId() {
-		fail("Not yet implemented");
-	}
+	public void testGetHighestReturnId() throws SQLException {
+		Integer i = balanceOperationRepository.addNewReturn(new ReturnTransactionClass(0, 0, null, 0));
+		assertEquals(balanceOperationRepository.getHighestReturnId(),i);
+		balanceOperationRepository.addNewReturn(new ReturnTransactionClass(0, 0, null, 0));
+		assertNotEquals(balanceOperationRepository.getHighestReturnId(),i);
+		
+		i = balanceOperationRepository.addNewReturn(new ReturnTransactionClass(0, 0, null, 0));
+		assertEquals(balanceOperationRepository.getHighestReturnId(),i);
+		balanceOperationRepository.deleteRow("returnTable","returnId" , String.valueOf(i));
+		assertNotEquals(balanceOperationRepository.getHighestReturnId(),i);	}
 
 	@Test
 	public void testGetHighestBalanceId() {
@@ -297,8 +337,13 @@ public class BalanceOperationRepositoryTest {
 	}
 
 	@Test
-	public void testDeleteTables() {
-		fail("Not yet implemented");
+	public void testDeleteTables() throws SQLException {
+		Integer s = balanceOperationRepository.addNewSale(new SaleTransactionClass(null, 0, 0, null));
+		Integer o = balanceOperationRepository.addNewOrder(new OrderClass(0, 0, null, 0, 0, null, 0));
+		
+		balanceOperationRepository.deleteTables();
+		assertEquals(balanceOperationRepository.getSalesByTicketNumber(s),null);
+		assertThrows(SQLException.class, () -> balanceOperationRepository.getOrderByOrderId(String.valueOf(o)));
 	}
 
 	@Test
