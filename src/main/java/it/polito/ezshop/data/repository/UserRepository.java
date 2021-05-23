@@ -176,17 +176,29 @@ public class UserRepository {
        return -1;
     }
 
-    public boolean deleteUserFromDB(Integer id) throws SQLException {
+    public boolean deleteUserFromDB(Integer id){
         // This method assumes that the id that you are passing is already checked
-        Connection con = DBCPDBConnectionPool.getConnection();
-        Logger.getLogger(EZShop.class.getName()).log(Level.SEVERE, "deleting user with id: " + id);
-        String sqlCommand = deleteCommand("user", "id");
-        PreparedStatement prp = con.prepareStatement(sqlCommand);
-        prp.setString(1, id.toString());
-        int count = prp.executeUpdate();
-        prp.close();
-        con.close();
-        return count > 0;
+        Connection con = null;
+        try {
+            con = DBCPDBConnectionPool.getConnection();
+            Logger.getLogger(EZShop.class.getName()).log(Level.SEVERE, "deleting user with id: " + id);
+            String sqlCommand = deleteCommand("user", "id");
+            PreparedStatement prp = con.prepareStatement(sqlCommand);
+            prp.setString(1, id.toString());
+            int count = prp.executeUpdate();
+            prp.close();
+            con.close();
+            return count > 0;
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            try {
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+        }
+        return false;
     }
 
     public boolean changeRoleOfAUser(Integer id, String role) throws SQLException {

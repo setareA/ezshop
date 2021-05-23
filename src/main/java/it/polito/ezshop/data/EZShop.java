@@ -192,12 +192,8 @@ public class EZShop implements EZShopInterface {
         // If the User can be deleted from the Database correctly, the method
         // returns true
         // If there is an error, the error is caught and false is returned
-        try {
+
             return userRepository.deleteUserFromDB(id);
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
-        }
     }
 
     @Override
