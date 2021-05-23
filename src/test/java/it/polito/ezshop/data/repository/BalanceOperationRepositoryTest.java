@@ -52,8 +52,7 @@ public class BalanceOperationRepositoryTest {
 		balanceNow = balanceOperationRepository.getBalance();
 		
 		balanceOperationRepository.setBalance(balanceUpdate);
-		assertEquals(balanceOperationRepository.getBalance(), balanceNow + balanceUpdate , 0.001);
-		
+		assertEquals(balanceOperationRepository.getBalance(), balanceNow + balanceUpdate , 0.001);		
 	}
 
 	@Test
@@ -66,7 +65,6 @@ public class BalanceOperationRepositoryTest {
 		double balance = 0;
 		balanceOperationRepository.resetBalance();
 		assertEquals(balanceOperationRepository.getBalance(), balance , 0.001);
-		
 	}
 
 
@@ -76,8 +74,6 @@ public class BalanceOperationRepositoryTest {
 		balanceOperationRepository.deleteRow("balanceTable", "id", "1");
 		assertEquals(balanceOperationRepository.insertBalance(),true);
 		assertEquals(balanceOperationRepository.insertBalance(),false);
-
-
 		}
 
 	@Test
@@ -113,7 +109,6 @@ public class BalanceOperationRepositoryTest {
 
 		sale.setTicketNumber(2);
 		balanceOperationRepository.addNewSale(sale);
-
 		}
 
 	@Test
@@ -141,7 +136,6 @@ public class BalanceOperationRepositoryTest {
 		
 		balanceOperationRepository.addNewTicketEntry(ticket, null, null);
 		balanceOperationRepository.addNewTicketEntry(ticket, null, null);
-
 	}
 
 	@Test 
@@ -152,7 +146,6 @@ public class BalanceOperationRepositoryTest {
 		assertEquals(balanceOperationRepository.deleteRow("orderTable", "orderId", "10"),false);
 		Integer i = balanceOperationRepository.addNewOrder(new OrderClass(0, 0, null, 0, 0, null, 0));
 		assertEquals(balanceOperationRepository.deleteRow("orderTable", "orderId", i.toString()),true);
-
 	 }
 
 	@Test
@@ -168,8 +161,6 @@ public class BalanceOperationRepositoryTest {
 		assertEquals(balanceOperationRepository.updateRow("orderTable", "productCode", "otherString", i, "18377125254"),false);
 		assertEquals(balanceOperationRepository.updateRow("otherString", "productCode", "orderId", i, "18377125254"),false);
 		assertEquals(balanceOperationRepository.updateRow("orderTable", "otherString", "orderId", 12, "18377125254"),false);
-
-
 	}
 
 	@Test
@@ -179,8 +170,7 @@ public class BalanceOperationRepositoryTest {
 		assertEquals(balanceOperationRepository.updateState(null, null, null),false);
 		assertEquals(balanceOperationRepository.updateState("orderTable", o, null),true);
 		assertEquals(balanceOperationRepository.updateState("orderTable", o, "newState"),true);
-		assertEquals(balanceOperationRepository.updateState("sale", s, "newState"),true);
-
+		assertEquals(balanceOperationRepository.updateState("sale", s, "newState"),false);
 	}
 
 	@Test

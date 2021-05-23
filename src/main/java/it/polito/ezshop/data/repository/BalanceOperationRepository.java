@@ -330,11 +330,13 @@ public class BalanceOperationRepository {
     }
 
     public boolean deleteRow(String tableName, String idName, String id) {
+    	 PreparedStatement prps = null;
+    	 Connection con = null;
         try {
             String sqlCommand = getDeleteRowStatement(tableName, idName);
-            Connection con = DBCPDBConnectionPool.getConnection();
+            con = DBCPDBConnectionPool.getConnection();
             Logger.getLogger(EZShop.class.getName()).log(Level.INFO, "deleting row with id: " + id);
-            PreparedStatement prps = con.prepareStatement(sqlCommand);
+            prps = con.prepareStatement(sqlCommand);
             prps.setString(1, id);
             int returnVal = prps.executeUpdate();
             prps.close();
@@ -342,6 +344,13 @@ public class BalanceOperationRepository {
             return (returnVal == 1);
         } catch (SQLException e) {
             e.printStackTrace();
+            try {
+                con.close();
+                prps.close();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
             return false;
         }
     }
@@ -354,10 +363,12 @@ public class BalanceOperationRepository {
      * @param newColumnVal the value of the column which is being updated
      **/
     public boolean updateRow(String tableName, String columnName, String idName, Integer id, String newColumnVal) {
-        try {
+    	PreparedStatement prps = null;
+    	Connection con = null;
+    	try {
             String sqlCommand = getUpdateRowStatement(tableName, columnName, idName);
-            Connection con = DBCPDBConnectionPool.getConnection();
-            PreparedStatement prps = con.prepareStatement(sqlCommand);
+            con = DBCPDBConnectionPool.getConnection();
+            prps = con.prepareStatement(sqlCommand);
             prps.setString(1, newColumnVal);
             prps.setString(2, String.valueOf(id));
             int returnVal = prps.executeUpdate();
@@ -366,15 +377,24 @@ public class BalanceOperationRepository {
             return (returnVal == 1);
         } catch (SQLException e) {
             e.printStackTrace();
+            try {
+                con.close();
+                prps.close();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
         }
         return false;
     }
 
     public boolean updateState(String tableName, Integer id, String state) {
-        try {
+    	PreparedStatement prps = null;
+    	Connection con = null;
+    	try {
             String sqlCommand = getUpdateStateStatement(tableName);
-            Connection con = DBCPDBConnectionPool.getConnection();
-            PreparedStatement prps = con.prepareStatement(sqlCommand);
+            con = DBCPDBConnectionPool.getConnection();
+            prps = con.prepareStatement(sqlCommand);
             prps.setString(1, String.valueOf(state));
             prps.setString(2, String.valueOf(id));
             int returnVal = prps.executeUpdate();
@@ -383,6 +403,13 @@ public class BalanceOperationRepository {
             return (returnVal == 1);
         } catch (SQLException e) {
             e.printStackTrace();
+            try {
+                con.close();
+                prps.close();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
         }
         return false;
     }
