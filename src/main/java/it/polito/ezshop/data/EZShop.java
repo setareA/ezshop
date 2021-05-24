@@ -503,14 +503,9 @@ public class EZShop implements EZShopInterface {
 
         // Creation of the customer that will be added to the Repository
         CustomerClass newCustomer = new CustomerClass(1, customerName, null, 0);
-        try {
             // Add the customer to the repository, assign it a unique id and throws an error
             // if the customerName is not unique since, it is indicated in DB that customerName must be unique
             return customerRepository.addNewCustomer(newCustomer);
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return -1;
-        }
     }
 
     @Override
@@ -535,12 +530,8 @@ public class EZShop implements EZShopInterface {
         }
         // Change the Role of the User in the DB (return True).
         // In case of an error during the change (return False).
-        try {
-            return customerRepository.changeDataOfACustomer(id, newCustomerName, newCustomerCard);
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
-        }
+
+        return customerRepository.changeDataOfACustomer(id, newCustomerName, newCustomerCard);
     }
 
     @Override
@@ -556,12 +547,7 @@ public class EZShop implements EZShopInterface {
         // If the Customer can be added to the Database correctly, the method
         // returns true
         // If there is an error, the error is caught and false is returned
-        try {
-            return customerRepository.deleteCustomerFromDB(id);
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
-        }
+        return customerRepository.deleteCustomerFromDB(id);
     }
 
     @Override
@@ -656,13 +642,7 @@ public class EZShop implements EZShopInterface {
         }
 
         // Third, we try to assign the CustomerCard and in case of error, we return false
-
-        try {
-            return customerRepository.AssignCustomerCard(customerId, customerCard);
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
-        }
+        return customerRepository.AssignCustomerCard(customerId, customerCard);
     }
 
     @Override
@@ -680,14 +660,7 @@ public class EZShop implements EZShopInterface {
 
         // Change the Number of points of the Customer in the DB (return True).
         // In case of an error during the change (return False).
-        try {
-            customerRepository.changePointsOfACustomer(customerCard, pointsToBeAdded);
-            return true;
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
-        }
-
+        return customerRepository.changePointsOfACustomer(customerCard, pointsToBeAdded);
     }
 
     @Override

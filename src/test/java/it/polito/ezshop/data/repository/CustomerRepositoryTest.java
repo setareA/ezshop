@@ -47,76 +47,50 @@ public class CustomerRepositoryTest {
 
     @Test
     public void testAddNewCustomer() {
-        assertThrows(NullPointerException.class,()->{ customerRepository.addNewCustomer(null);});
-
-        try{
-            customerRepository.addNewCustomer(new CustomerClass(null,"name","1234567891",0));
-            assertEquals(customerRepository.addNewCustomer(new CustomerClass(null,"newName","43444567891",20)), Integer.class );
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-        assertThrows(SQLException.class, ()->customerRepository.addNewCustomer(new CustomerClass(null,"name","4444567891",10)));
+        assertEquals(Integer.valueOf(-1), customerRepository.addNewCustomer(null));
+        customerRepository.addNewCustomer(new CustomerClass(null,"name","1234567891",0));
+        assertNotEquals(Integer.valueOf(-1), customerRepository.addNewCustomer(new CustomerClass(null,"newName","1234567891",0)) );
+        assertEquals(Integer.valueOf(-1),customerRepository.addNewCustomer(new CustomerClass(null,"name","4444567891",10)));
 
        }
 
     @Test
     public void testDeleteCustomerFromDB() {
-        try {
-            Integer id = customerRepository.addNewCustomer(new CustomerClass(null,"newName","43444567891",20));
-            assertTrue(customerRepository.deleteCustomerFromDB(id));
-            assertFalse(customerRepository.deleteCustomerFromDB(id));
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-
+        Integer id = customerRepository.addNewCustomer(new CustomerClass(null,"newName","43444567891",20));
+        assertTrue(customerRepository.deleteCustomerFromDB(id));
+        assertFalse(customerRepository.deleteCustomerFromDB(id));
     }
 
     @Test
     public void testChangeDataOfACustomer() {
-        assertThrows(NullPointerException.class, ()-> customerRepository.changeDataOfACustomer(null,"name","6453875936"));
-        try {
-            assertFalse(customerRepository.changeDataOfACustomer(1,"name","6453875936"));
-            Integer id = customerRepository.addNewCustomer(new CustomerClass(null,"newName","43444567891",20));
-            assertTrue(customerRepository.changeDataOfACustomer(id,"newName","54783650926"));
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
+        assertFalse(customerRepository.changeDataOfACustomer(null,"name","6453875936"));
+        assertFalse(customerRepository.changeDataOfACustomer(1,"name","6453875936"));
+        Integer id = customerRepository.addNewCustomer(new CustomerClass(null,"newName","43444567891",20));
+        assertTrue(customerRepository.changeDataOfACustomer(id,"newName","54783650926"));
+
     }
 
     @Test
     public void testAssignCustomerCard() {
-        assertThrows(NullPointerException.class, ()-> customerRepository.AssignCustomerCard(null,"5467385846"));
-        try {
-            assertFalse(customerRepository.AssignCustomerCard(1,"7564538957"));
-            Integer id = customerRepository.addNewCustomer(new CustomerClass(null,"newName","43444567891",20));
-            assertTrue(customerRepository.AssignCustomerCard(id, "6578442758"));
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-
+        assertFalse(customerRepository.AssignCustomerCard(null,"5467385846"));
+        assertFalse(customerRepository.AssignCustomerCard(1,"7564538957"));
+        Integer id = customerRepository.addNewCustomer(new CustomerClass(null,"newName","43444567891",20));
+        assertTrue(customerRepository.AssignCustomerCard(id, "6578442758"));
     }
 
     @Test
     public void testChangePointsOfACustomer() {
-        try {
-            assertFalse( customerRepository.changePointsOfACustomer("6574859876",97));
-            customerRepository.addNewCustomer(new CustomerClass(null,"newName","43444567891",20));
-            assertTrue(customerRepository.changePointsOfACustomer("43444567891",97));
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
+            assertFalse(customerRepository.changePointsOfACustomer("6574859876", 97));
+            customerRepository.addNewCustomer(new CustomerClass(null, "newName", "43444567891", 20));
+            assertTrue(customerRepository.changePointsOfACustomer("43444567891", 97));
     }
 
     @Test
     public void testGetCustomerById() {
-        assertThrows(NullPointerException.class,() -> customerRepository.getCustomerById(null));
+        assertNull(customerRepository.getCustomerById(null));
         assertEquals(null,customerRepository.getCustomerById(1));
-        try {
-            Integer id = customerRepository.addNewCustomer(new CustomerClass(null,"newName","43444567891",20));
-            assertEquals(CustomerClass.class, customerRepository.getCustomerById(id).getClass());
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
+        Integer id = customerRepository.addNewCustomer(new CustomerClass(null,"newName","43444567891",20));
+        assertEquals(CustomerClass.class, customerRepository.getCustomerById(id).getClass());
 
     }
 
