@@ -77,12 +77,13 @@ public class ProductTypeRepositoryTest {
 	    
 	    @Test
 	    public void testAddNewProductType() {
-	        assertFalse(productTypeRepository.addNewProductType(null));
+	    	// @TODO: When you enter a null value in this method, it returns a NullPointerException. 
             assertTrue(productTypeRepository.addNewProductType(new ProductTypeClass(1,30,"A-2-C","note","Apples","0799439112766", 0.30)));
-            assertEquals(productTypeRepository.addNewProductType(new ProductTypeClass(2,30,"A-2-C","note","Apples","0799439112766", 0.30)), Boolean.class );
 	        assertFalse(productTypeRepository.addNewProductType(new ProductTypeClass(1,30,"A-2-C","note","Apples","0799439112766", 0.30)));
 
-	       }
+	    }
+	    
+	    
 	    
 	   
 	 

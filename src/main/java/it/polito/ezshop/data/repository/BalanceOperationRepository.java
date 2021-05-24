@@ -813,26 +813,6 @@ public class BalanceOperationRepository {
         return creditCards;
     }
 
-    public Boolean changeCreditCardBalance2(String creditCard, Double price) {
-        try {
-            String filePath = new File("").getAbsolutePath();
-            filePath = filePath.concat("\\src\\main\\java\\it\\polito\\ezshop\\utils\\CreditCards.txt");
-            File file = new File(filePath);
-            BufferedWriter outStream = new BufferedWriter(new FileWriter(file, true));
-
-
-            price = price + getBalanceOfACreditCard(creditCard);
-            outStream.newLine();
-            outStream.write(creditCard + ";" + price);
-            outStream.close();
-
-        } catch (IOException e) {
-            System.out.println("An error occurred.");
-            e.printStackTrace();
-        }
-        return false;
-    }
-
 
     public void changeCreditCardBalance(String creditCard, Double price) {
         try {

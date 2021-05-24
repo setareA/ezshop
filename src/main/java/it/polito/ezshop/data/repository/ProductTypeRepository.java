@@ -149,12 +149,11 @@ public class ProductTypeRepository {
             e.printStackTrace();
             try {
                 con.close();
-                prp.close();
 			} catch (SQLException e1) {
 				e1.printStackTrace();
 			}
+            return false;
         }
-        return false;
     	
     }
 
@@ -174,7 +173,6 @@ public class ProductTypeRepository {
 	        e.printStackTrace();
 	        try {
 	            con.close();
-	            prp.close();
 			} catch (SQLException e1) {
 				e1.printStackTrace();
 			}
@@ -187,39 +185,38 @@ public class ProductTypeRepository {
     	PreparedStatement prp = null;
     	Connection con = null;
     	try {
-        HashMap<String, String> userData = new HashMap<>();
-        userData.put("id", pt.getId().toString());
-        userData.put("quantity", pt.getQuantity().toString());
-        userData.put("location", pt.getLocation());
-        userData.put("note", pt.getNote());
-        userData.put("productDescription", pt.getProductDescription());
-        userData.put("barCode", pt.getBarCode());
-        userData.put("pricePerUnit", pt.getPricePerUnit().toString());
-
-
-        con = DBCPDBConnectionPool.getConnection();
-        ArrayList<String> attrs = getAttrs();
-        System.out.println("adding new product type");
-        String sqlCommand = insertCommand("productType", attrs);
-        prp = con.prepareStatement(sqlCommand);
-        for (int j = 0; j < attrs.size(); j++) {
-            prp.setString(j + 1, userData.get(attrs.get(j)));
-        }
-
-        Integer count = prp.executeUpdate();
-        prp.close();
-        con.close();
-        return count>0;
+	        HashMap<String, String> userData = new HashMap<>();
+	        userData.put("id", pt.getId().toString());
+	        userData.put("quantity", pt.getQuantity().toString());
+	        userData.put("location", pt.getLocation());
+	        userData.put("note", pt.getNote());
+	        userData.put("productDescription", pt.getProductDescription());
+	        userData.put("barCode", pt.getBarCode());
+	        userData.put("pricePerUnit", pt.getPricePerUnit().toString());
+	
+	
+	        con = DBCPDBConnectionPool.getConnection();
+	        ArrayList<String> attrs = getAttrs();
+	        System.out.println("adding new product type");
+	        String sqlCommand = insertCommand("productType", attrs);
+	        prp = con.prepareStatement(sqlCommand);
+	        for (int j = 0; j < attrs.size(); j++) {
+	            prp.setString(j + 1, userData.get(attrs.get(j)));
+	        }
+	
+	        Integer count = prp.executeUpdate();
+	        prp.close();
+	        con.close();
+	        return count>0;
 		}catch (SQLException e) {
 	        e.printStackTrace();
 	        try {
 	            con.close();
-	            prp.close();
 			} catch (SQLException e1) {
 				e1.printStackTrace();
 			}
+	    	return false;
 	    }
-    	return false;
     }
 
 
