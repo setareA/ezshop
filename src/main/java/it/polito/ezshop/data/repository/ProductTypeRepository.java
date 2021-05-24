@@ -115,7 +115,7 @@ public class ProductTypeRepository {
         return "UPDATE productType SET quantity = quantity + ? WHERE id = ?";
     }
 
-    @SuppressWarnings("unused")
+    
     public Integer getMaxId() throws SQLException {
         Connection con = DBCPDBConnectionPool.getConnection();
         String sqlCommand = getMaxIdCommand("productType", "id");
@@ -349,7 +349,8 @@ public class ProductTypeRepository {
         return false;
     }
 
-    public boolean updateProductType(String id, String nd, String nc, String np, String nn) throws SQLException {
+    public boolean updateProductType(String id, String nd, String nc, String np, String nn) {
+    	try {
         Connection con = DBCPDBConnectionPool.getConnection();
         System.out.println("updating product type");
         if (this.getProductTypebyId(id) == null) return false;
@@ -360,6 +361,9 @@ public class ProductTypeRepository {
         prp.close();
         con.close();
         return count != 0;
+    	} catch (SQLException e) {
+            return false;
+        }
     }
 
     public boolean updatePosition(String id, String np) {

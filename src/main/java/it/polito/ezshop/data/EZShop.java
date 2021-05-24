@@ -309,11 +309,7 @@ public class EZShop implements EZShopInterface {
             if (!checkValidityProductcode(newCode)) throw new InvalidProductCodeException();
             if (newPrice <= 0) throw new InvalidPricePerUnitException();
             if (!productTypeRepository.checkUniqueBarcode(newCode, id)) return false;
-            try {
-                return productTypeRepository.updateProductType(id.toString(), newDescription, newCode, String.valueOf(newPrice), newNote);
-            } catch (SQLException e) {
-                return false;
-            }
+            return productTypeRepository.updateProductType(id.toString(), newDescription, newCode, String.valueOf(newPrice), newNote);
         } else {
             throw new UnauthorizedException();
         }
@@ -917,13 +913,6 @@ public class EZShop implements EZShopInterface {
         return null;
     }
 
-    // FR7
-
-    /**
-     * This method starts a new return transaction for units of products that have already been sold and payed.
-     *
-     * @return the id of the return transaction (>= 0), -1 if the transaction is not available.
-     */
 
     @Override
     public Integer startReturnTransaction(Integer saleNumber) throws /*InvalidTicketNumberException,*/InvalidTransactionIdException, UnauthorizedException {
