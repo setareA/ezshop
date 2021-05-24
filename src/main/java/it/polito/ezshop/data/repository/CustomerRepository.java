@@ -69,12 +69,23 @@ public class CustomerRepository {
                 " WHERE id = ?";
     }
 
-    public void initialize() throws SQLException {
-        Connection con = DBCPDBConnectionPool.getConnection();
+    public void initialize() {
+    	Connection con = null;
+    	try {
+        con = DBCPDBConnectionPool.getConnection();
         Statement st = con.createStatement();
         st.executeUpdate("CREATE TABLE IF NOT EXISTS " + "customer" + " " + "(id INTEGER PRIMARY KEY, customerName TEXT UNIQUE, customerCard TEXT, points INTEGER, CHECK (points>=0) )");
         st.close();
         con.close();
+	    }catch (SQLException e) {
+	        e.printStackTrace();
+	        try {
+	            con.close();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+	    }
     }
 
     public Integer addNewCustomer(CustomerClass customer) {

@@ -120,8 +120,10 @@ public class BalanceOperationRepository {
         return 0.0;
     }
 
-    public void initialize() throws SQLException {
-        Connection con = DBCPDBConnectionPool.getConnection();
+    public void initialize() {
+    	Connection con = null;
+    	try {
+        con = DBCPDBConnectionPool.getConnection();
         Statement st = con.createStatement();
         st.executeUpdate("CREATE TABLE IF NOT EXISTS " + "orderTable" + " " + "(orderId INTEGER PRIMARY KEY, balanceId INTEGER, productCode TEXT, pricePerUnit DOUBLE, quantity INTEGER, status TEXT, money DOUBLE)");
         st.executeUpdate("CREATE TABLE IF NOT EXISTS " + "sale" + " " + "(ticketNumber INTEGER PRIMARY KEY, discountRate DOUBLE, price DOUBLE, status TEXT)");
@@ -136,6 +138,15 @@ public class BalanceOperationRepository {
         }
         st.close();
         con.close();
+    	}catch (SQLException e) {
+	        e.printStackTrace();
+	        try {
+	            con.close();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+	    }
     }
 
     public boolean setBalance(double b) {
@@ -878,7 +889,7 @@ public class BalanceOperationRepository {
 
     public HashMap<String, Double> getCreditCards() throws IOException {
         String filePath = new File("").getAbsolutePath();
-        filePath = filePath.concat("\\src\\main\\java\\it\\polito\\ezshop\\utils\\CreditCards.txt");
+        filePath = filePath.concat("/src/main/java/it/polito/ezshop/utils/CreditCards.txt");
 
         File file = new File(filePath);
 

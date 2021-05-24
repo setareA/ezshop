@@ -29,15 +29,10 @@ public class EZShop implements EZShopInterface {
 
     public EZShop() {
         super();
-        try {
-            userRepository.initialize();
-            customerRepository.initialize();
-            productTypeRepository.initialize();
-            balanceOperationRepository.initialize();
-
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
+        userRepository.initialize();
+		customerRepository.initialize();
+		productTypeRepository.initialize();
+		balanceOperationRepository.initialize();
 
     }
 
@@ -284,13 +279,8 @@ public class EZShop implements EZShopInterface {
             else if (pricePerUnit <= 0) throw new InvalidPricePerUnitException(); // price per unit check
             else if (!productTypeRepository.checkUniqueBarcode(productCode, -1)) return -1;
             else {
-                try {
-                    productTypeRepository.addNewProductType(new ProductTypeClass(productTypeRepository.getMaxId() + 1, 0, "", note, description, productCode, pricePerUnit));
-                    return productTypeRepository.getMaxId();
-
-                } catch (SQLException e) {
-                    return -1;
-                }
+                productTypeRepository.addNewProductType(new ProductTypeClass(productTypeRepository.getMaxId() + 1, 0, "", note, description, productCode, pricePerUnit));
+				return productTypeRepository.getMaxId();
             }
         } else {
             throw new UnauthorizedException();
