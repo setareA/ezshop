@@ -913,13 +913,6 @@ public class EZShop implements EZShopInterface {
         return null;
     }
 
-    // FR7
-
-    /**
-     * This method starts a new return transaction for units of products that have already been sold and payed.
-     *
-     * @return the id of the return transaction (>= 0), -1 if the transaction is not available.
-     */
 
     @Override
     public Integer startReturnTransaction(Integer saleNumber) throws /*InvalidTicketNumberException,*/InvalidTransactionIdException, UnauthorizedException {
