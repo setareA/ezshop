@@ -21,7 +21,6 @@ public class BalanceOperationRepository {
     private static final String COLUMNS_TICKET_ENTRY = "id, barcode, productDescription, amount, pricePerUnit, discountRate, saleId, returnId";
     private static final String CLUMNS_BALANCE_OPERATION = "balanceId, localDate, money, type";
     private static final BalanceOperationRepository ourInstance = new BalanceOperationRepository();
-    private static double balance; // TODO : ADD TO DB NOT HERE
     private static Integer nextTicketNumber = 0;
     private static Integer nextReturnId = 0;
     private BalanceOperationRepository() {
@@ -64,7 +63,7 @@ public class BalanceOperationRepository {
         return attrs;
     }
 
-    protected static String getBalanceStatement() {
+    private static String getBalanceStatement() {
         return "SELECT " + "balance" +
                 " FROM balanceTable" +
                 " WHERE id = ?";
@@ -456,7 +455,7 @@ public class BalanceOperationRepository {
         return "DELETE FROM " + tableName + " WHERE " + idName + "= ?;";
     }
 
-    protected OrderClass convertResultSetOrderToDomainModel(ResultSet rs) throws SQLException {
+    private OrderClass convertResultSetOrderToDomainModel(ResultSet rs) throws SQLException {
         return new OrderClass(rs.getInt(1),
                 rs.getInt(2),
                 rs.getString(3),
@@ -468,7 +467,7 @@ public class BalanceOperationRepository {
     }
 
     // ticketNumber, discountRate, price, state";
-    protected SaleTransactionClass convertResultSetSaleToDomainModel(ResultSet rs) throws SQLException {
+    private SaleTransactionClass convertResultSetSaleToDomainModel(ResultSet rs) throws SQLException {
         return new SaleTransactionClass(rs.getInt(1),
                 rs.getDouble(2),
                 rs.getDouble(3),
@@ -477,7 +476,7 @@ public class BalanceOperationRepository {
     }
 
     //  "balanceId, price, state";
-    protected ReturnTransactionClass convertResultSetReturnToDomainModel(ResultSet rs) throws SQLException {
+    private ReturnTransactionClass convertResultSetReturnToDomainModel(ResultSet rs) throws SQLException {
         return new ReturnTransactionClass(rs.getInt(1),
                 rs.getDouble(2),
                 rs.getString(3),
@@ -486,7 +485,7 @@ public class BalanceOperationRepository {
     }
 
     // barcode, productDescription, amount, pricePerUnit, discountRate, saleId, returnId";
-    protected TicketEntryClass convertResultSetTicketToDomainModel(ResultSet rs) throws SQLException {
+    private TicketEntryClass convertResultSetTicketToDomainModel(ResultSet rs) throws SQLException {
         return new TicketEntryClass(rs.getInt(1),
                 rs.getString(2),
                 rs.getString(3),
@@ -496,7 +495,7 @@ public class BalanceOperationRepository {
         );
     }
 
-    protected BalanceOperationClass convertResultSetBalanceToDomainModel(ResultSet rs) throws SQLException {
+    private BalanceOperationClass convertResultSetBalanceToDomainModel(ResultSet rs) throws SQLException {
         return new BalanceOperationClass(rs.getInt(1),
                 LocalDate.of(Integer.valueOf(rs.getString(2).split("-")[0]), Integer.valueOf(rs.getString(2).split("-")[1]), Integer.valueOf(rs.getString(2).split("-")[2])),
                 rs.getDouble(3),
@@ -924,9 +923,10 @@ public class BalanceOperationRepository {
             }
             n = n + 1;
         } 
+        br.close();
         return creditCards;
     }
-
+ 
 
     public void changeCreditCardBalance(String creditCard, Double price) {
         try {
