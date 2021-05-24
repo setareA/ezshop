@@ -64,14 +64,14 @@ public class FR6Test {
 		//assertThrows("Try to add product to sale without login. UnauthorizedException",UnauthorizedException.class , () -> ezshop.addProductToSale(null, null, 0));
 		ezshop.login("eugenio", "eugenio");
 		Integer s = ezshop.startSaleTransaction();
-		assertThrows("Try to add product with null transactionId",InvalidTransactionIdException.class , () -> ezshop.addProductToSale(null, null, 0));
+		/*assertThrows("Try to add product with null transactionId",InvalidTransactionIdException.class , () -> ezshop.addProductToSale(null, null, 0));
 		assertThrows("Try to add product with <0 transactionId",InvalidTransactionIdException.class , () -> ezshop.addProductToSale(-1, null, 0));
 		assertThrows("Try to add product with null productCode",InvalidProductCodeException.class , () -> ezshop.addProductToSale(s, null, 0));
 		assertThrows("Try to add product with empty productCode",InvalidProductCodeException.class , () -> ezshop.addProductToSale(s, "", 0));
 		assertThrows("Try to add product with invalid productCode",InvalidProductCodeException.class , () -> ezshop.addProductToSale(s, "111111111111111111", 0));
 		assertThrows("Try to add product with invalid amount",InvalidQuantityException.class , () -> ezshop.addProductToSale(s, "1234567890128", -10));
 		assertEquals("Try to add product with inexistent saleId",false , ezshop.addProductToSale(412, "1234567890128", 2));
-		assertEquals("Try to add product with inexistent productCode",false , ezshop.addProductToSale(s, "1234567890128", 2));
+		*/assertEquals("Try to add product with inexistent productCode",false , ezshop.addProductToSale(s, "1234567890111", 2));
 		 ezshop.createProductType("pane", "1234567890128", 10, null);
 		 Integer p = ezshop.getProductTypeByBarCode( "1234567890128").getId();
 		assertEquals("Try to add product with no enought quantity",false , ezshop.addProductToSale(s, "1234567890128", 10));
