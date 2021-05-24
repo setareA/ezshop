@@ -102,7 +102,7 @@ public class BalanceOperationRepository {
 
     public static Double getBalanceOfACreditCard(String creditCard) throws IOException {
         String filePath = new File("").getAbsolutePath();
-        filePath = filePath.concat("\\src\\main\\java\\it\\polito\\ezshop\\utils\\CreditCards.txt");
+        filePath = filePath.concat("/src/main/java/it/polito/ezshop/utils/CreditCards.txt");
 
         File file = new File(filePath);
 
