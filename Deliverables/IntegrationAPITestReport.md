@@ -23,8 +23,33 @@ Version:
 
 # Dependency graph 
 
-     <report the here the dependency graph of the classes in EzShop, using plantuml>
-     
+```plantuml
+@startuml
+digraph ez {
+
+ EZShop -> UserRepository ;
+ EZShop -> CustomerRepository;
+ EZShop -> BalanceOperationRepository;
+ EZShop -> ProductTypeRepository
+ EZShop -> HashGenerator;
+
+ UserRepository -> HashGenerator;
+ UserRepository -> UserClass;
+
+ CustomerRepository -> CustomerClass;
+
+ BalanceOperationRepository -> OrderClass;
+ BalanceOperationRepository -> ReturnTransactionClass;
+ BalanceOperationRepository -> SaleTransactionClass;
+ BalanceOperationRepository -> TicketEntryClass;
+ BalanceOperationRepository -> BalanceOperationClass;
+
+ ProductTypeRepository-> ProductTypeClass;
+
+}
+@enduml
+```
+
 # Integration approach
 
     <Write here the integration sequence you adopted, in general terms (top down, bottom up, mixed) and as sequence
@@ -32,6 +57,15 @@ Version:
     <Some steps may  correspond to unit testing (ex step1 in ex above), presented in other document UnitTestReport.md>
     <One step will  correspond to API testing>
     
+  
+  We adopted the **bottom-up** approach. 
+    
+  **Step 1** corresponds to unit testing, which consists of the leaves of the dependency graph. 
+    
+  **Step 2** consists of repository class tests which are dependent on models(step 1)
+    
+  **Step 3** (the root) is the EZShop class which contains all testing of the APIs'.  Inside each API test, methods of repositories are called.
+
 
 
 #  Tests
@@ -42,16 +76,27 @@ Version:
 ## Step 1
 | Classes  | JUnit test cases |
 |--|--|
-|||
+|UserClass|data/model/UserClassTest|
+|CustomerClass|data/model/CustomerClassTest|
+|HashGenerator|data/util/HashGeneratorTest|
+|ReturnTransactionClass|data/model/ReturnTransactionClassTest|
+|SaleTransactionClass|data/model/SaleTransactionClassTest|
+|TicketEntryClass|data/model/TicketEntryClassTest|
+|OrderClass|data/model/OrderClassTest|
+|BalanceOperationClass|data/model/BalanceOperationClassTest|
+|ProductTypeClass|data/model/ProductTypeClassTest|
 
 
 ## Step 2
 | Classes  | JUnit test cases |
 |--|--|
-|||
+|CustomerClass + CustomerRepository|data/repository/CustomerRepositoryTest|
+|[UserClass+HashGenerator] + UserRepository|data/repository/UserRepositoryTest|
+|ProductTypeClass + ProductTypeRepository|data/repository/ProductTypeRepositoryTest|
+|[SaleTransactionClass+ReturnTransactionClass+TicketEntryClass+OrderClass] + BalanceOperationRepository|data/repository/BalanceOperationRepositoryTest|
 
 
-## Step n 
+## Step 3 
 
    
 
@@ -71,11 +116,11 @@ Version:
 ## Scenario UCx.y
 
 | Scenario |  name |
-| ------------- |:-------------:| 
+| ------------- |:-------------:|
 |  Precondition     |  |
 |  Post condition     |   |
 | Step#        | Description  |
-|  1     |  ... |  
+|  1     |  ... |
 |  2     |  ... |
 
 
@@ -89,14 +134,14 @@ Report also for each of the scenarios the (one or more) API JUnit tests that cov
 
 
 
-| Scenario ID | Functional Requirements covered | JUnit  Test(s) | 
-| ----------- | ------------------------------- | ----------- | 
-|  ..         | FRx                             |             |             
-|  ..         | FRy                             |             |             
-| ...         |                                 |             |             
-| ...         |                                 |             |             
-| ...         |                                 |             |             
-| ...         |                                 |             |             
+| Scenario ID | Functional Requirements covered | JUnit  Test(s) |
+| ----------- | ------------------------------- | ----------- |
+|  ..         | FRx                             |             |
+|  ..         | FRy                             |             |
+| ...         |                                 |             |
+| ...         |                                 |             |
+| ...         |                                 |             |
+| ...         |                                 |             |
 
 
 
@@ -111,5 +156,4 @@ Report also for each of the scenarios the (one or more) API JUnit tests that cov
 | Non Functional Requirement | Test name |
 | -------------------------- | --------- |
 |                            |           |
-
 
