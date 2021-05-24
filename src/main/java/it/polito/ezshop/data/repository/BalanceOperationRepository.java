@@ -16,10 +16,6 @@ import java.util.logging.Logger;
 
 public class BalanceOperationRepository {
     private static final String COLUMNS_ORDER = "orderId, balanceId, productCode, pricePerUnit, quantity, status, money";
-    private static final String COLUMNS_SALE = "ticketNumber, discountRate, price, status";
-    private static final String COLUMNS_RETURN = "returnId, price, status, ticketNumber";
-    private static final String COLUMNS_TICKET_ENTRY = "id, barcode, productDescription, amount, pricePerUnit, discountRate, saleId, returnId";
-    private static final String CLUMNS_BALANCE_OPERATION = "balanceId, localDate, money, type";
     private static final BalanceOperationRepository ourInstance = new BalanceOperationRepository();
     private static Integer nextTicketNumber = 0;
     private static Integer nextReturnId = 0;
@@ -102,9 +98,7 @@ public class BalanceOperationRepository {
         return "SELECT * FROM returnTable WHERE returnId = ?";
     }
 
-    private static String getDeleteRowStatement(String tableName, String columnName, String columnName2) {
-        return "DELETE FROM " + tableName + " WHERE " + columnName + "= ? AND " + columnName2 + "= ?;";
-    }
+  
 
     public static Double getBalanceOfACreditCard(String creditCard) throws IOException {
         String filePath = new File("").getAbsolutePath();
@@ -122,6 +116,7 @@ public class BalanceOperationRepository {
             }
             n = n + 1;
         }
+        br.close();
         return 0.0;
     }
 
@@ -435,17 +430,12 @@ public class BalanceOperationRepository {
         return false;
     }
 
-    private String getUpdateQuantityStatement() {
-        return "UPDATE ticket SET amount = ? WHERE id = ?";
-    }
 
     private String getUpdateStateStatement(String tableName) {
         return "UPDATE " + tableName + " SET status  = ? WHERE orderId = ?";
     }
 
-    private String getDeleteTicketStatement() {
-        return "DELETE FROM ticket WHERE id= ?;";
-    }
+ 
 
     private String getUpdateRowStatement(String tableName, String columnName, String idName) {
         return "UPDATE " + tableName + " SET " + columnName + " = ? WHERE " + idName + " = ?";
@@ -513,25 +503,7 @@ public class BalanceOperationRepository {
         return result;
     }
 
-    private ArrayList<SaleTransactionClass> loadAllSales(ResultSet rs) throws SQLException {
-
-        ArrayList<SaleTransactionClass> result = new ArrayList<>();
-        while (rs.next()) {
-            SaleTransactionClass s = convertResultSetSaleToDomainModel(rs);
-            result.add(s);
-        }
-        return result;
-    }
-
-    private ArrayList<ReturnTransactionClass> loadAllReturns(ResultSet rs) throws SQLException {
-
-        ArrayList<ReturnTransactionClass> result = new ArrayList<>();
-        while (rs.next()) {
-            ReturnTransactionClass r = convertResultSetReturnToDomainModel(rs);
-            result.add(r);
-        }
-        return result;
-    }
+  
 
     private ArrayList<TicketEntry> loadAllTickets(ResultSet rs) throws SQLException {
 

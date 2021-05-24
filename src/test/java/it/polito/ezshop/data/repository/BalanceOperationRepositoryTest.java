@@ -189,7 +189,7 @@ public class BalanceOperationRepositoryTest {
 		fail("Not yet implemented");
 	}
 
-	@Test //TODO
+	@Test 
 	public void testGetTicketsBySaleId() throws SQLException {
 		TicketEntryClass t1 = new TicketEntryClass(1,null , "prodotto1", 0, 0, 0);
 		TicketEntryClass t2 = new TicketEntryClass(1,null , "prodotto2", 0, 0, 0);
@@ -210,7 +210,7 @@ public class BalanceOperationRepositoryTest {
 
 	}
 
-	@Test // TODO
+	@Test 
 	public void testGetSalesByTicketNumber() throws SQLException {
 		Integer i = balanceOperationRepository.addNewSale(new SaleTransactionClass(null, 0, 0, null));
 		assertEquals(balanceOperationRepository.getSalesByTicketNumber(i).getTicketNumber(), i);
