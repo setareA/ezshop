@@ -73,87 +73,165 @@ public class CustomerRepository {
         Connection con = DBCPDBConnectionPool.getConnection();
         Statement st = con.createStatement();
         st.executeUpdate("CREATE TABLE IF NOT EXISTS " + "customer" + " " + "(id INTEGER PRIMARY KEY, customerName TEXT UNIQUE, customerCard TEXT, points INTEGER, CHECK (points>=0) )");
-        nextId = ourInstance.getHighestId() + 1;
         st.close();
         con.close();
     }
 
-    public Integer addNewCustomer(CustomerClass customer) throws SQLException {
+    public Integer addNewCustomer(CustomerClass customer) {
 
-        HashMap<String, String> customerData = new HashMap<>();
-        customerData.put("id", nextId.toString());
-        customerData.put("customerName", customer.getCustomerName());
-        customerData.put("customerCard", customer.getCustomerCard());
-        customerData.put("points", customer.getPoints().toString());
+        Connection con = null;
+        try {
+            nextId = ourInstance.getHighestId() + 1;
+            HashMap<String, String> customerData = new HashMap<>();
+            customerData.put("id", nextId.toString());
+            customerData.put("customerName", customer.getCustomerName());
+            customerData.put("customerCard", customer.getCustomerCard());
+            customerData.put("points", customer.getPoints().toString());
+            con = DBCPDBConnectionPool.getConnection();
+            ArrayList<String> attrs = getAttrs();
+            System.out.println("adding new customer");
+            String sqlCommand = insertCommand("customer", attrs);
+            PreparedStatement prp = con.prepareStatement(sqlCommand);
+            for (int j = 0; j < attrs.size(); j++) {
+                prp.setString(j + 1, customerData.get(attrs.get(j)));
+            }
 
-        Connection con = DBCPDBConnectionPool.getConnection();
-        ArrayList<String> attrs = getAttrs();
-        System.out.println("adding new customer");
-        String sqlCommand = insertCommand("customer", attrs);
-        PreparedStatement prp = con.prepareStatement(sqlCommand);
-        for (int j = 0; j < attrs.size(); j++) {
-            prp.setString(j + 1, customerData.get(attrs.get(j)));
+            prp.executeUpdate();
+            prp.close();
+            con.close();
+            return nextId;
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        } catch (NullPointerException exception){
+            exception.printStackTrace();
         }
-
-        prp.executeUpdate();
-        prp.close();
-        con.close();
-        return nextId;
+        if(con != null) {
+            try {
+                con.close();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+        }
+        return -1;
     }
 
-    public boolean deleteCustomerFromDB(Integer id) throws SQLException {
-        Connection con = DBCPDBConnectionPool.getConnection();
-        System.out.println("deleting a customer");
-        String sqlCommand = deleteCommand("customer", "id");
-        PreparedStatement prp = con.prepareStatement(sqlCommand);
-        prp.setString(1, id.toString());
-        int count = prp.executeUpdate();
-        prp.close();
-        con.close();
-        return count > 0;
+    public boolean deleteCustomerFromDB(Integer id) {
+        Connection con = null;
+        try {
+            con = DBCPDBConnectionPool.getConnection();
+            System.out.println("deleting a customer");
+            String sqlCommand = deleteCommand("customer", "id");
+            PreparedStatement prp = con.prepareStatement(sqlCommand);
+            prp.setString(1, id.toString());
+            int count = prp.executeUpdate();
+            prp.close();
+            con.close();
+            return count > 0;
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        } catch (NullPointerException exception){
+            exception.printStackTrace();
+        }
+        if (con != null) {
+            try {
+                con.close();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+        }
+        return false;
     }
 
-    public Boolean changeDataOfACustomer(Integer id, String newCustomerName, String newCustomerCard) throws SQLException {
+    public Boolean changeDataOfACustomer(Integer id, String newCustomerName, String newCustomerCard){
         // This method assumes that the id that you are passing is already checked
         // This method assumes that the newCustomername and the newCustomerCard
         //that you are passing is already checked
-        Connection con = DBCPDBConnectionPool.getConnection();
-        System.out.println("updating Name and Card of a customer");
-        String sqlCommand = updateCommand("customer", "customerName", newCustomerName, "customerCard", newCustomerCard, "id", id.toString());
-        PreparedStatement prp = con.prepareStatement(sqlCommand);
-        int count = prp.executeUpdate();
-        prp.close();
-        con.close();
-        return count >0;
-    }
-
-    public boolean AssignCustomerCard(Integer id, String newCustomerCard) throws SQLException {
-        Connection con = DBCPDBConnectionPool.getConnection();
-        System.out.println("updating Card of a customer");
-        String sqlCommand = updateCommand("customer", "customerCard", newCustomerCard, null, null, "id", id.toString());
-        PreparedStatement prp = con.prepareStatement(sqlCommand);
-        int count = prp.executeUpdate();
-        prp.close();
-        con.close();
-        return count > 0;
-    }
-
-    public boolean changePointsOfACustomer(String customerCard, int pointsToBeAdded) throws SQLException {
-        // This method assumes that the CustomerCard and poitsToBeAdded that you are passing is already checked
-        Connection con = DBCPDBConnectionPool.getConnection();
-        System.out.println("updating points of a customerCard");
-        String sqlCommand = "";
-        if (pointsToBeAdded < 0) {
-            sqlCommand = updateCommand("customer", "points", "(points - '" + Math.abs(pointsToBeAdded) + "') ", null, null, "customerCard", customerCard);
-        } else {
-            sqlCommand = updateCommand("customer", "points", "(points + '" + pointsToBeAdded + "') ", null, null, "customerCard", customerCard);
+        Connection con = null;
+        try {
+            con = DBCPDBConnectionPool.getConnection();
+            System.out.println("updating Name and Card of a customer");
+            String sqlCommand = updateCommand("customer", "customerName", newCustomerName, "customerCard", newCustomerCard, "id", id.toString());
+            PreparedStatement prp = con.prepareStatement(sqlCommand);
+            int count = prp.executeUpdate();
+            prp.close();
+            con.close();
+            return count >0;
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
         }
+        catch (NullPointerException exception){
+            exception.printStackTrace();
+        }
+        if (con != null) {
+            try {
+                con.close();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+        }
+        return false;
+    }
 
-        PreparedStatement prp = con.prepareStatement(sqlCommand);
-        int count = prp.executeUpdate();
-        prp.close();
-        con.close();
-        return count > 0;
+    public boolean AssignCustomerCard(Integer id, String newCustomerCard)  {
+        Connection con = null;
+        try {
+            con = DBCPDBConnectionPool.getConnection();
+            System.out.println("updating Card of a customer");
+            String sqlCommand = updateCommand("customer", "customerCard", newCustomerCard, null, null, "id", id.toString());
+            PreparedStatement prp = con.prepareStatement(sqlCommand);
+            int count = prp.executeUpdate();
+            prp.close();
+            con.close();
+            return count > 0;
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        catch (NullPointerException exception){
+            exception.printStackTrace();
+        }
+        if (con != null) {
+            try {
+                con.close();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+        }
+        return false;
+    }
+
+    public boolean changePointsOfACustomer(String customerCard, int pointsToBeAdded){
+        // This method assumes that the CustomerCard and poitsToBeAdded that you are passing is already checked
+        Connection con = null;
+        try {
+            con = DBCPDBConnectionPool.getConnection();
+            System.out.println("updating points of a customerCard");
+            String sqlCommand = "";
+            if (pointsToBeAdded < 0) {
+                sqlCommand = updateCommand("customer", "points", "(points - '" + Math.abs(pointsToBeAdded) + "') ", null, null, "customerCard", customerCard);
+            } else {
+                sqlCommand = updateCommand("customer", "points", "(points + '" + pointsToBeAdded + "') ", null, null, "customerCard", customerCard);
+            }
+
+            PreparedStatement prp = con.prepareStatement(sqlCommand);
+            int count = prp.executeUpdate();
+            prp.close();
+            con.close();
+            return count > 0;
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+         catch (NullPointerException exception){
+            exception.printStackTrace();
+        }
+        if (con != null) {
+            try {
+                con.close();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+        }
+        return false;
     }
 
     private CustomerClass convertResultSetToDomainModel(ResultSet rs) throws SQLException {
@@ -187,9 +265,10 @@ public class CustomerRepository {
 
 
     public CustomerClass getCustomerById(Integer id) {
+        Connection con = null;
         try {
             String sqlCommand = getFindByIdStatement();
-            Connection con = DBCPDBConnectionPool.getConnection();
+            con = DBCPDBConnectionPool.getConnection();
             PreparedStatement prps = con.prepareStatement(sqlCommand);
             prps.setString(1, id.toString());
             ResultSet rs = prps.executeQuery();
@@ -200,6 +279,16 @@ public class CustomerRepository {
             return c;
         } catch (SQLException e) {
             e.printStackTrace();
+        }
+        catch (NullPointerException exception){
+            exception.printStackTrace();
+        }
+        if (con != null) {
+            try {
+                con.close();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
         }
         return null;
     }

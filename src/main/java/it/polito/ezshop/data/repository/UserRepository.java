@@ -130,65 +130,112 @@ public class UserRepository {
         this.loggedUser = loggedUser;
     }
 
-    public Integer addNewUser(UserClass user) throws SQLException {
+    public Integer addNewUser(UserClass user) {
 
-        nextId = ourInstance.getHighestId() + 1;
-        HashMap<String, String> userData = new HashMap<>();
-        userData.put("id", nextId.toString());
-        userData.put("username", user.getUsername());
-        userData.put("password", user.getPassword());
-        userData.put("salt", user.getSalt());
-        userData.put("role", user.getRole());
+        Connection con = null;
+        try {
+            nextId = ourInstance.getHighestId() + 1;
+            HashMap<String, String> userData = new HashMap<>();
+            userData.put("id", nextId.toString());
+            userData.put("username", user.getUsername());
+            userData.put("password", user.getPassword());
+            userData.put("salt", user.getSalt());
+            userData.put("role", user.getRole());
 
-        Connection con = DBCPDBConnectionPool.getConnection();
-        ArrayList<String> attrs = getAttrs();
-        Logger.getLogger(EZShop.class.getName()).log(Level.INFO, "adding new user with username: " + user.getUsername());
-        String sqlCommand = insertCommand("user", attrs);
-        PreparedStatement prp = con.prepareStatement(sqlCommand);
-        for (int j = 0; j < attrs.size(); j++) {
-            if (attrs.get(j) == "password") {
-                String password = userData.get(attrs.get(j));
-                String[] passAndSalt = HashGenerator.getPasswordHashAndSalt(password);
-                String hashedPassword = passAndSalt[0];
-                String salt = passAndSalt[1];
+            con = DBCPDBConnectionPool.getConnection();
+            ArrayList<String> attrs = getAttrs();
+            Logger.getLogger(EZShop.class.getName()).log(Level.INFO, "adding new user with username: " + user.getUsername());
+            String sqlCommand = insertCommand("user", attrs);
+            PreparedStatement prp = con.prepareStatement(sqlCommand);
+            for (int j = 0; j < attrs.size(); j++) {
+                if (attrs.get(j) == "password") {
+                    String password = userData.get(attrs.get(j));
+                    String[] passAndSalt = HashGenerator.getPasswordHashAndSalt(password);
+                    String hashedPassword = passAndSalt[0];
+                    String salt = passAndSalt[1];
 
-                prp.setString(j + 1, hashedPassword);
-                prp.setString(j + 2, salt);
-                j = j + 1;
-            } else
-                prp.setString(j + 1, userData.get(attrs.get(j)));
+                    prp.setString(j + 1, hashedPassword);
+                    prp.setString(j + 2, salt);
+                    j = j + 1;
+                } else
+                    prp.setString(j + 1, userData.get(attrs.get(j)));
+            }
+
+            prp.executeUpdate();
+            prp.close();
+            con.close();
+            return nextId;
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
         }
-
-        prp.executeUpdate();
-        prp.close();
-        con.close();
-        return nextId;
+        catch (NullPointerException exception){
+            exception.printStackTrace();
+        }
+        try {
+            if(con != null)
+            con.close();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return -1;
     }
 
-    public boolean deleteUserFromDB(Integer id) throws SQLException {
-        // This method assumes that the id that you are passing is already checked
-        Connection con = DBCPDBConnectionPool.getConnection();
-        Logger.getLogger(EZShop.class.getName()).log(Level.SEVERE, "deleting user with id: " + id);
-        String sqlCommand = deleteCommand("user", "id");
-        PreparedStatement prp = con.prepareStatement(sqlCommand);
-        prp.setString(1, id.toString());
-        int count = prp.executeUpdate();
-        prp.close();
-        con.close();
-        return count > 0;
+    public boolean deleteUserFromDB(Integer id){
+        Connection con = null;
+        try {
+            con = DBCPDBConnectionPool.getConnection();
+            Logger.getLogger(EZShop.class.getName()).log(Level.INFO, "deleting user with id: " + id);
+            String sqlCommand = deleteCommand("user", "id");
+            PreparedStatement prp = con.prepareStatement(sqlCommand);
+            prp.setString(1, id.toString());
+            int count = prp.executeUpdate();
+            prp.close();
+            con.close();
+            return count > 0;
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            try {
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+        }
+        catch ( NullPointerException e){
+            try {
+                con.close();
+            } catch (SQLException exception) {
+                exception.printStackTrace();
+            }
+        }
+        return false;
     }
 
-    public boolean changeRoleOfAUser(Integer id, String role) throws SQLException {
-        // This method assumes that the id that you are passing is already checked
+    public boolean changeRoleOfAUser(Integer id, String role){
         // This method assumes that the role that you are passing is already checked
-        Connection con = DBCPDBConnectionPool.getConnection();
-        System.out.println("updating role of a user");
-        String sqlCommand = updateCommand("user", "role", role, "id", id.toString());
-        PreparedStatement prp = con.prepareStatement(sqlCommand);
-        Integer count = prp.executeUpdate();
-        prp.close();
-        con.close();
-        return count > 0;
+        Connection con = null;
+        try {
+            con = DBCPDBConnectionPool.getConnection();
+            System.out.println("updating role of a user");
+            String sqlCommand = updateCommand("user", "role", role, "id", id.toString());
+            PreparedStatement prp = con.prepareStatement(sqlCommand);
+            Integer count = prp.executeUpdate();
+            prp.close();
+            con.close();
+            return count > 0;
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        } catch (NullPointerException exception){
+            exception.printStackTrace();
+        }
+        if (con != null) {
+            try {
+                con.close();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+        }
+        return false;
     }
 
     private List<User> loadAll(ResultSet rs) throws SQLException {
@@ -202,9 +249,10 @@ public class UserRepository {
     }
 
     public UserClass getUserById(Integer id) {
+        Connection con = null;
         try {
             String sqlCommand = getFindByIdStatement();
-            Connection con = DBCPDBConnectionPool.getConnection();
+            con = DBCPDBConnectionPool.getConnection();
             PreparedStatement prps = con.prepareStatement(sqlCommand);
             prps.setString(1, id.toString());
             ResultSet rs = prps.executeQuery();
@@ -215,6 +263,14 @@ public class UserRepository {
             return u;
         } catch (SQLException e) {
             e.printStackTrace();
+        }
+        catch (NullPointerException exception){
+            exception.printStackTrace();
+        }
+        try {
+            con.close();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
         }
         return null;
     }

@@ -47,12 +47,8 @@ public class UserRepositoryTest {
     public void testGetUserByUsername() {
         assertNull(userRepository.getUserByUsername(null));
         assertNull(userRepository.getUserByUsername("ss"));
-        try {
-            userRepository.addNewUser(new UserClass(null,"ss","sdiyuasdf","","Cashier"));
-            assertEquals(UserClass.class, userRepository.getUserByUsername("ss").getClass());
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
+        userRepository.addNewUser(new UserClass(null,"ss","sdiyuasdf","","Cashier"));
+        assertEquals(UserClass.class, userRepository.getUserByUsername("ss").getClass());
     }
 
     @Test
@@ -65,18 +61,34 @@ public class UserRepositoryTest {
 
     @Test
     public void testAddNewUser() {
+        assertEquals(Integer.valueOf(-1),userRepository.addNewUser(null));
+        assertEquals(Integer.class, userRepository.addNewUser(new UserClass(null,"username","ajsdfh","","Cashier")).getClass()) ;
+        assertEquals(Integer.valueOf(-1), userRepository.addNewUser(new UserClass(null,"username","khkjh","","Cashier")));
     }
 
     @Test
     public void testDeleteUserFromDB() {
+        assertFalse(userRepository.deleteUserFromDB(null));
+        userRepository.deleteUserFromDB(null);
+        assertFalse(userRepository.deleteUserFromDB(1));
+        Integer id = userRepository.addNewUser(new UserClass(null,"user","pass3434","","Cashier"));
+        assertTrue(userRepository.deleteUserFromDB(id));
     }
 
     @Test
     public void testChangeRoleOfAUser() {
+        assertFalse(userRepository.changeRoleOfAUser(null, "Cashier"));
+        Integer id = userRepository.addNewUser(new UserClass(null,"user","pass3434","","Cashier"));
+        assertTrue(userRepository.changeRoleOfAUser(id, "Administrator"));
+
     }
 
     @Test
     public void testGetUserById() {
+        assertNull(userRepository.getUserById(null));
+        assertNull(userRepository.getUserById(1));
+        Integer u = userRepository.addNewUser(new UserClass(null,"user","pass3434","","Cashier"));
+        assertEquals(UserClass.class,userRepository.getUserById(u).getClass());
     }
 
     @Test
