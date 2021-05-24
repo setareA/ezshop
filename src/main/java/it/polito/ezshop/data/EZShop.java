@@ -428,18 +428,14 @@ public class EZShop implements EZShopInterface {
         if (!(this.checkIfAdministrator() || this.checkIfManager())) throw new UnauthorizedException();
         if (orderId == null) throw new InvalidOrderIdException();
         if (orderId < 1) throw new InvalidOrderIdException();
-        try {
-            if (balanceOperationRepository.getOrderByOrderId(String.valueOf(orderId)) == null) return false;
-            if (!balanceOperationRepository.getOrderByOrderId(String.valueOf(orderId)).getStatus().equals("ORDERED"))
-                return false;
-            if (this.computeBalance() - balanceOperationRepository.getOrderByOrderId(String.valueOf(orderId)).getMoney() < 0)
-                return false;
-            balanceOperationRepository.updateState("orderTable", orderId, "PAYED");
-            this.recordBalanceUpdate(-balanceOperationRepository.getOrderByOrderId(String.valueOf(orderId)).getMoney());
-            return true;
-        } catch (SQLException e) {
-            return false;
-        }
+        if (balanceOperationRepository.getOrderByOrderId(String.valueOf(orderId)) == null) return false;
+		if (!balanceOperationRepository.getOrderByOrderId(String.valueOf(orderId)).getStatus().equals("ORDERED"))
+		    return false;
+		if (this.computeBalance() - balanceOperationRepository.getOrderByOrderId(String.valueOf(orderId)).getMoney() < 0)
+		    return false;
+		balanceOperationRepository.updateState("orderTable", orderId, "PAYED");
+		this.recordBalanceUpdate(-balanceOperationRepository.getOrderByOrderId(String.valueOf(orderId)).getMoney());
+		return true;
     }
 
     @Override
@@ -447,19 +443,15 @@ public class EZShop implements EZShopInterface {
         if (!(this.checkIfAdministrator() || this.checkIfManager())) throw new UnauthorizedException();
         if (orderId == null) throw new InvalidOrderIdException();
         if (orderId < 1) throw new InvalidOrderIdException();
-        try {
-            OrderClass o = balanceOperationRepository.getOrderByOrderId(String.valueOf(orderId));
-            if (o == null) return false;
-            if (o.getStatus().equals("ORDERED")) return false;
-            if (o.getStatus().equals("COMPLETED")) return true;
-            if (productTypeRepository.getProductTypebyBarCode(o.getProductCode()).getLocation().isEmpty() || productTypeRepository.getProductTypebyBarCode(o.getProductCode()).getLocation() == null)
-                throw new InvalidLocationException();
-            productTypeRepository.updateQuantity(productTypeRepository.getProductTypebyBarCode(o.getProductCode()).getId(), o.getQuantity());
-            balanceOperationRepository.updateState("orderTable", orderId, "COMPLETED");
-            return true;
-        } catch (SQLException e) {
-            return false;
-        }
+        OrderClass o = balanceOperationRepository.getOrderByOrderId(String.valueOf(orderId));
+		if (o == null) return false;
+		if (o.getStatus().equals("ORDERED")) return false;
+		if (o.getStatus().equals("COMPLETED")) return true;
+		if (productTypeRepository.getProductTypebyBarCode(o.getProductCode()).getLocation().isEmpty() || productTypeRepository.getProductTypebyBarCode(o.getProductCode()).getLocation() == null)
+		    throw new InvalidLocationException();
+		productTypeRepository.updateQuantity(productTypeRepository.getProductTypebyBarCode(o.getProductCode()).getId(), o.getQuantity());
+		balanceOperationRepository.updateState("orderTable", orderId, "COMPLETED");
+		return true;
 
 
     }

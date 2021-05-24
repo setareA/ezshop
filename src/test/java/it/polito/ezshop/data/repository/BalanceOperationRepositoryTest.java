@@ -180,8 +180,14 @@ public class BalanceOperationRepositoryTest {
 
 
 	@Test
-	public void testGetAllOrders() {
-		fail("Not yet implemented");
+	public void testGetAllOrders() throws SQLException {
+		OrderClass order = new OrderClass(1, 0, null, 0, 0, null, 0);
+		OrderClass order2 = new OrderClass(2, 0, null, 0, 0, null, 0);
+		OrderClass order3 = new OrderClass(3, 0, null, 0, 0, null, 0);
+		balanceOperationRepository.addNewOrder(order);
+		balanceOperationRepository.addNewOrder(order2);
+		balanceOperationRepository.addNewOrder(order3);
+		assertEquals(ArrayList.class,balanceOperationRepository.getAllOrders().getClass());
 	}
 
 	@Test
@@ -312,8 +318,13 @@ public class BalanceOperationRepositoryTest {
 	}
 
 	@Test
-	public void testGetOrderByOrderId() {
-		fail("Not yet implemented");
+	public void testGetOrderByOrderId() throws SQLException {
+		OrderClass order = new OrderClass(1, 0, null, 0, 0, null, 0);
+		balanceOperationRepository.addNewOrder(order);
+		assertTrue(balanceOperationRepository.getOrderByOrderId("1").getOrderId()==1);
+		assertNull(balanceOperationRepository.getOrderByOrderId(null));
+		assertNull(balanceOperationRepository.getOrderByOrderId("2"));
+		assertNull(balanceOperationRepository.getOrderByOrderId("0"));
 	}
 
 	@Test
@@ -328,7 +339,9 @@ public class BalanceOperationRepositoryTest {
 
 	@Test
 	public void testGetCreditCards() throws IOException {
-		assertNotEquals(balanceOperationRepository.getCreditCards(),null);
+		balanceOperationRepository.changeCreditCardBalance("4485370086510891", 60.5);
+		System.out.println(balanceOperationRepository.getCreditCards().get("4485370086510891"));
+		assertTrue(balanceOperationRepository.getCreditCards().get("4485370086510891")==60.5);
 	}
 
 	@Test

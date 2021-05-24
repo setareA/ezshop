@@ -823,18 +823,28 @@ public class BalanceOperationRepository {
       
     }
 
-    public OrderClass getOrderByOrderId(String orderId) throws SQLException {
-
-        String sqlCommand = getOrderByOrderIdStatement();
-        Connection con = DBCPDBConnectionPool.getConnection();
-        PreparedStatement prps = con.prepareStatement(sqlCommand);
-        prps.setString(1, orderId);
-        ResultSet rs = prps.executeQuery();
-        rs.next();
-        OrderClass o = this.convertResultSetOrderToDomainModel(rs);
-        prps.close();
-        con.close();
-        return o;
+    public OrderClass getOrderByOrderId(String orderId) {
+    	Connection con = null;
+    	try {
+	        String sqlCommand = getOrderByOrderIdStatement();
+	        con = DBCPDBConnectionPool.getConnection();
+	        PreparedStatement prps = con.prepareStatement(sqlCommand);
+	        prps.setString(1, orderId);
+	        ResultSet rs = prps.executeQuery();
+	        rs.next();
+	        OrderClass o = this.convertResultSetOrderToDomainModel(rs);
+	        prps.close();
+	        con.close();
+	        return o;
+    	}catch (SQLException e) {
+            e.printStackTrace();
+            try {
+                con.close();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+            return null;
+        }
     }
 
     public void deleteTables() throws SQLException {
@@ -902,7 +912,7 @@ public class BalanceOperationRepository {
         int n = 0;
         while ((st = br.readLine()) != null) {
             if (n > 4) {
-                creditCards.put(st.substring(0, 16), Double.parseDouble(st.substring(17, st.length() - 1)));
+                creditCards.put(st.substring(0, 16), Double.parseDouble(st.substring(17, st.length())));
             }
             n = n + 1;
         } 
