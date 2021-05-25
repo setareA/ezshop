@@ -693,7 +693,7 @@ public class EZShop implements EZShopInterface {
     public boolean deleteProductFromSale(Integer transactionId, String productCode, int amount) throws InvalidTransactionIdException, InvalidProductCodeException, InvalidQuantityException, UnauthorizedException {
         Logger.getLogger(EZShop.class.getName()).log(Level.INFO, "deleteProductFromSale");
         if (checkIfAdministrator() || checkIfManager() || checkIfCashier()) {
-            if (transactionId == null || transactionId <= 0) {
+            if (transactionId == null || transactionId <= 0) { 
                 throw new InvalidTransactionIdException();
             }
             if (productCode == null || productCode.isEmpty() || !checkValidityProductcode(productCode)) {
@@ -714,7 +714,7 @@ public class EZShop implements EZShopInterface {
             if (ticketEntry == null)
                 return false;
             if (ticketEntry.getAmount() < amount)
-                return false;
+                return false; 
             if (ticketEntry.getAmount() == amount) {
                 boolean deleteTicket = balanceOperationRepository.deleteRow("ticket", "id", String.valueOf(ticketEntry.getId()));
             } else {
@@ -799,7 +799,12 @@ public class EZShop implements EZShopInterface {
             if (saleTransaction == null) {
                 return -1;
             }
-            return (int) (saleTransaction.getPrice() / 10);
+            double price = 0;
+            ArrayList<TicketEntry> products = balanceOperationRepository.getTicketsBySaleId(transactionId);
+            price = computePriceForProducts(products);
+            price = (price * (1 - saleTransaction.getDiscountRate()));
+            balanceOperationRepository.updateRow("sale", "price", "ticketNumber", transactionId, String.valueOf(price));
+            return (int) (price / 10);
         } else {
             throw new UnauthorizedException();
         }
@@ -869,9 +874,11 @@ public class EZShop implements EZShopInterface {
             if (transactionId == null || transactionId <= 0) {
                 throw new InvalidTransactionIdException();
             }
+            
             SaleTransactionClass saleTransaction = balanceOperationRepository.getSalesByTicketNumber(transactionId);
             if (saleTransaction != null && !"open".equals(saleTransaction.getState())) {
-                return saleTransaction;
+                
+            	return saleTransaction;
             }
         } else {
             throw new UnauthorizedException();
@@ -1268,7 +1275,7 @@ public class EZShop implements EZShopInterface {
         } catch (SQLException e) {
             e.printStackTrace();
             return 0.0;
-        } // return balnce
+        }
     }
 
     public boolean checkIfValidRole(String role) {
