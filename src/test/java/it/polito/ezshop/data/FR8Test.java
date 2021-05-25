@@ -39,7 +39,38 @@ public class FR8Test {
 
     @Test
     public void testRecordBalanceUpdate() {
+        assertThrows("Unregistered user tries to record balance update", UnauthorizedException.class, () -> ezShop.recordBalanceUpdate(10));
+        try {
+            ezShop.createUser("setare_manager", "asdf", "ShopManager");
+            ezShop.createUser("setare_admin", "asdf", "Administrator");
+            ezShop.createUser("setare_cashier", "asdf", "Cashier");
 
+            ezShop.login("setare_cashier", "asdf");
+            assertThrows("Unauthorized user tries to to record balance update", UnauthorizedException.class, () -> ezShop.recordBalanceUpdate(10));
+
+            ezShop.login("setare_manager", "asdf");
+            try {
+                assertTrue(ezShop.recordBalanceUpdate(9));
+            } catch (UnauthorizedException e) {
+                e.printStackTrace();
+            }
+
+            ezShop.login("setare_admin", "asdf");
+            try {
+                assertTrue(ezShop.recordBalanceUpdate(7));
+                assertTrue(ezShop.recordBalanceUpdate(-1));
+                assertFalse(ezShop.recordBalanceUpdate(-17));
+            } catch (UnauthorizedException e) {
+                e.printStackTrace();
+            }
+        }
+        catch (InvalidUsernameException e) {
+            e.printStackTrace();
+        } catch (InvalidPasswordException e) {
+            e.printStackTrace();
+        } catch (InvalidRoleException e) {
+            e.printStackTrace();
+        }
     }
 
 
@@ -72,11 +103,11 @@ public class FR8Test {
             ezShop.login("setare_admin", "asdf");
             ezShop.getBalanceOperationRepository().setBalance(9);
             try {
-                System.out.println(ezShop.computeBalance());
                 assertTrue( ezShop.computeBalance() == 18);
             } catch (UnauthorizedException e) {
                 e.printStackTrace();
             }
+
 
         } catch (InvalidUsernameException e) {
             e.printStackTrace();
