@@ -21,6 +21,7 @@ import it.polito.ezshop.data.model.UserClass;
 import it.polito.ezshop.data.repository.CustomerRepository;
 import it.polito.ezshop.data.repository.DBCPDBConnectionPool;
 import it.polito.ezshop.data.repository.UserRepository;
+import it.polito.ezshop.exceptions.InvalidCustomerIdException;
 import it.polito.ezshop.exceptions.InvalidCustomerNameException;
 import it.polito.ezshop.exceptions.InvalidPasswordException;
 import it.polito.ezshop.exceptions.InvalidRoleException;
@@ -28,7 +29,7 @@ import it.polito.ezshop.exceptions.InvalidUserIdException;
 import it.polito.ezshop.exceptions.InvalidUsernameException;
 import it.polito.ezshop.exceptions.UnauthorizedException;
 
-public class FR2Test {
+public class FR5Test {
 	
 	  private static EZShop ezShop;
 	  private static UserRepository userRepository;
@@ -57,7 +58,7 @@ public class FR2Test {
 	// createUser(String username, String password, String role)
 	  
 	  @Test
-	  public void checkDefineCustomer() throws Exception{
+	  public void testDefineCustomer() throws Exception{
 		  System.out.println("checkCreateUser");
 		// Checks InvalidCustomerNameException: customerName (empty or null)
 		  assertThrows("It should throw InvalidCustomerNameException due to empty customerName",InvalidCustomerNameException.class, ()-> ezShop.defineCustomer(""));
@@ -77,4 +78,19 @@ public class FR2Test {
 		  userRepository.setLoggedUser(new UserClass(4,"Sara","1234","1234","Administrator"));
 		  assertTrue("Cashier is logged. The id of the Customer created should be returned",ezShop.defineCustomer("Luca")==3);
 	  }
+	  
+	  @Test
+	  public void testModifyCustomer() {
+		// Checks InvalidCustomerNameException: customerName (empty or null)
+		  assertThrows("It should throw InvalidCustomerNameException due to empty customerName",InvalidCustomerNameException.class, ()-> ezShop.defineCustomer(""));
+		  assertThrows("It should throw InvalidCustomerNameException due to null customerName",InvalidCustomerNameException.class, ()-> ezShop.defineCustomer(null));
+		  
+		// Checks InvalidCustomerIdException: id (null or <=0)
+		  assertThrows("It should throw InvalidUserIdException due to null id",InvalidCustomerIdException.class, ()-> ezShop.modifyCustomer(null,"Peter","43444567891"));
+		  assertThrows("It should throw InvalidUserIdException due to null id",InvalidCustomerIdException.class, ()-> ezShop.modifyCustomer(-5,"Peter","43444567891"));
+		  
+		// Check InvalidCustomerCardException: (bad format(string with 10 digits))
+		  
+	  }
+	  
 }

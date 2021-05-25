@@ -58,7 +58,7 @@ public class FR1Test {
 	// createUser(String username, String password, String role)
 	  
 	  @Test
-	  public void checkCreateUser() throws Exception{
+	  public void testCreateUser() throws Exception{
 		  System.out.println("checkCreateUser");
 		// Checks InvalidUsernameException: Username (empty or null)
 		  assertThrows("It should throw InvalidUsernameException due to empty Username",InvalidUsernameException.class, ()-> ezShop.createUser("", "superSecretPassword","Administrator"));
@@ -84,7 +84,7 @@ public class FR1Test {
 	  // deleteUser(Integer id)
 	  
 	  @Test 
-	  public void checkDeleteUser() throws Exception{
+	  public void testDeleteUser() throws Exception{
 		// Creation of some users
 		  ezShop.createUser("Luca","SuperSecretPassword","Cashier");
 		  ezShop.createUser("Carlo","SuperSecretPassword","ShopManager");
@@ -117,7 +117,7 @@ public class FR1Test {
 	  // getAllUsers()
 	  
 	  @Test
-	  public void checkGetAllUsers() throws Exception{
+	  public void testGetAllUsers() throws Exception{
 		  
 		// Checks UnauthorizedException (there is a login user and this user is an Administrator)
 		  assertThrows("It should throw UnauthorizedException due to 'there is not a logged User",UnauthorizedException.class, ()-> ezShop.deleteUser(1));
@@ -160,7 +160,7 @@ public class FR1Test {
 	  // getUser (Integer id)
 	  
 	  @Test 
-	  public void checkGetUser() throws Exception{
+	  public void testGetUser() throws Exception{
 		// Creation of some users
 		  ezShop.createUser("Luca","SuperSecretPassword","Cashier");
 		  ezShop.createUser("Carlo","SuperSecretPassword","ShopManager");
@@ -197,7 +197,7 @@ public class FR1Test {
 	  // updateUserRights (Integer id,String Role)
 	  
 	  @Test 
-	  public void checkUpdateUserRigths() throws Exception{
+	  public void testUpdateUserRigths() throws Exception{
 		// Creation of some users
 		  ezShop.createUser("Luca","SuperSecretPassword","Cashier");
 		  ezShop.createUser("Carlo","SuperSecretPassword","ShopManager");
@@ -242,7 +242,7 @@ public class FR1Test {
 	  //  login(String username, String password)
 	  
 	  @Test
-	  public void checkLogin() throws Exception{
+	  public void testLogin() throws Exception{
 		// Checks InvalidUsernameException: Username (empty or null)
 		  assertThrows("It should throw InvalidUsernameException due to empty Username",InvalidUsernameException.class, ()-> ezShop.login("", "superSecretPassword"));
 		  assertThrows("It should throw InvalidUsernameException due to null Username",InvalidUsernameException.class, ()-> ezShop.login(null, "superSecretPassword"));
@@ -272,7 +272,7 @@ public class FR1Test {
 	  //  logout
 	  
 	  @Test
-	  public void checkLogout() throws Exception{		  
+	  public void testLogout() throws Exception{		  
 		// A login is performed, then logout and then check if there is still a loggedUser
 		  ezShop.createUser("Luca","SuperSecretPassword","Cashier");
 		  ezShop.createUser("Patricia","SuperSecretPassword","Administrator");
