@@ -1225,7 +1225,7 @@ public class EZShop implements EZShopInterface {
 
     @Override
     public boolean recordBalanceUpdate(double toBeAdded) throws UnauthorizedException {
-        // called also by transction --- check if we can decrement --- creation of balance operation object and save in a table in db ---- modify of the balance
+        // called also by transaction --- check if we can decrement --- creation of balance operation object and save in a table in db ---- modify of the balance
         if (!(this.checkIfAdministrator() || this.checkIfManager())) throw new UnauthorizedException();
         if (this.computeBalance() + toBeAdded < 0) return false;
         try {

@@ -10,30 +10,34 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.sql.Statement;
 
 import static org.junit.Assert.*;
 
 public class FR8Test {
 
-    private static EZShop ezShop;
+    private static EZShop ezShop = new EZShop();
 
     @Before
     public void setUp() throws Exception {
+        resetTables();
+    }
+
+    @After
+    public void tearDown() throws Exception {
+        resetTables();
+    }
+
+    public void resetTables() throws SQLException {
         Connection con = DBCPDBConnectionPool.getConnection();
         Statement st = con.createStatement();
         String cleanUser = "DROP TABLE IF EXISTS user;";
         st.executeUpdate(cleanUser);
         st.close();
         con.close();
-        ezShop = new EZShop();
         ezShop.reset();
         ezShop.getUserRepository().setLoggedUser(null);
-    }
-
-    @After
-    public void tearDown() throws Exception {
-        ezShop.reset();
     }
 
 
