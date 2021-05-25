@@ -5,6 +5,7 @@ import it.polito.ezshop.exceptions.InvalidPasswordException;
 import it.polito.ezshop.exceptions.InvalidRoleException;
 import it.polito.ezshop.exceptions.InvalidUsernameException;
 import it.polito.ezshop.exceptions.UnauthorizedException;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -29,6 +30,12 @@ public class FR8Test {
         ezShop.reset();
         ezShop.getUserRepository().setLoggedUser(null);
     }
+
+    @After
+    public void tearDown() throws Exception {
+        ezShop.reset();
+    }
+
 
     @Test
     public void testRecordBalanceUpdate() {
@@ -62,6 +69,15 @@ public class FR8Test {
                 e.printStackTrace();
             }
 
+            ezShop.login("setare_admin", "asdf");
+            ezShop.getBalanceOperationRepository().setBalance(9);
+            try {
+                System.out.println(ezShop.computeBalance());
+                assertTrue( ezShop.computeBalance() == 18);
+            } catch (UnauthorizedException e) {
+                e.printStackTrace();
+            }
+
         } catch (InvalidUsernameException e) {
             e.printStackTrace();
         } catch (InvalidPasswordException e) {
@@ -70,12 +86,6 @@ public class FR8Test {
             e.printStackTrace();
         }
 
-//        ezShop.getBalanceOperationRepository().setBalance(9);
-//        try {
-//            assertEquals(9, ezShop.computeBalance());
-//        } catch (UnauthorizedException e) {
-//            e.printStackTrace();
-//        }
     }
 
 }
