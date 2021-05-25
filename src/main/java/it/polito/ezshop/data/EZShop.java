@@ -693,7 +693,7 @@ public class EZShop implements EZShopInterface {
     public boolean deleteProductFromSale(Integer transactionId, String productCode, int amount) throws InvalidTransactionIdException, InvalidProductCodeException, InvalidQuantityException, UnauthorizedException {
         Logger.getLogger(EZShop.class.getName()).log(Level.INFO, "deleteProductFromSale");
         if (checkIfAdministrator() || checkIfManager() || checkIfCashier()) {
-            if (transactionId == null || transactionId <= 0) {
+            if (transactionId == null || transactionId <= 0) { 
                 throw new InvalidTransactionIdException();
             }
             if (productCode == null || productCode.isEmpty() || !checkValidityProductcode(productCode)) {
@@ -714,7 +714,7 @@ public class EZShop implements EZShopInterface {
             if (ticketEntry == null)
                 return false;
             if (ticketEntry.getAmount() < amount)
-                return false;
+                return false; 
             if (ticketEntry.getAmount() == amount) {
                 boolean deleteTicket = balanceOperationRepository.deleteRow("ticket", "id", String.valueOf(ticketEntry.getId()));
             } else {
