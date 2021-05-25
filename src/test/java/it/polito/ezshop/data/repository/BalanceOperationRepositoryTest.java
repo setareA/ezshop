@@ -334,7 +334,7 @@ public class BalanceOperationRepositoryTest {
 		
 		balanceOperationRepository.deleteTables();
 		assertEquals(balanceOperationRepository.getSalesByTicketNumber(s),null);
-		assertThrows(SQLException.class, () -> balanceOperationRepository.getOrderByOrderId(String.valueOf(o)));
+		assertEquals(null, balanceOperationRepository.getOrderByOrderId(String.valueOf(o)));
 	}
 
 	@Test
