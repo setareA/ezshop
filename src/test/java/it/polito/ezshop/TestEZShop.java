@@ -20,7 +20,7 @@ import org.junit.runners.Suite;
 @RunWith(Suite.class)
 @Suite.SuiteClasses({UserClassTest.class, CustomerClassTest.class, ProductTypeClassTest.class,
 	OrderClassTest.class,BalanceOperationClassTest.class,EZShopTest.class, ReturnTransactionTest.class, SaleTransactionTest.class, TicketEntryTest.class,
-        CustomerRepositoryTest.class, UserRepositoryTest.class})
+        CustomerRepositoryTest.class, UserRepositoryTest.class, ProductTypeClassTest.class})
     public class TestEZShop {
 
     public static void main(String[] args) {
