@@ -1132,7 +1132,7 @@ public class EZShop implements EZShopInterface {
         if (saleTransaction != null && (moneyInCard - saleTransaction.getPrice()) >= 0 && recordBalanceUpdate(saleTransaction.getPrice())) {
             if (balanceOperationRepository.updateRow("sale", "status", "ticketNumber", ticketNumber, "payed")) {
                 creditCards.put(creditCard, moneyInCard - saleTransaction.getPrice());
-                balanceOperationRepository.changeCreditCardBalance(creditCard, moneyInCard);
+                balanceOperationRepository.changeCreditCardBalance(creditCard, moneyInCard - saleTransaction.getPrice());
                 return true;
             }
         }

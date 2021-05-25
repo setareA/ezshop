@@ -273,7 +273,7 @@ public class BalanceOperationRepository {
         orderData.put("quantity", String.valueOf(order.getQuantity()));
         orderData.put("status", order.getStatus());
         orderData.put("money", String.valueOf(order.getMoney()));
-
+        System.out.println("adding new order");
         Connection con = DBCPDBConnectionPool.getConnection();
         ArrayList<String> attrs = getAttrsOrder();
         Logger.getLogger(EZShop.class.getName()).log(Level.INFO, "adding new order: " + order.getOrderId());
@@ -810,16 +810,26 @@ public class BalanceOperationRepository {
     }
 
     public Integer getHighestBalanceId() throws SQLException {
-
-        String sqlCommand = getMaxBalanceIdStatement();
-        Connection con = DBCPDBConnectionPool.getConnection();
-        PreparedStatement prps = con.prepareStatement(sqlCommand);
-        ResultSet rs = prps.executeQuery();
-        rs.next();
-        Integer highestId = rs.getInt(1);
-        prps.close();
-        con.close();
-        return highestId;
+    	Connection con = null;
+    	try {
+	        String sqlCommand = getMaxBalanceIdStatement();
+	        con = DBCPDBConnectionPool.getConnection();
+	        PreparedStatement prps = con.prepareStatement(sqlCommand);
+	        ResultSet rs = prps.executeQuery();
+	        rs.next();
+	        Integer highestId = rs.getInt(1);
+	        prps.close();
+	        con.close();
+	        return highestId;
+    	}catch (SQLException e) {
+            e.printStackTrace();
+            try {
+                con.close();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+            return 0;
+        }
       
     }
 
