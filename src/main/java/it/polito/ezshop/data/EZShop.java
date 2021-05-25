@@ -799,7 +799,12 @@ public class EZShop implements EZShopInterface {
             if (saleTransaction == null) {
                 return -1;
             }
-            return (int) (saleTransaction.getPrice() / 10);
+            double price = 0;
+            ArrayList<TicketEntry> products = balanceOperationRepository.getTicketsBySaleId(transactionId);
+            price = computePriceForProducts(products);
+            price = (price * (1 - saleTransaction.getDiscountRate()));
+            balanceOperationRepository.updateRow("sale", "price", "ticketNumber", transactionId, String.valueOf(price));
+            return (int) (price / 10);
         } else {
             throw new UnauthorizedException();
         }
@@ -869,9 +874,11 @@ public class EZShop implements EZShopInterface {
             if (transactionId == null || transactionId <= 0) {
                 throw new InvalidTransactionIdException();
             }
+            
             SaleTransactionClass saleTransaction = balanceOperationRepository.getSalesByTicketNumber(transactionId);
             if (saleTransaction != null && !"open".equals(saleTransaction.getState())) {
-                return saleTransaction;
+                
+            	return saleTransaction;
             }
         } else {
             throw new UnauthorizedException();

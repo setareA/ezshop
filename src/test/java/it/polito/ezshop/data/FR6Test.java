@@ -2,6 +2,9 @@ package it.polito.ezshop.data;
 
 import static org.junit.Assert.*;
 
+import java.sql.Connection;
+import java.sql.Statement;
+
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -9,6 +12,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import it.polito.ezshop.data.model.UserClass;
+import it.polito.ezshop.data.repository.DBCPDBConnectionPool;
 import it.polito.ezshop.exceptions.InvalidDiscountRateException;
 import it.polito.ezshop.exceptions.InvalidLocationException;
 import it.polito.ezshop.exceptions.InvalidPasswordException;
@@ -27,17 +31,32 @@ public class FR6Test {
 	
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-		ezshop = new EZShop();
+		
+		Connection con = DBCPDBConnectionPool.getConnection();
+	    Statement st = con.createStatement();
+	    String cleanUser = "DROP TABLE IF EXISTS user;";
+	    String cleanCustomer = "DROP TABLE IF EXISTS customer;";
+	    st.executeUpdate(cleanUser + cleanCustomer);
+	    st.close();
+	    con.close();
+	    ezshop = new EZShop();
 		ezshop.reset();
 		ezshop.createUser("eugenio", "eugenio", "ShopManager");
 		ezshop.createUser("eugenio1", "eugenio", "Administrator");
 		ezshop.createUser("eugenio2", "eugenio", "Cashier");
-
+		ezshop.logout();
 	}
 
 	@AfterClass
 	public static void tearDownAfterClass() throws Exception {
 		ezshop.reset();
+		Connection con = DBCPDBConnectionPool.getConnection();
+	    Statement st = con.createStatement();
+	    String cleanUser = "DROP TABLE IF EXISTS user;";
+	    String cleanCustomer = "DROP TABLE IF EXISTS customer;";
+	    st.executeUpdate(cleanUser + cleanCustomer);
+	    st.close();
+	    con.close();
 
 	}
 
@@ -204,7 +223,6 @@ public class FR6Test {
 		assertEquals("inexistent transactionId",-1, ezshop.computePointsForSale(500));		
 		assertEquals("0 points",ezshop.computePointsForSale(s), 0);
 		ezshop.addProductToSale(s, "9429392939414", 10);
-		ezshop.getSaleTransaction(s);
 		assertEquals("1 points",ezshop.computePointsForSale(s), 1);
 
 	
@@ -213,10 +231,7 @@ public class FR6Test {
 	
 	}
 
-	@Test
-	public void testComputePriceForProducts() {
-		fail("Not yet implemented");
-	}
+
 
 	@Test
 	public void testEndSaleTransaction() {
