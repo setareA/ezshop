@@ -925,7 +925,7 @@ public class BalanceOperationRepository {
         try {
             // input the file content to the StringBuffer "input"
             String filePath = new File("").getAbsolutePath();
-            filePath = filePath.concat("\\src\\main\\java\\it\\polito\\ezshop\\utils\\CreditCards.txt");
+            filePath = filePath.concat("/src/main/java/it/polito/ezshop/utils/CreditCards.txt");
             BufferedReader file = new BufferedReader(new FileReader(filePath));
             StringBuffer inputBuffer = new StringBuffer();
             String line;
