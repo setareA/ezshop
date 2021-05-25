@@ -1275,7 +1275,7 @@ public class EZShop implements EZShopInterface {
         } catch (SQLException e) {
             e.printStackTrace();
             return 0.0;
-        } // return balnce
+        }
     }
 
     public boolean checkIfValidRole(String role) {
