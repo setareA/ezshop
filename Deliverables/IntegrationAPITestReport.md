@@ -148,30 +148,10 @@ Report also for each of the scenarios the (one or more) API JUnit tests that cov
 |5.2|FR1|FR1.testLogout()|
 |6.1|FR6 FR7 FR8|FR6.testStartSaleTransaction() <br>FR6.testAddProductToSale()<br> FR6.testEndSaleTransaction() <br>FR7.testReceiveCashPayment() <br>FR7.testReceiveCreditCardPayment() <br>FR8.testRecordBalanceUpdate()|
 |6.2|FR6 FR7 FR8||FR6.testStartSaleTransaction() <br> FR6.testAddProductToSale() <br> FR6.testApplyDiscountRateToProduct() <br> FR6.testEndSaleTransaction() <br> FR7.testReceiveCashPayment()<br> FR7.testReceiveCreditCardPayment() <br>FR8.testRecordBalanceUpdate()|
-|6.3| FR6 FR7 FR8||FR6.testStartSaleTransaction()
-         FR6.testAddProductToSale()
-         FR6.testApplyDiscountRateToSale()
-         FR6.testEndSaleTransaction()
-         FR7.testReceiveCashPayment()
-         FR7.testReceiveCreditCardPayment()
-         FR8.testRecordBalanceUpdate()|
-|6.4|FR5 FR6 FR7 FR8|FR6.testStartSaleTransaction()
-         FR6.testAddProductToSale()
-         FR6.testEndSaleTransaction()
-         FR7.testReceiveCashPayment()
-         FR7.testReceiveCreditCardPayment()
-         FR6.testComputePointsForSale()
-         FR5.testModifyPointsOnCard()
-         FR8.testRecordBalanceUpdate()|
-|6.5|FR6 |FR6.testStartSaleTransaction()
-         FR6.testAddProductToSale()
-         FR6.testEndSaleTransaction()
-         FR6.testdeleteSaleTransaction()|
-|6.6|FR6 FR7 FR8|FR6.testStartSaleTransaction()
-         FR6.testAddProductToSale()
-         FR6.testEndSaleTransaction()
-         FR7.testReceiveCashPayment()
-         FR8.testRecordBalanceUpdate()|
+|6.3| FR6 FR7 FR8||FR6.testStartSaleTransaction() <br> FR6.testAddProductToSale() <br> FR6.testApplyDiscountRateToSale() <br> FR6.testEndSaleTransaction() <br> FR7.testReceiveCashPayment() <br> FR7.testReceiveCreditCardPayment() <br> FR8.testRecordBalanceUpdate()|
+|6.4|FR5 FR6 FR7 FR8|FR6.testStartSaleTransaction() <br> FR6.testAddProductToSale() <br> FR6.testEndSaleTransaction() <br> FR7.testReceiveCashPayment() <br> FR7.testReceiveCreditCardPayment() <br> FR6.testComputePointsForSale() <br> FR5.testModifyPointsOnCard() <br> FR8.testRecordBalanceUpdate()|
+|6.5|FR6 |FR6.testStartSaleTransaction() <br>FR6.testAddProductToSale() <br> FR6.testEndSaleTransaction() <br> FR6.testdeleteSaleTransaction()|
+|6.6|FR6 FR7 FR8|FR6.testStartSaleTransaction() <br> FR6.testAddProductToSale() <br> FR6.testEndSaleTransaction() <br> FR7.testReceiveCashPayment() <br> FR8.testRecordBalanceUpdate()|
 
 |9.1|FR8|FR8.testGetCreditsAndDebits()    
 
