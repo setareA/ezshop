@@ -36,10 +36,11 @@ public class EZShopTest  {
 		Integer r = ezshop.startReturnTransaction(s);
 		Integer c = ezshop.defineCustomer("customer");
 		ezshop.reset();
+	
 		Integer u1 = ezshop.createUser("eugenio"	, "eugenio", "Administrator");
 		ezshop.login("eugenio", "eugenio");
 		assertEquals(ezshop.getSaleTransaction(s),null);
-		assertEquals(ezshop.getReturnTransaction(r),null);
+		assertEquals(ezshop.getBalanceOperationRepository().getReturnByReturnId(r),null);
 		assertEquals(ezshop.getCustomer(c),null);
 	}
 
