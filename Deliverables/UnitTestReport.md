@@ -1467,11 +1467,11 @@ Version:
     <For traceability write the class and method name that contains the test case>
 
 
-| Unit name | JUnit test case |
-| --------- | --------------- |
-|           |                 |
-|           |                 |
-|           |                 |
+| Unit name                            | JUnit test case                               |
+| ------------------------------------ | --------------------------------------------- |
+| EZShopTest/ checkValidityProductcode | EZShopTest/ TestCheckValidityLongProductcode  |
+| EZShopTest/ checkValidityProductcode | EZShopTest/ testCheckValidityShortProductcode |
+
 
 ### Code coverage report
 
