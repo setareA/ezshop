@@ -494,7 +494,10 @@ public class EZShop implements EZShopInterface {
 
         // Check InvalidCustomerCardException: (bad format(string with 10 digits)) (empty or null, NOT APPLICABLE SLACK QUESTION)
         // the bad format is check in two steps : is it a string? and is the size equals to 10 digits?
-        if ((("").getClass().equals(newCustomerCard.getClass())) && !(newCustomerCard.length() == 10 || !onlyDigits(newCustomerCard))) {
+        if(newCustomerCard==null) {
+        	return false;
+        }
+        if ((("").getClass().equals(newCustomerCard.getClass())) && !("").equals(newCustomerCard) && !(newCustomerCard.length() == 10 || !onlyDigits(newCustomerCard))) {
             throw new InvalidCustomerCardException();
         }
         // Check UnauthorizedException: check if there is a loggedUser and if its role is a "Administrator", "ShopManager" or "Cashier"
@@ -1005,11 +1008,15 @@ public class EZShop implements EZShopInterface {
                     productTypeRepository.updateQuantity(realProduct.getId(), returnedProduct.getAmount());
                 }
                 // update the price of the sale transaction
-                double price = 0;
+                double salePrice = 0;
+                double returnPrice = 0;
                 SaleTransactionClass saleTransaction = balanceOperationRepository.getSalesByTicketNumber(returnTransaction.getTicketNumber());
                 ArrayList<TicketEntry> products = balanceOperationRepository.getTicketsBySaleId(returnTransaction.getTicketNumber());
-                price = computePriceForProducts(products);
-                balanceOperationRepository.updateRow("sale", "price", "ticketNumber", saleTransaction.getTicketNumber(), String.valueOf(price * (1 - saleTransaction.getDiscountRate())));
+                salePrice = computePriceForProducts(products);
+                balanceOperationRepository.updateRow("sale", "price", "ticketNumber", saleTransaction.getTicketNumber(), String.valueOf(salePrice * (1 - saleTransaction.getDiscountRate())));
+
+                returnPrice = computePriceForProducts(returnedProducts);
+                balanceOperationRepository.updateRow("returnTable", "price", "returnId", returnId, String.valueOf(returnPrice * (1 - saleTransaction.getDiscountRate())));
             }
             return true;
         } else {
