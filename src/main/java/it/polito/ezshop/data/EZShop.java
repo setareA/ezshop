@@ -486,6 +486,8 @@ public class EZShop implements EZShopInterface {
             return customerRepository.addNewCustomer(newCustomer);
     }
 
+
+      
     @Override
     public boolean modifyCustomer(Integer id, String newCustomerName, String newCustomerCard) throws InvalidCustomerNameException, InvalidCustomerCardException, InvalidCustomerIdException, UnauthorizedException {
         // Check InvalidCustomerIdException (id is null or id has an invalid value (<=0))
@@ -499,7 +501,10 @@ public class EZShop implements EZShopInterface {
 
         // Check InvalidCustomerCardException: (bad format(string with 10 digits)) (empty or null, NOT APPLICABLE SLACK QUESTION)
         // the bad format is check in two steps : is it a string? and is the size equals to 10 digits?
-        if ((("").getClass().equals(newCustomerCard.getClass())) && !(newCustomerCard.length() == 10 || !onlyDigits(newCustomerCard))) {
+        if(newCustomerCard==null) {
+        	return false;
+        }
+        if ((("").getClass().equals(newCustomerCard.getClass())) && !("").equals(newCustomerCard) && !(newCustomerCard.length() == 10 || !onlyDigits(newCustomerCard))) {
             throw new InvalidCustomerCardException();
         }
         // Check UnauthorizedException: check if there is a loggedUser and if its role is a "Administrator", "ShopManager" or "Cashier"
