@@ -1132,7 +1132,7 @@ public class EZShop implements EZShopInterface {
         if (saleTransaction != null && (moneyInCard - saleTransaction.getPrice()) >= 0 && recordBalanceUpdate(saleTransaction.getPrice())) {
             if (balanceOperationRepository.updateRow("sale", "status", "ticketNumber", ticketNumber, "payed")) {
                 creditCards.put(creditCard, moneyInCard - saleTransaction.getPrice());
-                balanceOperationRepository.changeCreditCardBalance(creditCard, moneyInCard);
+                balanceOperationRepository.changeCreditCardBalance(creditCard, moneyInCard - saleTransaction.getPrice());
                 return true;
             }
         }
@@ -1149,11 +1149,6 @@ public class EZShop implements EZShopInterface {
         if (returnId == null || returnId <= 0) {
             throw new InvalidTransactionIdException();
         }
-        // Check UnauthorizedException: check if there is a loggedUser and if its role is a "Administrator", "ShopManager" or "Cashier"
-        if (userRepository.getLoggedUser() == null || !checkIfValidRole(userRepository.getLoggedUser().getRole())) {
-            throw new UnauthorizedException();
-        }
-
         // Check UnauthorizedException: check if there is a loggedUser and if its role is a "Administrator", "ShopManager" or "Cashier"
         if (userRepository.getLoggedUser() == null || !checkIfValidRole(userRepository.getLoggedUser().getRole())) {
             throw new UnauthorizedException();
@@ -1232,7 +1227,7 @@ public class EZShop implements EZShopInterface {
 
     @Override
     public boolean recordBalanceUpdate(double toBeAdded) throws UnauthorizedException {
-        // called also by transction --- check if we can decrement --- creation of balance operation object and save in a table in db ---- modify of the balance
+        // called also by transaction --- check if we can decrement --- creation of balance operation object and save in a table in db ---- modify of the balance
         if (!(this.checkIfAdministrator() || this.checkIfManager())) throw new UnauthorizedException();
         if (this.computeBalance() + toBeAdded < 0) return false;
         try {

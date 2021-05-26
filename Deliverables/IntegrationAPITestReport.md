@@ -85,6 +85,7 @@ digraph ez {
 |OrderClass|data/model/OrderClassTest|
 |BalanceOperationClass|data/model/BalanceOperationClassTest|
 |ProductTypeClass|data/model/ProductTypeClassTest|
+|EZShop (only methods that are not api)|data/EZShopTest|
 
 
 ## Step 2
@@ -102,7 +103,7 @@ digraph ez {
 
 | Classes  | JUnit test cases |
 |--|--|
-|||
+|EZShop|data/FR1Test<br>data/FR3Test<br>data/FR4Test<br>data/FR5Test<br>data/FR6Test<br>data/FR7Test<br>data/FR8Test<br>|
 
 
 
