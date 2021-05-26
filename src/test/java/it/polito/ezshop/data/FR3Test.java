@@ -148,16 +148,32 @@ public class FR3Test {
 
     @Test
     public void testGetAllProductTypes() {
-        assertThrows(UnauthorizedException.class, () -> ezShop.createProductType("newProduct", "123457879873", 10, "the best"));
+        assertThrows(UnauthorizedException.class, () -> ezShop.getAllProductTypes());
         try {
             ezShop.createUser("setare_manager", "asdf", "ShopManager");
             ezShop.createUser("setare_admin", "asdf", "Administrator");
             ezShop.createUser("setare_cashier", "asdf", "Cashier");
+            ezShop.login("setare_manager", "asdf");
+            try {
+                Integer id = ezShop.createProductType("anotherProduct", "543457879879", 27, "");
+                assertEquals(1, ezShop.getAllProductTypes().size());
+            } catch ( InvalidProductDescriptionException | InvalidProductCodeException | InvalidPricePerUnitException | UnauthorizedException e) {
+                e.printStackTrace();
+            }
+
+            ezShop.login("setare_admin", "asdf");
+            try {
+                assertEquals(1, ezShop.getAllProductTypes().size());
+            } catch (UnauthorizedException e) {
+                e.printStackTrace();
+            }
 
             ezShop.login("setare_cashier", "asdf");
-            assertThrows(UnauthorizedException.class, () -> ezShop.createProductType("newProduct", "123457879873", 10, "the best"));
-
-            ezShop.login("setare_manager", "asdf");
+            try {
+                assertEquals(1, ezShop.getAllProductTypes().size());
+            } catch (UnauthorizedException e) {
+                e.printStackTrace();
+            }
 
         }
         catch (InvalidUsernameException | InvalidPasswordException | InvalidRoleException e) {
@@ -178,6 +194,8 @@ public class FR3Test {
 
             ezShop.login("setare_manager", "asdf");
 
+            ezShop.login("setare_admin", "asdf");
+
         }
         catch (InvalidUsernameException | InvalidPasswordException | InvalidRoleException e) {
             e.printStackTrace();
@@ -196,6 +214,8 @@ public class FR3Test {
             assertThrows(UnauthorizedException.class, () -> ezShop.createProductType("newProduct", "123457879873", 10, "the best"));
 
             ezShop.login("setare_manager", "asdf");
+
+            ezShop.login("setare_admin", "asdf");
 
         }
         catch (InvalidUsernameException | InvalidPasswordException | InvalidRoleException e) {
