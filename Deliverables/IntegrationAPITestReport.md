@@ -146,19 +146,8 @@ Report also for each of the scenarios the (one or more) API JUnit tests that cov
 |3.3 |FR4|FR4.testRecordOrderArrival()|
 |5.1|FR1|FR1.testLogin()|
 |5.2|FR1|FR1.testLogout()|
-|6.1|FR6 FR7 FR8|FR6.testStartSaleTransaction()
-         FR6.testAddProductToSale()
-         FR6.testEndSaleTransaction()
-         FR7.testReceiveCashPayment()
-         FR7.testReceiveCreditCardPayment()
-         FR8.testRecordBalanceUpdate()|
-|6.2|FR6 FR7 FR8||FR6.testStartSaleTransaction()
-         FR6.testAddProductToSale()
-         FR6.testApplyDiscountRateToProduct()
-         FR6.testEndSaleTransaction()
-         FR7.testReceiveCashPayment()
-         FR7.testReceiveCreditCardPayment()
-         FR8.testRecordBalanceUpdate()|
+|6.1|FR6 FR7 FR8|FR6.testStartSaleTransaction() <br>FR6.testAddProductToSale()<br> FR6.testEndSaleTransaction() <br>FR7.testReceiveCashPayment() <br>FR7.testReceiveCreditCardPayment() <br>FR8.testRecordBalanceUpdate()|
+|6.2|FR6 FR7 FR8||FR6.testStartSaleTransaction() <br> FR6.testAddProductToSale() <br> FR6.testApplyDiscountRateToProduct() <br> FR6.testEndSaleTransaction() <br> FR7.testReceiveCashPayment()<br> FR7.testReceiveCreditCardPayment() <br>FR8.testRecordBalanceUpdate()|
 |6.3| FR6 FR7 FR8||FR6.testStartSaleTransaction()
          FR6.testAddProductToSale()
          FR6.testApplyDiscountRateToSale()
