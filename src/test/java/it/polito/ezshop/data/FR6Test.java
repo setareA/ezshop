@@ -4,6 +4,8 @@ import static org.junit.Assert.*;
 
 import java.sql.Connection;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -11,6 +13,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import it.polito.ezshop.data.model.TicketEntryClass;
 import it.polito.ezshop.data.model.UserClass;
 import it.polito.ezshop.data.repository.DBCPDBConnectionPool;
 import it.polito.ezshop.exceptions.InvalidDiscountRateException;
@@ -63,10 +66,16 @@ public class FR6Test {
 
 	@Before
 	public void setUp() throws Exception {
+		ezshop.logout();
+		ezshop.reset();
+
 	}
 
 	@After
 	public void tearDown() throws Exception {
+		ezshop.logout();
+		ezshop.reset();
+
 	}
 
 	@Test
@@ -110,6 +119,8 @@ public class FR6Test {
 		ezshop.updateQuantity(p, 100);
 		assertEquals("product is added to sale",true , ezshop.addProductToSale(s, "1234567890128", 10));
 		assertEquals("check if quantity is modified",Integer.valueOf(90),ezshop.getProductTypeByBarCode("1234567890128").getQuantity());
+		assertEquals("product is added to sale",true , ezshop.addProductToSale(s, "1234567890128", 10));
+		assertEquals("check if we have 20 of it",Integer.valueOf(20),Integer.valueOf(ezshop.getBalanceOperationRepository().getTicketsByForeignKeyAndBarcode("saleId", s, "1234567890128").getAmount()));
 	} 
 
 	@Test
@@ -177,12 +188,14 @@ public class FR6Test {
 		assertEquals(" inexistent productCode",false , ezshop.applyDiscountRateToProduct(s, "1234567890111", 0.2));
 		assertEquals(" inexistent product inside sale",false , ezshop.applyDiscountRateToProduct(s, "2154295419998", 0.2));
 		ezshop.addProductToSale(s, "2154295419998", 3);
+		ezshop.addProductToSale(s, "2154295419998", 3);
 		assertEquals(" discount applied",true , ezshop.applyDiscountRateToProduct(s, "2154295419998", 0.2));
-
+		ezshop.endSaleTransaction(s);
+		assertEquals("check if price is correct",ezshop.getSaleTransaction(s).getPrice(),Double.valueOf(4.80),0.01);
+	//getTicketsByForeignKeyAndBarcode ritorna solo un ticket, ma dovrebbe ritornare una lista
 	
 	
-	
-	
+	 
 	}
 
 	@Test
@@ -280,12 +293,21 @@ public class FR6Test {
 		assertEquals("payed  transactionId ",false, ezshop.deleteSaleTransaction(s));
 		ezshop.getBalanceOperationRepository().updateRow("sale", "status", "ticketNumber", s, "open");
 		Integer p = ezshop.createProductType("cannelloni", "9574856111735", 1.0, null);
+		Integer p1 = ezshop.createProductType("cannelloni", "957485611194", 1.0, null);
 		ezshop.updatePosition(p, "11-szhs-11");
+		ezshop.updatePosition(p1, "121-szhs-11");
 		ezshop.updateQuantity(p, 100);
+		ezshop.updateQuantity(p1, 100);
+
 		ezshop.addProductToSale(s, "9574856111735", 10);
-		assertEquals("check if quantity is modified",Integer.valueOf(90),ezshop.getProductTypeByBarCode("9574856111735").getQuantity());
+		ezshop.addProductToSale(s, "9574856111735", 10);
+		ezshop.addProductToSale(s, "957485611194", 10);
+
+		assertEquals("check if quantity is modified",Integer.valueOf(80),ezshop.getProductTypeByBarCode("9574856111735").getQuantity());
+		assertEquals("check if quantity is modified",Integer.valueOf(90),ezshop.getProductTypeByBarCode("957485611194").getQuantity());
 		assertEquals("success",true,ezshop.deleteSaleTransaction(s));
 		assertEquals("check if quantity is restored",Integer.valueOf(100),ezshop.getProductTypeByBarCode("9574856111735").getQuantity());
+		assertEquals("check if quantity is restored",Integer.valueOf(100),ezshop.getProductTypeByBarCode("957485611194").getQuantity());
 
 	}
 
@@ -373,9 +395,12 @@ public class FR6Test {
 		ezshop.updatePosition(p, "11-szahs-11");
 		ezshop.updateQuantity(p, 100);
 		ezshop.addProductToSale(s, "9574856111445", 10);
+		ezshop.addProductToSale(s, "9574856111445",5);
+
 		 p =  ezshop.createProductType("fagioli","957485611187" , 1.0, null);
 		ezshop.updatePosition(p, "11-szahxs-11");
 		ezshop.updateQuantity(p, 100);
+		ezshop.addProductToSale(s, "957485611187", 10);
 		ezshop.addProductToSale(s, "957485611187", 10);
 		 ezshop.getBalanceOperationRepository().updateRow("sale", "status", "ticketNumber", s, "payed");
 		 r = ezshop.startReturnTransaction(s);
@@ -383,19 +408,61 @@ public class FR6Test {
 		
 		 assertEquals("the amount returned is higher than the amount sold",false,ezshop.returnProduct(r,"9574856111445", 30));
 		 assertEquals("product added",true,ezshop.returnProduct(r,"9574856111445", 10));
-		 assertEquals("product added",true,ezshop.returnProduct(r,"9574856111445", 10));
-		 // se ritorno due volte lo stesso prodotto non considera che la somma è maggiore del prodotto comprato
-		
-		 assertEquals("product added not change quantity avaible in shelved",Integer.valueOf(90),ezshop.getProductTypeByBarCode("9574856111445").getQuantity());
+		 assertEquals("try to add same product, but now then sum is higher than the avaible in sale",false,ezshop.returnProduct(r,"9574856111445", 10));
+		 assertEquals("try to add same product, but now then sum is lower than the avaible in sale",true,ezshop.returnProduct(r,"9574856111445", 4));
+
+		 assertEquals("product added not change quantity avaible in shelved",Integer.valueOf(85),ezshop.getProductTypeByBarCode("9574856111445").getQuantity());
 		 assertEquals("product added",true,ezshop.returnProduct(r,"957485611187", 5));
+		 assertEquals("test if recognize that there is 2 ticket inside sale with same barcode",true,ezshop.returnProduct(r,"957485611187", 10));
+		 assertEquals("test if recognize that there is 2 ticket inside sale with same barcode",false,ezshop.returnProduct(r,"957485611187", 10));
 
 	
 	
 	}
 
 	@Test
-	public void testEndReturnTransaction() {
-		fail("Not yet implemented");
+	public void testEndReturnTransaction() throws InvalidUsernameException, InvalidPasswordException, InvalidTransactionIdException, UnauthorizedException, InvalidProductIdException, InvalidLocationException, InvalidProductCodeException, InvalidQuantityException, InvalidProductDescriptionException, InvalidPricePerUnitException {
+		assertThrows("no logged user",UnauthorizedException.class, ()-> ezshop.endReturnTransaction(null, false));
+		ezshop.login("eugenio1", "eugenio");	
+		assertThrows("null transactionId ",InvalidTransactionIdException.class, ()-> ezshop.endReturnTransaction(null,false));
+		ezshop.logout();
+		ezshop.login("eugenio2", "eugenio");
+		assertThrows("negative transactionId ",InvalidTransactionIdException.class, ()-> ezshop.endReturnTransaction(-1, false));
+		ezshop.logout();
+		ezshop.login("eugenio", "eugenio");
+		assertEquals("inexistent transactionId ",false, ezshop.endReturnTransaction(100, false));
+		 Integer s = ezshop.startSaleTransaction();
+		 Integer p =  ezshop.createProductType("piselli","9574856111445" , 1.0, null);
+		ezshop.updatePosition(p, "11-szahs-11");
+		ezshop.updateQuantity(p, 100);
+		ezshop.addProductToSale(s, "9574856111445", 10);
+		ezshop.addProductToSale(s, "9574856111445",5);
+
+		 p =  ezshop.createProductType("fagioli","957485611187" , 1.0, null);
+		ezshop.updatePosition(p, "11-szahxs-11");
+		ezshop.updateQuantity(p, 100);
+		ezshop.addProductToSale(s, "957485611187", 10);
+		ezshop.addProductToSale(s, "957485611187", 10);
+		 ezshop.getBalanceOperationRepository().updateRow("sale", "status", "ticketNumber", s, "payed");
+		 Integer r = ezshop.startReturnTransaction(s);
+		assertEquals("transaction deleted ",true, ezshop.endReturnTransaction(r, false));
+		r = ezshop.startReturnTransaction(s);
+		ezshop.returnProduct(r, "9574856111445", 10);
+		ezshop.returnProduct(r, "957485611187", 20);
+
+		assertEquals("transaction closed and send ",true, ezshop.endReturnTransaction(r, true));
+		 assertEquals("it change quantity avaible in shelved",Integer.valueOf(95),ezshop.getProductTypeByBarCode("9574856111445").getQuantity());
+		 assertEquals("it change quantity avaible in shelved",Integer.valueOf(100),ezshop.getProductTypeByBarCode("957485611187").getQuantity());
+		 List<TicketEntry> entry = ezshop.getSaleTransaction(s).getEntries();
+		 for(TicketEntry e : entry ) {
+			 if(e.getBarCode().equals("9574856111445")) {
+				 assertEquals("we have 5 of them",Integer.valueOf(5),Integer.valueOf(e.getAmount()));
+			 }
+			 if(e.getBarCode().equals("957485611187")) {
+				 assertEquals("we should not came here", true,false);
+			 }
+				 
+		 }
 	}
 
 	@Test
