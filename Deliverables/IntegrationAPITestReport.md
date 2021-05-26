@@ -198,5 +198,8 @@ Report also for each of the scenarios the (one or more) API JUnit tests that cov
 
 | Non Functional Requirement | Test name |
 | -------------------------- | --------- |
-|                            |           |
+|NFR2 | Each API test method , which contains serveral calls of functions, lasts less than 0.5 s ( testDeleteSaleTransaction() last more, but we checked the exact execution time of that method and we figured out that it was in the order of 50 ms).So we can assume that each API method lasts less than 0.5 s.|
+| NFR4                           | EZShopTest.testCheckGoodBarcodeFormat()   EZShopTest.testCheckNotGoodBarcodeFormat() EZShopTest.testCheckInvalidBarcodeFormat() EZShopTest.TestCheckValidityLongProductcode()   EZShopTest.testCheckValidityShortProductcode()   |
+|NFR5 |EZShopTest.testCheckLuhnValid() EZShopTest.testCheckLuhnInvalid() EZShopTest.testCheckLuhnNull() EZShopTest.testCheckLuhnEmpthy() testCheckLuhnOne() EZShopTest.testCheckLuhnTwo() |
+|NFR6 | FR6Test.testCreateCard() FR6Test.testModifyCustomer()|
 
