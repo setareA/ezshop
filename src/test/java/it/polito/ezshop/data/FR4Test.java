@@ -156,16 +156,32 @@ public class FR4Test {
 
     @Test
     public void testPayOrderFor() {
-        assertThrows(UnauthorizedException.class, () -> ezShop.getProductTypesByDescription("hello"));
+        assertThrows(UnauthorizedException.class, () -> ezShop.payOrderFor("654357879873", 10,10));
         try {
             ezShop.createUser("setare_manager", "asdf", "ShopManager");
             ezShop.createUser("setare_admin", "asdf", "Administrator");
             ezShop.createUser("setare_cashier", "asdf", "Cashier");
 
             ezShop.login("setare_cashier", "asdf");
-            assertThrows(UnauthorizedException.class, () -> ezShop.getProductTypesByDescription("hello"));
+            assertThrows(UnauthorizedException.class, () -> ezShop.payOrderFor("654357879873", 10,10));
 
             ezShop.login("setare_manager", "asdf");
+            assertThrows(InvalidProductCodeException.class, () -> ezShop.payOrderFor("", 10,10));
+            assertThrows(InvalidProductCodeException.class, () -> ezShop.payOrderFor(null, 10,10));
+            assertThrows(InvalidProductCodeException.class, () -> ezShop.payOrderFor("654357879871", 10,10));
+            assertThrows(InvalidQuantityException.class, () -> ezShop.payOrderFor("654357879873", 0,10));
+            assertThrows(InvalidQuantityException.class, () -> ezShop.payOrderFor("654357879873", -10,10));
+            assertThrows(InvalidPricePerUnitException.class, () -> ezShop.payOrderFor("654357879873", 10,-10));
+            assertThrows(InvalidPricePerUnitException.class, () -> ezShop.payOrderFor("654357879873", 10,0));
+            try {
+                assertEquals(Integer.valueOf(-1), ezShop.payOrderFor("654357879873", 10,10));
+                ezShop.createProductType("anotherProduct", "654357879873", 10, "the best");
+                assertEquals(Integer.valueOf(-1), ezShop.payOrderFor("654357879873", 10,10));
+                ezShop.getBalanceOperationRepository().setBalance(110);
+                assertNotEquals(Integer.valueOf(-1), ezShop.payOrderFor("654357879873", 10,10));
+            } catch (InvalidProductCodeException | InvalidQuantityException | InvalidPricePerUnitException | UnauthorizedException | InvalidProductDescriptionException e) {
+                e.printStackTrace();
+            }
 
 
             ezShop.login("setare_admin", "asdf");
