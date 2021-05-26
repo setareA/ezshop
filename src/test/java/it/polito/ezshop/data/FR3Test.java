@@ -114,17 +114,32 @@ public class FR3Test {
 
     @Test
     public void testDeleteProductType() {
-        assertThrows(UnauthorizedException.class, () -> ezShop.createProductType("newProduct", "123457879873", 10, "the best"));
+        assertThrows(UnauthorizedException.class, () -> ezShop.deleteProductType(1));
         try {
             ezShop.createUser("setare_manager", "asdf", "ShopManager");
             ezShop.createUser("setare_admin", "asdf", "Administrator");
             ezShop.createUser("setare_cashier", "asdf", "Cashier");
 
             ezShop.login("setare_cashier", "asdf");
-            assertThrows(UnauthorizedException.class, () -> ezShop.createProductType("newProduct", "123457879873", 10, "the best"));
+            assertThrows(UnauthorizedException.class, () -> ezShop.deleteProductType(1));
 
             ezShop.login("setare_manager", "asdf");
-
+            assertThrows(InvalidProductIdException.class, ()->ezShop.deleteProductType(null));
+            assertThrows(InvalidProductIdException.class, ()->ezShop.deleteProductType(-1));
+            assertThrows(InvalidProductIdException.class, ()->ezShop.deleteProductType(0));
+            try {
+                Integer id = ezShop.createProductType("anotherProduct", "543457879879", 27, "");
+                assertTrue(ezShop.deleteProductType(id));
+            } catch (InvalidProductIdException | InvalidProductDescriptionException | InvalidProductCodeException | InvalidPricePerUnitException | UnauthorizedException e) {
+                e.printStackTrace();
+            }
+            ezShop.login("setare_admin", "asdf");
+            try {
+                Integer id = ezShop.createProductType("pane", "654357879873", 100, "");
+                assertTrue(ezShop.deleteProductType(id));
+            } catch (InvalidProductIdException | InvalidProductDescriptionException | InvalidProductCodeException | InvalidPricePerUnitException | UnauthorizedException e) {
+                e.printStackTrace();
+            }
         }
         catch (InvalidUsernameException | InvalidPasswordException | InvalidRoleException e) {
             e.printStackTrace();
