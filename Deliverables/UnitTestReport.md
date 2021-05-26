@@ -1493,24 +1493,24 @@ Version:
 **Criteria for method *passwordMatches*:**
 	
 
- - matching of password and dbHashedPass
+ - value of parameters
 
    
 
 **Predicates for method checkLocation:**
 
-| Criteria                              | Predicate |
-| ------------------------------------- | --------- |
-| matching of password and dbHashedPass | Any value |
+| Criteria            | Predicate |
+| ------------------- | --------- |
+| value of parameters | Any value |
 
  
 
 **Combination of predicates**:
 
 
-| matching of password and dbHashedPass | Valid / Invalid | Description of the test case                                 | JUnit test case    |
-| ------------------------------------- | --------------- | ------------------------------------------------------------ | ------------------ |
-| any value                             | valid           | T1(passwordChars, saltBytes, iterations, keyLengtht) ->byte[] | testHashPassword() |
+| value of parameters | Valid / Invalid | Description of the test case                                 | JUnit test case    |
+| ------------------- | --------------- | ------------------------------------------------------------ | ------------------ |
+| any value           | valid           | T1(passwordChars, saltBytes, iterations, keyLengtht) ->byte[] | testHashPassword() |
 
 
 
