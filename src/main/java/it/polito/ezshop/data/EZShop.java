@@ -128,6 +128,8 @@ public class EZShop implements EZShopInterface {
             productTypeRepository.deleteTable();
             balanceOperationRepository.deleteTables();
             balanceOperationRepository.resetBalance();
+           userRepository.deleteTables();
+           customerRepository.deleteTables();
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();

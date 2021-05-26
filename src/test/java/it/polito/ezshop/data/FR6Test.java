@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import java.sql.Connection;
 import java.sql.Statement;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -68,13 +69,15 @@ public class FR6Test {
 	public void setUp() throws Exception {
 		ezshop.logout();
 		ezshop.reset();
+		ezshop.createUser("eugenio", "eugenio", "ShopManager");
+		ezshop.createUser("eugenio1", "eugenio", "Administrator");
+		ezshop.createUser("eugenio2", "eugenio", "Cashier");
 
 	}
 
 	@After
 	public void tearDown() throws Exception {
 		ezshop.logout();
-		ezshop.reset();
 
 	}
 
@@ -312,7 +315,11 @@ public class FR6Test {
 
 		assertEquals("check if quantity is modified",Integer.valueOf(80),ezshop.getProductTypeByBarCode("9574856111735").getQuantity());
 		assertEquals("check if quantity is modified",Integer.valueOf(90),ezshop.getProductTypeByBarCode("957485611194").getQuantity());
+		long startTime = Instant.now().toEpochMilli();
 		assertEquals("success",true,ezshop.deleteSaleTransaction(s));
+		long endTime = Instant.now().toEpochMilli();
+	    long timeElapsed = endTime - startTime;
+	    System.out.println("Execution time in milliseconds: " + timeElapsed);
 		assertEquals("check if quantity is restored",Integer.valueOf(100),ezshop.getProductTypeByBarCode("9574856111735").getQuantity());
 		assertEquals("check if quantity is restored",Integer.valueOf(100),ezshop.getProductTypeByBarCode("957485611194").getQuantity());
 

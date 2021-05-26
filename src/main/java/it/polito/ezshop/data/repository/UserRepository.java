@@ -56,6 +56,16 @@ public class UserRepository {
 	    }
     }
 
+    public void deleteTables() throws SQLException {
+        Logger.getLogger(EZShop.class.getName()).log(Level.INFO, "deleting Users");
+        Connection con = DBCPDBConnectionPool.getConnection();
+        PreparedStatement prp = con.prepareStatement("DELETE FROM user;");
+        prp.executeUpdate();
+    
+        prp.close();
+        con.close();
+    }
+    
 
     private static String insertCommand(String tableName, ArrayList<String> attributes) {
         String sqlCommand = "INSERT INTO " + tableName + "(";

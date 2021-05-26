@@ -9,6 +9,15 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import it.polito.ezshop.data.model.TicketEntryClass;
+import it.polito.ezshop.exceptions.InvalidCustomerIdException;
+import it.polito.ezshop.exceptions.InvalidCustomerNameException;
+import it.polito.ezshop.exceptions.InvalidPasswordException;
+import it.polito.ezshop.exceptions.InvalidRoleException;
+import it.polito.ezshop.exceptions.InvalidTransactionIdException;
+import it.polito.ezshop.exceptions.InvalidUserIdException;
+import it.polito.ezshop.exceptions.InvalidUsernameException;
+import it.polito.ezshop.exceptions.UnauthorizedException;
+
 import java.util.Random;
 
 import it.polito.ezshop.data.model.TicketEntryClass;
@@ -17,7 +26,22 @@ import java.util.Random;
 
 
 public class EZShopTest  {
-
+	@Test
+	public void testReset() throws InvalidUsernameException, InvalidPasswordException, InvalidRoleException, InvalidCustomerNameException, UnauthorizedException, InvalidTransactionIdException, InvalidUserIdException, InvalidCustomerIdException {
+		EZShop ezshop = new EZShop();
+		Integer u = ezshop.createUser("eugenio"	, "eugenio", "Administrator");
+		ezshop.login("eugenio", "eugenio");
+		Integer s = ezshop.startSaleTransaction();
+		ezshop.getBalanceOperationRepository().updateRow("sale", "status", "ticektNumber", s, "payed");
+		Integer r = ezshop.startReturnTransaction(s);
+		Integer c = ezshop.defineCustomer("customer");
+		ezshop.reset();
+		Integer u1 = ezshop.createUser("eugenio"	, "eugenio", "Administrator");
+		ezshop.login("eugenio", "eugenio");
+		assertEquals(ezshop.getSaleTransaction(s),null);
+		assertEquals(ezshop.getReturnTransaction(r),null);
+		assertEquals(ezshop.getCustomer(c),null);
+	}
 
 	@Test
 	public void testComputePriceForProductsWithNull() throws SQLException {
