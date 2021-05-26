@@ -9,9 +9,13 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.time.LocalDate;
+
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.Date;
 
 import static org.junit.Assert.*;
 
@@ -81,14 +85,34 @@ public class FR8Test {
 
     @Test
     public void testGetCreditsAndDebits() {
-     //   assertThrows("Unregistered user tries to Get Credits And Debits", UnauthorizedException.class, () -> ezShop.getCreditsAndDebits());
+        assertThrows("Unregistered user tries to Get Credits And Debits", UnauthorizedException.class, () -> ezShop.getCreditsAndDebits(LocalDate.parse("2021-03-14"), LocalDate.parse("2021-04-14")));
         try {
             ezShop.createUser("setare_manager", "asdf", "ShopManager");
             ezShop.createUser("setare_admin", "asdf", "Administrator");
             ezShop.createUser("setare_cashier", "asdf", "Cashier");
 
             ezShop.login("setare_cashier", "asdf");
-            assertThrows("Unauthorized user tries to to record balance update", UnauthorizedException.class, () -> ezShop.recordBalanceUpdate(10));
+            assertThrows("Unauthorized user tries to to record balance update", UnauthorizedException.class, () -> ezShop.getCreditsAndDebits(LocalDate.parse("2021-03-14"), LocalDate.parse("2021-04-14")));
+
+            ezShop.login("setare_manager", "asdf");
+            try {
+                assertEquals(ArrayList.class, ezShop.getCreditsAndDebits(LocalDate.parse("2021-03-14"), LocalDate.parse("2021-04-14")).getClass());
+                assertEquals(ArrayList.class, ezShop.getCreditsAndDebits(null, LocalDate.parse("2021-04-14")).getClass());
+                assertEquals(ArrayList.class, ezShop.getCreditsAndDebits(LocalDate.parse("2021-03-14"),null));
+                assertEquals(ArrayList.class, ezShop.getCreditsAndDebits(null, null).getClass());
+            } catch (UnauthorizedException e) {
+                e.printStackTrace();
+            }
+
+            ezShop.login("setare_admin", "asdf");
+            try {
+                assertEquals(ArrayList.class, ezShop.getCreditsAndDebits(LocalDate.parse("2021-03-14"), LocalDate.parse("2021-04-14")).getClass());
+                assertEquals(ArrayList.class, ezShop.getCreditsAndDebits(null, LocalDate.parse("2021-04-14")).getClass());
+                assertEquals(ArrayList.class, ezShop.getCreditsAndDebits(LocalDate.parse("2021-03-14"),null));
+                assertEquals(ArrayList.class, ezShop.getCreditsAndDebits(null, null).getClass());
+            } catch (UnauthorizedException e) {
+                e.printStackTrace();
+            }
         }
         catch (InvalidUsernameException e) {
             e.printStackTrace();
