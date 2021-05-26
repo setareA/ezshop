@@ -85,6 +85,7 @@ digraph ez {
 |OrderClass|data/model/OrderClassTest|
 |BalanceOperationClass|data/model/BalanceOperationClassTest|
 |ProductTypeClass|data/model/ProductTypeClassTest|
+|EZShop (only methods that are not api)|data/EZShopTest|
 
 
 ## Step 2
