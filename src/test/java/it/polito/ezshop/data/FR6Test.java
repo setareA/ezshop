@@ -57,6 +57,7 @@ public class FR6Test {
 	    st.executeUpdate(cleanUser + cleanCustomer);
 	    st.close();
 	    con.close();
+		ezshop.logout();
 
 	}
 
@@ -108,8 +109,8 @@ public class FR6Test {
 		ezshop.updatePosition(p, "12-arra-12");
 		ezshop.updateQuantity(p, 100);
 		assertEquals("product is added to sale",true , ezshop.addProductToSale(s, "1234567890128", 10));
-
-	}
+		assertEquals("check if quantity is modified",Integer.valueOf(90),ezshop.getProductTypeByBarCode("1234567890128").getQuantity());
+	} 
 
 	@Test
 	public void testDeleteProductFromSale() throws InvalidUsernameException, InvalidPasswordException, UnauthorizedException, InvalidProductDescriptionException, InvalidProductCodeException, InvalidPricePerUnitException, InvalidProductIdException, InvalidLocationException, InvalidTransactionIdException, InvalidQuantityException {
@@ -143,7 +144,10 @@ public class FR6Test {
 		assertEquals("productType is not present inside transaction",false,ezshop.deleteProductFromSale(s, "2154295412517", 2));
 		assertEquals("productType quantity inside transaction < amount to be deleted",false,ezshop.deleteProductFromSale(s, "5839450234582", 200));
 		assertEquals("product is deleted from sale",true,ezshop.deleteProductFromSale(s, "5839450234582", 2));
+		assertEquals("check if quantity is updated",Integer.valueOf(92),ezshop.getProductTypeByBarCode("5839450234582").getQuantity());
 		assertEquals("product is deleted from sale totally ",true,ezshop.deleteProductFromSale(s, "5839450234582", 8));
+		assertEquals("check if quantity is updated",Integer.valueOf(100),ezshop.getProductTypeByBarCode("5839450234582").getQuantity());
+		assertNotEquals("check if quantity is updated",Integer.valueOf(99),ezshop.getProductTypeByBarCode("5839450234582").getQuantity());
 
 	}
 
@@ -234,33 +238,159 @@ public class FR6Test {
 
 
 	@Test
-	public void testEndSaleTransaction() {
-		fail("Not yet implemented");
+	public void testEndSaleTransaction() throws InvalidUsernameException, InvalidPasswordException, InvalidTransactionIdException, UnauthorizedException, InvalidProductDescriptionException, InvalidProductCodeException, InvalidPricePerUnitException, InvalidProductIdException, InvalidLocationException, InvalidQuantityException {
+
+		assertThrows("no logged user",UnauthorizedException.class, ()-> ezshop.endSaleTransaction(null));
+		ezshop.login("eugenio1", "eugenio");	
+		assertThrows("null transactionId ",InvalidTransactionIdException.class, ()-> ezshop.endSaleTransaction(null));
+		ezshop.logout();
+		ezshop.login("eugenio2", "eugenio");
+		assertThrows("negative transactionId ",InvalidTransactionIdException.class, ()-> ezshop.endSaleTransaction(-10));
+		ezshop.logout();
+		ezshop.login("eugenio", "eugenio");
+		assertEquals("inexistent  transactionId ",false, ezshop.endSaleTransaction(110));
+		Integer s = ezshop.startSaleTransaction();
+		ezshop.getBalanceOperationRepository().updateRow("sale", "status", "ticketNumber", s, "closed");
+		assertEquals("closed  transactionId ",false, ezshop.endSaleTransaction(s));
+		ezshop.getBalanceOperationRepository().updateRow("sale", "status", "ticketNumber", s, "open");
+		Integer p = ezshop.createProductType("canestrelli", "9574856787329", 1.0, null);
+		ezshop.updatePosition(p, "11-azhs-11");
+		ezshop.updateQuantity(p, 100);
+		ezshop.addProductToSale(s, "9574856787329", 3);
+		assertEquals("  success  ",true, ezshop.endSaleTransaction(s));
+		assertEquals("check price of sale", 3.0 ,ezshop.getSaleTransaction(s).getPrice(),0.01);
+		
+		
+		
+		}
+
+	@Test
+	public void testDeleteSaleTransaction() throws InvalidUsernameException, InvalidPasswordException, UnauthorizedException, InvalidTransactionIdException, InvalidProductDescriptionException, InvalidProductCodeException, InvalidPricePerUnitException, InvalidProductIdException, InvalidLocationException, InvalidQuantityException {
+		assertThrows("no logged user",UnauthorizedException.class, ()-> ezshop.deleteSaleTransaction(null));
+		ezshop.login("eugenio1", "eugenio");	
+		assertThrows("null transactionId ",InvalidTransactionIdException.class, ()-> ezshop.deleteSaleTransaction(null));
+		ezshop.logout();
+		ezshop.login("eugenio2", "eugenio");
+		assertThrows("negative transactionId ",InvalidTransactionIdException.class, ()-> ezshop.deleteSaleTransaction(-10));
+		ezshop.logout();
+		ezshop.login("eugenio", "eugenio");
+		assertEquals("inexistent  transactionId ",false, ezshop.deleteSaleTransaction(110));
+		Integer s = ezshop.startSaleTransaction();
+		ezshop.getBalanceOperationRepository().updateRow("sale", "status", "ticketNumber", s, "payed");
+		assertEquals("payed  transactionId ",false, ezshop.deleteSaleTransaction(s));
+		ezshop.getBalanceOperationRepository().updateRow("sale", "status", "ticketNumber", s, "open");
+		Integer p = ezshop.createProductType("cannelloni", "9574856111735", 1.0, null);
+		ezshop.updatePosition(p, "11-szhs-11");
+		ezshop.updateQuantity(p, 100);
+		ezshop.addProductToSale(s, "9574856111735", 10);
+		assertEquals("check if quantity is modified",Integer.valueOf(90),ezshop.getProductTypeByBarCode("9574856111735").getQuantity());
+		assertEquals("success",true,ezshop.deleteSaleTransaction(s));
+		assertEquals("check if quantity is restored",Integer.valueOf(100),ezshop.getProductTypeByBarCode("9574856111735").getQuantity());
+
 	}
 
 	@Test
-	public void testDeleteSaleTransaction() {
-		fail("Not yet implemented");
+	public void testGetSaleTransaction() throws InvalidUsernameException, InvalidPasswordException, UnauthorizedException, InvalidTransactionIdException {
+		assertThrows("no logged user",UnauthorizedException.class, ()-> ezshop.getSaleTransaction(null));
+		ezshop.login("eugenio1", "eugenio");	
+		assertThrows("null transactionId ",InvalidTransactionIdException.class, ()-> ezshop.getSaleTransaction(null));
+		ezshop.logout();
+		ezshop.login("eugenio2", "eugenio");
+		assertThrows("negative transactionId ",InvalidTransactionIdException.class, ()-> ezshop.getSaleTransaction(-10));
+		ezshop.logout();
+		ezshop.login("eugenio", "eugenio");
+		assertEquals("inexistent  transactionId ",null, ezshop.getSaleTransaction(110));
+		Integer s = ezshop.startSaleTransaction();
+		assertEquals("open  transactionId ",null, ezshop.getSaleTransaction(s));
+		ezshop.getBalanceOperationRepository().updateRow("sale", "status", "ticketNumber", s, "closed");
+		assertEquals("return sale ",s, ezshop.getSaleTransaction(s).getTicketNumber());
+
+	
+	 
 	}
+	
+	
 
 	@Test
-	public void testGetSaleTransaction() {
-		fail("Not yet implemented");
-	}
+	public void testGetReturnTransaction() throws InvalidUsernameException, InvalidPasswordException, InvalidTransactionIdException, UnauthorizedException {
+		assertThrows("no logged user",UnauthorizedException.class, ()-> ezshop.getReturnTransaction(null));
+		ezshop.login("eugenio1", "eugenio");	
+		assertThrows("null transactionId ",InvalidTransactionIdException.class, ()-> ezshop.getReturnTransaction(null));
+		ezshop.logout();
+		ezshop.login("eugenio2", "eugenio");
+		assertThrows("negative transactionId ",InvalidTransactionIdException.class, ()-> ezshop.getReturnTransaction(-10));
+		ezshop.logout();
+		ezshop.login("eugenio", "eugenio");
+		assertEquals("inexistent  transactionId ",null, ezshop.getReturnTransaction(110));
+		Integer s = ezshop.startSaleTransaction();
+		ezshop.getBalanceOperationRepository().updateRow("sale", "status", "ticketNumber", s, "payed");
+		Integer r = ezshop.startReturnTransaction(s);
+		assertEquals("open  transactionId ",null, ezshop.getReturnTransaction(r));
+		ezshop.getBalanceOperationRepository().updateRow("returnTable", "status", "returnId", r, "closed");
+		assertEquals("return sale ",r, ezshop.getReturnTransaction(r).getTicketNumber());	}
 
 	@Test
-	public void testGetReturnTransaction() {
-		fail("Not yet implemented");
-	}
+	public void testStartReturnTransaction() throws InvalidUsernameException, InvalidPasswordException, InvalidTransactionIdException, UnauthorizedException {
+		assertThrows("no logged user",UnauthorizedException.class, ()-> ezshop.startReturnTransaction(null));
+		ezshop.login("eugenio1", "eugenio");	
+		assertThrows("null transactionId ",InvalidTransactionIdException.class, ()-> ezshop.startReturnTransaction(null));
+		ezshop.logout();
+		ezshop.login("eugenio2", "eugenio");
+		assertThrows("negative transactionId ",InvalidTransactionIdException.class, ()-> ezshop.startReturnTransaction(-10));
+		ezshop.logout();
+		ezshop.login("eugenio", "eugenio");
+		assertEquals("inexistent  transactionId ",Integer.valueOf(-1), ezshop.startReturnTransaction(110));
+		Integer s = ezshop.startSaleTransaction();
+		assertEquals("not payed  transactionId ",Integer.valueOf(-1), ezshop.startReturnTransaction(s));
+		ezshop.getBalanceOperationRepository().updateRow("sale", "status", "ticketNumber", s, "payed");
+		Integer r = ezshop.startReturnTransaction(s);
+		assertTrue("check returnID ",r>-1);
+
+		}
 
 	@Test
-	public void testStartReturnTransaction() {
-		fail("Not yet implemented");
-	}
+	public void testReturnProduct() throws InvalidUsernameException, InvalidPasswordException, UnauthorizedException, InvalidTransactionIdException, InvalidProductCodeException, InvalidQuantityException, InvalidProductDescriptionException, InvalidPricePerUnitException, InvalidProductIdException, InvalidLocationException {
+		assertThrows("no logged user",UnauthorizedException.class, ()-> ezshop.returnProduct(null, null, 0));
+		ezshop.login("eugenio1", "eugenio");	
+		assertThrows("null transactionId ",InvalidTransactionIdException.class, ()-> ezshop.returnProduct(null, null, 0));
+		ezshop.logout();
+		ezshop.login("eugenio2", "eugenio");
+		assertThrows("negative transactionId ",InvalidTransactionIdException.class, ()-> ezshop.returnProduct(-1, null, 0));
+		ezshop.logout();
+		ezshop.login("eugenio", "eugenio");
+		assertThrows("null productcode ",InvalidProductCodeException.class, ()-> ezshop.returnProduct(1,null, 0));
+		assertThrows("empty productcode ",InvalidProductCodeException.class, ()-> ezshop.returnProduct(1, "", 0));
+		assertThrows("invalidProductCode ",InvalidProductCodeException.class, ()-> ezshop.returnProduct(1, "11111111111111111111111", 0));
+		assertThrows("invalid amount ",InvalidQuantityException.class, ()-> ezshop.returnProduct(1, "9574856111445", 0));
+		assertEquals("inexistent return ",false, ezshop.returnProduct(111, "9574856111445", 3));
+		Integer s = ezshop.startSaleTransaction();
+		ezshop.getBalanceOperationRepository().updateRow("sale", "status", "ticketNumber", s, "payed");
+		Integer r = ezshop.startReturnTransaction(s);
+		ezshop.deleteSaleTransaction(s);
+		assertEquals("inexistent sale ",false, ezshop.returnProduct(r, "9574856111445", 3));
+		 s = ezshop.startSaleTransaction();
+		 Integer p =  ezshop.createProductType("piselli","9574856111445" , 1.0, null);
+		ezshop.updatePosition(p, "11-szahs-11");
+		ezshop.updateQuantity(p, 100);
+		ezshop.addProductToSale(s, "9574856111445", 10);
+		 p =  ezshop.createProductType("fagioli","957485611187" , 1.0, null);
+		ezshop.updatePosition(p, "11-szahxs-11");
+		ezshop.updateQuantity(p, 100);
+		ezshop.addProductToSale(s, "957485611187", 10);
+		 ezshop.getBalanceOperationRepository().updateRow("sale", "status", "ticketNumber", s, "payed");
+		 r = ezshop.startReturnTransaction(s);
+		 assertEquals("no match of the produt to be returned inside ticketlist inside sale",false,ezshop.returnProduct(r,"957485611149", 3));
+		
+		 assertEquals("the amount returned is higher than the amount sold",false,ezshop.returnProduct(r,"9574856111445", 30));
+		 assertEquals("product added",true,ezshop.returnProduct(r,"9574856111445", 10));
+		 assertEquals("product added",true,ezshop.returnProduct(r,"9574856111445", 10));
+		 // se ritorno due volte lo stesso prodotto non considera che la somma è maggiore del prodotto comprato
+		
+		 assertEquals("product added not change quantity avaible in shelved",Integer.valueOf(90),ezshop.getProductTypeByBarCode("9574856111445").getQuantity());
+		 assertEquals("product added",true,ezshop.returnProduct(r,"957485611187", 5));
 
-	@Test
-	public void testReturnProduct() {
-		fail("Not yet implemented");
+	
+	
 	}
 
 	@Test

@@ -823,7 +823,7 @@ public class EZShop implements EZShopInterface {
     public boolean endSaleTransaction(Integer transactionId) throws InvalidTransactionIdException, UnauthorizedException {
         if (checkIfAdministrator() || checkIfManager() || checkIfCashier()) {
             if (transactionId == null || transactionId <= 0) {
-                throw new InvalidTransactionIdException();
+                throw new InvalidTransactionIdException(); 
             }
             SaleTransactionClass saleTransaction = balanceOperationRepository.getSalesByTicketNumber(transactionId);
             if (saleTransaction == null || !"open".equals(saleTransaction.getState())) {
