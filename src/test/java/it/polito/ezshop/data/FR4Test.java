@@ -40,19 +40,37 @@ public class FR4Test {
 
     @Test
     public void testUpdateQuantity() {
-        assertThrows(UnauthorizedException.class, () -> ezShop.getProductTypesByDescription("hello"));
+        assertThrows(UnauthorizedException.class, () -> ezShop.updateQuantity(1,10));
         try {
             ezShop.createUser("setare_manager", "asdf", "ShopManager");
             ezShop.createUser("setare_admin", "asdf", "Administrator");
             ezShop.createUser("setare_cashier", "asdf", "Cashier");
 
             ezShop.login("setare_cashier", "asdf");
-            assertThrows(UnauthorizedException.class, () -> ezShop.getProductTypesByDescription("hello"));
+            assertThrows(UnauthorizedException.class, () -> ezShop.updateQuantity(1,10));
 
             ezShop.login("setare_manager", "asdf");
-
+            assertThrows(InvalidProductIdException.class, ()->ezShop.updateQuantity(null,10));
+            assertThrows(InvalidProductIdException.class, ()->ezShop.updateQuantity(0,10));
+            assertThrows(InvalidProductIdException.class, ()->ezShop.updateQuantity(-10,10));
+            try {
+                Integer id = ezShop.createProductType("newProduct", "123457879873", 10, "the best");
+                assertFalse(ezShop.updateQuantity(id,10));
+                ezShop.updatePosition(id,"3-c-3");
+                assertTrue(ezShop.updateQuantity(id,10));
+            } catch (InvalidProductDescriptionException | InvalidProductCodeException | InvalidPricePerUnitException | UnauthorizedException | InvalidProductIdException | InvalidLocationException e) {
+                e.printStackTrace();
+            }
 
             ezShop.login("setare_admin", "asdf");
+            try {
+                Integer id = ezShop.createProductType("Product", "765437879871", 10, "the best");
+                assertFalse(ezShop.updateQuantity(id,10));
+                ezShop.updatePosition(id,"3-c-5");
+                assertFalse(ezShop.updateQuantity(id,-20));
+            } catch (InvalidProductDescriptionException | InvalidProductCodeException | InvalidPricePerUnitException | UnauthorizedException | InvalidProductIdException | InvalidLocationException e) {
+                e.printStackTrace();
+            }
 
         } catch (InvalidUsernameException | InvalidPasswordException | InvalidRoleException e) {
             e.printStackTrace();
