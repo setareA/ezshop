@@ -137,9 +137,9 @@ Report also for each of the scenarios the (one or more) API JUnit tests that cov
 
 | Scenario ID | Functional Requirements covered | JUnit  Test(s) |
 | ----------- | ------------------------------- | ----------- |
-|  ..         | FRx                             |             |
-|  ..         | FRy                             |             |
-| ...         |                                 |             |
+|  1.1        | FR3                             |data/FR3.testCreateProductType()           |
+|  1.2        | FR4                             |data/FR4.testUpdatePosition()             |
+|  1.3        | FR3                             |data/FR3.testUpdateProduct()             |
 | ...         |                                 |             |
 | ...         |                                 |             |
 | ...         |                                 |             |
