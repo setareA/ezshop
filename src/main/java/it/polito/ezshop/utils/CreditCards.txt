@@ -4,5 +4,5 @@
 #Here you can add all the credit card numbers you need with their balance. The format MUST be :
 #<creditCardNumber>;<balance>
 4485370086510891;480.0
-5100293991053009;5.0331648E7
-4716258050958645;1.6777216E7
+5100293991053009;2.01326592E8
+4716258050958645;6.7108864E7

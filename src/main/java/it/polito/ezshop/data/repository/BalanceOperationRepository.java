@@ -112,7 +112,7 @@ public class BalanceOperationRepository {
         int n = 0;
         while ((st = br.readLine()) != null) {
             if (creditCard.equals(st.substring(0, 16))) {
-                return Double.parseDouble(st.substring(17, st.length() - 1));
+                return Double.parseDouble(st.substring(17, st.length() ));
             }
             n = n + 1;
         }
@@ -264,7 +264,7 @@ public class BalanceOperationRepository {
     }
 
     public Integer addNewOrder(OrderClass order) throws SQLException {
-    	Integer nextOrderId = this.getHighestOrderId() +1;
+    	Integer nextOrderId = this.getHighestOrderId() + 1;
         HashMap<String, String> orderData = new HashMap<>();
         orderData.put("orderId", String.valueOf(nextOrderId));
         orderData.put("balanceId", order.getBalanceId().toString());
@@ -282,11 +282,10 @@ public class BalanceOperationRepository {
         for (int j = 0; j < attrs.size(); j++) {
             prp.setString(j + 1, orderData.get(attrs.get(j)));
         }
-
         prp.executeUpdate();
         prp.close();
         con.close();
-        return this.getHighestOrderId();
+        return nextOrderId;
     }
 
     public Integer addNewSale(SaleTransactionClass sale) throws SQLException {

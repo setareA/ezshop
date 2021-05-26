@@ -156,16 +156,32 @@ public class FR4Test {
 
     @Test
     public void testPayOrderFor() {
-        assertThrows(UnauthorizedException.class, () -> ezShop.getProductTypesByDescription("hello"));
+        assertThrows(UnauthorizedException.class, () -> ezShop.payOrderFor("654357879873", 10,10));
         try {
             ezShop.createUser("setare_manager", "asdf", "ShopManager");
             ezShop.createUser("setare_admin", "asdf", "Administrator");
             ezShop.createUser("setare_cashier", "asdf", "Cashier");
 
             ezShop.login("setare_cashier", "asdf");
-            assertThrows(UnauthorizedException.class, () -> ezShop.getProductTypesByDescription("hello"));
+            assertThrows(UnauthorizedException.class, () -> ezShop.payOrderFor("654357879873", 10,10));
 
             ezShop.login("setare_manager", "asdf");
+            assertThrows(InvalidProductCodeException.class, () -> ezShop.payOrderFor("", 10,10));
+            assertThrows(InvalidProductCodeException.class, () -> ezShop.payOrderFor(null, 10,10));
+            assertThrows(InvalidProductCodeException.class, () -> ezShop.payOrderFor("654357879871", 10,10));
+            assertThrows(InvalidQuantityException.class, () -> ezShop.payOrderFor("654357879873", 0,10));
+            assertThrows(InvalidQuantityException.class, () -> ezShop.payOrderFor("654357879873", -10,10));
+            assertThrows(InvalidPricePerUnitException.class, () -> ezShop.payOrderFor("654357879873", 10,-10));
+            assertThrows(InvalidPricePerUnitException.class, () -> ezShop.payOrderFor("654357879873", 10,0));
+            try {
+                assertEquals(Integer.valueOf(-1), ezShop.payOrderFor("654357879873", 10,10));
+                ezShop.createProductType("anotherProduct", "654357879873", 10, "the best");
+                assertEquals(Integer.valueOf(-1), ezShop.payOrderFor("654357879873", 10,10));
+                ezShop.getBalanceOperationRepository().setBalance(110);
+                assertNotEquals(Integer.valueOf(-1), ezShop.payOrderFor("654357879873", 10,10));
+            } catch (InvalidProductCodeException | InvalidQuantityException | InvalidPricePerUnitException | UnauthorizedException | InvalidProductDescriptionException e) {
+                e.printStackTrace();
+            }
 
 
             ezShop.login("setare_admin", "asdf");
@@ -177,20 +193,30 @@ public class FR4Test {
 
     @Test
     public void testPayOrder() {
-        assertThrows(UnauthorizedException.class, () -> ezShop.getProductTypesByDescription("hello"));
+        assertThrows(UnauthorizedException.class, () -> ezShop.payOrder(1));
         try {
             ezShop.createUser("setare_manager", "asdf", "ShopManager");
             ezShop.createUser("setare_admin", "asdf", "Administrator");
             ezShop.createUser("setare_cashier", "asdf", "Cashier");
 
             ezShop.login("setare_cashier", "asdf");
-            assertThrows(UnauthorizedException.class, () -> ezShop.getProductTypesByDescription("hello"));
+            assertThrows(UnauthorizedException.class, () -> ezShop.payOrder(1));
 
             ezShop.login("setare_manager", "asdf");
-
+            assertThrows(InvalidOrderIdException.class, ()-> ezShop.payOrder(0));
+            assertThrows(InvalidOrderIdException.class, ()-> ezShop.payOrder(null));
+            assertThrows(InvalidOrderIdException.class, ()-> ezShop.payOrder(-10));
 
             ezShop.login("setare_admin", "asdf");
-
+            try {
+                assertFalse(ezShop.payOrder(1));
+                ezShop.getBalanceOperationRepository().setBalance(110);
+                ezShop.createProductType("anotherProduct", "654357879873", 10, "the best");
+                Integer id = ezShop.issueOrder("654357879873",10,10);
+                assertTrue(ezShop.payOrder(id));
+            } catch (InvalidProductCodeException | InvalidQuantityException | InvalidPricePerUnitException | UnauthorizedException | InvalidOrderIdException | InvalidProductDescriptionException e) {
+                e.printStackTrace();
+            }
         } catch (InvalidUsernameException | InvalidPasswordException | InvalidRoleException e) {
             e.printStackTrace();
         }
@@ -198,19 +224,37 @@ public class FR4Test {
 
     @Test
     public void testRecordOrderArrival() {
-        assertThrows(UnauthorizedException.class, () -> ezShop.getProductTypesByDescription("hello"));
+        assertThrows(UnauthorizedException.class, () -> ezShop.recordOrderArrival(1));
         try {
             ezShop.createUser("setare_manager", "asdf", "ShopManager");
             ezShop.createUser("setare_admin", "asdf", "Administrator");
             ezShop.createUser("setare_cashier", "asdf", "Cashier");
 
             ezShop.login("setare_cashier", "asdf");
-            assertThrows(UnauthorizedException.class, () -> ezShop.getProductTypesByDescription("hello"));
+            assertThrows(UnauthorizedException.class, () -> ezShop.recordOrderArrival(1));
 
             ezShop.login("setare_manager", "asdf");
-
+            assertThrows(InvalidOrderIdException.class, ()->  ezShop.recordOrderArrival(0));
+            assertThrows(InvalidOrderIdException.class, ()->  ezShop.recordOrderArrival(-1));
+            try {
+                assertFalse(ezShop.recordOrderArrival(1));
+            } catch ( UnauthorizedException | InvalidLocationException | InvalidOrderIdException e) {
+                e.printStackTrace();
+            }
 
             ezShop.login("setare_admin", "asdf");
+            try {
+                Integer id = ezShop.createProductType("Product", "765437879871", 10, "the best");
+                ezShop.updateQuantity(id,10);
+                ezShop.updatePosition(id,"3-c-5");
+                Integer orderId = ezShop.issueOrder("765437879871", 20, 5);
+                assertFalse(ezShop.recordOrderArrival(orderId));
+                ezShop.getBalanceOperationRepository().setBalance(1100);
+                ezShop.payOrder(orderId);
+                assertTrue(ezShop.recordOrderArrival(orderId));
+            } catch (InvalidProductDescriptionException | InvalidProductCodeException | InvalidPricePerUnitException | UnauthorizedException | InvalidProductIdException | InvalidLocationException | InvalidQuantityException | InvalidOrderIdException e) {
+                e.printStackTrace();
+            }
 
         } catch (InvalidUsernameException | InvalidPasswordException | InvalidRoleException e) {
             e.printStackTrace();
