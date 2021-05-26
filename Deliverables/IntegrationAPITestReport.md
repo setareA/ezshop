@@ -157,9 +157,9 @@ Report also for each of the scenarios the (one or more) API JUnit tests that cov
 
 | Scenario ID | Functional Requirements covered | JUnit  Test(s) (all of them are in src/test/java/it/polito/ezshop/data) |
 | ----------- | ------------------------------- | ----------- |
-|  1.1        | FR3 |data/FR3.testCreateProductType() |
-|  1.2        | FR4 |data/FR4.testUpdatePosition() |
-|  1.3        | FR3|data/FR3.testUpdateProduct() |
+|  1.1        | FR3 |FR3Test.testCreateProductType() |
+|  1.2        | FR4 |FR4Test.testUpdatePosition() |
+|  1.3        | FR3|FR3Test.testUpdateProduct() |
 |  2.1      | FR1 | FR1Test.testCreateUser()|
 |  2.2      | FR1 | FR1Test.testDeleteCustomer() |
 | 2.3      | FR1 | FR1Test.testUpdateUserRigths() |
