@@ -81,6 +81,22 @@ public class FR8Test {
 
     @Test
     public void testGetCreditsAndDebits() {
+     //   assertThrows("Unregistered user tries to Get Credits And Debits", UnauthorizedException.class, () -> ezShop.getCreditsAndDebits());
+        try {
+            ezShop.createUser("setare_manager", "asdf", "ShopManager");
+            ezShop.createUser("setare_admin", "asdf", "Administrator");
+            ezShop.createUser("setare_cashier", "asdf", "Cashier");
+
+            ezShop.login("setare_cashier", "asdf");
+            assertThrows("Unauthorized user tries to to record balance update", UnauthorizedException.class, () -> ezShop.recordBalanceUpdate(10));
+        }
+        catch (InvalidUsernameException e) {
+            e.printStackTrace();
+        } catch (InvalidPasswordException e) {
+            e.printStackTrace();
+        } catch (InvalidRoleException e) {
+            e.printStackTrace();
+        }
 
     }
 
