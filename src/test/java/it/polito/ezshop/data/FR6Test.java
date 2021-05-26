@@ -416,7 +416,7 @@ public class FR6Test {
 		 assertEquals("test if recognize that there is 2 ticket inside sale with same barcode",true,ezshop.returnProduct(r,"957485611187", 10));
 		 assertEquals("test if recognize that there is 2 ticket inside sale with same barcode",false,ezshop.returnProduct(r,"957485611187", 10));
 
-	
+	 
 	
 	}
 
@@ -466,8 +466,37 @@ public class FR6Test {
 	}
 
 	@Test
-	public void testDeleteReturnTransaction() {
-		fail("Not yet implemented");
-	}
+	public void testDeleteReturnTransaction() throws InvalidUsernameException, InvalidPasswordException, UnauthorizedException, InvalidProductDescriptionException, InvalidProductCodeException, InvalidPricePerUnitException, InvalidTransactionIdException, InvalidProductIdException, InvalidLocationException, InvalidQuantityException {
+		assertThrows("no logged user",UnauthorizedException.class, ()-> ezshop.deleteReturnTransaction(null));
+		ezshop.login("eugenio1", "eugenio");	
+		assertThrows("null transactionId ",InvalidTransactionIdException.class, ()-> ezshop.deleteReturnTransaction(null));
+		ezshop.logout();
+		ezshop.login("eugenio2", "eugenio");
+		assertThrows("negative transactionId ",InvalidTransactionIdException.class, ()-> ezshop.deleteReturnTransaction(-1));
+		ezshop.logout();
+		ezshop.login("eugenio", "eugenio");
+		assertEquals("inexistent transactionId ",false, ezshop.deleteReturnTransaction(100));
+		 Integer s = ezshop.startSaleTransaction();
+		 Integer p =  ezshop.createProductType("piselli","9574856111445" , 1.0, null);
+		ezshop.updatePosition(p, "11-szahs-11");
+		ezshop.updateQuantity(p, 100);
+		ezshop.addProductToSale(s, "9574856111445", 10);
+		ezshop.addProductToSale(s, "9574856111445",5);	
+		p =  ezshop.createProductType("fagioli","957485611187" , 1.0, null);
+		ezshop.updatePosition(p, "11-szahxs-11");
+		ezshop.updateQuantity(p, 100);
+		ezshop.addProductToSale(s, "957485611187", 10);
+		ezshop.addProductToSale(s, "957485611187", 10);
+		 ezshop.getBalanceOperationRepository().updateRow("sale", "status", "ticketNumber", s, "payed");
+		Integer r = ezshop.startReturnTransaction(s);
+		ezshop.returnProduct(r, "9574856111445", 10);
+		ezshop.returnProduct(r, "957485611187", 20);
+		ezshop.endReturnTransaction(r, true);
+		assertEquals("inexistent transactionId ",true, ezshop.deleteReturnTransaction(r));
+		assertEquals("check if we have all product ",Integer.valueOf(ezshop.getBalanceOperationRepository().getTicketsByForeignKeyAndBarcode("saleId", s, "9574856111445").getAmount()), Integer.valueOf(15));
+		assertEquals("check if we have all product ",Integer.valueOf(ezshop.getBalanceOperationRepository().getTicketsByForeignKeyAndBarcode("saleId", s, "957485611187").getAmount()), Integer.valueOf(20));
+		assertEquals("check if we have all product ",Integer.valueOf(ezshop.getProductTypeByBarCode("9574856111445").getQuantity()), Integer.valueOf(85));
+		assertEquals("check if we have all product ",Integer.valueOf(ezshop.getProductTypeByBarCode("957485611187").getQuantity()), Integer.valueOf(80));
 
+}
 }
