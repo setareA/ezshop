@@ -141,8 +141,10 @@ Report also for each of the scenarios the (one or more) API JUnit tests that cov
 |  1.2        | FR4                             |data/FR4.testUpdatePosition()             |
 |  1.3        | FR3                             |data/FR3.testUpdateProduct()             |
 | ...         |                                 |             |
-| ...         |                                 |             |
-| ...         |                                 |             |
+| 3.1         | FR4                             |data/FR4.testIssueOrder()              |
+| 3.2         | FR4                             |data/FR4.testPayOrder()             |
+|3.3 |FR4|data/FR4.testRecordOrderArrival()|
+     
 
 
 
