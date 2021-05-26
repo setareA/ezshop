@@ -76,6 +76,8 @@ digraph ez {
 
 
 
+
+
   We adopted the **bottom-up** approach. 
     
   **Step 1** corresponds to unit testing, which consists of the leaves of the dependency graph. 
@@ -161,31 +163,30 @@ Report also for each of the scenarios the (one or more) API JUnit tests that cov
 |  2.1      | FR1 | FR1Test.testCreateUser()|
 |  2.2      | FR1 | FR1Test.testDeleteCustomer() |
 | 2.3      | FR1 | FR1Test.testUpdateUserRigths() |
-| 3.1         | FR4|FR4.testIssueOrder() |
-| 3.2         | FR4 |FR4.testPayOrder()|
-|3.3 |FR4|FR4.testRecordOrderArrival()|
+| 3.1         | FR4|FR4Test.testIssueOrder() |
+| 3.2         | FR4 |FR4Test.testPayOrder()|
+|3.3 |FR4|FR4Test.testRecordOrderArrival()|
 | 4.1      | FR5 | FR5Test.testDefineCustomer() |
 | 4.2      | FR5 | FR5Test.testAttachCardToCustomer() |
 | 4.3      | FR5 | FR5Test.testAttachCardToCustomer() |
 | 4.4 | FR5 | FR5Test.testModifyCustomer() |
-|5.1|FR1|FR1.testLogin()|
-|5.2|FR1|FR1.testLogout()|
-|6.1|FR6,FR7,FR8|FR6.testStartSaleTransaction(),FR6.testAddProductToSale(),FR6.testEndSaleTransaction(),FR7.testReceiveCashPayment(),FR7.testReceiveCreditCardPayment(),FR8.testRecordBalanceUpdate()|
-|6.2|FR6 FR7 FR8|FR6.testStartSaleTransaction() <br> FR6.testAddProductToSale() <br> FR6.testApplyDiscountRateToProduct() <br> FR6.testEndSaleTransaction() <br> FR7.testReceiveCashPayment()<br> FR7.testReceiveCreditCardPayment() <br>FR8.testRecordBalanceUpdate()|
-|6.3| FR6 FR7 FR8|FR6.testStartSaleTransaction() <br> FR6.testAddProductToSale() <br> FR6.testApplyDiscountRateToSale() <br> FR6.testEndSaleTransaction() <br> FR7.testReceiveCashPayment() <br> FR7.testReceiveCreditCardPayment() <br> FR8.testRecordBalanceUpdate()|
-|6.4|FR5 FR6 FR7 FR8|FR6.testStartSaleTransaction() <br> FR6.testAddProductToSale() <br> FR6.testEndSaleTransaction() <br> FR7.testReceiveCashPayment() <br> FR7.testReceiveCreditCardPayment() <br> FR6.testComputePointsForSale() <br> FR5.testModifyPointsOnCard() <br> FR8.testRecordBalanceUpdate()|
-|6.5|FR6 |FR6.testStartSaleTransaction() <br>FR6.testAddProductToSale() <br> FR6.testEndSaleTransaction() <br> FR6.testdeleteSaleTransaction()|
-|6.6|FR6 FR7 FR8|FR6.testStartSaleTransaction() <br> FR6.testAddProductToSale() <br> FR6.testEndSaleTransaction() <br> FR7.testReceiveCashPayment() <br> FR8.testRecordBalanceUpdate()|
-| 7.1 | FR7 | FR7.testReceiveCreditCardPayment() |
-| 7.2 | FR7 | FR7.testReceiveCreditCardPayment() |
-| 7.3 | FR7 | FR7.testReceiveCreditCardPayment() |
-| 7.4 | FR7 | FR7.testReceiveCashPayment() |
+|5.1|FR1|FR1Test.testLogin()|
+|5.2|FR1|FR1Test.testLogout()|
+|6.1|FR6,FR7,FR8|FR6Test.testStartSaleTransaction(),FR6.testAddProductToSale(),FR6.testEndSaleTransaction(),FR7.testReceiveCashPayment(),FR7.testReceiveCreditCardPayment(),FR8.testRecordBalanceUpdate()|
+|6.2|FR6 FR7 FR8|FR6Test.testStartSaleTransaction() <br> FR6Test.testAddProductToSale() <br> FR6Test.testApplyDiscountRateToProduct() <br> FR6Test.testEndSaleTransaction() <br> FR7Test.testReceiveCashPayment()<br> FR7Test.testReceiveCreditCardPayment() <br>FR8Test.testRecordBalanceUpdate()|
+|6.3| FR6 FR7 FR8|FR6Test.testStartSaleTransaction() <br> FR6Test.testAddProductToSale() <br> FR6Test.testApplyDiscountRateToSale() <br> FR6Test.testEndSaleTransaction() <br> FR7Test.testReceiveCashPayment() <br> FR7Test.testReceiveCreditCardPayment() <br> FR8Test.testRecordBalanceUpdate()|
+|6.4|FR5 FR6 FR7 FR8|FR6Test.testStartSaleTransaction() <br> FR6Test.testAddProductToSale() <br> FR6Test.testEndSaleTransaction() <br> FR7Test.testReceiveCashPayment() <br> FR7Test.testReceiveCreditCardPayment() <br> FR6Test.testComputePointsForSale() <br> FR5Test.testModifyPointsOnCard() <br> FR8Test.testRecordBalanceUpdate()|
+|6.5|FR6 |FR6Test.testStartSaleTransaction() <br>FR6Test.testAddProductToSale() <br> FR6Test.testEndSaleTransaction() <br> FR6Test.testdeleteSaleTransaction()|
+|6.6|FR6 FR7 FR8|FR6Test.testStartSaleTransaction() <br> FR6Test.testAddProductToSale() <br> FR6Test.testEndSaleTransaction() <br> FR7Test.testReceiveCashPayment() <br> FR8Test.testRecordBalanceUpdate()|
+| 7.1 | FR7 | FR7Test.testReceiveCreditCardPayment() |
+| 7.2 | FR7 | FR7Test.testReceiveCreditCardPayment() |
+| 7.3 | FR7 | FR7Test.testReceiveCreditCardPayment() |
+| 7.4 | FR7 | FR7Test.testReceiveCashPayment() |
 | 8.1 |                                 |  |
 | 8.2 |  |  |
-|9.1|FR8|FR8.testGetCreditsAndDebits()|
-| 10.1 | FR7 | FR7.testReturnCreditCardPayment() |
-| 10.2 | FR7 | FR7.testReturnCashPayment() |
-
+|9.1|FR8|FR8Test.testGetCreditsAndDebits()|
+| 10.1 | FR7 | FR7Test.testReturnCreditCardPayment() |
+| 10.2 | FR7 | FR7Test.testReturnCashPayment() |
 # Coverage of Non Functional Requirements
 
 
