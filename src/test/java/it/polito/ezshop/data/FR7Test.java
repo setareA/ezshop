@@ -165,17 +165,17 @@ public class FR7Test {
 			
 			ezShop.startReturnTransaction(1);
 			
-			// We should return 10€
-			ezShop.returnProduct(1, "0799439112766", 2);
+			// We should return 5€
+			ezShop.returnProduct(1, "0799439112766", 1);
 			
 			
 			ezShop.endReturnTransaction(1, true);
-			
-			assertTrue(ezShop.returnCashPayment(1)==10.0);
+			assertTrue(ezShop.returnCashPayment(1)==5.0);
 		  
 		 
 	  }
 	  
+
 	  /*
 	  @Test
 	  public void testReceiveCashPayment() throws Exception{  

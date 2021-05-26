@@ -1008,11 +1008,15 @@ public class EZShop implements EZShopInterface {
                     productTypeRepository.updateQuantity(realProduct.getId(), returnedProduct.getAmount());
                 }
                 // update the price of the sale transaction
-                double price = 0;
+                double salePrice = 0;
+                double returnPrice = 0;
                 SaleTransactionClass saleTransaction = balanceOperationRepository.getSalesByTicketNumber(returnTransaction.getTicketNumber());
                 ArrayList<TicketEntry> products = balanceOperationRepository.getTicketsBySaleId(returnTransaction.getTicketNumber());
-                price = computePriceForProducts(products);
-                balanceOperationRepository.updateRow("sale", "price", "ticketNumber", saleTransaction.getTicketNumber(), String.valueOf(price * (1 - saleTransaction.getDiscountRate())));
+                salePrice = computePriceForProducts(products);
+                balanceOperationRepository.updateRow("sale", "price", "ticketNumber", saleTransaction.getTicketNumber(), String.valueOf(salePrice * (1 - saleTransaction.getDiscountRate())));
+
+                returnPrice = computePriceForProducts(returnedProducts);
+                balanceOperationRepository.updateRow("returnTable", "price", "returnId", returnId, String.valueOf(returnPrice * (1 - saleTransaction.getDiscountRate())));
             }
             return true;
         } else {
