@@ -58,38 +58,133 @@ public class FR3Test {
             assertThrows(InvalidProductCodeException.class, ()-> ezShop.createProductType("newProduct", "123457879871", 10,"the best"));
             assertThrows(InvalidPricePerUnitException.class, ()-> ezShop.createProductType("newProduct", "123457879873", 0,"the best"));
             assertThrows(InvalidPricePerUnitException.class, ()-> ezShop.createProductType("newProduct", "123457879873", -7,"the best"));
-            assertTrue( ezShop.createProductType("newProduct", "123457879873", 17,"the best").getClass() == Integer.class);
+            assertSame(ezShop.createProductType("newProduct", "123457879873", 17, "the best").getClass(), Integer.class);
 
             ezShop.login("setare_admin", "asdf");
-            assertTrue( ezShop.createProductType("anotherProduct", "543457879879", 27,"").getClass() == Integer.class);
+            assertSame(ezShop.createProductType("anotherProduct", "543457879879", 27, "").getClass(), Integer.class);
 
         }
-        catch (InvalidUsernameException e) {
-            e.printStackTrace();
-        } catch (InvalidPasswordException e) {
-            e.printStackTrace();
-        } catch (InvalidRoleException e) {
+        catch (InvalidUsernameException | InvalidRoleException | InvalidPasswordException e) {
             e.printStackTrace();
         }
     }
 
     @Test
     public void testUpdateProduct() {
+        assertThrows(UnauthorizedException.class, () -> ezShop.updateProduct(1,"newProduct", "123457879873", 10, "the best"));
+        try {
+            ezShop.createUser("setare_manager", "asdf", "ShopManager");
+            ezShop.createUser("setare_admin", "asdf", "Administrator");
+            ezShop.createUser("setare_cashier", "asdf", "Cashier");
+
+            ezShop.login("setare_cashier", "asdf");
+            assertThrows(UnauthorizedException.class, () -> ezShop.updateProduct(1,"newProduct", "123457879873", 10, "the best"));
+
+            ezShop.login("setare_manager", "asdf");
+            assertThrows(InvalidProductIdException.class, ()-> ezShop.updateProduct(null,"newProduct", "123457879873", 10, "the best"));
+            assertThrows(InvalidProductIdException.class, ()-> ezShop.updateProduct(0,"newProduct", "123457879873", 10, "the best"));
+            assertThrows(InvalidProductIdException.class, ()-> ezShop.updateProduct(-3,"newProduct", "123457879873", 10, "the best"));
+            assertThrows(InvalidProductDescriptionException.class, ()-> ezShop.updateProduct(1,"", "123457879873", 10, "the best"));
+            assertThrows(InvalidProductDescriptionException.class, ()-> ezShop.updateProduct(1,null, "123457879873", 10, "the best"));
+            assertThrows(InvalidProductCodeException.class, ()-> ezShop.updateProduct(1,"newProduct", "", 10, "the best"));
+            assertThrows(InvalidProductCodeException.class, ()-> ezShop.updateProduct(1,"newProduct", null, 10, "the best"));
+            assertThrows(InvalidProductCodeException.class, ()-> ezShop.updateProduct(1,"newProduct", "123uu7879873", 10, "the best"));
+            assertThrows(InvalidProductCodeException.class, ()-> ezShop.updateProduct(1,"newProduct", "123457879871", 10, "the best"));
+
+            try {
+                Integer id = ezShop.createProductType("anotherProduct", "543457879879", 27, "");
+                assertTrue(ezShop.updateProduct(id,"newDescription", "543457879879", 23, "newNote"));
+            } catch (InvalidProductIdException | InvalidProductDescriptionException | InvalidProductCodeException | InvalidPricePerUnitException | UnauthorizedException e) {
+                e.printStackTrace();
+            }
+            ezShop.login("setare_admin", "asdf");
+            Integer id = null;
+            try {
+                id = ezShop.createProductType("newProduct", "143457879871", 43, "");
+                assertTrue(ezShop.updateProduct(id,"newDescription", "243457879878", 34, "newNote"));
+            }
+            catch (InvalidProductIdException | InvalidProductDescriptionException | InvalidProductCodeException | InvalidPricePerUnitException | UnauthorizedException e) {
+                e.printStackTrace();
+            }
+        }
+        catch (InvalidUsernameException | InvalidPasswordException | InvalidRoleException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
     public void testDeleteProductType() {
+        assertThrows(UnauthorizedException.class, () -> ezShop.createProductType("newProduct", "123457879873", 10, "the best"));
+        try {
+            ezShop.createUser("setare_manager", "asdf", "ShopManager");
+            ezShop.createUser("setare_admin", "asdf", "Administrator");
+            ezShop.createUser("setare_cashier", "asdf", "Cashier");
+
+            ezShop.login("setare_cashier", "asdf");
+            assertThrows(UnauthorizedException.class, () -> ezShop.createProductType("newProduct", "123457879873", 10, "the best"));
+
+            ezShop.login("setare_manager", "asdf");
+
+        }
+        catch (InvalidUsernameException | InvalidPasswordException | InvalidRoleException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
     public void testGetAllProductTypes() {
+        assertThrows(UnauthorizedException.class, () -> ezShop.createProductType("newProduct", "123457879873", 10, "the best"));
+        try {
+            ezShop.createUser("setare_manager", "asdf", "ShopManager");
+            ezShop.createUser("setare_admin", "asdf", "Administrator");
+            ezShop.createUser("setare_cashier", "asdf", "Cashier");
+
+            ezShop.login("setare_cashier", "asdf");
+            assertThrows(UnauthorizedException.class, () -> ezShop.createProductType("newProduct", "123457879873", 10, "the best"));
+
+            ezShop.login("setare_manager", "asdf");
+
+        }
+        catch (InvalidUsernameException | InvalidPasswordException | InvalidRoleException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
     public void testGetProductTypeByBarCode() {
+        assertThrows(UnauthorizedException.class, () -> ezShop.createProductType("newProduct", "123457879873", 10, "the best"));
+        try {
+            ezShop.createUser("setare_manager", "asdf", "ShopManager");
+            ezShop.createUser("setare_admin", "asdf", "Administrator");
+            ezShop.createUser("setare_cashier", "asdf", "Cashier");
+
+            ezShop.login("setare_cashier", "asdf");
+            assertThrows(UnauthorizedException.class, () -> ezShop.createProductType("newProduct", "123457879873", 10, "the best"));
+
+            ezShop.login("setare_manager", "asdf");
+
+        }
+        catch (InvalidUsernameException | InvalidPasswordException | InvalidRoleException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
     public void testGetProductTypesByDescription() {
+        assertThrows(UnauthorizedException.class, () -> ezShop.createProductType("newProduct", "123457879873", 10, "the best"));
+        try {
+            ezShop.createUser("setare_manager", "asdf", "ShopManager");
+            ezShop.createUser("setare_admin", "asdf", "Administrator");
+            ezShop.createUser("setare_cashier", "asdf", "Cashier");
+
+            ezShop.login("setare_cashier", "asdf");
+            assertThrows(UnauthorizedException.class, () -> ezShop.createProductType("newProduct", "123457879873", 10, "the best"));
+
+            ezShop.login("setare_manager", "asdf");
+
+        }
+        catch (InvalidUsernameException | InvalidPasswordException | InvalidRoleException e) {
+            e.printStackTrace();
+        }
     }
 }

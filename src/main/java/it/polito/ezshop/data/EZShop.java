@@ -101,7 +101,8 @@ public class EZShop implements EZShopInterface {
 
     public static boolean checkValidityProductcode(String productCode) {
         // TODO Auto-generated method stub
-
+        if (!onlyDigits(productCode))
+            return false;
         int tmp = 0;
         int j = 1;
         if (productCode == null) return false;

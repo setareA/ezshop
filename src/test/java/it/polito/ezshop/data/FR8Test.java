@@ -74,11 +74,7 @@ public class FR8Test {
                 e.printStackTrace();
             }
         }
-        catch (InvalidUsernameException e) {
-            e.printStackTrace();
-        } catch (InvalidPasswordException e) {
-            e.printStackTrace();
-        } catch (InvalidRoleException e) {
+        catch (InvalidUsernameException | InvalidPasswordException | InvalidRoleException e) {
             e.printStackTrace();
         }
     }
@@ -125,11 +121,7 @@ public class FR8Test {
                 e.printStackTrace();
             }
         }
-        catch (InvalidUsernameException e) {
-            e.printStackTrace();
-        } catch (InvalidPasswordException e) {
-            e.printStackTrace();
-        } catch (InvalidRoleException e) {
+        catch (InvalidUsernameException | InvalidPasswordException | InvalidRoleException e) {
             e.printStackTrace();
         }
 
@@ -150,7 +142,7 @@ public class FR8Test {
             ezShop.getBalanceOperationRepository().setBalance(9);
             try {
                 System.out.println(ezShop.computeBalance());
-                assertTrue( ezShop.computeBalance() == 9);
+                assertEquals(9, ezShop.computeBalance(), 0.0);
             } catch (UnauthorizedException e) {
                 e.printStackTrace();
             }
@@ -158,17 +150,13 @@ public class FR8Test {
             ezShop.login("setare_admin", "asdf");
             ezShop.getBalanceOperationRepository().setBalance(9);
             try {
-                assertTrue( ezShop.computeBalance() == 18);
+                assertEquals(18, ezShop.computeBalance(), 0.0);
             } catch (UnauthorizedException e) {
                 e.printStackTrace();
             }
 
 
-        } catch (InvalidUsernameException e) {
-            e.printStackTrace();
-        } catch (InvalidPasswordException e) {
-            e.printStackTrace();
-        } catch (InvalidRoleException e) {
+        } catch (InvalidUsernameException | InvalidPasswordException | InvalidRoleException e) {
             e.printStackTrace();
         }
 
