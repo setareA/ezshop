@@ -118,20 +118,36 @@ public class FR4Test {
 
     @Test
     public void testIssueOrder() {
-        assertThrows(UnauthorizedException.class, () -> ezShop.getProductTypesByDescription("hello"));
+        assertThrows(UnauthorizedException.class, () -> ezShop.issueOrder("654357879873", 10,10));
         try {
             ezShop.createUser("setare_manager", "asdf", "ShopManager");
             ezShop.createUser("setare_admin", "asdf", "Administrator");
             ezShop.createUser("setare_cashier", "asdf", "Cashier");
 
             ezShop.login("setare_cashier", "asdf");
-            assertThrows(UnauthorizedException.class, () -> ezShop.getProductTypesByDescription("hello"));
+            assertThrows(UnauthorizedException.class, () -> ezShop.issueOrder("654357879873", 10,10));
 
             ezShop.login("setare_manager", "asdf");
-
-
+            assertThrows(InvalidProductCodeException.class, () -> ezShop.issueOrder("654357879871", 10,10));
+            assertThrows(InvalidProductCodeException.class, () -> ezShop.issueOrder("", 10,10));
+            assertThrows(InvalidProductCodeException.class, () -> ezShop.issueOrder(null, 10,10));
+            assertThrows(InvalidQuantityException.class, () -> ezShop.issueOrder("654357879873", 0,10));
+            assertThrows(InvalidQuantityException.class, () -> ezShop.issueOrder( "654357879873", -10,10));
+            assertThrows(InvalidPricePerUnitException.class, () -> ezShop.issueOrder( "654357879873", 10,0));
+            assertThrows(InvalidPricePerUnitException.class, () -> ezShop.issueOrder( "654357879873", 10,-10));
+            try {
+                assertEquals(Integer.valueOf(-1), ezShop.issueOrder("654357879873",10,10));
+              } catch (InvalidProductCodeException | InvalidPricePerUnitException | UnauthorizedException| InvalidQuantityException e) {
+                e.printStackTrace();
+            }
 
             ezShop.login("setare_admin", "asdf");
+            try {
+                ezShop.createProductType("anotherProduct", "654357879873", 10, "the best");
+                assertNotEquals(Integer.valueOf(-1), ezShop.issueOrder("654357879873",10,10));
+            } catch (InvalidProductDescriptionException | InvalidProductCodeException | InvalidPricePerUnitException | UnauthorizedException| InvalidQuantityException e) {
+                e.printStackTrace();
+            }
 
         } catch (InvalidUsernameException | InvalidPasswordException | InvalidRoleException e) {
             e.printStackTrace();
