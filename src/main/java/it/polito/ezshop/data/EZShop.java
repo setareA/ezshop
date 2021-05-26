@@ -1132,7 +1132,7 @@ public class EZShop implements EZShopInterface {
         if (saleTransaction != null && (moneyInCard - saleTransaction.getPrice()) >= 0 && recordBalanceUpdate(saleTransaction.getPrice())) {
             if (balanceOperationRepository.updateRow("sale", "status", "ticketNumber", ticketNumber, "payed")) {
                 creditCards.put(creditCard, moneyInCard - saleTransaction.getPrice());
-                balanceOperationRepository.changeCreditCardBalance(creditCard, moneyInCard);
+                balanceOperationRepository.changeCreditCardBalance(creditCard, moneyInCard - saleTransaction.getPrice());
                 return true;
             }
         }
@@ -1149,11 +1149,6 @@ public class EZShop implements EZShopInterface {
         if (returnId == null || returnId <= 0) {
             throw new InvalidTransactionIdException();
         }
-        // Check UnauthorizedException: check if there is a loggedUser and if its role is a "Administrator", "ShopManager" or "Cashier"
-        if (userRepository.getLoggedUser() == null || !checkIfValidRole(userRepository.getLoggedUser().getRole())) {
-            throw new UnauthorizedException();
-        }
-
         // Check UnauthorizedException: check if there is a loggedUser and if its role is a "Administrator", "ShopManager" or "Cashier"
         if (userRepository.getLoggedUser() == null || !checkIfValidRole(userRepository.getLoggedUser().getRole())) {
             throw new UnauthorizedException();

@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -16,6 +17,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import it.polito.ezshop.data.TicketEntry;
+import it.polito.ezshop.data.model.BalanceOperationClass;
 import it.polito.ezshop.data.model.OrderClass;
 import it.polito.ezshop.data.model.ReturnTransactionClass;
 import it.polito.ezshop.data.model.SaleTransactionClass;
@@ -80,8 +82,20 @@ public class BalanceOperationRepositoryTest {
 		}
 
 	@Test
-	public void testAddBalanceOperation() {
-		fail("Not yet implemented");
+	public void testAddBalanceOperation() throws SQLException {
+		BalanceOperationClass balance1 = new BalanceOperationClass(6, LocalDate.now(), 80.0,"debit");
+		BalanceOperationClass balance2 = new BalanceOperationClass(7, LocalDate.now(), 80.0,"credit");
+		BalanceOperationClass balance4 = new BalanceOperationClass(8, LocalDate.now(), 80.0,"debit");
+		BalanceOperationClass balance5 = new BalanceOperationClass(9, LocalDate.now(), 80.0,"debit");
+		balanceOperationRepository.addBalanceOperation(balance1);
+		balanceOperationRepository.addBalanceOperation(balance2);
+		
+		//assertThrows(SQLException.class, ()->balanceOperationRepository.addBalanceOperation(balance3));
+		
+		balanceOperationRepository.addBalanceOperation(balance4);
+		balanceOperationRepository.addBalanceOperation(balance5);
+		System.out.println(balanceOperationRepository.getHighestBalanceId());
+		assertTrue(balanceOperationRepository.getHighestBalanceId()==9);
 	}
 
 	@Test
@@ -192,7 +206,7 @@ public class BalanceOperationRepositoryTest {
 
 	@Test
 	public void testGetAllBalanceOperation() {
-		fail("Not yet implemented");
+		assertEquals(ArrayList.class,balanceOperationRepository.getAllBalanceOperation().getClass());
 	}
 
 	@Test 
@@ -313,8 +327,21 @@ public class BalanceOperationRepositoryTest {
 		assertNotEquals(balanceOperationRepository.getHighestReturnId(),i);	}
 
 	@Test
-	public void testGetHighestBalanceId() {
-		fail("Not yet implemented");
+	public void testGetHighestBalanceId() throws SQLException {
+		assertTrue(balanceOperationRepository.getHighestBalanceId()==0);
+		BalanceOperationClass balance1 = new BalanceOperationClass(1, LocalDate.now(), 80.0,"debit");
+		BalanceOperationClass balance2 = new BalanceOperationClass(2, LocalDate.now(), 80.0,"credit");
+		BalanceOperationClass balance3 = new BalanceOperationClass(3, LocalDate.now(), 80.0,"random");
+		BalanceOperationClass balance4 = new BalanceOperationClass(4, LocalDate.now(), 80.0,"debit");
+		BalanceOperationClass balance5 = new BalanceOperationClass(5, LocalDate.now(), 80.0,"debit");
+		balanceOperationRepository.addBalanceOperation(balance1);
+		balanceOperationRepository.addBalanceOperation(balance2);
+		balanceOperationRepository.addBalanceOperation(balance3);
+		balanceOperationRepository.addBalanceOperation(balance4);
+		balanceOperationRepository.addBalanceOperation(balance5);
+		System.out.println(balanceOperationRepository.getHighestBalanceId());
+		assertTrue(balanceOperationRepository.getHighestBalanceId()==5);
+		
 	}
 
 	@Test
