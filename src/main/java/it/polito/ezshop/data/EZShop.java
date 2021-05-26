@@ -1154,11 +1154,6 @@ public class EZShop implements EZShopInterface {
             throw new UnauthorizedException();
         }
 
-        // Check UnauthorizedException: check if there is a loggedUser and if its role is a "Administrator", "ShopManager" or "Cashier"
-        if (userRepository.getLoggedUser() == null || !checkIfValidRole(userRepository.getLoggedUser().getRole())) {
-            throw new UnauthorizedException();
-        }
-
         ReturnTransactionClass returnTransaction = null;
         try {
             returnTransaction = getReturnTransaction(returnId);
