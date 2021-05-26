@@ -152,7 +152,6 @@ Report also for each of the scenarios the (one or more) API JUnit tests that cov
 |6.4|FR5 FR6 FR7 FR8|FR6.testStartSaleTransaction() <br> FR6.testAddProductToSale() <br> FR6.testEndSaleTransaction() <br> FR7.testReceiveCashPayment() <br> FR7.testReceiveCreditCardPayment() <br> FR6.testComputePointsForSale() <br> FR5.testModifyPointsOnCard() <br> FR8.testRecordBalanceUpdate()|
 |6.5|FR6 |FR6.testStartSaleTransaction() <br>FR6.testAddProductToSale() <br> FR6.testEndSaleTransaction() <br> FR6.testdeleteSaleTransaction()|
 |6.6|FR6 FR7 FR8|FR6.testStartSaleTransaction() <br> FR6.testAddProductToSale() <br> FR6.testEndSaleTransaction() <br> FR7.testReceiveCashPayment() <br> FR8.testRecordBalanceUpdate()|
-
 |9.1|FR8|FR8.testGetCreditsAndDebits()    
 
 
