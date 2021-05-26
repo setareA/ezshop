@@ -226,11 +226,7 @@ public class EZShopTest  {
 	}
 
 
-	@Test
-	public void testCheckLongBarcodeFormat(){
-
-	}
-
+	
 	
 	
 

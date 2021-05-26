@@ -266,12 +266,19 @@ public class FR6Test {
 		ezshop.getBalanceOperationRepository().updateRow("sale", "status", "ticketNumber", s, "closed");
 		assertEquals("closed  transactionId ",false, ezshop.endSaleTransaction(s));
 		ezshop.getBalanceOperationRepository().updateRow("sale", "status", "ticketNumber", s, "open");
-		Integer p = ezshop.createProductType("canestrelli", "9574856787329", 1.0, null);
-		ezshop.updatePosition(p, "11-azhs-11");
+		Integer p = ezshop.createProductType("cannelloni", "9574856111735", 1.0, null);
+		Integer p1 = ezshop.createProductType("cannelloni", "957485611194", 1.0, null);
+		ezshop.updatePosition(p, "11-szhs-11");
+		ezshop.updatePosition(p1, "121-szhs-11");
 		ezshop.updateQuantity(p, 100);
-		ezshop.addProductToSale(s, "9574856787329", 3);
+		ezshop.updateQuantity(p1, 100);
+
+		ezshop.addProductToSale(s, "9574856111735", 10);
+		ezshop.addProductToSale(s, "9574856111735", 10);
+		ezshop.addProductToSale(s, "957485611194", 10);
+
 		assertEquals("  success  ",true, ezshop.endSaleTransaction(s));
-		assertEquals("check price of sale", 3.0 ,ezshop.getSaleTransaction(s).getPrice(),0.01);
+		assertEquals("check price of sale", 30.0 ,ezshop.getSaleTransaction(s).getPrice(),0.01);
 		
 		
 		
@@ -451,6 +458,8 @@ public class FR6Test {
 		ezshop.returnProduct(r, "957485611187", 20);
 
 		assertEquals("transaction closed and send ",true, ezshop.endReturnTransaction(r, true));
+		System.out.println(ezshop.getReturnTransaction(r).getPrice());
+		assertEquals(ezshop.getReturnTransaction(r).getPrice(),Double.valueOf(30),0.001);
 		 assertEquals("it change quantity avaible in shelved",Integer.valueOf(95),ezshop.getProductTypeByBarCode("9574856111445").getQuantity());
 		 assertEquals("it change quantity avaible in shelved",Integer.valueOf(100),ezshop.getProductTypeByBarCode("957485611187").getQuantity());
 		 List<TicketEntry> entry = ezshop.getSaleTransaction(s).getEntries();

@@ -208,7 +208,7 @@ public class FR7Test {
 			
 			
 			ezShop.endReturnTransaction(1, true);
-			assertTrue(ezShop.returnCreditCardPayment(1,"4485370086510891")==1000);
+			assertEquals(ezShop.returnCreditCardPayment(1,"4485370086510891"),1000,0.01);
 		 
 	  }
 	  	  
