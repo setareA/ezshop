@@ -56,8 +56,9 @@ digraph ez {
     (ex: step1: class A, step 2: class A+B, step 3: class A+B+C, etc)> 
     <Some steps may  correspond to unit testing (ex step1 in ex above), presented in other document UnitTestReport.md>
     <One step will  correspond to API testing>
-    
+
   
+
   We adopted the **bottom-up** approach. 
     
   **Step 1** corresponds to unit testing, which consists of the leaves of the dependency graph. 
@@ -135,14 +136,15 @@ Report also for each of the scenarios the (one or more) API JUnit tests that cov
 
 
 
-| Scenario ID | Functional Requirements covered | JUnit  Test(s) |
+| Scenario ID | Functional Requirements covered | JUnit  Test(s) (all of them are in src/test/java/it/polito/ezshop/data) |
 | ----------- | ------------------------------- | ----------- |
-|  ..         | FRx                             |             |
-|  ..         | FRy                             |             |
-| ...         |                                 |             |
-| ...         |                                 |             |
-| ...         |                                 |             |
-| ...         |                                 |             |
+|  2.1      | FR1                            | FR1Test.testCreateUser(), |
+|  2.2      | FR1                            | FR1Test.deleteUser(Integer id) |
+| 2.3      | FR1 | FR1Test.updateUserRights(Integer id, String role) |
+| 4.1         |                                 |             |
+| 4.2      |                                 |             |
+| 4.3      |                                 |             |
+| 4.4 | | |
 
 
 
