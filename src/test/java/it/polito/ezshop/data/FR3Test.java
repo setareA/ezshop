@@ -19,26 +19,26 @@ public class FR3Test {
     }
 
     @Test
-    public void createProductType() {
+    public void testCreateProductType() {
     }
 
     @Test
-    public void updateProduct() {
+    public void testUpdateProduct() {
     }
 
     @Test
-    public void deleteProductType() {
+    public void testDeleteProductType() {
     }
 
     @Test
-    public void getAllProductTypes() {
+    public void testGetAllProductTypes() {
     }
 
     @Test
-    public void getProductTypeByBarCode() {
+    public void testGetProductTypeByBarCode() {
     }
 
     @Test
-    public void getProductTypesByDescription() {
+    public void testGetProductTypesByDescription() {
     }
 }

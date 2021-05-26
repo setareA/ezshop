@@ -1,5 +1,6 @@
 package it.polito.ezshop.data;
 
+import it.polito.ezshop.data.model.BalanceOperationClass;
 import it.polito.ezshop.data.repository.DBCPDBConnectionPool;
 import it.polito.ezshop.exceptions.InvalidPasswordException;
 import it.polito.ezshop.exceptions.InvalidRoleException;
@@ -15,13 +16,13 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Date;
+
 
 import static org.junit.Assert.*;
 
 public class FR8Test {
 
-    private static EZShop ezShop = new EZShop();
+    private static EZShop ezShop;
 
     @Before
     public void setUp() throws Exception {
@@ -40,6 +41,7 @@ public class FR8Test {
         st.executeUpdate(cleanUser);
         st.close();
         con.close();
+        ezShop = new EZShop();
         ezShop.reset();
         ezShop.getUserRepository().setLoggedUser(null);
     }
@@ -81,8 +83,6 @@ public class FR8Test {
         }
     }
 
-
-
     @Test
     public void testGetCreditsAndDebits() {
         assertThrows("Unregistered user tries to Get Credits And Debits", UnauthorizedException.class, () -> ezShop.getCreditsAndDebits(LocalDate.parse("2021-03-14"), LocalDate.parse("2021-04-14")));
@@ -96,20 +96,31 @@ public class FR8Test {
 
             ezShop.login("setare_manager", "asdf");
             try {
-                assertEquals(ArrayList.class, ezShop.getCreditsAndDebits(LocalDate.parse("2021-03-14"), LocalDate.parse("2021-04-14")).getClass());
-                assertEquals(ArrayList.class, ezShop.getCreditsAndDebits(null, LocalDate.parse("2021-04-14")).getClass());
-                assertEquals(ArrayList.class, ezShop.getCreditsAndDebits(LocalDate.parse("2021-03-14"),null));
-                assertEquals(ArrayList.class, ezShop.getCreditsAndDebits(null, null).getClass());
+                ezShop.getBalanceOperationRepository().addBalanceOperation(new BalanceOperationClass(ezShop.getBalanceOperationRepository().getHighestBalanceId() + 1,LocalDate.parse("2022-07-09"),10,"credit" ));
+                ezShop.getBalanceOperationRepository().addBalanceOperation(new BalanceOperationClass(ezShop.getBalanceOperationRepository().getHighestBalanceId() + 1,LocalDate.parse("2021-07-09"),14,"credit" ));
+                ezShop.getBalanceOperationRepository().addBalanceOperation(new BalanceOperationClass(ezShop.getBalanceOperationRepository().getHighestBalanceId() + 1,LocalDate.parse("2020-07-09"),-10,"debit" ));
+
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+
+            try {
+                assertEquals(1, ezShop.getCreditsAndDebits(LocalDate.parse("2021-01-01"), LocalDate.parse("2021-11-29")).size());
+                assertEquals(1, ezShop.getCreditsAndDebits( LocalDate.parse("2021-11-29"), LocalDate.parse("2021-01-01")).size());
+                assertEquals(2, ezShop.getCreditsAndDebits(null, LocalDate.parse("2021-11-29")).size());
+                assertEquals(2, ezShop.getCreditsAndDebits(LocalDate.parse("2021-01-01"),null).size());
+                assertEquals(3, ezShop.getCreditsAndDebits(null, null).size());
             } catch (UnauthorizedException e) {
                 e.printStackTrace();
             }
 
             ezShop.login("setare_admin", "asdf");
             try {
-                assertEquals(ArrayList.class, ezShop.getCreditsAndDebits(LocalDate.parse("2021-03-14"), LocalDate.parse("2021-04-14")).getClass());
-                assertEquals(ArrayList.class, ezShop.getCreditsAndDebits(null, LocalDate.parse("2021-04-14")).getClass());
-                assertEquals(ArrayList.class, ezShop.getCreditsAndDebits(LocalDate.parse("2021-03-14"),null));
-                assertEquals(ArrayList.class, ezShop.getCreditsAndDebits(null, null).getClass());
+                assertEquals(1, ezShop.getCreditsAndDebits(LocalDate.parse("2021-01-01"), LocalDate.parse("2021-11-29")).size());
+                assertEquals(1, ezShop.getCreditsAndDebits( LocalDate.parse("2021-11-29"), LocalDate.parse("2021-01-01")).size());
+                assertEquals(2, ezShop.getCreditsAndDebits(null, LocalDate.parse("2021-11-29")).size());
+                assertEquals(2, ezShop.getCreditsAndDebits(LocalDate.parse("2021-01-01"),null).size());
+                assertEquals(3, ezShop.getCreditsAndDebits(null, null).size());
             } catch (UnauthorizedException e) {
                 e.printStackTrace();
             }
