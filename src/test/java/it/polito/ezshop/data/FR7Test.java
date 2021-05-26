@@ -139,16 +139,13 @@ public class FR7Test {
 	  @Test
 	  public void testReturnCashPayment() throws Exception{  
 			// Checks UnauthorizedException (there is a login user and this user is an Administrator)
-		  assertThrows(UnauthorizedException.class, ()-> ezShop.receiveCashPayment(1,1.0));
+		  assertThrows(UnauthorizedException.class, ()-> ezShop.returnCashPayment(1));
 		  
 		  userRepository.setLoggedUser(new UserClass(4,"Sara","1234","1234","Administrator"));
 			// Checks InvalidTransactionIdException: id (null or <=0)
-		  assertThrows(InvalidTransactionIdException.class, ()-> ezShop.receiveCashPayment(null,60.5));
-		  assertThrows(InvalidTransactionIdException.class, ()-> ezShop.receiveCashPayment(-1,60.5));
-		  
-			// Checks InvalidPaymentException: id (null or <=0)
-		  assertThrows(InvalidPaymentException.class, ()-> ezShop.receiveCashPayment(1,-80.0));
-		  assertThrows(InvalidPaymentException.class, ()-> ezShop.receiveCashPayment(1,0.0));
+		  assertThrows(InvalidTransactionIdException.class, ()-> ezShop.returnCashPayment(null));
+		  assertThrows(InvalidTransactionIdException.class, ()-> ezShop.returnCashPayment(-1));
+
 		  
 
 		  ezShop.recordBalanceUpdate(10000);
@@ -171,47 +168,49 @@ public class FR7Test {
 			
 			ezShop.endReturnTransaction(1, true);
 			assertTrue(ezShop.returnCashPayment(1)==5.0);
-		  
 		 
 	  }
 	  
-
-	  /*
+	  
+	  
 	  @Test
-	  public void testReceiveCashPayment() throws Exception{  
+	  public void testReturnCreditCardPayment() throws Exception{  
 			// Checks UnauthorizedException (there is a login user and this user is an Administrator)
-		  assertThrows(UnauthorizedException.class, ()-> ezShop.receiveCashPayment(1,1.0));
+		  assertThrows(UnauthorizedException.class, ()-> ezShop.returnCreditCardPayment(1, "4485370086510891"));
 		  
 		  userRepository.setLoggedUser(new UserClass(4,"Sara","1234","1234","Administrator"));
 			// Checks InvalidTransactionIdException: id (null or <=0)
-		  assertThrows(InvalidTransactionIdException.class, ()-> ezShop.receiveCashPayment(null,60.5));
-		  assertThrows(InvalidTransactionIdException.class, ()-> ezShop.receiveCashPayment(-1,60.5));
+		  assertThrows(InvalidTransactionIdException.class, ()-> ezShop.returnCreditCardPayment(null, "4485370086510891"));
+		  assertThrows(InvalidTransactionIdException.class, ()-> ezShop.returnCreditCardPayment(-1, "4485370086510891"));
 		  
-			// Checks InvalidPaymentException: id (null or <=0)
-		  assertThrows(InvalidPaymentException.class, ()-> ezShop.receiveCashPayment(1,-80.0));
-		  assertThrows(InvalidPaymentException.class, ()-> ezShop.receiveCashPayment(1,0.0));
+		// Checks InvalidCreditCardException: Credit card (empty or null or Luhn algorithm does not validate the card)
+		  assertThrows(InvalidCreditCardException.class, ()-> ezShop.returnCreditCardPayment(1, "1"));
+		  assertThrows(InvalidCreditCardException.class, ()-> ezShop.returnCreditCardPayment(1, ""));
+		  assertThrows(InvalidCreditCardException.class, ()-> ezShop.returnCreditCardPayment(1, null));
 		  
-
-			
+		  ezShop.getBalanceOperationRepository().changeCreditCardBalance("4485370086510891", 1000.0);
+		  ezShop.recordBalanceUpdate(10000);
 			ezShop.startSaleTransaction();
 			
 			ezShop.createProductType("Apples", "0799439112766", 5.0, "note");
 			ezShop.updatePosition(1,"1-A-3");
-			System.out.println(ezShop.updateQuantity(1, 10));
-			ezShop.addProductToSale(1, "0799439112766", 4);
+			System.out.println(ezShop.updateQuantity(1, 1000));
+			ezShop.addProductToSale(1, "0799439112766", 500);
 			
 			ezShop.endSaleTransaction(1);
 			
-			System.out.println(ezShop.receiveCashPayment(1, 50));
-			assertTrue(ezShop.receiveCashPayment(1, 50)==30);
-		  
+			ezShop.receiveCashPayment(1, 90000);
+			
+			ezShop.startReturnTransaction(1);
+			
+			// We should return 5€
+			ezShop.returnProduct(1, "0799439112766", 200);
+			
+			
+			ezShop.endReturnTransaction(1, true);
+			assertTrue(ezShop.returnCreditCardPayment(1,"4485370086510891")==1000);
 		 
 	  }
-	  
-	  */
-	  
-	  
-	  
-	  
+	  	  
 	  
 }
