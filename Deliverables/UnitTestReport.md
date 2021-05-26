@@ -1456,6 +1456,64 @@ Version:
 
 
 
+ ### **Class *HashGenerator* - method *passwordMatches(String dbHashedPass, String password, String salt)
+
+
+
+**Criteria for method *passwordMatches*:**
+	
+
+ - matching of password and dbHashedPass
+
+   
+
+**Predicates for method checkLocation:**
+
+| Criteria                              | Predicate   |
+| ------------------------------------- | ----------- |
+| matching of password and dbHashedPass | True valid  |
+|                                       | False valid |
+
+ 
+
+**Combination of predicates**:
+
+
+| matching of password and dbHashedPass | Valid / Invalid | Description of the test case             | JUnit test case       |
+| ------------------------------------- | --------------- | ---------------------------------------- | --------------------- |
+| True                                  | valid           | T1(hashedPass, "newPass" ,salt) ->true   | testPasswordMatches() |
+| False                                 | valid           | T2(hashedPass, "NewPass", salt) -> false | testPasswordMatches() |
+
+
+
+ ### **Class *HashGenerator* - method *hashPassword(final char[] password, final byte[] salt, final int iterations, final int keyLength)
+
+
+
+**Criteria for method *passwordMatches*:**
+	
+
+ - matching of password and dbHashedPass
+
+   
+
+**Predicates for method checkLocation:**
+
+| Criteria                              | Predicate |
+| ------------------------------------- | --------- |
+| matching of password and dbHashedPass | Any value |
+
+ 
+
+**Combination of predicates**:
+
+
+| matching of password and dbHashedPass | Valid / Invalid | Description of the test case                                 | JUnit test case    |
+| ------------------------------------- | --------------- | ------------------------------------------------------------ | ------------------ |
+| any value                             | valid           | T1(passwordChars, saltBytes, iterations, keyLengtht) ->byte[] | testHashPassword() |
+
+
+
 
 
 # White Box Unit Tests
