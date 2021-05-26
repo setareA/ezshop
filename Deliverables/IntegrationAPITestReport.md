@@ -79,6 +79,7 @@ digraph ez {
 
 
 
+
   We adopted the **bottom-up** approach. 
     
   **Step 1** corresponds to unit testing, which consists of the leaves of the dependency graph. 
@@ -145,7 +146,7 @@ digraph ez {
 |  1     | User selects customer record C |
 |  2     | User deletes the record C |
 
-## 
+
 
 # Coverage of Scenarios and FR
 
@@ -164,6 +165,7 @@ Report also for each of the scenarios the (one or more) API JUnit tests that cov
 |  2.1      | FR1 | FR1Test.testCreateUser()|
 |  2.2      | FR1 | FR1Test.testDeleteCustomer() |
 | 2.3      | FR1 | FR1Test.testUpdateUserRigths() |
+| 2.4 | FR5 | FR5Test.testDeleteCustomer() |
 | 3.1         | FR4|FR4Test.testIssueOrder() |
 | 3.2         | FR4 |FR4Test.testPayOrder()|
 |3.3 |FR4|FR4Test.testRecordOrderArrival()|
