@@ -85,14 +85,14 @@ public class FR8Test {
 
     @Test
     public void testGetCreditsAndDebits() {
-        assertThrows("Unregistered user tries to Get Credits And Debits", UnauthorizedException.class, () -> ezShop.getCreditsAndDebits(LocalDate.parse("2021-03-14"), LocalDate.parse("2021-04-14")));
+        assertThrows("Unregistered user tries to get credits and debits", UnauthorizedException.class, () -> ezShop.getCreditsAndDebits(LocalDate.parse("2021-03-14"), LocalDate.parse("2021-04-14")));
         try {
             ezShop.createUser("setare_manager", "asdf", "ShopManager");
             ezShop.createUser("setare_admin", "asdf", "Administrator");
             ezShop.createUser("setare_cashier", "asdf", "Cashier");
 
             ezShop.login("setare_cashier", "asdf");
-            assertThrows("Unauthorized user tries to to record balance update", UnauthorizedException.class, () -> ezShop.getCreditsAndDebits(LocalDate.parse("2021-03-14"), LocalDate.parse("2021-04-14")));
+            assertThrows("Unauthorized user tries to to get credits and debits", UnauthorizedException.class, () -> ezShop.getCreditsAndDebits(LocalDate.parse("2021-03-14"), LocalDate.parse("2021-04-14")));
 
             ezShop.login("setare_manager", "asdf");
             try {
