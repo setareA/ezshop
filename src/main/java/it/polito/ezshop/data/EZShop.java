@@ -378,10 +378,14 @@ public class EZShop implements EZShopInterface {
         if (this.checkIfAdministrator() || this.checkIfManager()) {
             if (productId == null) throw new InvalidProductIdException();
             if (productId < 1) throw new InvalidProductIdException();
-            if (!(productTypeRepository.getProductTypebyLocation(newPos) == null)) return false;
+            if ( newPos != null && !newPos.equals("") && !(productTypeRepository.getProductTypebyLocation(newPos) == null)) return false;
 
-            if (!checkLocation(newPos)) throw new InvalidLocationException();
-            if (newPos == null) newPos = "";
+            if (newPos == null || newPos == ""){
+                newPos = "";
+            }
+            else{
+                if (!checkLocation(newPos)) throw new InvalidLocationException();
+            }
             return productTypeRepository.updatePosition(String.valueOf(productId), newPos);
         } else {
             throw new UnauthorizedException();
