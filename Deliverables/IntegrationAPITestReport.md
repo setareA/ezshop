@@ -137,14 +137,54 @@ Report also for each of the scenarios the (one or more) API JUnit tests that cov
 
 | Scenario ID | Functional Requirements covered | JUnit  Test(s) |
 | ----------- | ------------------------------- | ----------- |
-|  1.1        | FR3                             |data/FR3.testCreateProductType()           |
-|  1.2        | FR4                             |data/FR4.testUpdatePosition()             |
-|  1.3        | FR3                             |data/FR3.testUpdateProduct()             |
+|  1.1        | FR3                             |FR3.testCreateProductType()           |
+|  1.2        | FR4                             |FR4.testUpdatePosition()             |
+|  1.3        | FR3                             |FR3.testUpdateProduct()             |
 | ...         |                                 |             |
-| 3.1         | FR4                             |data/FR4.testIssueOrder()              |
-| 3.2         | FR4                             |data/FR4.testPayOrder()             |
-|3.3 |FR4|data/FR4.testRecordOrderArrival()|
-     
+| 3.1         | FR4                             |FR4.testIssueOrder()              |
+| 3.2         | FR4                             |FR4.testPayOrder()             |
+|3.3 |FR4|FR4.testRecordOrderArrival()|
+|5.1|FR1|FR1.testLogin()|
+|5.2|FR1|FR1.testLogout()|
+|6.1|FR6 FR7 FR8|FR6.testStartSaleTransaction()
+         FR6.testAddProductToSale()
+         FR6.testEndSaleTransaction()
+         FR7.testReceiveCashPayment()
+         FR7.testReceiveCreditCardPayment()
+         FR8.testRecordBalanceUpdate()|
+|6.2|FR6 FR7 FR8||FR6.testStartSaleTransaction()
+         FR6.testAddProductToSale()
+         FR6.testApplyDiscountRateToProduct()
+         FR6.testEndSaleTransaction()
+         FR7.testReceiveCashPayment()
+         FR7.testReceiveCreditCardPayment()
+         FR8.testRecordBalanceUpdate()|
+|6.3| FR6 FR7 FR8||FR6.testStartSaleTransaction()
+         FR6.testAddProductToSale()
+         FR6.testApplyDiscountRateToSale()
+         FR6.testEndSaleTransaction()
+         FR7.testReceiveCashPayment()
+         FR7.testReceiveCreditCardPayment()
+         FR8.testRecordBalanceUpdate()|
+|6.4|FR5 FR6 FR7 FR8|FR6.testStartSaleTransaction()
+         FR6.testAddProductToSale()
+         FR6.testEndSaleTransaction()
+         FR7.testReceiveCashPayment()
+         FR7.testReceiveCreditCardPayment()
+         FR6.testComputePointsForSale()
+         FR5.testModifyPointsOnCard()
+         FR8.testRecordBalanceUpdate()|
+|6.5|FR6 |FR6.testStartSaleTransaction()
+         FR6.testAddProductToSale()
+         FR6.testEndSaleTransaction()
+         FR6.testdeleteSaleTransaction()|
+|6.6|FR6 FR7 FR8|FR6.testStartSaleTransaction()
+         FR6.testAddProductToSale()
+         FR6.testEndSaleTransaction()
+         FR7.testReceiveCashPayment()
+         FR8.testRecordBalanceUpdate()|
+
+|9.1|FR8|FR8.testGetCreditsAndDebits()    
 
 
 
