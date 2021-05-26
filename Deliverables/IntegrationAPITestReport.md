@@ -78,6 +78,7 @@ digraph ez {
 
 
 
+
   We adopted the **bottom-up** approach. 
     
   **Step 1** corresponds to unit testing, which consists of the leaves of the dependency graph. 
@@ -182,8 +183,8 @@ Report also for each of the scenarios the (one or more) API JUnit tests that cov
 | 7.2 | FR7 | FR7Test.testReceiveCreditCardPayment() |
 | 7.3 | FR7 | FR7Test.testReceiveCreditCardPayment() |
 | 7.4 | FR7 | FR7Test.testReceiveCashPayment() |
-| 8.1 |                                 |  |
-| 8.2 |  |  |
+| 8.1 | FR6 <br>FR7 | FR6Test.testStartReturnTransaction() <br/>FR6Test.testReturnProduct()<br/>FR6Test.testEndReturnTransaction()<br/>FR7Test.testReturnCreditCardPayment() |
+| 8.2 | FR6<br>FR7 | FR6Test.testStartReturnTransaction() <br/>FR6Test.testReturnProduct()<br/>FR6Test.testEndReturnTransaction()<br/>FR7Test.testReturnCashPayment() |
 |9.1|FR8|FR8Test.testGetCreditsAndDebits()|
 | 10.1 | FR7 | FR7Test.testReturnCreditCardPayment() |
 | 10.2 | FR7 | FR7Test.testReturnCashPayment() |
