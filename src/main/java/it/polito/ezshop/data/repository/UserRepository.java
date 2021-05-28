@@ -37,14 +37,35 @@ public class UserRepository {
         return attrs;
     }
 
-    public void initialize() throws SQLException {
-        Connection con = DBCPDBConnectionPool.getConnection();
+    public void initialize() {
+    	Connection con = null;
+    	try {
+        con = DBCPDBConnectionPool.getConnection();
         Statement st = con.createStatement();
         st.executeUpdate("CREATE TABLE IF NOT EXISTS " + "user" + " " + "(id INTEGER PRIMARY KEY, username TEXT NOT NULL UNIQUE, password TEXT, salt TEXT, role TEXT)");
         st.close();
         con.close();
+    	} catch (SQLException e) {
+	        e.printStackTrace();
+	        try {
+	            con.close();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+	    }
     }
 
+    public void deleteTables() throws SQLException {
+        Logger.getLogger(EZShop.class.getName()).log(Level.INFO, "deleting Users");
+        Connection con = DBCPDBConnectionPool.getConnection();
+        PreparedStatement prp = con.prepareStatement("DELETE FROM user;");
+        prp.executeUpdate();
+    
+        prp.close();
+        con.close();
+    }
+    
 
     private static String insertCommand(String tableName, ArrayList<String> attributes) {
         String sqlCommand = "INSERT INTO " + tableName + "(";

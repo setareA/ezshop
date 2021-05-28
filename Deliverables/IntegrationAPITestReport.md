@@ -56,8 +56,30 @@ digraph ez {
     (ex: step1: class A, step 2: class A+B, step 3: class A+B+C, etc)> 
     <Some steps may  correspond to unit testing (ex step1 in ex above), presented in other document UnitTestReport.md>
     <One step will  correspond to API testing>
-    
+
   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   We adopted the **bottom-up** approach. 
     
   **Step 1** corresponds to unit testing, which consists of the leaves of the dependency graph. 
@@ -85,6 +107,7 @@ digraph ez {
 |OrderClass|data/model/OrderClassTest|
 |BalanceOperationClass|data/model/BalanceOperationClassTest|
 |ProductTypeClass|data/model/ProductTypeClassTest|
+|EZShop (only methods that are not api)|data/EZShopTest|
 
 
 ## Step 2
@@ -102,7 +125,7 @@ digraph ez {
 
 | Classes  | JUnit test cases |
 |--|--|
-|||
+|EZShop|data/FR1Test<br>data/FR3Test<br>data/FR4Test<br>data/FR5Test<br>data/FR6Test<br>data/FR7Test<br>data/FR8Test<br>|
 
 
 
@@ -113,15 +136,15 @@ digraph ez {
 <If needed, define here additional scenarios for the application. Scenarios should be named
  referring the UC in the OfficialRequirements that they detail>
 
-## Scenario UCx.y
+## Scenario UC2.4
 
-| Scenario |  name |
+| Scenario | Delete Customer |
 | ------------- |:-------------:|
-|  Precondition     |  |
-|  Post condition     |   |
+|  Precondition     | Account U for Customer Cu existing |
+|  Post condition     | Account U for Customer Cu is deleted |
 | Step#        | Description  |
-|  1     |  ... |
-|  2     |  ... |
+|  1     | User selects customer record C |
+|  2     | User deletes the record C |
 
 
 
@@ -134,17 +157,39 @@ Report also for each of the scenarios the (one or more) API JUnit tests that cov
 
 
 
-| Scenario ID | Functional Requirements covered | JUnit  Test(s) |
+| Scenario ID | Functional Requirements covered | JUnit  Test(s) (all of them are in src/test/java/it/polito/ezshop/data) |
 | ----------- | ------------------------------- | ----------- |
-|  ..         | FRx                             |             |
-|  ..         | FRy                             |             |
-| ...         |                                 |             |
-| ...         |                                 |             |
-| ...         |                                 |             |
-| ...         |                                 |             |
-
-
-
+|  1.1        | FR3 |FR3Test.testCreateProductType() |
+|  1.2        | FR4 |FR4Test.testUpdatePosition() |
+|  1.3        | FR3|FR3Test.testUpdateProduct() |
+|  2.1      | FR1 | FR1Test.testCreateUser()|
+|  2.2      | FR1 | FR1Test.testDeleteCustomer() |
+| 2.3      | FR1 | FR1Test.testUpdateUserRigths() |
+| 2.4 | FR5 | FR5Test.testDeleteCustomer() |
+| 3.1         | FR4|FR4Test.testIssueOrder() |
+| 3.2         | FR4 |FR4Test.testPayOrder()|
+|3.3 |FR4|FR4Test.testRecordOrderArrival()|
+| 4.1      | FR5 | FR5Test.testDefineCustomer() |
+| 4.2      | FR5 | FR5Test.testAttachCardToCustomer() |
+| 4.3      | FR5 | FR5Test.testAttachCardToCustomer() |
+| 4.4 | FR5 | FR5Test.testModifyCustomer() |
+|5.1|FR1|FR1Test.testLogin()|
+|5.2|FR1|FR1Test.testLogout()|
+|6.1|FR6,FR7,FR8|FR6Test.testStartSaleTransaction(),FR6.testAddProductToSale(),FR6.testEndSaleTransaction(),FR7.testReceiveCashPayment(),FR7.testReceiveCreditCardPayment(),FR8.testRecordBalanceUpdate()|
+|6.2|FR6 FR7 FR8|FR6Test.testStartSaleTransaction() <br> FR6Test.testAddProductToSale() <br> FR6Test.testApplyDiscountRateToProduct() <br> FR6Test.testEndSaleTransaction() <br> FR7Test.testReceiveCashPayment()<br> FR7Test.testReceiveCreditCardPayment() <br>FR8Test.testRecordBalanceUpdate()|
+|6.3| FR6 FR7 FR8|FR6Test.testStartSaleTransaction() <br> FR6Test.testAddProductToSale() <br> FR6Test.testApplyDiscountRateToSale() <br> FR6Test.testEndSaleTransaction() <br> FR7Test.testReceiveCashPayment() <br> FR7Test.testReceiveCreditCardPayment() <br> FR8Test.testRecordBalanceUpdate()|
+|6.4|FR5 FR6 FR7 FR8|FR6Test.testStartSaleTransaction() <br> FR6Test.testAddProductToSale() <br> FR6Test.testEndSaleTransaction() <br> FR7Test.testReceiveCashPayment() <br> FR7Test.testReceiveCreditCardPayment() <br> FR6Test.testComputePointsForSale() <br> FR5Test.testModifyPointsOnCard() <br> FR8Test.testRecordBalanceUpdate()|
+|6.5|FR6 |FR6Test.testStartSaleTransaction() <br>FR6Test.testAddProductToSale() <br> FR6Test.testEndSaleTransaction() <br> FR6Test.testdeleteSaleTransaction()|
+|6.6|FR6 FR7 FR8|FR6Test.testStartSaleTransaction() <br> FR6Test.testAddProductToSale() <br> FR6Test.testEndSaleTransaction() <br> FR7Test.testReceiveCashPayment() <br> FR8Test.testRecordBalanceUpdate()|
+| 7.1 | FR7 | FR7Test.testReceiveCreditCardPayment() |
+| 7.2 | FR7 | FR7Test.testReceiveCreditCardPayment() |
+| 7.3 | FR7 | FR7Test.testReceiveCreditCardPayment() |
+| 7.4 | FR7 | FR7Test.testReceiveCashPayment() |
+| 8.1 | FR6 <br>FR7 | FR6Test.testStartReturnTransaction() <br/>FR6Test.testReturnProduct()<br/>FR6Test.testEndReturnTransaction()<br/>FR7Test.testReturnCreditCardPayment() |
+| 8.2 | FR6<br>FR7 | FR6Test.testStartReturnTransaction() <br/>FR6Test.testReturnProduct()<br/>FR6Test.testEndReturnTransaction()<br/>FR7Test.testReturnCashPayment() |
+|9.1|FR8|FR8Test.testGetCreditsAndDebits()|
+| 10.1 | FR7 | FR7Test.testReturnCreditCardPayment() |
+| 10.2 | FR7 | FR7Test.testReturnCashPayment() |
 # Coverage of Non Functional Requirements
 
 
@@ -155,5 +200,8 @@ Report also for each of the scenarios the (one or more) API JUnit tests that cov
 
 | Non Functional Requirement | Test name |
 | -------------------------- | --------- |
-|                            |           |
+|NFR2 | Each API test method , which contains serveral calls of functions, lasts less than 0.5 s ( testDeleteSaleTransaction() last more, but we checked the exact execution time of that method and we figured out that it was in the order of 50 ms).So we can assume that each API method lasts less than 0.5 s.|
+| NFR4                           | EZShopTest.testCheckGoodBarcodeFormat()   EZShopTest.testCheckNotGoodBarcodeFormat() EZShopTest.testCheckInvalidBarcodeFormat() EZShopTest.TestCheckValidityLongProductcode()   EZShopTest.testCheckValidityShortProductcode()   |
+|NFR5 |EZShopTest.testCheckLuhnValid() EZShopTest.testCheckLuhnInvalid() EZShopTest.testCheckLuhnNull() EZShopTest.testCheckLuhnEmpthy() testCheckLuhnOne() EZShopTest.testCheckLuhnTwo() |
+|NFR6 | FR6Test.testCreateCard() FR6Test.testModifyCustomer()|
 

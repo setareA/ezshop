@@ -8,6 +8,8 @@ import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -16,6 +18,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import it.polito.ezshop.data.EZShop;
+import it.polito.ezshop.data.model.CustomerClass;
 import it.polito.ezshop.data.model.ProductTypeClass;
 import it.polito.ezshop.data.model.UserClass;
 import it.polito.ezshop.exceptions.InvalidLocationException;
@@ -26,104 +29,129 @@ import it.polito.ezshop.exceptions.InvalidProductIdException;
 import it.polito.ezshop.exceptions.UnauthorizedException;
 
 public class ProductTypeRepositoryTest {
-	private static EZShop ezShop;
-	private static ProductTypeRepository productTypeRepository;
-	private static UserRepository userRepository;
+    private static ProductTypeRepository productTypeRepository = ProductTypeRepository.getInstance();
 	
 	  @Before
-	  public void clearDBandRestartEzshop() throws SQLException {
+	  public void setUp() throws SQLException {
+		  productTypeRepository.initialize();
 	      Connection con = DBCPDBConnectionPool.getConnection();
-	      Statement st = con.createStatement();
-	      String cleanUser = "DROP TABLE IF EXISTS user;";
-	      String cleanCustomer = "DROP TABLE IF EXISTS customer;";
-	      String cleanProductType = "DROP TABLE IF EXISTS productType;";
-	      st.executeUpdate(cleanUser + cleanCustomer + cleanProductType);
-	      st.close();
+	      PreparedStatement prp = con.prepareStatement("DELETE FROM productType;");
+	      prp.executeUpdate();
+	      prp.close();
 	      con.close();
-		    ezShop = new EZShop();
-		    productTypeRepository = ezShop.getProductTypeRepository();
-		    userRepository = ezShop.getUserRepository();
-	  }
-	  
-	  @Test
-	  public void testAddNewProductType() throws SQLException {
-		  assertThrows("T1(NULL)->SQLException",Exception.class, () ->productTypeRepository.addNewProductType(null));
-	  }
-	  
-	  @Test
-	  public void testGetProductTypeByLocation() throws InvalidProductDescriptionException, InvalidProductCodeException, InvalidPricePerUnitException, UnauthorizedException, InvalidProductIdException, InvalidLocationException {
-		  userRepository.setLoggedUser(new UserClass(4,"Sara","1234","1234","Administrator"));
-		  Integer id = ezShop.createProductType("Apples", "0799439112766", 0.30, "note");
-		  ezShop.updatePosition(id,"1-B-3");
-		  assertTrue(productTypeRepository.getProductTypebyLocation("1-B-3").getId()==id);
-		  assertNull(productTypeRepository.getProductTypebyLocation(null));
-		  assertNull(productTypeRepository.getProductTypebyLocation(""));
-	  }
-	  
-	  @Test
-	  public void testGetProductTypeById() throws InvalidProductDescriptionException, InvalidProductCodeException, InvalidPricePerUnitException, UnauthorizedException {
-		  userRepository.setLoggedUser(new UserClass(4,"Sara","1234","1234","Administrator"));
-		  Integer id = ezShop.createProductType("Apples", "0799439112766", 0.30, "note");
-		  assertTrue(productTypeRepository.getProductTypebyId(id.toString()).getPricePerUnit()==0.30);
-		  int number = -3;
-		  assertNull(productTypeRepository.getProductTypebyId(Integer.toString(number)));
 	  }
 	  
 	  
-	  //@Test
-	  public void testGetProductTypeByDescription() throws InvalidProductDescriptionException, InvalidProductCodeException, InvalidPricePerUnitException, UnauthorizedException{
-		  userRepository.setLoggedUser(new UserClass(4,"Sara","1234","1234","Administrator"));
-		  ezShop.createProductType("Apples", "0799439112766", 0.30, "note");
-		  ezShop.createProductType("Apples", "5901234123457", 0.30, "note");
-		  ezShop.createProductType("Apples", "4070071967072", 0.30, "note");
-		  ezShop.createProductType("NoApples", "1234567890128", 0.30, "note");
-		  ezShop.createProductType("NoApples", "0623254000017", 0.30, "note");
-		  ezShop.createProductType("NoApples", "9783161484100", 0.30, "note");
-		  productTypeRepository.getProductTypebyDescription("Apples");
-		  ArrayList<ProductTypeClass> products = productTypeRepository.getProductTypebyDescription("Apples");
-		  assertTrue(products.size()==3);
-		  for(int i=0; i<products.size();i++) {
-			  assertEquals(products.get(i).getProductDescription(),"Apples");
-			  System.out.println(i);
-		  }
-	  }
-	  
-	  @Test
-	  public void testGetProductTypebyBarCode() throws InvalidProductDescriptionException, InvalidProductCodeException, InvalidPricePerUnitException, UnauthorizedException {
-		  userRepository.setLoggedUser(new UserClass(4,"Sara","1234","1234","Administrator"));
-		  ezShop.createProductType("Apples", "0799439112766", 0.30, "note");
-		  assertEquals(productTypeRepository.getProductTypebyBarCode("0799439112766").getBarCode(),"0799439112766");
-		  assertNull(productTypeRepository.getProductTypebyBarCode(null));
-		  assertNull(productTypeRepository.getProductTypebyBarCode(""));
+	    @Test
+	    public void testInitialize() {
+	    	Connection con = null;
+	    	PreparedStatement prps = null;
+	        ArrayList<String> tableNames = new ArrayList<>();
+	        try {
+	        	productTypeRepository.initialize();
+	            con = DBCPDBConnectionPool.getConnection();
+	            ResultSet rs = con.getMetaData().getTables(null, null, null, null);
+	            while (rs.next()) {
+	                tableNames.add(rs.getString("TABLE_NAME"));
+	            }
+	            con.close();
+	        } catch (SQLException e) {
+	        	e.printStackTrace();
+	        	try {
+	        		con.close();
+	        	
+		        } catch (SQLException throwables) {
+		            throwables.printStackTrace();
+		        }
+	        }
+	        assertTrue(tableNames.contains("productType"));
+	    }
+	    
+	    @Test
+	    public void testDeleteProductTypeFromDB() {
+            productTypeRepository.addNewProductType(new ProductTypeClass(1,30,"A-2-C","note","Apples","0799439112766", 0.30));
+            assertTrue(productTypeRepository.deleteProductTypeFromDB(1));
+            assertFalse(productTypeRepository.deleteProductTypeFromDB(1));
+	    }
+	    
+	    @Test
+	    public void testDeleteTable() {
+	    	productTypeRepository.addNewProductType(new ProductTypeClass(1,30,"A-2-C","note","Apples","0799439112766", 0.30));
+	    	assertTrue(productTypeRepository.deleteTable());
+	    	assertFalse(productTypeRepository.deleteTable());
+	    }
+	    
+	    
+	    @Test
+	    public void testAddNewProductType() {
+	    	// @TODO: When you enter a null value in this method, it returns a NullPointerException. 
+            assertTrue(productTypeRepository.addNewProductType(new ProductTypeClass(1,30,"A-2-C","note","Apples","0799439112766", 0.30)));
+	        assertFalse(productTypeRepository.addNewProductType(new ProductTypeClass(1,30,"A-2-C","note","Apples","0799439112766", 0.30)));
+
+	    }
+	    
+	    
+	   @Test
+	   public void testGetProductTypeByLocation() {
+		   productTypeRepository.addNewProductType(new ProductTypeClass(1,30,"A-2-C","note","Apples","0799439112766", 0.30));
+		   assertEquals(productTypeRepository.getProductTypebyLocation("A-2-C").getLocation(),"A-2-C");
+	   }
+	   @Test
+	   public void testGetProductTypeById() {
+		   productTypeRepository.addNewProductType(new ProductTypeClass(1,30,"A-2-C","note","Apples","0799439112766", 0.30));
+		   assertTrue(productTypeRepository.getProductTypebyLocation("A-2-C").getId()==1);
+		   int number = -3;
+		   assertNull(productTypeRepository.getProductTypebyId(Integer.toString(number)));
+	   }
+	    
+	   @Test
+	   public void testGetProductTypeByDescription() {
+		   productTypeRepository.addNewProductType(new ProductTypeClass(1,30,"A-2-C","note","Apples","0799439112766", 0.30));
+		   assertEquals(productTypeRepository.getProductTypebyLocation("A-2-C").getProductDescription(),"Apples");
+	   }
+	   @Test
+	   public void testGetProductTypeByBarcode() {
+		   productTypeRepository.addNewProductType(new ProductTypeClass(1,30,"A-2-C","note","Apples","0799439112766", 0.30));
+		   assertEquals(productTypeRepository.getProductTypebyLocation("A-2-C").getBarCode(),"0799439112766");  
+		   assertNull(productTypeRepository.getProductTypebyBarCode(null));
+		   assertNull(productTypeRepository.getProductTypebyBarCode(""));
+	   }
+	   
+	   @Test
+	   public void testGetAllProductType() {
+		   assertEquals(ArrayList.class,productTypeRepository.getAllProductType().getClass());
+	   }
+	   
+	   @Test
+	   public void testUpdateQuantity() {
+		   productTypeRepository.addNewProductType(new ProductTypeClass(1,30,"A-2-C","note","Apples","0799439112766", 0.30));
+		   assertTrue(productTypeRepository.updateQuantity(1, 50));
+		   assertTrue(productTypeRepository.getProductTypebyLocation("A-2-C").getQuantity()==80);
+		   assertFalse(productTypeRepository.updateQuantity(null,3));
+		   assertTrue(productTypeRepository.updateQuantity(1,3));
+		   assertFalse(productTypeRepository.updateQuantity(-2,4));
+	   }
+	   
+	   @Test
+	   public void testUpdateProductType() {
+		   productTypeRepository.addNewProductType(new ProductTypeClass(1,30,"A-2-C","note","Apples","0799439112766", 0.30));
+		   Integer id = 1;
+		   Double newPrice = 0.50;
+		   assertTrue(productTypeRepository.updateProductType(id.toString(),"Chocolate","1299439112766",newPrice.toString(),"newNote"));
+		   assertTrue(productTypeRepository.getProductTypebyLocation("A-2-C").getPricePerUnit()==0.50);
+		   assertNull(productTypeRepository.getProductTypebyLocation(null));
+		   assertNull(productTypeRepository.getProductTypebyLocation(""));
 		  
-	  }
-	  
-	  
-	  @Test
-	  public void testUpdateQuantity() throws InvalidProductDescriptionException, InvalidProductCodeException, InvalidPricePerUnitException, UnauthorizedException {
-		  userRepository.setLoggedUser(new UserClass(4,"Sara","1234","1234","Administrator"));
-		  ezShop.createProductType("Apples", "0799439112766", 0.30, "note");
-		  assertFalse(productTypeRepository.updateQuantity(null,3));
-		  assertTrue(productTypeRepository.updateQuantity(1,3));
-		  assertFalse(productTypeRepository.updateQuantity(-2,4));
-	  }
-	  
-	  
-	  @Test
-	  public void testUpdateProductType() throws InvalidProductDescriptionException, InvalidProductCodeException, InvalidPricePerUnitException, UnauthorizedException, SQLException {
-		  userRepository.setLoggedUser(new UserClass(4,"Sara","1234","1234","Administrator"));
-		  ezShop.createProductType("Other thing", "0799439112766", 0.30, "note");
-		  assertTrue(productTypeRepository.updateProductType("1","description","barcode","0.30","note"));
-		  assertFalse(productTypeRepository.updateProductType(null,"description","barcode","0.60","note"));
-		  //assertFalse(productTypeRepository.updateProductType("1","description","barcode",null,"note"));
-		  assertFalse(productTypeRepository.updateProductType("-3","description","barcode","0.50","note"));
-		  assertTrue(productTypeRepository.updateProductType("1","description","barcode","noDoubleFormat","note"));
-	  }
-	  
-	  
-	  
-	  
-	  
-	  
+	   }
+	   
+	   @Test
+	   public void testUpdatePosition() {
+		   productTypeRepository.addNewProductType(new ProductTypeClass(1,30,"A-2-C","note","Apples","0799439112766", 0.30));
+		   Integer id = 1;
+		   assertTrue(productTypeRepository.updatePosition(id.toString(),"B-2-C"));
+		   assertEquals(productTypeRepository.getProductTypebyLocation("B-2-C").getLocation(),"B-2-C");
+	   }
+	   
+	     
 	  
 }

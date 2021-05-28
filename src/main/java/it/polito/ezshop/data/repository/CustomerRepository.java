@@ -1,6 +1,7 @@
 package it.polito.ezshop.data.repository;
 
 import it.polito.ezshop.data.Customer;
+import it.polito.ezshop.data.EZShop;
 import it.polito.ezshop.data.model.CustomerClass;
 
 import java.sql.*;
@@ -8,6 +9,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class CustomerRepository {
     private static final String COLUMNS = "id, customerName, customerCard, points";
@@ -69,14 +72,35 @@ public class CustomerRepository {
                 " WHERE id = ?";
     }
 
-    public void initialize() throws SQLException {
-        Connection con = DBCPDBConnectionPool.getConnection();
+    public void initialize() {
+    	Connection con = null;
+    	try {
+        con = DBCPDBConnectionPool.getConnection();
         Statement st = con.createStatement();
         st.executeUpdate("CREATE TABLE IF NOT EXISTS " + "customer" + " " + "(id INTEGER PRIMARY KEY, customerName TEXT UNIQUE, customerCard TEXT, points INTEGER, CHECK (points>=0) )");
         st.close();
         con.close();
+	    }catch (SQLException e) {
+	        e.printStackTrace();
+	        try {
+	            con.close();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+	    }
     }
-
+    
+    public void deleteTables() throws SQLException {
+        Logger.getLogger(EZShop.class.getName()).log(Level.INFO, "deleting Customers");
+        Connection con = DBCPDBConnectionPool.getConnection();
+        PreparedStatement prp = con.prepareStatement("DELETE FROM customer;");
+        prp.executeUpdate();
+    
+        prp.close();
+        con.close();
+    }
+    
     public Integer addNewCustomer(CustomerClass customer) {
 
         Connection con = null;

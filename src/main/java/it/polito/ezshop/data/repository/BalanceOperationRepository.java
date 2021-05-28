@@ -16,12 +16,7 @@ import java.util.logging.Logger;
 
 public class BalanceOperationRepository {
     private static final String COLUMNS_ORDER = "orderId, balanceId, productCode, pricePerUnit, quantity, status, money";
-    private static final String COLUMNS_SALE = "ticketNumber, discountRate, price, status";
-    private static final String COLUMNS_RETURN = "returnId, price, status, ticketNumber";
-    private static final String COLUMNS_TICKET_ENTRY = "id, barcode, productDescription, amount, pricePerUnit, discountRate, saleId, returnId";
-    private static final String CLUMNS_BALANCE_OPERATION = "balanceId, localDate, money, type";
     private static final BalanceOperationRepository ourInstance = new BalanceOperationRepository();
-    private static double balance; // TODO : ADD TO DB NOT HERE
     private static Integer nextTicketNumber = 0;
     private static Integer nextReturnId = 0;
     private BalanceOperationRepository() {
@@ -64,7 +59,7 @@ public class BalanceOperationRepository {
         return attrs;
     }
 
-    protected static String getBalanceStatement() {
+    private static String getBalanceStatement() {
         return "SELECT " + "balance" +
                 " FROM balanceTable" +
                 " WHERE id = ?";
@@ -103,13 +98,11 @@ public class BalanceOperationRepository {
         return "SELECT * FROM returnTable WHERE returnId = ?";
     }
 
-    private static String getDeleteRowStatement(String tableName, String columnName, String columnName2) {
-        return "DELETE FROM " + tableName + " WHERE " + columnName + "= ? AND " + columnName2 + "= ?;";
-    }
+  
 
     public static Double getBalanceOfACreditCard(String creditCard) throws IOException {
         String filePath = new File("").getAbsolutePath();
-        filePath = filePath.concat("\\src\\main\\java\\it\\polito\\ezshop\\utils\\CreditCards.txt");
+        filePath = filePath.concat("/src/main/java/it/polito/ezshop/utils/CreditCards.txt");
 
         File file = new File(filePath);
 
@@ -119,15 +112,18 @@ public class BalanceOperationRepository {
         int n = 0;
         while ((st = br.readLine()) != null) {
             if (creditCard.equals(st.substring(0, 16))) {
-                return Double.parseDouble(st.substring(17, st.length() - 1));
+                return Double.parseDouble(st.substring(17, st.length() ));
             }
             n = n + 1;
         }
+        br.close();
         return 0.0;
     }
 
-    public void initialize() throws SQLException {
-        Connection con = DBCPDBConnectionPool.getConnection();
+    public void initialize() {
+    	Connection con = null;
+    	try {
+        con = DBCPDBConnectionPool.getConnection();
         Statement st = con.createStatement();
         st.executeUpdate("CREATE TABLE IF NOT EXISTS " + "orderTable" + " " + "(orderId INTEGER PRIMARY KEY, balanceId INTEGER, productCode TEXT, pricePerUnit DOUBLE, quantity INTEGER, status TEXT, money DOUBLE)");
         st.executeUpdate("CREATE TABLE IF NOT EXISTS " + "sale" + " " + "(ticketNumber INTEGER PRIMARY KEY, discountRate DOUBLE, price DOUBLE, status TEXT)");
@@ -142,6 +138,15 @@ public class BalanceOperationRepository {
         }
         st.close();
         con.close();
+    	}catch (SQLException e) {
+	        e.printStackTrace();
+	        try {
+	            con.close();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+	    }
     }
 
     public boolean setBalance(double b) {
@@ -259,7 +264,7 @@ public class BalanceOperationRepository {
     }
 
     public Integer addNewOrder(OrderClass order) throws SQLException {
-    	Integer nextOrderId = this.getHighestOrderId() +1;
+    	Integer nextOrderId = this.getHighestOrderId() + 1;
         HashMap<String, String> orderData = new HashMap<>();
         orderData.put("orderId", String.valueOf(nextOrderId));
         orderData.put("balanceId", order.getBalanceId().toString());
@@ -268,7 +273,7 @@ public class BalanceOperationRepository {
         orderData.put("quantity", String.valueOf(order.getQuantity()));
         orderData.put("status", order.getStatus());
         orderData.put("money", String.valueOf(order.getMoney()));
-
+        System.out.println("adding new order");
         Connection con = DBCPDBConnectionPool.getConnection();
         ArrayList<String> attrs = getAttrsOrder();
         Logger.getLogger(EZShop.class.getName()).log(Level.INFO, "adding new order: " + order.getOrderId());
@@ -277,11 +282,10 @@ public class BalanceOperationRepository {
         for (int j = 0; j < attrs.size(); j++) {
             prp.setString(j + 1, orderData.get(attrs.get(j)));
         }
-
         prp.executeUpdate();
         prp.close();
         con.close();
-        return this.getHighestOrderId();
+        return nextOrderId;
     }
 
     public Integer addNewSale(SaleTransactionClass sale) throws SQLException {
@@ -436,17 +440,12 @@ public class BalanceOperationRepository {
         return false;
     }
 
-    private String getUpdateQuantityStatement() {
-        return "UPDATE ticket SET amount = ? WHERE id = ?";
-    }
 
     private String getUpdateStateStatement(String tableName) {
         return "UPDATE " + tableName + " SET status  = ? WHERE orderId = ?";
     }
 
-    private String getDeleteTicketStatement() {
-        return "DELETE FROM ticket WHERE id= ?;";
-    }
+ 
 
     private String getUpdateRowStatement(String tableName, String columnName, String idName) {
         return "UPDATE " + tableName + " SET " + columnName + " = ? WHERE " + idName + " = ?";
@@ -456,7 +455,7 @@ public class BalanceOperationRepository {
         return "DELETE FROM " + tableName + " WHERE " + idName + "= ?;";
     }
 
-    protected OrderClass convertResultSetOrderToDomainModel(ResultSet rs) throws SQLException {
+    private OrderClass convertResultSetOrderToDomainModel(ResultSet rs) throws SQLException {
         return new OrderClass(rs.getInt(1),
                 rs.getInt(2),
                 rs.getString(3),
@@ -468,7 +467,7 @@ public class BalanceOperationRepository {
     }
 
     // ticketNumber, discountRate, price, state";
-    protected SaleTransactionClass convertResultSetSaleToDomainModel(ResultSet rs) throws SQLException {
+    private SaleTransactionClass convertResultSetSaleToDomainModel(ResultSet rs) throws SQLException {
         return new SaleTransactionClass(rs.getInt(1),
                 rs.getDouble(2),
                 rs.getDouble(3),
@@ -477,7 +476,7 @@ public class BalanceOperationRepository {
     }
 
     //  "balanceId, price, state";
-    protected ReturnTransactionClass convertResultSetReturnToDomainModel(ResultSet rs) throws SQLException {
+    private ReturnTransactionClass convertResultSetReturnToDomainModel(ResultSet rs) throws SQLException {
         return new ReturnTransactionClass(rs.getInt(1),
                 rs.getDouble(2),
                 rs.getString(3),
@@ -486,7 +485,7 @@ public class BalanceOperationRepository {
     }
 
     // barcode, productDescription, amount, pricePerUnit, discountRate, saleId, returnId";
-    protected TicketEntryClass convertResultSetTicketToDomainModel(ResultSet rs) throws SQLException {
+    private TicketEntryClass convertResultSetTicketToDomainModel(ResultSet rs) throws SQLException {
         return new TicketEntryClass(rs.getInt(1),
                 rs.getString(2),
                 rs.getString(3),
@@ -496,7 +495,7 @@ public class BalanceOperationRepository {
         );
     }
 
-    protected BalanceOperationClass convertResultSetBalanceToDomainModel(ResultSet rs) throws SQLException {
+    private BalanceOperationClass convertResultSetBalanceToDomainModel(ResultSet rs) throws SQLException {
         return new BalanceOperationClass(rs.getInt(1),
                 LocalDate.of(Integer.valueOf(rs.getString(2).split("-")[0]), Integer.valueOf(rs.getString(2).split("-")[1]), Integer.valueOf(rs.getString(2).split("-")[2])),
                 rs.getDouble(3),
@@ -514,25 +513,7 @@ public class BalanceOperationRepository {
         return result;
     }
 
-    private ArrayList<SaleTransactionClass> loadAllSales(ResultSet rs) throws SQLException {
-
-        ArrayList<SaleTransactionClass> result = new ArrayList<>();
-        while (rs.next()) {
-            SaleTransactionClass s = convertResultSetSaleToDomainModel(rs);
-            result.add(s);
-        }
-        return result;
-    }
-
-    private ArrayList<ReturnTransactionClass> loadAllReturns(ResultSet rs) throws SQLException {
-
-        ArrayList<ReturnTransactionClass> result = new ArrayList<>();
-        while (rs.next()) {
-            ReturnTransactionClass r = convertResultSetReturnToDomainModel(rs);
-            result.add(r);
-        }
-        return result;
-    }
+  
 
     private ArrayList<TicketEntry> loadAllTickets(ResultSet rs) throws SQLException {
 
@@ -828,31 +809,51 @@ public class BalanceOperationRepository {
     }
 
     public Integer getHighestBalanceId() throws SQLException {
-
-        String sqlCommand = getMaxBalanceIdStatement();
-        Connection con = DBCPDBConnectionPool.getConnection();
-        PreparedStatement prps = con.prepareStatement(sqlCommand);
-        ResultSet rs = prps.executeQuery();
-        rs.next();
-        Integer highestId = rs.getInt(1);
-        prps.close();
-        con.close();
-        return highestId;
+    	Connection con = null;
+    	try {
+	        String sqlCommand = getMaxBalanceIdStatement();
+	        con = DBCPDBConnectionPool.getConnection();
+	        PreparedStatement prps = con.prepareStatement(sqlCommand);
+	        ResultSet rs = prps.executeQuery();
+	        rs.next();
+	        Integer highestId = rs.getInt(1);
+	        prps.close();
+	        con.close();
+	        return highestId;
+    	}catch (SQLException e) {
+            e.printStackTrace();
+            try {
+                con.close();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+            return 0;
+        }
       
     }
 
-    public OrderClass getOrderByOrderId(String orderId) throws SQLException {
-
-        String sqlCommand = getOrderByOrderIdStatement();
-        Connection con = DBCPDBConnectionPool.getConnection();
-        PreparedStatement prps = con.prepareStatement(sqlCommand);
-        prps.setString(1, orderId);
-        ResultSet rs = prps.executeQuery();
-        rs.next();
-        OrderClass o = this.convertResultSetOrderToDomainModel(rs);
-        prps.close();
-        con.close();
-        return o;
+    public OrderClass getOrderByOrderId(String orderId) {
+    	Connection con = null;
+    	try {
+	        String sqlCommand = getOrderByOrderIdStatement();
+	        con = DBCPDBConnectionPool.getConnection();
+	        PreparedStatement prps = con.prepareStatement(sqlCommand);
+	        prps.setString(1, orderId);
+	        ResultSet rs = prps.executeQuery();
+	        rs.next();
+	        OrderClass o = this.convertResultSetOrderToDomainModel(rs);
+	        prps.close();
+	        con.close();
+	        return o;
+    	}catch (SQLException e) {
+            e.printStackTrace();
+            try {
+                con.close();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+            return null;
+        }
     }
 
     public void deleteTables() throws SQLException {
@@ -907,7 +908,7 @@ public class BalanceOperationRepository {
 
     public HashMap<String, Double> getCreditCards() throws IOException {
         String filePath = new File("").getAbsolutePath();
-        filePath = filePath.concat("\\src\\main\\java\\it\\polito\\ezshop\\utils\\CreditCards.txt");
+        filePath = filePath.concat("/src/main/java/it/polito/ezshop/utils/CreditCards.txt");
 
         File file = new File(filePath);
 
@@ -920,31 +921,12 @@ public class BalanceOperationRepository {
         int n = 0;
         while ((st = br.readLine()) != null) {
             if (n > 4) {
-                creditCards.put(st.substring(0, 16), Double.parseDouble(st.substring(17, st.length() - 1)));
+                creditCards.put(st.substring(0, 16), Double.parseDouble(st.substring(17, st.length())));
             }
             n = n + 1;
         } 
+        br.close();
         return creditCards;
-    }
-
-    public Boolean changeCreditCardBalance2(String creditCard, Double price) {
-        try {
-            String filePath = new File("").getAbsolutePath();
-            filePath = filePath.concat("\\src\\main\\java\\it\\polito\\ezshop\\utils\\CreditCards.txt");
-            File file = new File(filePath);
-            BufferedWriter outStream = new BufferedWriter(new FileWriter(file, true));
-
-
-            price = price + getBalanceOfACreditCard(creditCard);
-            outStream.newLine();
-            outStream.write(creditCard + ";" + price);
-            outStream.close();
-
-        } catch (IOException e) {
-            System.out.println("An error occurred.");
-            e.printStackTrace();
-        }
-        return false;
     }
  
 
@@ -952,7 +934,7 @@ public class BalanceOperationRepository {
         try {
             // input the file content to the StringBuffer "input"
             String filePath = new File("").getAbsolutePath();
-            filePath = filePath.concat("\\src\\main\\java\\it\\polito\\ezshop\\utils\\CreditCards.txt");
+            filePath = filePath.concat("/src/main/java/it/polito/ezshop/utils/CreditCards.txt");
             BufferedReader file = new BufferedReader(new FileReader(filePath));
             StringBuffer inputBuffer = new StringBuffer();
             String line;

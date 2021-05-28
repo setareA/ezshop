@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -16,6 +17,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import it.polito.ezshop.data.TicketEntry;
+import it.polito.ezshop.data.model.BalanceOperationClass;
 import it.polito.ezshop.data.model.OrderClass;
 import it.polito.ezshop.data.model.ReturnTransactionClass;
 import it.polito.ezshop.data.model.SaleTransactionClass;
@@ -61,10 +63,7 @@ public class BalanceOperationRepositoryTest {
 		assertEquals(balanceOperationRepository.getBalance(), balanceNow + balanceUpdate , 0.001);		
 	}
 
-	@Test
-	public void testGetBalanceStatement() {
-		fail("Not yet implemented");
-	}
+	
 
 	@Test
 	public void testResetBalance() throws SQLException {
@@ -83,8 +82,20 @@ public class BalanceOperationRepositoryTest {
 		}
 
 	@Test
-	public void testAddBalanceOperation() {
-		fail("Not yet implemented");
+	public void testAddBalanceOperation() throws SQLException {
+		BalanceOperationClass balance1 = new BalanceOperationClass(6, LocalDate.now(), 80.0,"debit");
+		BalanceOperationClass balance2 = new BalanceOperationClass(7, LocalDate.now(), 80.0,"credit");
+		BalanceOperationClass balance4 = new BalanceOperationClass(8, LocalDate.now(), 80.0,"debit");
+		BalanceOperationClass balance5 = new BalanceOperationClass(9, LocalDate.now(), 80.0,"debit");
+		balanceOperationRepository.addBalanceOperation(balance1);
+		balanceOperationRepository.addBalanceOperation(balance2);
+		
+		//assertThrows(SQLException.class, ()->balanceOperationRepository.addBalanceOperation(balance3));
+		
+		balanceOperationRepository.addBalanceOperation(balance4);
+		balanceOperationRepository.addBalanceOperation(balance5);
+		System.out.println(balanceOperationRepository.getHighestBalanceId());
+		assertTrue(balanceOperationRepository.getHighestBalanceId()==9);
 	}
 
 	@Test
@@ -181,42 +192,24 @@ public class BalanceOperationRepositoryTest {
 		assertEquals(balanceOperationRepository.updateState("sale", s, "newState"),false);
 	}
 
-	@Test
-	public void testConvertResultSetOrderToDomainModel() {
-		fail("Not yet implemented");
-	}
 
 	@Test
-	public void testConvertResultSetSaleToDomainModel() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testConvertResultSetReturnToDomainModel() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testConvertResultSetTicketToDomainModel() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testConvertResultSetBalanceToDomainModel() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testGetAllOrders() {
-		fail("Not yet implemented");
+	public void testGetAllOrders() throws SQLException {
+		OrderClass order = new OrderClass(1, 0, null, 0, 0, null, 0);
+		OrderClass order2 = new OrderClass(2, 0, null, 0, 0, null, 0);
+		OrderClass order3 = new OrderClass(3, 0, null, 0, 0, null, 0);
+		balanceOperationRepository.addNewOrder(order);
+		balanceOperationRepository.addNewOrder(order2);
+		balanceOperationRepository.addNewOrder(order3);
+		assertEquals(ArrayList.class,balanceOperationRepository.getAllOrders().getClass());
 	}
 
 	@Test
 	public void testGetAllBalanceOperation() {
-		fail("Not yet implemented");
+		assertEquals(ArrayList.class,balanceOperationRepository.getAllBalanceOperation().getClass());
 	}
 
-	@Test //TODO
+	@Test 
 	public void testGetTicketsBySaleId() throws SQLException {
 		TicketEntryClass t1 = new TicketEntryClass(1,null , "prodotto1", 0, 0, 0);
 		TicketEntryClass t2 = new TicketEntryClass(1,null , "prodotto2", 0, 0, 0);
@@ -231,14 +224,18 @@ public class BalanceOperationRepositoryTest {
 		assertEquals(s1,new ArrayList<String>(Arrays.asList(t1.getProductDescription())));
 		balanceOperationRepository.getTicketsBySaleId(11).forEach(k -> s2.add(k.getProductDescription()));
 		assertEquals(s2,new ArrayList<String>(Arrays.asList(t2.getProductDescription(),t3.getProductDescription())));
+		assertEquals(balanceOperationRepository.getTicketsBySaleId(841),new ArrayList<TicketEntry>());
+		assertNotEquals(balanceOperationRepository.getTicketsBySaleId(841),null);
 
 
 	}
 
-	@Test // TODO
-	public void testGetSalesByTicketNumber() {
-		fail("Not yet implemented");
-	}
+	@Test 
+	public void testGetSalesByTicketNumber() throws SQLException {
+		Integer i = balanceOperationRepository.addNewSale(new SaleTransactionClass(null, 0, 0, null));
+		assertEquals(balanceOperationRepository.getSalesByTicketNumber(i).getTicketNumber(), i);
+		assertEquals(balanceOperationRepository.getSalesByTicketNumber(531), null);
+		}
 
 	@Test
 	public void testGetReturnByReturnId() throws SQLException {
@@ -330,13 +327,31 @@ public class BalanceOperationRepositoryTest {
 		assertNotEquals(balanceOperationRepository.getHighestReturnId(),i);	}
 
 	@Test
-	public void testGetHighestBalanceId() {
-		fail("Not yet implemented");
+	public void testGetHighestBalanceId() throws SQLException {
+		assertTrue(balanceOperationRepository.getHighestBalanceId()==0);
+		BalanceOperationClass balance1 = new BalanceOperationClass(1, LocalDate.now(), 80.0,"debit");
+		BalanceOperationClass balance2 = new BalanceOperationClass(2, LocalDate.now(), 80.0,"credit");
+		BalanceOperationClass balance3 = new BalanceOperationClass(3, LocalDate.now(), 80.0,"random");
+		BalanceOperationClass balance4 = new BalanceOperationClass(4, LocalDate.now(), 80.0,"debit");
+		BalanceOperationClass balance5 = new BalanceOperationClass(5, LocalDate.now(), 80.0,"debit");
+		balanceOperationRepository.addBalanceOperation(balance1);
+		balanceOperationRepository.addBalanceOperation(balance2);
+		balanceOperationRepository.addBalanceOperation(balance3);
+		balanceOperationRepository.addBalanceOperation(balance4);
+		balanceOperationRepository.addBalanceOperation(balance5);
+		System.out.println(balanceOperationRepository.getHighestBalanceId());
+		assertTrue(balanceOperationRepository.getHighestBalanceId()==5);
+		
 	}
 
 	@Test
-	public void testGetOrderByOrderId() {
-		fail("Not yet implemented");
+	public void testGetOrderByOrderId() throws SQLException {
+		OrderClass order = new OrderClass(1, 0, null, 0, 0, null, 0);
+		balanceOperationRepository.addNewOrder(order);
+		assertTrue(balanceOperationRepository.getOrderByOrderId("1").getOrderId()==1);
+		assertNull(balanceOperationRepository.getOrderByOrderId(null));
+		assertNull(balanceOperationRepository.getOrderByOrderId("2"));
+		assertNull(balanceOperationRepository.getOrderByOrderId("0"));
 	}
 
 	@Test
@@ -346,12 +361,14 @@ public class BalanceOperationRepositoryTest {
 		
 		balanceOperationRepository.deleteTables();
 		assertEquals(balanceOperationRepository.getSalesByTicketNumber(s),null);
-		assertThrows(SQLException.class, () -> balanceOperationRepository.getOrderByOrderId(String.valueOf(o)));
+		assertEquals(null, balanceOperationRepository.getOrderByOrderId(String.valueOf(o)));
 	}
 
 	@Test
 	public void testGetCreditCards() throws IOException {
-		assertNotEquals(balanceOperationRepository.getCreditCards(),null);
+		balanceOperationRepository.changeCreditCardBalance("4485370086510891", 60.5);
+		System.out.println(balanceOperationRepository.getCreditCards().get("4485370086510891"));
+		assertTrue(balanceOperationRepository.getCreditCards().get("4485370086510891")==60.5);
 	}
 
 	@Test
@@ -359,18 +376,22 @@ public class BalanceOperationRepositoryTest {
 		HashMap<String,Double> cc = new HashMap<>();
 		cc = balanceOperationRepository.getCreditCards();
 		for(Map.Entry<String,Double> x : cc.entrySet()) {
-		assertEquals(balanceOperationRepository.getBalanceOfACreditCard(x.getKey()), x.getValue());
+		assertEquals(BalanceOperationRepository.getBalanceOfACreditCard(x.getKey()), x.getValue());
 		}
 	}
 
-	@Test
-	public void testChangeCreditCardBalance2() {
-		fail("Not yet implemented");
-	}
+	
 
 	@Test
-	public void testChangeCreditCardBalance() {
-		fail("Not yet implemented");
+	public void testChangeCreditCardBalance() throws IOException {
+		HashMap<String,Double> cc = new HashMap<>();
+		cc = balanceOperationRepository.getCreditCards();
+		for(Map.Entry<String,Double> x : cc.entrySet()) {
+			balanceOperationRepository.changeCreditCardBalance(x.getKey(), x.getValue()*2);
+			}
+		for(Map.Entry<String,Double> x : cc.entrySet()) {
+			assertEquals(BalanceOperationRepository.getBalanceOfACreditCard(x.getKey()), Double.valueOf(x.getValue()*2));
+			}
 	}
 
 }
