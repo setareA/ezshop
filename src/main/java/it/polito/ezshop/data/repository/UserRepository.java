@@ -1,6 +1,5 @@
 package it.polito.ezshop.data.repository;
 
-import it.polito.ezshop.data.EZShop;
 import it.polito.ezshop.data.User;
 import it.polito.ezshop.data.model.UserClass;
 import it.polito.ezshop.data.util.HashGenerator;
@@ -57,7 +56,7 @@ public class UserRepository {
     }
 
     public void deleteTables() throws SQLException {
-        Logger.getLogger(EZShop.class.getName()).log(Level.INFO, "deleting Users");
+        Logger.getLogger(UserRepository.class.getName()).log(Level.INFO, "deleting Users");
         Connection con = DBCPDBConnectionPool.getConnection();
         PreparedStatement prp = con.prepareStatement("DELETE FROM user;");
         prp.executeUpdate();
@@ -165,7 +164,7 @@ public class UserRepository {
 
             con = DBCPDBConnectionPool.getConnection();
             ArrayList<String> attrs = getAttrs();
-            Logger.getLogger(EZShop.class.getName()).log(Level.INFO, "adding new user with username: " + user.getUsername());
+            Logger.getLogger(UserRepository.class.getName()).log(Level.INFO, "adding new user with username: " + user.getUsername());
             String sqlCommand = insertCommand("user", attrs);
             PreparedStatement prp = con.prepareStatement(sqlCommand);
             for (int j = 0; j < attrs.size(); j++) {
@@ -205,7 +204,7 @@ public class UserRepository {
         Connection con = null;
         try {
             con = DBCPDBConnectionPool.getConnection();
-            Logger.getLogger(EZShop.class.getName()).log(Level.INFO, "deleting user with id: " + id);
+            Logger.getLogger(UserRepository.class.getName()).log(Level.INFO, "deleting user with id: " + id);
             String sqlCommand = deleteCommand("user", "id");
             PreparedStatement prp = con.prepareStatement(sqlCommand);
             prp.setString(1, id.toString());

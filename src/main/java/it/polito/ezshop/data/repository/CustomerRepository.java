@@ -1,7 +1,6 @@
 package it.polito.ezshop.data.repository;
 
 import it.polito.ezshop.data.Customer;
-import it.polito.ezshop.data.EZShop;
 import it.polito.ezshop.data.model.CustomerClass;
 
 import java.sql.*;
@@ -92,7 +91,7 @@ public class CustomerRepository {
     }
     
     public void deleteTables() throws SQLException {
-        Logger.getLogger(EZShop.class.getName()).log(Level.INFO, "deleting Customers");
+        Logger.getLogger(CustomerRepository.class.getName()).log(Level.INFO, "deleting Customers");
         Connection con = DBCPDBConnectionPool.getConnection();
         PreparedStatement prp = con.prepareStatement("DELETE FROM customer;");
         prp.executeUpdate();

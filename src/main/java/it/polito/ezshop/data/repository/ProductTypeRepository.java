@@ -1,6 +1,5 @@
 package it.polito.ezshop.data.repository;
 
-import it.polito.ezshop.data.EZShop;
 import it.polito.ezshop.data.model.ProductTypeClass;
 
 import java.sql.*;
@@ -184,7 +183,7 @@ public class ProductTypeRepository {
     	PreparedStatement prp = null;
     	Connection con = null;
     	try {
-	        Logger.getLogger(EZShop.class.getName()).log(Level.INFO, "deleting product table");
+	        Logger.getLogger(ProductTypeRepository.class.getName()).log(Level.INFO, "deleting product table");
 	        con = DBCPDBConnectionPool.getConnection();
 	        String sqlCommand = deleteTableCommand();
 	        prp = con.prepareStatement(sqlCommand);
@@ -415,7 +414,7 @@ public class ProductTypeRepository {
         con = DBCPDBConnectionPool.getConnection();
         System.out.println("updating product type");
         if (this.getProductTypebyId(id) == null) return false;
-        Logger.getLogger(EZShop.class.getName()).log(Level.SEVERE, "updating product type");
+        Logger.getLogger(ProductTypeRepository.class.getName()).log(Level.SEVERE, "updating product type");
         String sqlCommand = updateCommand("productType", new ArrayList<String>(Arrays.asList("id", "productDescription", "barCode", "pricePerUnit", "note")), new ArrayList<String>(Arrays.asList(id, nd, nc, np, nn)));
         PreparedStatement prp = con.prepareStatement(sqlCommand);
         int count = prp.executeUpdate();
