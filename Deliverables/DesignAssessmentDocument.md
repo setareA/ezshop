@@ -51,9 +51,7 @@ In coding, this was not possible since the "OrderClass" couldn't implement the "
 
 **Fat:** ezshop.it.polito.ezshop.data.EZShop class is considered a fat class. The reason is that we implemented all the logic inside this class. (Except working with the database which is done through Repository classes)
 
-**Solution:** Besides from "repository" package we could consider another package called "Service", and create service classes for "User", "Customer", "Product", and "BalanceOperation" separately. 
-
-The logic of each part would be done inside the corresponding class and then Ezshop class (the current fat class) would call the required methods from the "service" package.
+**Solution:** Besides from "repository" package we could consider another package called "Service", and create service classes for "User", "Customer", "Product", and "BalanceOperation" separately. The logic of each part would be done inside the corresponding class and then Ezshop class (the current fat class) would call the required methods from the "service" package.
 
 **Tangle:** The overall tangle inside structural over-complexity chart is reported 0 %. However, inside "Items with XS tangles (design)" the data package is reported with a 4.88% tangle. This percentage is because of the interfaces which are placed inside the "data" package.
 
