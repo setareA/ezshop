@@ -7,17 +7,10 @@ on April 30, discuss whether the design could be improved>
 ```
 
 # Levelized structure map
-```
-<Applying Structure 101 to your project, version to be delivered on june 4, produce the Levelized structure map,
-with all elements explosed, all dependencies, NO tangles; and report it here as a picture>
-```
+![levelizedStructureMap](C:\Users\34671\levelizedStructureMap.png)
 
 # Structural over complexity chart
-```
-<Applying Structure 101 to your project, version to be delivered on june 4, produce the structural over complexity chart; and report it here as a picture>
-```
-
-
+![StructureOverComplexity](C:\Users\34671\Desktop\StructureOverComplexity.png)
 
 # Size metrics
 
