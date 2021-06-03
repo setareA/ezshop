@@ -7,10 +7,10 @@ on April 30, discuss whether the design could be improved>
 ```
 
 # Levelized structure map
-![levelizedStructureMap](C:\Users\34671\levelizedStructureMap.png)
+![](Images/LevelizedStructureMap.png)
 
 # Structural over complexity chart
-![StructureOverComplexity](C:\Users\34671\Desktop\StructureOverComplexity.png)
+![](Images/StructureOverComplexity.png)
 
 # Size metrics
 
