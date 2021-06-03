@@ -14,12 +14,6 @@ on April 30, discuss whether the design could be improved>
 
 # Size metrics
 
-```
-<Report here the metrics about the size of your project, collected using Structure 101>
-```
-
-
-
 | Metric                                    | Measure |
 | ----------------------------------------- | ------- |
 | Packages                                  | 8       |
@@ -31,10 +25,6 @@ on April 30, discuss whether the design could be improved>
 
 
 # Items with XS
-
-```
-<Report here information about code tangles and fat packages>
-```
 
 | Item                                | Tangled | Fat  | Size | XS   |
 | ----------------------------------- | ------- | ---- | ---- | ---- |
