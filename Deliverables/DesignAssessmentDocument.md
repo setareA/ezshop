@@ -35,30 +35,26 @@ on April 30, discuss whether the design could be improved>
 
 # Package level tangles
 
-```
-<Report screen captures of the package-level tangles by opening the items in the "composition perspective" 
-(double click on the tangle from the Views->Complexity page)>
-```
+![](Images/PLT1.jpg)
+
+![](Images/PLT2.jpg)
 
 # Summary analysis
-```
-<Discuss here main differences of the current structure of your project vs the design delivered on April 30>
-<Discuss if the current structure shows weaknesses that should be fixed>
-
-```
 
 ***Changes from the previous design:***
 
 In the initial design "OrderClass" and "ReturnTransactionClass"  were inherited from the "Debit" class, and "SaleTransactionClass" was inherited from the "Credit" class. Then both "Debit" and "Credit" classes were inherited from "BalanceOperationClass".
 
-In coding, this was not possible since the "OrderClass" couldn’t implement the "Order" interface and inherit the "Debit" class at the same time because of the conflict in the return value of the "getBalanceId" method.
+In coding, this was not possible since the "OrderClass" couldn't implement the "Order" interface and inherit the "Debit" class at the same time because of the conflict in the return value of the "getBalanceId" method.
 
 ***Possible changes to consider regarding fat and tangle:***
 
 **Fat:** ezshop.it.polito.ezshop.data.EZShop class is considered a fat class. The reason is that we implemented all the logic inside this class. (Except working with the database which is done through Repository classes)
 
-**Solution:** Besides from "repository" package we could consider another package called "Service". and create service classes for "User", "Customer", "Product", and "BalanceOperation" separately. 
+**Solution:** Besides from "repository" package we could consider another package called "Service", and create service classes for "User", "Customer", "Product", and "BalanceOperation" separately. 
 
-The logic of each part would be done inside the corresponding class and then ezshop class (the current fat class) would call the required methods from the "service" package.
+The logic of each part would be done inside the corresponding class and then Ezshop class (the current fat class) would call the required methods from the "service" package.
 
-**Tangle:** The overall tangle inside structural over-complexity chart is reported 0 %. However, inside "Items with XS tangles (design)" the data package is reported with a 4.88% tangle. This percentage is because of the interfaces which are placed inside the "data" package. By moving each interface to its package it will be solved. 
+**Tangle:** The overall tangle inside structural over-complexity chart is reported 0 %. However, inside "Items with XS tangles (design)" the data package is reported with a 4.88% tangle. This percentage is because of the interfaces which are placed inside the "data" package.
+
+**Solution:** By moving each interface to its package this will be solved. 
