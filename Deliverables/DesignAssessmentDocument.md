@@ -29,11 +29,11 @@ with all elements explosed, all dependencies, NO tangles; and report it here as 
 
 | Metric                                    | Measure |
 | ----------------------------------------- | ------- |
-| Packages                                  |         |
-| Classes (outer)                           |         |
-| Classes (all)                             |         |
-| NI (number of bytecode instructions)      |         |
-| LOC (non comment non blank lines of code) |         |
+| Packages                                  | 8       |
+| Classes (outer)                           | 44      |
+| Classes (all)                             | 44      |
+| NI (number of bytecode instructions)      | 9703    |
+| LOC (non comment non blank lines of code) | 4172    |
 
 
 
@@ -43,10 +43,10 @@ with all elements explosed, all dependencies, NO tangles; and report it here as 
 <Report here information about code tangles and fat packages>
 ```
 
-| Item | Tangled | Fat  | Size | XS   |
-| ---- | ------- | ---- | ---- | ---- |
-|      |         |      |      |      |
-|      |         |      |      |      |
+| Item                                | Tangled | Fat  | Size | XS   |
+| ----------------------------------- | ------- | ---- | ---- | ---- |
+| ezshop.it.polito.ezshop.data.EZShop |         | 219  | 3502 | 1583 |
+| ezshop.it.polito.ezshop.data        | 5%      | 7    | 9493 | 463  |
 
 
 
