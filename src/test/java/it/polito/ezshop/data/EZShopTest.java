@@ -197,7 +197,10 @@ public class EZShopTest  {
 	public void testOnlyDigitsWithCharsAndDigits() {
 		assertFalse(EZShop.onlyDigits("12as987dffg34"));
 	}
-
+	@Test
+	public void testOnlyDigitsWithCharsAndDigits2() {
+		assertFalse(EZShop.onlyDigits("100001111a"));
+	}
 	@Test
 	public void testCheckLuhnValid() {
 		assertTrue(EZShop.checkLuhn("4005550000000019"));

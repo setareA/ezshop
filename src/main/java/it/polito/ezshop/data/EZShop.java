@@ -347,6 +347,7 @@ public class EZShop implements EZShopInterface {
     public List<ProductType> getProductTypesByDescription(String description) throws UnauthorizedException {
 
         if (this.checkIfAdministrator() || this.checkIfManager()) {
+        	 if(description == null) description = "";
             List<ProductType> list = new ArrayList<ProductType>(productTypeRepository.getProductTypebyDescription(description));
             return list;
         } else {
@@ -506,7 +507,7 @@ public class EZShop implements EZShopInterface {
         if(newCustomerCard==null) {
         	return false;
         }
-        if ((("").getClass().equals(newCustomerCard.getClass())) && !("").equals(newCustomerCard) && !(newCustomerCard.length() == 10 || !onlyDigits(newCustomerCard))) {
+        if ((("").getClass().equals(newCustomerCard.getClass())) && !("").equals(newCustomerCard) && !(newCustomerCard.length() == 10) || !onlyDigits(newCustomerCard)) {
             throw new InvalidCustomerCardException();
         }
         // Check UnauthorizedException: check if there is a loggedUser and if its role is a "Administrator", "ShopManager" or "Cashier"
@@ -634,7 +635,7 @@ public class EZShop implements EZShopInterface {
     public boolean modifyPointsOnCard(String customerCard, int pointsToBeAdded) throws InvalidCustomerCardException, UnauthorizedException {
         // Check InvalidCustomerCardException: (empty, null or bad format(string with 10 digits))
         // the bad format is check in two steps : is it a string? and is the size equals to 10 digits?
-        if (customerCard == null || !(("").getClass().equals(customerCard.getClass())) || ("").equals(customerCard) || !(customerCard.length() == 10 || !onlyDigits(customerCard))) {
+        if (customerCard == null || !(("").getClass().equals(customerCard.getClass())) || ("").equals(customerCard) || !(customerCard.length() == 10) || !onlyDigits(customerCard)) {
             throw new InvalidCustomerCardException();
         }
 

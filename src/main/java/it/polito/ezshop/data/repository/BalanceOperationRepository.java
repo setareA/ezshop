@@ -1,7 +1,6 @@
 package it.polito.ezshop.data.repository;
 
 
-import it.polito.ezshop.data.EZShop;
 import it.polito.ezshop.data.TicketEntry;
 import it.polito.ezshop.data.model.*;
 
@@ -251,7 +250,7 @@ public class BalanceOperationRepository {
 
         Connection con = DBCPDBConnectionPool.getConnection();
         ArrayList<String> attrs = getAttrsBalOp();
-        Logger.getLogger(EZShop.class.getName()).log(Level.INFO, "adding new balance operation: " + b.getBalanceId());
+        Logger.getLogger(BalanceOperationRepository.class.getName()).log(Level.INFO, "adding new balance operation: " + b.getBalanceId());
         String sqlCommand = insertCommand("balanceOperationTable", attrs);
         PreparedStatement prp = con.prepareStatement(sqlCommand);
         for (int j = 0; j < attrs.size(); j++) {
@@ -276,7 +275,7 @@ public class BalanceOperationRepository {
         System.out.println("adding new order");
         Connection con = DBCPDBConnectionPool.getConnection();
         ArrayList<String> attrs = getAttrsOrder();
-        Logger.getLogger(EZShop.class.getName()).log(Level.INFO, "adding new order: " + order.getOrderId());
+        Logger.getLogger(BalanceOperationRepository.class.getName()).log(Level.INFO, "adding new order: " + order.getOrderId());
         String sqlCommand = insertCommand("orderTable", attrs);
         PreparedStatement prp = con.prepareStatement(sqlCommand);
         for (int j = 0; j < attrs.size(); j++) {
@@ -299,7 +298,7 @@ public class BalanceOperationRepository {
 
         Connection con = DBCPDBConnectionPool.getConnection();
         ArrayList<String> attrs = getAttrsSale();
-        Logger.getLogger(EZShop.class.getName()).log(Level.INFO, "adding new sale with saleId: " + nextTicketNumber.toString());
+        Logger.getLogger(BalanceOperationRepository.class.getName()).log(Level.INFO, "adding new sale with saleId: " + nextTicketNumber.toString());
         String sqlCommand = insertCommand("sale", attrs);
         PreparedStatement prp = con.prepareStatement(sqlCommand);
         for (int j = 0; j < attrs.size(); j++) {
@@ -321,7 +320,7 @@ public class BalanceOperationRepository {
 
         Connection con = DBCPDBConnectionPool.getConnection();
         ArrayList<String> attrs = getAttrsReturn();
-        Logger.getLogger(EZShop.class.getName()).log(Level.INFO, "adding new return with returnId: " + nextReturnId);
+        Logger.getLogger(BalanceOperationRepository.class.getName()).log(Level.INFO, "adding new return with returnId: " + nextReturnId);
         String sqlCommand = insertCommand("returnTable", attrs);
         PreparedStatement prp = con.prepareStatement(sqlCommand);
         for (int j = 0; j < attrs.size(); j++) {
@@ -364,7 +363,7 @@ public class BalanceOperationRepository {
         try {
             String sqlCommand = getDeleteRowStatement(tableName, idName);
             con = DBCPDBConnectionPool.getConnection();
-            Logger.getLogger(EZShop.class.getName()).log(Level.INFO, "deleting row with id: " + id);
+            Logger.getLogger(BalanceOperationRepository.class.getName()).log(Level.INFO, "deleting row with id: " + id);
             prps = con.prepareStatement(sqlCommand);
             prps.setString(1, id);
             int returnVal = prps.executeUpdate();
@@ -857,7 +856,7 @@ public class BalanceOperationRepository {
     }
 
     public void deleteTables() throws SQLException {
-        Logger.getLogger(EZShop.class.getName()).log(Level.INFO, "deleting transactions");
+        Logger.getLogger(BalanceOperationRepository.class.getName()).log(Level.INFO, "deleting transactions");
         Connection con = DBCPDBConnectionPool.getConnection();
         PreparedStatement prp = con.prepareStatement("DELETE FROM orderTable;");
         prp.executeUpdate();
