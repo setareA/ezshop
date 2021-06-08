@@ -67,6 +67,10 @@ public class ProductTypeRepositoryTest {
 	        assertTrue(tableNames.contains("productType"));
 	    }
 	    
+	    @Test 
+	    public void testAddNewProductRFID() {
+	    	//productTypeRepository.addNewProductRFID(null, null)
+	    }
 	    @Test
 	    public void testDeleteProductTypeFromDB() {
             productTypeRepository.addNewProductType(new ProductTypeClass(1,30,"A-2-C","note","Apples","0799439112766", 0.30));

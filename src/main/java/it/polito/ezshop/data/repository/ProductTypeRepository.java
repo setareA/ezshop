@@ -253,7 +253,7 @@ public class ProductTypeRepository {
 	    }
     }
     
-    public boolean addNewProductRFID(String barCode, String RFID) {
+    public boolean addNewProductRFID(String RFID, String barCode) {
     	PreparedStatement prp = null;
     	Connection con = null;
     	try {
