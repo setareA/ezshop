@@ -724,9 +724,12 @@ public class EZShop implements EZShopInterface {
         	Product p = productTypeRepository.getProductbyRFID(RFID);
         	if(p == null) return false;
         	try {
-        		productTypeRepository.updateRow("productRFID", "availability", "RFID", RFID, "0");
-        		productTypeRepository.updateRow("productRFID", "ticketNumber", "RFID", RFID, String.valueOf(transactionId));
 				Boolean b =  this.addProductToSale(transactionId, p.getBarCode(), 1);
+				if(b) {
+					productTypeRepository.updateRow("productRFID", "availability", "RFID", RFID, "0");
+	        		productTypeRepository.updateRow("productRFID", "ticketNumber", "RFID", RFID, String.valueOf(transactionId));
+	        		return true;
+				} else return false;
 			} catch ( InvalidProductCodeException | InvalidQuantityException e) {
 				e.printStackTrace();
 			}
