@@ -1,5 +1,6 @@
 package it.polito.ezshop.data.repository;
 
+import it.polito.ezshop.data.model.Product;
 import it.polito.ezshop.data.model.ProductTypeClass;
 
 import java.sql.*;
@@ -11,6 +12,8 @@ import java.util.logging.Logger;
 
 public class ProductTypeRepository {
     private static final String COLUMNS = "id, quantity, location, note, productDescription, barCode , pricePerUnit";
+    private static final String COLUMNSRFID = "RFID, barCode, availability, ticketNumber, returnID";
+
     private static final ProductTypeRepository ourInstance = new ProductTypeRepository();
 
 
@@ -149,7 +152,12 @@ public class ProductTypeRepository {
                 " FROM productType" +
                 " WHERE id = ?";
     }//UPDATE Products SET Price = Price + 50 WHERE ProductID = 1
-
+    
+    protected String getFindStatementRFID() {
+        return "SELECT " + COLUMNSRFID +
+                " FROM productRFID" +
+                " WHERE RFID = ?";
+    }
     private String getUpdateQuantityStatement() {
         return "UPDATE productType SET quantity = quantity + ? WHERE id = ?";
     }
@@ -318,7 +326,14 @@ public class ProductTypeRepository {
                 rs.getDouble(7)
         );
     }
-
+    protected Product convertResultSetToDomainModelRFID(ResultSet rs) throws SQLException {
+        return new Product(Integer.parseInt(rs.getString(1)),
+                rs.getString(2),
+        		Integer.parseInt(rs.getString(3)),
+                rs.getString(4),
+                rs.getString(5)
+        );
+    }
     private ArrayList<ProductTypeClass> loadAll(ResultSet rs) throws SQLException {
 
         ArrayList<ProductTypeClass> result = new ArrayList<>();
@@ -365,6 +380,30 @@ public class ProductTypeRepository {
             ResultSet rs = prps.executeQuery();
             rs.next();
             ProductTypeClass u = convertResultSetToDomainModel(rs);
+            prps.close();
+            con.close();
+            return u;
+        } catch (SQLException e) {
+	        e.printStackTrace();
+	        try {
+	            con.close();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+	        return null;
+	    }
+    }
+    public Product getProductbyRFID(String rfid) {
+    	Connection con = null;
+        try {
+            String sqlCommand = getFindStatementRFID();
+            System.out.println(sqlCommand);
+            con = DBCPDBConnectionPool.getConnection();
+            PreparedStatement prps = con.prepareStatement(sqlCommand);
+            prps.setString(1, rfid);
+            ResultSet rs = prps.executeQuery();
+            rs.next();
+            Product u = convertResultSetToDomainModelRFID(rs);
             prps.close();
             con.close();
             return u;

@@ -19,6 +19,7 @@ import org.junit.Test;
 
 import it.polito.ezshop.data.EZShop;
 import it.polito.ezshop.data.model.CustomerClass;
+import it.polito.ezshop.data.model.Product;
 import it.polito.ezshop.data.model.ProductTypeClass;
 import it.polito.ezshop.data.model.UserClass;
 import it.polito.ezshop.exceptions.InvalidLocationException;
@@ -37,6 +38,8 @@ public class ProductTypeRepositoryTest {
 	      Connection con = DBCPDBConnectionPool.getConnection();
 	      PreparedStatement prp = con.prepareStatement("DELETE FROM productType;");
 	      prp.executeUpdate();
+	      PreparedStatement prp1 = con.prepareStatement("DELETE FROM productRFID;");
+	      prp1.executeUpdate();
 	      prp.close();
 	      con.close();
 	  }
@@ -69,10 +72,33 @@ public class ProductTypeRepositoryTest {
 	    
 	    @Test 
 	    public void testAddNewProductRFID() {
-	    	productTypeRepository.addNewProductRFID("1", "123");
-	    	productTypeRepository.addNewProductRFID("2", "123");
-	    	productTypeRepository.addNewProductRFID("3", "123");
+	    	assertTrue(productTypeRepository.addNewProductRFID("2", "123"));
+	    	assertTrue(productTypeRepository.addNewProductRFID("3", "123"));
 
+	    }
+	    
+	    @Test
+	    public void testUpdateRow() {
+	    	productTypeRepository.addNewProductRFID("1", "123");
+	    	assertTrue(productTypeRepository.updateRow("productRFID", "availability", "RFID", 1, "0"));
+	    	assertTrue(productTypeRepository.updateRow("productRFID", "ticketNumber", "RFID", 1, "12345"));
+	    	assertTrue(productTypeRepository.updateRow("productRFID", "returnID", "RFID", 1, "12345"));
+
+	    }
+	    
+	    @Test
+	    public void testgetProductbyRFID() {
+	    	productTypeRepository.addNewProductRFID("4", "124");
+	    	productTypeRepository.updateRow("productRFID", "availability", "RFID", 4, "0");
+	    	productTypeRepository.updateRow("productRFID", "ticketNumber", "RFID", 4, "12346");
+	    	productTypeRepository.updateRow("productRFID", "returnID", "RFID", 4, "12345");
+	    	Product u = productTypeRepository.getProductbyRFID("4");
+	    	assertEquals(u.getBarCode(),"124");
+	    	assertEquals(u.getAvailability(),Integer.valueOf(0));
+	    	assertEquals(u.getReturnID(),"12345");
+	    	assertEquals(u.getTicketNumber(),"12346");
+
+	    	
 	    }
 	    @Test
 	    public void testDeleteProductTypeFromDB() {
