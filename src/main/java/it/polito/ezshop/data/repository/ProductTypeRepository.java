@@ -191,6 +191,7 @@ public class ProductTypeRepository {
     	
     }
 
+
     public boolean deleteTable() {
     	PreparedStatement prp = null;
     	Connection con = null;
@@ -513,5 +514,35 @@ public class ProductTypeRepository {
         sqlCommand += " WHERE " + attributes.get(0) + " = " + values.get(0) + ";";
         return sqlCommand;
     }
+    
+    
+    public boolean updateRow(String tableName, String columnName, String idName, Integer id, String newColumnVal) {
+    	PreparedStatement prps = null;
+    	Connection con = null;
+    	try {
+            String sqlCommand = getUpdateRowStatement(tableName, columnName, idName);
+            con = DBCPDBConnectionPool.getConnection();
+            prps = con.prepareStatement(sqlCommand);
+            prps.setString(1, newColumnVal);
+            prps.setString(2, String.valueOf(id));
+            int returnVal = prps.executeUpdate();
+            prps.close();
+            con.close();
+            return (returnVal == 1);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            try {
+                con.close();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+        }
+        return false;
+    }
 
+    
+    private String getUpdateRowStatement(String tableName, String columnName, String idName) {
+        return "UPDATE " + tableName + " SET " + columnName + " = ? WHERE " + idName + " = ?";
+    }
 }

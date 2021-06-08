@@ -466,7 +466,10 @@ public class EZShop implements EZShopInterface {
 
     @Override
     public boolean recordOrderArrivalRFID(Integer orderId, String RFIDfrom) throws InvalidOrderIdException, UnauthorizedException, 
-InvalidLocationException, InvalidRFIDException {
+    InvalidLocationException, InvalidRFIDException {
+        if (orderId == null || orderId <= 0) {
+            throw new InvalidOrderIdException();
+        }
         return false;
     }
     @Override
