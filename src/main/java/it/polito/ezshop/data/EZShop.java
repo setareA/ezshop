@@ -892,7 +892,7 @@ public class EZShop implements EZShopInterface {
             throw new UnauthorizedException();
         }
     }
-
+ // TODO update also ProductRFID table
     @Override
     public boolean deleteSaleTransaction(Integer saleNumber) throws InvalidTransactionIdException, UnauthorizedException {
         Logger.getLogger(EZShop.class.getName()).log(Level.INFO, "deleteSaleTransaction");
@@ -1039,7 +1039,7 @@ public class EZShop implements EZShopInterface {
         return false;
     }
 
-
+ // TODO update also ProductRFID table
     @Override
     public boolean endReturnTransaction(Integer returnId, boolean commit) throws InvalidTransactionIdException, UnauthorizedException {
         Logger.getLogger(EZShop.class.getName()).log(Level.INFO, "endReturnTransaction => returnId :" + returnId + " commit :" + commit);
@@ -1087,7 +1087,7 @@ public class EZShop implements EZShopInterface {
             throw new UnauthorizedException();
         }
     }
-
+// TODO modify also productRFID table
     @Override
     public boolean deleteReturnTransaction(Integer returnId) throws InvalidTransactionIdException, UnauthorizedException {
         if (checkIfAdministrator() || checkIfManager() || checkIfCashier()) {
