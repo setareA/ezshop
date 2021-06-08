@@ -120,6 +120,14 @@ public class EZShop implements EZShopInterface {
         tmp = tmp1 - tmp;
         return Integer.parseInt(String.valueOf(productCode.toCharArray()[productCode.length() - 1])) == tmp;
     }
+    
+    public static boolean checkValidityRFID(String RFID) {
+        // TODO Auto-generated method stub
+    	if (RFID == null) return false;
+        if (!onlyDigits(RFID))return false;
+        if (RFID.length()!=10) return false;
+        return true;
+    }
 
     @Override
     public void reset() {
@@ -470,6 +478,24 @@ public class EZShop implements EZShopInterface {
         if (orderId == null || orderId <= 0) {
             throw new InvalidOrderIdException();
         }
+        if(productTypeRepository.getProductTypebyId(orderId.toString()).getLocation()==null) {
+        	throw new InvalidLocationException();
+        }
+        if(userRepository.getLoggedUser() == null || checkIfAdministrator() || checkIfManager()) {
+        	throw new UnauthorizedException();
+        }
+        if(checkValidityRFID(RFIDfrom) || productTypeRepository.checkUniqueRFID(RFIDfrom)) {
+        	throw new InvalidRFIDException ();
+        }
+        OrderClass o = balanceOperationRepository.getOrderByOrderId(String.valueOf(orderId));
+        if(recordOrderArrival(orderId)) {
+        	for (int i=0;i<o.getQuantity()-1;i++) {
+        		productTypeRepository.addNewProductRFID(Integer.toString(Integer.parseInt(RFIDfrom)+i),o.getProductCode());
+        	}
+        }
+        
+        
+        
         return false;
     }
     @Override

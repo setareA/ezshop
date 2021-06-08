@@ -112,6 +112,23 @@ public class ProductTypeRepository {
             }
         }
     }
+    
+    
+    public boolean checkUniqueRFID(String RFID) {
+    	/*
+    	// TODO: It does not work yet, waiting for product RFIF class
+        ProductTypeClass p = this.getProductTypebyBarCode(RFID);
+        if (id == -1) {
+            return p == null;
+        } else {
+            if (p == null) return true;
+            else {
+                return this.getProductTypebyId(String.valueOf(id)).getBarCode().equals(RFID);
+            }
+        }
+        */
+    	return true;
+    }
 
     private String getMaxIdCommand(String tableName, String columnName) {
         return "SELECT MAX(" + columnName + ") FROM " + tableName;
