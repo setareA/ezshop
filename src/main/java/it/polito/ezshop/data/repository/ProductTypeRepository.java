@@ -118,19 +118,10 @@ public class ProductTypeRepository {
     
     
     public boolean checkUniqueRFID(String RFID) {
-    	/*
     	// TODO: It does not work yet, waiting for product RFIF class
-        ProductTypeClass p = this.getProductTypebyBarCode(RFID);
-        if (id == -1) {
-            return p == null;
-        } else {
-            if (p == null) return true;
-            else {
-                return this.getProductTypebyId(String.valueOf(id)).getBarCode().equals(RFID);
-            }
-        }
-        */
-    	return true;
+        Product p = this.getProductbyRFID(RFID);
+        if (p == null) return true;
+        return false;
     }
 
     private String getMaxIdCommand(String tableName, String columnName) {
@@ -393,14 +384,14 @@ public class ProductTypeRepository {
 	        return null;
 	    }
     }
-    public Product getProductbyRFID(String rfid) {
+    public Product getProductbyRFID(String rFID) {
     	Connection con = null;
         try {
             String sqlCommand = getFindStatementRFID();
             System.out.println(sqlCommand);
             con = DBCPDBConnectionPool.getConnection();
             PreparedStatement prps = con.prepareStatement(sqlCommand);
-            prps.setString(1, rfid);
+            prps.setString(1, rFID);
             ResultSet rs = prps.executeQuery();
             rs.next();
             Product u = convertResultSetToDomainModelRFID(rs);
