@@ -721,7 +721,7 @@ public class EZShop implements EZShopInterface {
     @Override
     public boolean addProductToSaleRFID(Integer transactionId, String RFID) throws InvalidTransactionIdException, InvalidRFIDException, InvalidQuantityException, UnauthorizedException{
         if (checkIfAdministrator() || checkIfManager() || checkIfCashier()) {
-        	if(RFID.equals("") || RFID == null  ) throw new InvalidRFIDException();
+        	if(RFID.equals("") || RFID == null  ) throw new InvalidRFIDException(); // TODO: add check for valid RFID, need daniel method
         	Product p = productTypeRepository.getProductbyRFID(RFID);
         	if(p == null) return false;
         	try {
