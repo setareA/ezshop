@@ -69,7 +69,10 @@ public class ProductTypeRepositoryTest {
 	    
 	    @Test 
 	    public void testAddNewProductRFID() {
-	    	//productTypeRepository.addNewProductRFID(null, null)
+	    	productTypeRepository.addNewProductRFID("1", "123");
+	    	productTypeRepository.addNewProductRFID("2", "123");
+	    	productTypeRepository.addNewProductRFID("3", "123");
+
 	    }
 	    @Test
 	    public void testDeleteProductTypeFromDB() {
