@@ -80,18 +80,18 @@ public class ProductTypeRepositoryTest {
 	    @Test
 	    public void testUpdateRow() {
 	    	productTypeRepository.addNewProductRFID("1", "123");
-	    	assertTrue(productTypeRepository.updateRow("productRFID", "availability", "RFID", 1, "0"));
-	    	assertTrue(productTypeRepository.updateRow("productRFID", "ticketNumber", "RFID", 1, "12345"));
-	    	assertTrue(productTypeRepository.updateRow("productRFID", "returnID", "RFID", 1, "12345"));
+	    	assertTrue(productTypeRepository.updateRow("productRFID", "availability", "RFID", "1", "0"));
+	    	assertTrue(productTypeRepository.updateRow("productRFID", "ticketNumber", "RFID", "1", "12345"));
+	    	assertTrue(productTypeRepository.updateRow("productRFID", "returnID", "RFID","1", "12345"));
 
 	    }
 	    
 	    @Test
 	    public void testgetProductbyRFID() {
 	    	productTypeRepository.addNewProductRFID("4", "124");
-	    	productTypeRepository.updateRow("productRFID", "availability", "RFID", 4, "0");
-	    	productTypeRepository.updateRow("productRFID", "ticketNumber", "RFID", 4, "12346");
-	    	productTypeRepository.updateRow("productRFID", "returnID", "RFID", 4, "12345");
+	    	productTypeRepository.updateRow("productRFID", "availability", "RFID", "4", "0");
+	    	productTypeRepository.updateRow("productRFID", "ticketNumber", "RFID", "4", "12346");
+	    	productTypeRepository.updateRow("productRFID", "returnID", "RFID", "4", "12345");
 	    	Product u = productTypeRepository.getProductbyRFID("4");
 	    	assertEquals(u.getBarCode(),"124");
 	    	assertEquals(u.getAvailability(),Integer.valueOf(0));
