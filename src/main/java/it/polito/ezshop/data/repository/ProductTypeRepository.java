@@ -90,7 +90,7 @@ public class ProductTypeRepository {
 	        con = DBCPDBConnectionPool.getConnection();
 	        Statement st = con.createStatement();
 	        st.executeUpdate("CREATE TABLE IF NOT EXISTS " + "productType" + " " + "(id INTEGER PRIMARY KEY, quantity INTEGER , location TEXT, note TEXT, productDescription TEXT, barCode TEXT ,pricePerUnit DOUBLE);");
-	        st.executeUpdate("CREATE TABLE IF NOT EXISTS " + "productRFID" + " " + "(RFID TEXT PRIMARY KEY, barCode TEXT , availability INTEGER, ticketNumber INTEGER, returnID INTEGER);");
+	        st.executeUpdate("CREATE TABLE IF NOT EXISTS " + "productRFID" + " " + "(RFID TEXT PRIMARY KEY, barCode TEXT , availability INTEGER, ticketNumber INTEGER, returnID INTEGER, FOREIGN KEY (ticketNumber) references sale(ticketNumber), FOREIGN KEY (returnID) references returnTable(returnId), FOREIGN KEY (barCode) references productType(barCode));");
 	        st.close();
 	        con.close();
     	}catch (SQLException e) {
@@ -278,8 +278,8 @@ public class ProductTypeRepository {
 	        userData.put("RFID",RFID );
 	        userData.put("barCode", barCode);
 	        userData.put("availability","1");
-	        userData.put("ticketNumber", "");
-	        userData.put("returnID", "");
+	        userData.put("ticketNumber", null);
+	        userData.put("returnID", null);
 	
 	
 	        con = DBCPDBConnectionPool.getConnection();
@@ -563,7 +563,7 @@ public class ProductTypeRepository {
     }
     
     
-    public boolean updateRow(String tableName, String columnName, String idName, Integer id, String newColumnVal) {
+    public boolean updateRow(String tableName, String columnName, String idName, String id, String newColumnVal) {
     	PreparedStatement prps = null;
     	Connection con = null;
     	try {
@@ -571,7 +571,7 @@ public class ProductTypeRepository {
             con = DBCPDBConnectionPool.getConnection();
             prps = con.prepareStatement(sqlCommand);
             prps.setString(1, newColumnVal);
-            prps.setString(2, String.valueOf(id));
+            prps.setString(2, id);
             int returnVal = prps.executeUpdate();
             prps.close();
             con.close();
