@@ -32,6 +32,17 @@ public class ProductTypeRepository {
                         "pricePerUnit"));
         return attrs;
     }
+    
+    private static ArrayList<String> getAttrsRFID() {
+        ArrayList<String> attrs = new ArrayList<String>(
+                Arrays.asList("RFID",
+                        "barCode",
+                        "availability",
+                        "ticketNumber",
+                        "returnID"
+                        ));
+        return attrs;
+    }
 
     private static String insertCommand(String tableName, ArrayList<String> attributes) {
         String sqlCommand = "INSERT INTO " + tableName + "(";
@@ -76,6 +87,7 @@ public class ProductTypeRepository {
 	        con = DBCPDBConnectionPool.getConnection();
 	        Statement st = con.createStatement();
 	        st.executeUpdate("CREATE TABLE IF NOT EXISTS " + "productType" + " " + "(id INTEGER PRIMARY KEY, quantity INTEGER , location TEXT, note TEXT, productDescription TEXT, barCode TEXT ,pricePerUnit DOUBLE);");
+	        st.executeUpdate("CREATE TABLE IF NOT EXISTS " + "productRFID" + " " + "(RFID TEXT PRIMARY KEY, barCode TEXT , availability INTEGER, ticketNumber INTEGER, returnID INTEGER);");
 	        st.close();
 	        con.close();
     	}catch (SQLException e) {
@@ -221,6 +233,42 @@ public class ProductTypeRepository {
 	        ArrayList<String> attrs = getAttrs();
 	        System.out.println("adding new product type");
 	        String sqlCommand = insertCommand("productType", attrs);
+	        prp = con.prepareStatement(sqlCommand);
+	        for (int j = 0; j < attrs.size(); j++) {
+	            prp.setString(j + 1, userData.get(attrs.get(j)));
+	        }
+	
+	        Integer count = prp.executeUpdate();
+	        prp.close();
+	        con.close();
+	        return count>0;
+		}catch (SQLException e) {
+	        e.printStackTrace();
+	        try {
+	            con.close();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+	    	return false;
+	    }
+    }
+    
+    public boolean addNewProductRFID(String barCode, String RFID) {
+    	PreparedStatement prp = null;
+    	Connection con = null;
+    	try {
+    		HashMap<String, String> userData = new HashMap<>();
+	        userData.put("RFID",RFID );
+	        userData.put("barCode", barCode);
+	        userData.put("availability","1");
+	        userData.put("ticketNumber", "");
+	        userData.put("returnID", "");
+	
+	
+	        con = DBCPDBConnectionPool.getConnection();
+	        ArrayList<String> attrs = getAttrsRFID();
+	        System.out.println("adding new productRFID");
+	        String sqlCommand = insertCommand("productRFID", attrs);
 	        prp = con.prepareStatement(sqlCommand);
 	        for (int j = 0; j < attrs.size(); j++) {
 	            prp.setString(j + 1, userData.get(attrs.get(j)));
