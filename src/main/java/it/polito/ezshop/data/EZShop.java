@@ -720,7 +720,19 @@ public class EZShop implements EZShopInterface {
 
     @Override
     public boolean addProductToSaleRFID(Integer transactionId, String RFID) throws InvalidTransactionIdException, InvalidRFIDException, InvalidQuantityException, UnauthorizedException{
-        return false;
+        if (checkIfAdministrator() || checkIfManager() || checkIfCashier()) {
+        	if(RFID.equals("") || RFID == null  ) throw new InvalidRFIDException();
+        	Product p = productTypeRepository.getProductbyRFID(RFID);
+        	if(p == null) return false;
+        	try {
+				return this.addProductToSale(transactionId, p.getBarCode(), 1);
+			} catch ( InvalidProductCodeException | InvalidQuantityException e) {
+				e.printStackTrace();
+			}
+        } else {
+            throw new UnauthorizedException();
+        }
+    	return false;
     }
     
     @Override

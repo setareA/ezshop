@@ -97,6 +97,7 @@ public class ProductTypeRepositoryTest {
 	    	assertEquals(u.getAvailability(),Integer.valueOf(0));
 	    	assertEquals(u.getReturnID(),"12345");
 	    	assertEquals(u.getTicketNumber(),"12346");
+	    	assertEquals(productTypeRepository.getProductbyRFID("12"),null);
 
 	    	
 	    }
