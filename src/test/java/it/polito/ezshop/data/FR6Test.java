@@ -8,6 +8,7 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
+import it.polito.ezshop.exceptions.*;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -17,17 +18,6 @@ import org.junit.Test;
 import it.polito.ezshop.data.model.TicketEntryClass;
 import it.polito.ezshop.data.model.UserClass;
 import it.polito.ezshop.data.repository.DBCPDBConnectionPool;
-import it.polito.ezshop.exceptions.InvalidDiscountRateException;
-import it.polito.ezshop.exceptions.InvalidLocationException;
-import it.polito.ezshop.exceptions.InvalidPasswordException;
-import it.polito.ezshop.exceptions.InvalidPricePerUnitException;
-import it.polito.ezshop.exceptions.InvalidProductCodeException;
-import it.polito.ezshop.exceptions.InvalidProductDescriptionException;
-import it.polito.ezshop.exceptions.InvalidProductIdException;
-import it.polito.ezshop.exceptions.InvalidQuantityException;
-import it.polito.ezshop.exceptions.InvalidTransactionIdException;
-import it.polito.ezshop.exceptions.InvalidUsernameException;
-import it.polito.ezshop.exceptions.UnauthorizedException;
 
 public class FR6Test {
 
@@ -162,6 +152,28 @@ public class FR6Test {
 		assertEquals("product is deleted from sale totally ",true,ezshop.deleteProductFromSale(s, "5839450234582", 8));
 		assertEquals("check if quantity is updated",Integer.valueOf(100),ezshop.getProductTypeByBarCode("5839450234582").getQuantity());
 		assertNotEquals("check if quantity is updated",Integer.valueOf(99),ezshop.getProductTypeByBarCode("5839450234582").getQuantity());
+
+	}
+
+	@Test
+	public void testDeleteProductFromSaleRFID(){
+		try {
+			ezshop.login("eugenio", "eugenio");
+			Integer s = ezshop.startSaleTransaction();
+			Integer p = ezshop.createProductType("vino", "5839450234582", 1.0, null);
+			ezshop.updatePosition(p, "11-azs-11");
+			ezshop.updateQuantity(p, 100);
+
+			Integer orderId = ezshop.issueOrder("5839450234582", 20, 5);
+			ezshop.getBalanceOperationRepository().setBalance(1100);
+			ezshop.payOrder(orderId);
+			ezshop.recordOrderArrivalRFID(orderId,"123456789123");
+			ezshop.addProductToSaleRFID(s, "123456789123");
+			assertTrue(ezshop.deleteProductFromSaleRFID(s, "123456789123"));
+
+		} catch (InvalidUsernameException | UnauthorizedException | InvalidPasswordException | InvalidLocationException | InvalidProductIdException | InvalidProductDescriptionException | InvalidProductCodeException | InvalidPricePerUnitException | InvalidTransactionIdException | InvalidRFIDException | InvalidQuantityException | InvalidOrderIdException e) {
+			e.printStackTrace();
+		}
 
 	}
 
