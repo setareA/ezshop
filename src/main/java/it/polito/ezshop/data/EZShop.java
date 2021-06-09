@@ -121,10 +121,9 @@ public class EZShop implements EZShopInterface {
     }
     
     public static boolean checkValidityRFID(String RFID) {
-        // TODO Auto-generated method stub
     	if (RFID == null) return false;
         if (!onlyDigits(RFID))return false;
-        if (RFID.length()!=10) return false;
+        if (RFID.length()!=12) return false;
         return true;
     }
 
@@ -297,7 +296,7 @@ public class EZShop implements EZShopInterface {
         }
     }
 
-    @Override // TODO CHANGE BARCODE INSIDE PRODUCTRFID
+    @Override // CHANGE BARCODE INSIDE PRODUCTRFID
     public boolean updateProduct(Integer id, String newDescription, String newCode, double newPrice, String newNote) throws InvalidProductIdException, InvalidProductDescriptionException, InvalidProductCodeException, InvalidPricePerUnitException, UnauthorizedException {
         if (this.checkIfAdministrator() || this.checkIfManager()) { // loggedUser check
             if (id == null) throw new InvalidProductIdException();
@@ -309,17 +308,27 @@ public class EZShop implements EZShopInterface {
             if (!checkValidityProductcode(newCode)) throw new InvalidProductCodeException();
             if (newPrice <= 0) throw new InvalidPricePerUnitException();
             if (!productTypeRepository.checkUniqueBarcode(newCode, id)) return false;
-            return productTypeRepository.updateProductType(id.toString(), newDescription, newCode, String.valueOf(newPrice), newNote);
+
+             boolean result =  productTypeRepository.updateProductType(id.toString(), newDescription, newCode, String.valueOf(newPrice), newNote);
+            ProductType p = productTypeRepository.getProductTypebyId(id.toString());
+            if ( p != null){
+                productTypeRepository.updateRow("productRFID", "barCode", "barCode", p.getBarCode(), newCode);
+            }
+            return result;
         } else {
             throw new UnauthorizedException();
         }
     }
 
-    @Override // TODO DELETE PRODUCT INSIDE PRODUCTRFID TABLE
+    @Override // DELETE PRODUCT INSIDE PRODUCTRFID TABLE
     public boolean deleteProductType(Integer id) throws InvalidProductIdException, UnauthorizedException {
         Logger.getLogger(EZShop.class.getName()).log(Level.INFO, "deleteProductType");
         if (this.checkIfAdministrator() || this.checkIfManager()) { // loggedUser check
             if (id == null || id <= 0) throw new InvalidProductIdException();
+                ProductType p = productTypeRepository.getProductTypebyId(id.toString());
+                if ( p != null){
+                    productTypeRepository.deleteProductRFIDByBarcode(p.getBarCode());
+                }
                 return productTypeRepository.deleteProductTypeFromDB(id);
         } else {
             throw new UnauthorizedException();
@@ -805,7 +814,32 @@ public class EZShop implements EZShopInterface {
 
     @Override
     public boolean deleteProductFromSaleRFID(Integer transactionId, String RFID) throws InvalidTransactionIdException, InvalidRFIDException, InvalidQuantityException, UnauthorizedException{
-        return false;
+        Logger.getLogger(EZShop.class.getName()).log(Level.INFO, "deleteProductFromSaleRFID");
+        if (checkIfAdministrator() || checkIfManager() || checkIfCashier()) {
+            if (transactionId == null || transactionId <= 0) {
+                throw new InvalidTransactionIdException();
+            }
+            if (RFID == null || RFID.isEmpty() || !checkValidityRFID(RFID)) {
+                throw new InvalidRFIDException();
+            }
+            Product productRFID = productTypeRepository.getProductsByForeignKeyAndRFID("ticketNumber", transactionId, RFID);
+            if( productRFID == null)
+                return false;
+            String productCode = productRFID.getBarCode();
+            try {
+                boolean deleteProductFromSale = deleteProductFromSale(transactionId, productCode, 1);
+                if (deleteProductFromSale){
+                    productTypeRepository.updateRow("productRFID", "availability", "RFID", RFID, "1");
+                    productTypeRepository.updateRow("productRFID", "ticketNumber", "RFID", RFID, null);
+                }
+            } catch (InvalidProductCodeException e) {
+                return false;
+            }
+            return true;
+
+        } else {
+            throw new UnauthorizedException();
+        }
     }
 
     @Override
@@ -920,7 +954,7 @@ public class EZShop implements EZShopInterface {
             throw new UnauthorizedException();
         }
     }
- // TODO update also ProductRFID table : SET to null TicketNumber and change availability
+ //  update also ProductRFID table : SET to null TicketNumber and change availability
     @Override
     public boolean deleteSaleTransaction(Integer saleNumber) throws InvalidTransactionIdException, UnauthorizedException {
         Logger.getLogger(EZShop.class.getName()).log(Level.INFO, "deleteSaleTransaction");
@@ -940,6 +974,9 @@ public class EZShop implements EZShopInterface {
             }
             balanceOperationRepository.deleteRow("ticket", "saleId", String.valueOf(saleNumber));
             balanceOperationRepository.deleteRow("sale", "ticketNumber", String.valueOf(saleNumber));
+
+            productTypeRepository.updateRow("productRFID", "availability", "ticketNumber", saleNumber.toString(), "1");
+            productTypeRepository.updateRow("productRFID", "ticketNumber", "ticketNumber", saleNumber.toString(), null);
             return true;
         } else {
             throw new UnauthorizedException();
@@ -1062,12 +1099,35 @@ public class EZShop implements EZShopInterface {
     }
 
     @Override // set returnID to RFID row
-    public boolean returnProductRFID(Integer returnId, String RFID) throws InvalidTransactionIdException, InvalidRFIDException, UnauthorizedException 
-    {
-        return false;
+    public boolean returnProductRFID(Integer returnId, String RFID) throws InvalidTransactionIdException, InvalidRFIDException, UnauthorizedException {
+        Logger.getLogger(EZShop.class.getName()).log(Level.INFO, "returnProductRFID, returnId: " + returnId + " RFID: " + RFID);
+        if (checkIfAdministrator() || checkIfManager() || checkIfCashier()) {
+            if (returnId == null || returnId <= 0) {
+                throw new InvalidTransactionIdException();
+            }
+            if (RFID == null || RFID.isEmpty() || !checkValidityRFID(RFID)) {
+                throw new InvalidRFIDException();
+            }
+            Product productRFID = productTypeRepository.getProductsByForeignKeyAndRFID("returnID", returnId, RFID);
+            if( productRFID == null)
+                return false;
+            String productCode = productRFID.getBarCode();
+            try {
+                boolean returnProduct = returnProduct(returnId, productCode, 1);
+                if (returnProduct){
+                    productTypeRepository.updateRow("productRFID", "returnID", "RFID", RFID, returnId.toString());
+                }
+            } catch (InvalidProductCodeException | InvalidQuantityException e) {
+                return false;
+            }
+            return true;
+        }
+        else {
+            throw new UnauthorizedException();
+        }
     }
 
- // TODO update also ProductRFID table : change to 1 availability of product wirh returnID=retrunId
+ //  update also ProductRFID table : change to 1 availability of product wirh returnID=retrunId
     @Override
     public boolean endReturnTransaction(Integer returnId, boolean commit) throws InvalidTransactionIdException, UnauthorizedException {
         Logger.getLogger(EZShop.class.getName()).log(Level.INFO, "endReturnTransaction => returnId :" + returnId + " commit :" + commit);
@@ -1110,12 +1170,13 @@ public class EZShop implements EZShopInterface {
                 returnPrice = computePriceForProducts(returnedProducts);
                 balanceOperationRepository.updateRow("returnTable", "price", "returnId", returnId, String.valueOf(returnPrice * (1 - saleTransaction.getDiscountRate())));
             }
+            productTypeRepository.updateRow("productRFID", "availability", "returnID", returnId.toString(), "1");
             return true;
         } else {
             throw new UnauthorizedException();
         }
     }
-// TODO modify also productRFID table: change to 0 availability and then delete returnId from all rows
+//  modify also productRFID table: change to 0 availability and then delete returnId from all rows
     @Override
     public boolean deleteReturnTransaction(Integer returnId) throws InvalidTransactionIdException, UnauthorizedException {
         if (checkIfAdministrator() || checkIfManager() || checkIfCashier()) {
@@ -1155,6 +1216,8 @@ public class EZShop implements EZShopInterface {
             price = computePriceForProducts(products);
             balanceOperationRepository.updateRow("sale", "price", "ticketNumber", saleTransaction.getTicketNumber(), String.valueOf(price * (1 - saleTransaction.getDiscountRate())));
             //
+            productTypeRepository.updateRow("productRFID", "availability", "returnID", returnId.toString(), "0");
+            productTypeRepository.updateRow("productRFID", "ticketNumber", "returnID", returnId.toString(), null);
             return balanceOperationRepository.deleteRow("returnTable", "returnId", String.valueOf(returnId));
 
         } else {

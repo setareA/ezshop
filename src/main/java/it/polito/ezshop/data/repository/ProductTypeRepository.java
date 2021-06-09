@@ -2,6 +2,7 @@ package it.polito.ezshop.data.repository;
 
 import it.polito.ezshop.data.model.Product;
 import it.polito.ezshop.data.model.ProductTypeClass;
+import it.polito.ezshop.data.model.TicketEntryClass;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -204,7 +205,30 @@ public class ProductTypeRepository {
 			}
             return false;
         }
-    	
+    }
+
+    public boolean deleteProductRFIDByBarcode(String barcode) {
+        PreparedStatement prp = null;
+        Connection con = null;
+        try {
+            con = DBCPDBConnectionPool.getConnection();
+            System.out.println("deleting a product rfid");
+            String sqlCommand = deleteCommand("productRFID", "barCode");
+            prp = con.prepareStatement(sqlCommand);
+            prp.setString(1, barcode);
+            int count = prp.executeUpdate();
+            prp.close();
+            con.close();
+            return count != 0;
+        }catch (SQLException e) {
+            e.printStackTrace();
+            try {
+                con.close();
+            } catch (SQLException e1) {
+                e1.printStackTrace();
+            }
+            return false;
+        }
     }
 
 
@@ -304,6 +328,32 @@ public class ProductTypeRepository {
 			}
 	    	return false;
 	    }
+    }
+
+    public Product getProductsByForeignKeyAndRFID(String foreignKey, Integer key, String RFID) {
+        Connection con = null;
+        try {
+            String sqlCommand = getFindByForeignKeyAndBarcodeStatement(foreignKey);
+            con = DBCPDBConnectionPool.getConnection();
+            PreparedStatement prps = con.prepareStatement(sqlCommand);
+            prps.setString(1, String.valueOf(key));
+            prps.setString(2, String.valueOf(RFID));
+            ResultSet rs = prps.executeQuery();
+            rs.next();
+            Product product = convertResultSetToDomainModelRFID(rs);
+            prps.close();
+            con.close();
+            return product;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            try {
+                con.close();
+            } catch (SQLException e1) {
+                e1.printStackTrace();
+            }
+
+        }
+        return null;
     }
 
 
@@ -588,7 +638,10 @@ public class ProductTypeRepository {
         return false;
     }
 
-    
+    private static String getFindByForeignKeyAndBarcodeStatement(String foreignKey) {
+        return "SELECT * FROM productRFID WHERE " + foreignKey + " = ? AND RFID = ?";
+    }
+
     private String getUpdateRowStatement(String tableName, String columnName, String idName) {
         return "UPDATE " + tableName + " SET " + columnName + " = ? WHERE " + idName + " = ?";
     }
