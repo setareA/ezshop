@@ -469,7 +469,7 @@ public class EZShop implements EZShopInterface {
         if (orderId < 1) throw new InvalidOrderIdException();
         OrderClass o = balanceOperationRepository.getOrderByOrderId(String.valueOf(orderId));
 		if (o == null) return false;
-		if (o.getStatus().equals("ORDERED")) return false;
+		if (!o.getStatus().equals("PAYED")) return false;
 		if (o.getStatus().equals("COMPLETED")) return true;
 		if (productTypeRepository.getProductTypebyBarCode(o.getProductCode()).getLocation().isEmpty() || productTypeRepository.getProductTypebyBarCode(o.getProductCode()).getLocation() == null)
 		    throw new InvalidLocationException();
@@ -497,23 +497,23 @@ public class EZShop implements EZShopInterface {
         	throw new UnauthorizedException();
         }
         OrderClass o = balanceOperationRepository.getOrderByOrderId(String.valueOf(orderId));
-        if(!checkValidityRFID(RFIDfrom) || !productTypeRepository.checkUniqueRFID(RFIDfrom)) 
+        if(!productTypeRepository.checkUniqueRFID(RFIDfrom))      
+        	throw new InvalidRFIDException ();
+        if(!checkValidityRFID(RFIDfrom)) 
         	throw new InvalidRFIDException ();
         if(recordOrderArrival(orderId)) {
         	System.out.println(o.getQuantity());
         	for (int i=0;i<o.getQuantity()-1;i++) {
-<<<<<<< HEAD
-        		String newRFID = Integer.toString(Integer.parseInt(RFIDfrom)+i);
+               
+                Double rfid = Double.parseDouble(RFIDfrom)+i;
+                String newRFID = String.format("%.0f",rfid);
                 if(!checkValidityRFID(newRFID) || !productTypeRepository.checkUniqueRFID(newRFID)) {
-=======
-                if(!checkValidityRFID(RFIDfrom) || !productTypeRepository.checkUniqueRFID(RFIDfrom)) {
->>>>>>> 0b956b8e44a1499a6a4748d7271643c53df552a1
+
                 	throw new InvalidRFIDException ();
                 }
-                Double rfid = Double.parseDouble(RFIDfrom)+i;
-                String newRFID = rfid.toString();
         		productTypeRepository.addNewProductRFID(newRFID,o.getProductCode());
         	}
+        	return true;
         }
         return false;
     }

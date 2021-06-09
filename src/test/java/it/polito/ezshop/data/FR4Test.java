@@ -19,12 +19,11 @@ public class FR4Test {
 
     @Before
     public void setUp() throws Exception {
-        resetTables();
+       resetTables();
     }
 
     @After
     public void tearDown() throws Exception {
-        resetTables();
     }
 
     public void resetTables() throws SQLException {
@@ -281,8 +280,8 @@ public class FR4Test {
 	        //assertThrows(UnauthorizedException.class, () -> ezShop.recordOrderArrivalRFID(o, RFID));
 	        ezShop.login("setare_manager", "asdf");
 	        //assertEquals(ezShop.recordOrderArrivalRFID(1000, RFID),false);
+	        //assertEquals(ezShop.recordOrderArrivalRFID(o, RFID),true);
 	        assertEquals(ezShop.recordOrderArrivalRFID(o, RFID),true);
-	        assertEquals(ezShop.recordOrderArrivalRFID(o, RFID),false);
 	        Integer o1 = ezShop.payOrderFor("6254356245859", 1, 10);
 	        assertThrows(InvalidRFIDException.class, () -> ezShop.recordOrderArrivalRFID(o1, RFID));
 	        Product p1 = ezShop.getProductTypeRepository().getProductbyRFID(RFID);
