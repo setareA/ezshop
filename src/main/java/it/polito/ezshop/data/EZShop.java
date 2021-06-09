@@ -489,8 +489,10 @@ public class EZShop implements EZShopInterface {
         if( balanceOperationRepository.getOrderByOrderId(orderId.toString())== null) return false;
         String barcode = balanceOperationRepository.getOrderByOrderId(orderId.toString()).getProductCode();
         if(productTypeRepository.getProductTypebyBarCode(barcode).getLocation()==null || productTypeRepository.getProductTypebyBarCode(barcode).getLocation().equals("")) {
-        	throw new InvalidLocationException();
-        }
+
+        	throw new InvalidLocationException(); 
+        	
+        } 
         if(userRepository.getLoggedUser() == null || !(checkIfAdministrator() || checkIfManager())) {
         	throw new UnauthorizedException();
         }
@@ -500,10 +502,16 @@ public class EZShop implements EZShopInterface {
         if(recordOrderArrival(orderId)) {
         	System.out.println(o.getQuantity());
         	for (int i=0;i<o.getQuantity()-1;i++) {
+<<<<<<< HEAD
         		String newRFID = Integer.toString(Integer.parseInt(RFIDfrom)+i);
                 if(!checkValidityRFID(newRFID) || !productTypeRepository.checkUniqueRFID(newRFID)) {
+=======
+                if(!checkValidityRFID(RFIDfrom) || !productTypeRepository.checkUniqueRFID(RFIDfrom)) {
+>>>>>>> 0b956b8e44a1499a6a4748d7271643c53df552a1
                 	throw new InvalidRFIDException ();
                 }
+                Double rfid = Double.parseDouble(RFIDfrom)+i;
+                String newRFID = rfid.toString();
         		productTypeRepository.addNewProductRFID(newRFID,o.getProductCode());
         	}
         }
