@@ -285,10 +285,12 @@ public class FR4Test {
 	        Integer o1 = ezShop.payOrderFor("6254356245859", 1, 10);
 	        assertThrows(InvalidRFIDException.class, () -> ezShop.recordOrderArrivalRFID(o1, RFID));
 	        Product p1 = ezShop.getProductTypeRepository().getProductbyRFID(RFID);
-	        Product p2 = ezShop.getProductTypeRepository().getProductbyRFID(String.valueOf(Integer.valueOf(RFID)+7));
+            Double rfidPlus7 = Double.parseDouble(RFID)+7;
+            String newRFID = String.format("%.0f",rfidPlus7);
+	        Product p2 = ezShop.getProductTypeRepository().getProductbyRFID(newRFID);
 
-	        assertEquals(p1.getRFID(),RFID);
-	        assertEquals(p2.getRFID(),String.valueOf(Integer.valueOf(RFID)+7));
+	        assertEquals(String.format("%.0f",p1.getRFID()),RFID);
+	        assertEquals(p2.getRFID(), rfidPlus7);
 	        assertEquals(p2.getBarCode(),"6254356245859");
 	        assertEquals(p1.getBarCode(),"6254356245859");
 	        assertEquals(p1.getAvailability(),Integer.valueOf(1));

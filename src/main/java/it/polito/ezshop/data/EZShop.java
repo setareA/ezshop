@@ -503,7 +503,7 @@ public class EZShop implements EZShopInterface {
         	throw new InvalidRFIDException ();
         if(recordOrderArrival(orderId)) {
         	System.out.println(o.getQuantity());
-        	for (int i=0;i<o.getQuantity()-1;i++) {
+        	for (int i=0;i<o.getQuantity();i++) {
 
                 Double rfid = Double.parseDouble(RFIDfrom)+i;
                 String newRFID = String.format("%.0f",rfid);
