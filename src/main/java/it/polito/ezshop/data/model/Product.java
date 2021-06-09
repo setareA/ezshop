@@ -2,13 +2,13 @@ package it.polito.ezshop.data.model;
 
 public class Product {
 	
-	Integer RFID ;
+	Double RFID ;
 	String barCode;
 	Integer availability;
 	String ticketNumber;
 	String returnID;
 	
-	public Product(Integer rFID, String barCode, Integer availability, String ticketNumber, String returnID) {
+	public Product(Double rFID, String barCode, Integer availability, String ticketNumber, String returnID) {
 		super();
 		RFID = rFID;
 		this.barCode = barCode;
@@ -18,11 +18,11 @@ public class Product {
 	}
 	 
 	
-	public Integer getRFID() {
+	public Double getRFID() {
 		return RFID;
 	}
 
-	public void setRFID(Integer rFID) {
+	public void setRFID(Double rFID) {
 		RFID = rFID;
 	}
 

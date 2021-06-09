@@ -374,7 +374,7 @@ public class ProductTypeRepository {
         );
     }
     protected Product convertResultSetToDomainModelRFID(ResultSet rs) throws SQLException {
-        return new Product(Integer.parseInt(rs.getString(1)),
+        return new Product(Double.parseDouble(rs.getString(1)),
                 rs.getString(2),
         		Integer.parseInt(rs.getString(3)),
                 rs.getString(4),
