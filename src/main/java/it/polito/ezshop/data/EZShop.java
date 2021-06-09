@@ -487,19 +487,20 @@ public class EZShop implements EZShopInterface {
         if (orderId == null || orderId <= 0) {
             throw new InvalidOrderIdException();
         }
-        if(productTypeRepository.getProductTypebyId(orderId.toString()).getLocation()==null || productTypeRepository.getProductTypebyId(orderId.toString()).getLocation().equals("")) {
+   /*     if(productTypeRepository.getProductTypebyId(orderId.toString()).getLocation()==null || productTypeRepository.getProductTypebyId(orderId.toString()).getLocation().equals("")) {
         	throw new InvalidLocationException();
-        }
+        } */
         if(userRepository.getLoggedUser() == null || !(checkIfAdministrator() || checkIfManager())) {
         	throw new UnauthorizedException();
         }
         OrderClass o = balanceOperationRepository.getOrderByOrderId(String.valueOf(orderId));
         if(recordOrderArrival(orderId)) {
         	for (int i=0;i<o.getQuantity()-1;i++) {
-        		String newRFID = Integer.toString(Integer.parseInt(RFIDfrom)+i);
-                if(checkValidityRFID(RFIDfrom) || productTypeRepository.checkUniqueRFID(RFIDfrom)) {
+                if(!checkValidityRFID(RFIDfrom) || !productTypeRepository.checkUniqueRFID(RFIDfrom)) {
                 	throw new InvalidRFIDException ();
                 }
+                Double rfid = Double.parseDouble(RFIDfrom)+i;
+                String newRFID = rfid.toString();
         		productTypeRepository.addNewProductRFID(newRFID,o.getProductCode());
         	}
         }
