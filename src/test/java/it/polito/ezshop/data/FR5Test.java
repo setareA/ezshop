@@ -98,7 +98,7 @@ public class FR5Test {
 		  userRepository.setLoggedUser(new UserClass(4,"Sara","1234","1234","ShopManager"));
 		  ezShop.defineCustomer("Peter");
 		  assertThrows(InvalidCustomerCardException.class, ()-> ezShop.modifyCustomer(1,"Ana","1"));
-		  assertTrue(ezShop.modifyCustomer(1,"Ana",""));
+		  assertThrows(InvalidCustomerCardException.class,() -> ezShop.modifyCustomer(1,"Ana",""));
 		  assertFalse(ezShop.modifyCustomer(1,"Ana",null));
 		  
 		  assertTrue(ezShop.modifyCustomer(1,"Peter","1234567890"));

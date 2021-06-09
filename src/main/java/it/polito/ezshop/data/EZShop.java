@@ -468,6 +468,7 @@ public class EZShop implements EZShopInterface {
         if (orderId == null) throw new InvalidOrderIdException();
         if (orderId < 1) throw new InvalidOrderIdException();
         OrderClass o = balanceOperationRepository.getOrderByOrderId(String.valueOf(orderId));
+        System.out.println(o);
 		if (o == null) return false;
 		if (o.getStatus().equals("ORDERED")) return false;
 		if (o.getStatus().equals("COMPLETED")) return true;
@@ -486,10 +487,10 @@ public class EZShop implements EZShopInterface {
         if (orderId == null || orderId <= 0) {
             throw new InvalidOrderIdException();
         }
-        if(productTypeRepository.getProductTypebyId(orderId.toString()).getLocation()==null) {
+        if(productTypeRepository.getProductTypebyId(orderId.toString()).getLocation()==null || productTypeRepository.getProductTypebyId(orderId.toString()).getLocation().equals("")) {
         	throw new InvalidLocationException();
         }
-        if(userRepository.getLoggedUser() == null || checkIfAdministrator() || checkIfManager()) {
+        if(userRepository.getLoggedUser() == null || !(checkIfAdministrator() || checkIfManager())) {
         	throw new UnauthorizedException();
         }
         OrderClass o = balanceOperationRepository.getOrderByOrderId(String.valueOf(orderId));
@@ -753,7 +754,7 @@ public class EZShop implements EZShopInterface {
     @Override
     public boolean addProductToSaleRFID(Integer transactionId, String RFID) throws InvalidTransactionIdException, InvalidRFIDException, InvalidQuantityException, UnauthorizedException{
         if (checkIfAdministrator() || checkIfManager() || checkIfCashier()) {
-        	if(RFID.equals("") || RFID == null  ) throw new InvalidRFIDException(); // TODO: add check for valid RFID, need daniel method
+        	if(RFID.equals("") || RFID == null || !checkValidityRFID(RFID) ) throw new InvalidRFIDException(); 
         	Product p = productTypeRepository.getProductbyRFID(RFID);
         	if(p == null) return false;
         	try {

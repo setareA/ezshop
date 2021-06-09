@@ -115,7 +115,11 @@ public class FR6Test {
 		assertEquals("product is added to sale",true , ezshop.addProductToSale(s, "1234567890128", 10));
 		assertEquals("check if we have 20 of it",Integer.valueOf(20),Integer.valueOf(ezshop.getBalanceOperationRepository().getTicketsByForeignKeyAndBarcode("saleId", s, "1234567890128").getAmount()));
 	} 
-
+	
+	@Test
+	public void testAddProductToSaleRFID() {
+		assertEquals(1,0);
+	}
 	@Test
 	public void testDeleteProductFromSale() throws InvalidUsernameException, InvalidPasswordException, UnauthorizedException, InvalidProductDescriptionException, InvalidProductCodeException, InvalidPricePerUnitException, InvalidProductIdException, InvalidLocationException, InvalidTransactionIdException, InvalidQuantityException {
 		assertThrows("Try to delete product to sale without login. UnauthorizedException",UnauthorizedException.class , () -> ezshop.deleteProductFromSale(null, null, 0));
@@ -445,7 +449,11 @@ public class FR6Test {
 	 
 	
 	}
-
+	
+	@Test
+	public void testReturnProductRFID() {
+		assertEquals(1,0);
+	}
 	@Test
 	public void testEndReturnTransaction() throws InvalidUsernameException, InvalidPasswordException, InvalidTransactionIdException, UnauthorizedException, InvalidProductIdException, InvalidLocationException, InvalidProductCodeException, InvalidQuantityException, InvalidProductDescriptionException, InvalidPricePerUnitException {
 		assertThrows("no logged user",UnauthorizedException.class, ()-> ezshop.endReturnTransaction(null, false));
