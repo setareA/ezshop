@@ -468,7 +468,6 @@ public class EZShop implements EZShopInterface {
         if (orderId == null) throw new InvalidOrderIdException();
         if (orderId < 1) throw new InvalidOrderIdException();
         OrderClass o = balanceOperationRepository.getOrderByOrderId(String.valueOf(orderId));
-        System.out.println(o);
 		if (o == null) return false;
 		if (o.getStatus().equals("ORDERED")) return false;
 		if (o.getStatus().equals("COMPLETED")) return true;
@@ -487,17 +486,22 @@ public class EZShop implements EZShopInterface {
         if (orderId == null || orderId <= 0) {
             throw new InvalidOrderIdException();
         }
-        if(productTypeRepository.getProductTypebyId(orderId.toString()).getLocation()==null || productTypeRepository.getProductTypebyId(orderId.toString()).getLocation().equals("")) {
+        if( balanceOperationRepository.getOrderByOrderId(orderId.toString())== null) return false;
+        String barcode = balanceOperationRepository.getOrderByOrderId(orderId.toString()).getProductCode();
+        if(productTypeRepository.getProductTypebyBarCode(barcode).getLocation()==null || productTypeRepository.getProductTypebyBarCode(barcode).getLocation().equals("")) {
         	throw new InvalidLocationException();
         }
         if(userRepository.getLoggedUser() == null || !(checkIfAdministrator() || checkIfManager())) {
         	throw new UnauthorizedException();
         }
         OrderClass o = balanceOperationRepository.getOrderByOrderId(String.valueOf(orderId));
+        if(!checkValidityRFID(RFIDfrom) || !productTypeRepository.checkUniqueRFID(RFIDfrom)) 
+        	throw new InvalidRFIDException ();
         if(recordOrderArrival(orderId)) {
+        	System.out.println(o.getQuantity());
         	for (int i=0;i<o.getQuantity()-1;i++) {
         		String newRFID = Integer.toString(Integer.parseInt(RFIDfrom)+i);
-                if(checkValidityRFID(RFIDfrom) || productTypeRepository.checkUniqueRFID(RFIDfrom)) {
+                if(!checkValidityRFID(newRFID) || !productTypeRepository.checkUniqueRFID(newRFID)) {
                 	throw new InvalidRFIDException ();
                 }
         		productTypeRepository.addNewProductRFID(newRFID,o.getProductCode());
