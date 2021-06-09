@@ -468,9 +468,8 @@ public class EZShop implements EZShopInterface {
         if (orderId == null) throw new InvalidOrderIdException();
         if (orderId < 1) throw new InvalidOrderIdException();
         OrderClass o = balanceOperationRepository.getOrderByOrderId(String.valueOf(orderId));
-        System.out.println(o);
 		if (o == null) return false;
-		if (o.getStatus().equals("ORDERED")) return false;
+		if (!o.getStatus().equals("PAYED")) return false;
 		if (o.getStatus().equals("COMPLETED")) return true;
 		if (productTypeRepository.getProductTypebyBarCode(o.getProductCode()).getLocation().isEmpty() || productTypeRepository.getProductTypebyBarCode(o.getProductCode()).getLocation() == null)
 		    throw new InvalidLocationException();
@@ -487,22 +486,34 @@ public class EZShop implements EZShopInterface {
         if (orderId == null || orderId <= 0) {
             throw new InvalidOrderIdException();
         }
-   /*     if(productTypeRepository.getProductTypebyId(orderId.toString()).getLocation()==null || productTypeRepository.getProductTypebyId(orderId.toString()).getLocation().equals("")) {
+        if( balanceOperationRepository.getOrderByOrderId(orderId.toString())== null) return false;
+        String barcode = balanceOperationRepository.getOrderByOrderId(orderId.toString()).getProductCode();
+        if(productTypeRepository.getProductTypebyBarCode(barcode).getLocation()==null || productTypeRepository.getProductTypebyBarCode(barcode).getLocation().equals("")) {
+
         	throw new InvalidLocationException();
-        } */
+
+        }
         if(userRepository.getLoggedUser() == null || !(checkIfAdministrator() || checkIfManager())) {
         	throw new UnauthorizedException();
         }
         OrderClass o = balanceOperationRepository.getOrderByOrderId(String.valueOf(orderId));
+        if(!productTypeRepository.checkUniqueRFID(RFIDfrom))
+        	throw new InvalidRFIDException ();
+        if(!checkValidityRFID(RFIDfrom))
+        	throw new InvalidRFIDException ();
         if(recordOrderArrival(orderId)) {
+        	System.out.println(o.getQuantity());
         	for (int i=0;i<o.getQuantity()-1;i++) {
-                if(!checkValidityRFID(RFIDfrom) || !productTypeRepository.checkUniqueRFID(RFIDfrom)) {
-                	throw new InvalidRFIDException ();
-                }
+
                 Double rfid = Double.parseDouble(RFIDfrom)+i;
                 String newRFID = String.format("%.0f",rfid);
+                if(!checkValidityRFID(newRFID) || !productTypeRepository.checkUniqueRFID(newRFID)) {
+
+                	throw new InvalidRFIDException ();
+                }
         		productTypeRepository.addNewProductRFID(newRFID,o.getProductCode());
         	}
+        	return true;
         }
         return false;
     }

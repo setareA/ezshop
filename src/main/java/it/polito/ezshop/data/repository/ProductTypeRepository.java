@@ -71,7 +71,10 @@ public class ProductTypeRepository {
         String sqlCommand = "DELETE FROM productType;";
         return sqlCommand;
     }
-
+    private static String deleteTableCommandRFID() {
+        String sqlCommand = "DELETE FROM productRFID;";
+        return sqlCommand;
+    }
     protected static String getFindByBarCodeStatement() {
         return "SELECT " + COLUMNS +
                 " FROM productType" +
@@ -241,6 +244,9 @@ public class ProductTypeRepository {
 	        String sqlCommand = deleteTableCommand();
 	        prp = con.prepareStatement(sqlCommand);
 	        Integer count = prp.executeUpdate();
+	        sqlCommand = deleteTableCommandRFID();
+	        prp = con.prepareStatement(sqlCommand);
+	        count = prp.executeUpdate();
 	        prp.close();
 	        con.close();
 	        return count>0;
