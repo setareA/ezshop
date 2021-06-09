@@ -500,7 +500,7 @@ public class EZShop implements EZShopInterface {
                 	throw new InvalidRFIDException ();
                 }
                 Double rfid = Double.parseDouble(RFIDfrom)+i;
-                String newRFID = rfid.toString();
+                String newRFID = String.format("%.0f",rfid);
         		productTypeRepository.addNewProductRFID(newRFID,o.getProductCode());
         	}
         }
