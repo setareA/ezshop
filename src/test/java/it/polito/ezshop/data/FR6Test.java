@@ -322,7 +322,7 @@ public class FR6Test {
         ezshop.getBalanceOperationRepository().updateRow("sale", "status", "ticketNumber", s, "open");
         Integer p = ezshop.createProductType("cannelloni", "9574856111735", 1.0, null);
         Integer p1 = ezshop.createProductType("cannelloni", "957485611194", 1.0, null);
-        ezshop.updatePosition(p, "11-szhs-11");
+        ezshop.updatePosition(p, "11-szhs-11"); 
         ezshop.updatePosition(p1, "121-szhs-11");
         ezshop.updateQuantity(p, 100);
         ezshop.updateQuantity(p1, 100);

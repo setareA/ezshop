@@ -308,11 +308,12 @@ public class EZShop implements EZShopInterface {
             if (!checkValidityProductcode(newCode)) throw new InvalidProductCodeException();
             if (newPrice <= 0) throw new InvalidPricePerUnitException();
             if (!productTypeRepository.checkUniqueBarcode(newCode, id)) return false;
-
+            
+             ProductType p = productTypeRepository.getProductTypebyId(id.toString());
              boolean result =  productTypeRepository.updateProductType(id.toString(), newDescription, newCode, String.valueOf(newPrice), newNote);
-            ProductType p = productTypeRepository.getProductTypebyId(id.toString());
-            if ( p != null){
-                productTypeRepository.updateRow("productRFID", "barCode", "barCode", p.getBarCode(), newCode);
+            if ( result){
+            	
+                System.out.println(productTypeRepository.updateRow("productRFID", "barCode", "barCode", p.getBarCode(), newCode));
             }
             return result;
         } else {
