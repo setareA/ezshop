@@ -111,6 +111,7 @@ public class ProductTypeRepositoryTest {
 	    @Test
 	    public void testDeleteTable() {
 	    	productTypeRepository.addNewProductType(new ProductTypeClass(1,30,"A-2-C","note","Apples","0799439112766", 0.30));
+	    	productTypeRepository.addNewProductRFID("123456789765","0799439112766");
 	    	assertTrue(productTypeRepository.deleteTable());
 	    	assertFalse(productTypeRepository.deleteTable());
 	    }

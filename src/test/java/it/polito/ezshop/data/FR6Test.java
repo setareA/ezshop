@@ -117,8 +117,29 @@ public class FR6Test {
 	} 
 	
 	@Test
-	public void testAddProductToSaleRFID() {
-		assertEquals(1,0);
+	public void testAddProductToSaleRFID() throws InvalidPasswordException, InvalidUsernameException, UnauthorizedException, InvalidRFIDException, InvalidQuantityException, InvalidTransactionIdException, InvalidProductDescriptionException, InvalidPricePerUnitException, InvalidProductCodeException, InvalidLocationException, InvalidProductIdException, InvalidOrderIdException {
+		assertThrows(UnauthorizedException.class , () -> ezshop.addProductToSaleRFID(1, "123456789876"));
+		ezshop.login("eugenio1", "eugenio");
+		assertThrows(InvalidTransactionIdException.class , () -> ezshop.addProductToSaleRFID(null, "123456789876"));
+		ezshop.logout();
+		ezshop.login("eugenio2", "eugenio");
+		assertThrows(InvalidTransactionIdException.class , () -> ezshop.addProductToSaleRFID(-1, "123456789876"));
+		assertThrows(InvalidRFIDException.class, () -> ezshop.addProductToSaleRFID(1,""));
+		assertThrows(InvalidRFIDException.class, () -> ezshop.addProductToSaleRFID(1,null));
+		assertThrows(InvalidRFIDException.class, () -> ezshop.addProductToSaleRFID(1,"12345678765"));
+		assertThrows(InvalidRFIDException.class, () -> ezshop.addProductToSaleRFID(1,"123d34567654"));
+		ezshop.logout();
+		ezshop.login("eugenio", "eugenio");
+		Integer s = ezshop.startSaleTransaction();
+		assertFalse(ezshop.addProductToSaleRFID(s, "229456789123"));
+		Integer p = ezshop.createProductType("vino", "5839450234582", 1.0, null);
+		ezshop.updatePosition(p, "11-azs-11");
+		ezshop.updateQuantity(p, 100);
+		Integer orderId = ezshop.issueOrder("5839450234582", 20, 5);
+		ezshop.getBalanceOperationRepository().setBalance(1100);
+		ezshop.payOrder(orderId);
+		ezshop.recordOrderArrivalRFID(orderId,"229456789123");
+		assertTrue(ezshop.addProductToSaleRFID(s, "229456789123"));
 	}
 	@Test
 	public void testDeleteProductFromSale() throws InvalidUsernameException, InvalidPasswordException, UnauthorizedException, InvalidProductDescriptionException, InvalidProductCodeException, InvalidPricePerUnitException, InvalidProductIdException, InvalidLocationException, InvalidTransactionIdException, InvalidQuantityException {
@@ -160,8 +181,7 @@ public class FR6Test {
 	}
 
 	@Test
-	public void testDeleteProductFromSaleRFID(){
-		try {
+	public void testDeleteProductFromSaleRFID() throws InvalidPasswordException, InvalidUsernameException, UnauthorizedException, InvalidProductDescriptionException, InvalidPricePerUnitException, InvalidProductCodeException, InvalidLocationException, InvalidProductIdException, InvalidQuantityException, InvalidOrderIdException, InvalidRFIDException, InvalidTransactionIdException {
 			ezshop.login("eugenio", "eugenio");
 			Integer s = ezshop.startSaleTransaction();
 			Integer p = ezshop.createProductType("vino", "5839450234582", 1.0, null);
@@ -174,11 +194,6 @@ public class FR6Test {
 			ezshop.recordOrderArrivalRFID(orderId,"123456789123");
 			ezshop.addProductToSaleRFID(s, "123456789123");
 			assertTrue(ezshop.deleteProductFromSaleRFID(s, "123456789123"));
-
-		} catch (InvalidUsernameException | UnauthorizedException | InvalidPasswordException | InvalidLocationException | InvalidProductIdException | InvalidProductDescriptionException | InvalidProductCodeException | InvalidPricePerUnitException | InvalidTransactionIdException | InvalidRFIDException | InvalidQuantityException | InvalidOrderIdException e) {
-			e.printStackTrace();
-		}
-
 	}
 
 	@Test

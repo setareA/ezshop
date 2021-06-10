@@ -246,10 +246,10 @@ public class ProductTypeRepository {
 	        Integer count = prp.executeUpdate();
 	        sqlCommand = deleteTableCommandRFID();
 	        prp = con.prepareStatement(sqlCommand);
-	        count = prp.executeUpdate();
+	        Integer count2 = prp.executeUpdate();
 	        prp.close();
 	        con.close();
-	        return count>0;
+	        return (count>0 && count2>0);
 		}catch (SQLException e) {
 	        e.printStackTrace();
 	        try {
