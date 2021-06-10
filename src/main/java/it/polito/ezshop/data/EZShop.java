@@ -308,11 +308,12 @@ public class EZShop implements EZShopInterface {
             if (!checkValidityProductcode(newCode)) throw new InvalidProductCodeException();
             if (newPrice <= 0) throw new InvalidPricePerUnitException();
             if (!productTypeRepository.checkUniqueBarcode(newCode, id)) return false;
-
+            
+             ProductType p = productTypeRepository.getProductTypebyId(id.toString());
              boolean result =  productTypeRepository.updateProductType(id.toString(), newDescription, newCode, String.valueOf(newPrice), newNote);
-            ProductType p = productTypeRepository.getProductTypebyId(id.toString());
-            if ( p != null){
-                productTypeRepository.updateRow("productRFID", "barCode", "barCode", p.getBarCode(), newCode);
+            if ( result){
+            	
+                System.out.println(productTypeRepository.updateRow("productRFID", "barCode", "barCode", p.getBarCode(), newCode));
             }
             return result;
         } else {
@@ -469,8 +470,10 @@ public class EZShop implements EZShopInterface {
         if (orderId < 1) throw new InvalidOrderIdException();
         OrderClass o = balanceOperationRepository.getOrderByOrderId(String.valueOf(orderId));
 		if (o == null) return false;
-		if (!o.getStatus().equals("PAYED")) return false;
+		if (!o.getStatus().equals("PAYED")) {
 		if (o.getStatus().equals("COMPLETED")) return true;
+		else return false;
+		}
 		if (productTypeRepository.getProductTypebyBarCode(o.getProductCode()).getLocation().isEmpty() || productTypeRepository.getProductTypebyBarCode(o.getProductCode()).getLocation() == null)
 		    throw new InvalidLocationException();
 		productTypeRepository.updateQuantity(productTypeRepository.getProductTypebyBarCode(o.getProductCode()).getId(), o.getQuantity());
@@ -501,8 +504,8 @@ public class EZShop implements EZShopInterface {
         	throw new InvalidRFIDException ();
         if(!checkValidityRFID(RFIDfrom))
         	throw new InvalidRFIDException ();
+        if(o.getStatus().equals("COMPLETED")) return true;
         if(recordOrderArrival(orderId)) {
-        	System.out.println(o.getQuantity());
         	for (int i=0;i<o.getQuantity();i++) {
 
                 Double rfid = Double.parseDouble(RFIDfrom)+i;

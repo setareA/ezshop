@@ -190,25 +190,27 @@ public class FR4Test {
     @Test
     public void testrecordOrderArrivalRFID() throws InvalidPasswordException, InvalidRoleException, InvalidUsernameException, UnauthorizedException, InvalidQuantityException, InvalidPricePerUnitException, InvalidProductCodeException, InvalidProductDescriptionException, InvalidLocationException, InvalidProductIdException, InvalidRFIDException, InvalidOrderIdException /* throws InvalidProductCodeException, UnauthorizedException, InvalidProductDescriptionException, InvalidPricePerUnitException, InvalidQuantityException, InvalidUsernameException, InvalidPasswordException, InvalidRoleException, InvalidProductIdException, InvalidLocationException, InvalidOrderIdException, InvalidRFIDException*/ {
         String RFID = "123456789012";
-        //assertThrows(InvalidOrderIdException.class, () -> ezShop.recordOrderArrivalRFID(null, RFID));
-        //assertThrows(InvalidOrderIdException.class, () -> ezShop.recordOrderArrivalRFID(0, RFID));
+        assertThrows(InvalidOrderIdException.class, () -> ezShop.recordOrderArrivalRFID(null, RFID));
+        assertThrows(InvalidOrderIdException.class, () -> ezShop.recordOrderArrivalRFID(0, RFID));
         Integer p;
         ezShop.createUser("setare_manager", "asdf", "ShopManager");
         ezShop.login("setare_manager", "asdf");
         ezShop.recordBalanceUpdate(1000);
         p = ezShop.createProductType("Product", "6254356245859", 10, "the best");
         Integer o = ezShop.payOrderFor("6254356245859", 8, 1.5);
-        //assertThrows(InvalidLocationException.class, () -> ezShop.recordOrderArrivalRFID(o, RFID));
+        assertThrows(InvalidLocationException.class, () -> ezShop.recordOrderArrivalRFID(o, RFID));
         ezShop.updatePosition(p, "11-aaa-44");
-        //assertThrows(InvalidRFIDException.class, () -> ezShop.recordOrderArrivalRFID(o, "123"));
+        assertThrows(InvalidRFIDException.class, () -> ezShop.recordOrderArrivalRFID(o, "123"));
         ezShop.logout();
-        //assertThrows(UnauthorizedException.class, () -> ezShop.recordOrderArrivalRFID(o, RFID));
+        assertThrows(UnauthorizedException.class, () -> ezShop.recordOrderArrivalRFID(o, RFID));
         ezShop.login("setare_manager", "asdf");
-        //assertEquals(ezShop.recordOrderArrivalRFID(1000, RFID),false);
-        //assertEquals(ezShop.recordOrderArrivalRFID(o, RFID),true);
-        assertEquals(ezShop.recordOrderArrivalRFID(o, RFID), true);
+        assertEquals(ezShop.recordOrderArrivalRFID(1000, RFID),false);
+        assertEquals(ezShop.recordOrderArrivalRFID(o, RFID),true);
+        assertEquals(true ,ezShop.recordOrderArrivalRFID(o, "333333333333"));
         Integer o1 = ezShop.payOrderFor("6254356245859", 1, 10);
         assertThrows(InvalidRFIDException.class, () -> ezShop.recordOrderArrivalRFID(o1, RFID));
+        Integer o2 = ezShop.issueOrder("6254356245859", 1, 10);
+        assertEquals(false ,ezShop.recordOrderArrivalRFID(o2, "333333333333"));
         Product p1 = ezShop.getProductTypeRepository().getProductbyRFID(RFID);
         Double rfidPlus7 = Double.parseDouble(RFID) + 7;
         String newRFID = String.format("%.0f", rfidPlus7);
