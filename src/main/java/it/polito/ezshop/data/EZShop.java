@@ -1124,7 +1124,11 @@ public class EZShop implements EZShopInterface {
             if (RFID == null || RFID.isEmpty() || !checkValidityRFID(RFID)) {
                 throw new InvalidRFIDException();
             }
-            Product productRFID = productTypeRepository.getProductsByForeignKeyAndRFID("returnID", returnId, RFID);
+            ReturnTransactionClass returnTran = balanceOperationRepository.getReturnByReturnId(returnId);
+            if(returnTran==null) {
+            	return false;
+            }
+            Product productRFID = productTypeRepository.getProductsByForeignKeyAndRFID("ticketNumber", returnTran.getTicketNumber(), RFID);
             if( productRFID == null)
                 return false;
             String productCode = productRFID.getBarCode();
