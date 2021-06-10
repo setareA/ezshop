@@ -1,5 +1,6 @@
 package it.polito.ezshop.data;
 
+import it.polito.ezshop.data.model.Product;
 import it.polito.ezshop.data.repository.DBCPDBConnectionPool;
 import it.polito.ezshop.exceptions.*;
 import org.junit.After;
@@ -23,7 +24,6 @@ public class FR3Test {
 
     @After
     public void tearDown() throws Exception {
-        resetTables();
     }
 
     public void resetTables() throws SQLException {
@@ -64,7 +64,7 @@ public class FR3Test {
     }
 
     @Test
-    public void testUpdateProduct() throws InvalidPasswordException, InvalidRoleException, InvalidUsernameException, UnauthorizedException, InvalidProductDescriptionException, InvalidPricePerUnitException, InvalidProductCodeException, InvalidProductIdException {
+    public void testUpdateProduct() throws InvalidPasswordException, InvalidRoleException, InvalidUsernameException, UnauthorizedException, InvalidProductDescriptionException, InvalidPricePerUnitException, InvalidProductCodeException, InvalidProductIdException, InvalidQuantityException, InvalidLocationException, InvalidOrderIdException, InvalidRFIDException {
         assertThrows(UnauthorizedException.class, () -> ezShop.updateProduct(1, "newProduct", "123457879873", 10, "the best"));
         ezShop.createUser("setare_manager", "asdf", "ShopManager");
         ezShop.createUser("setare_admin", "asdf", "Administrator");
@@ -88,11 +88,18 @@ public class FR3Test {
         ezShop.login("setare_admin", "asdf");
         Integer ID = null;
         ID = ezShop.createProductType("newProduct", "143457879871", 43, "");
+        ezShop.recordBalanceUpdate(1000);
+        Integer o = ezShop.payOrderFor("143457879871", 1, 1);
+        ezShop.updatePosition(ID, "1-a-1");
+        ezShop.recordOrderArrivalRFID(o, "111111111111");
         assertTrue(ezShop.updateProduct(ID, "newDescription", "243457879878", 34, "newNote"));
+        Product p = ezShop.getProductTypeRepository().getProductbyRFID("111111111111");
+        System.out.println(p.getBarCode());
+        assertEquals(p.getBarCode(),"243457879878");
     }
 
     @Test
-    public void testDeleteProductType() throws InvalidPasswordException, InvalidRoleException, InvalidUsernameException, UnauthorizedException, InvalidProductDescriptionException, InvalidPricePerUnitException, InvalidProductCodeException, InvalidProductIdException {
+    public void testDeleteProductType() throws InvalidPasswordException, InvalidRoleException, InvalidUsernameException, UnauthorizedException, InvalidProductDescriptionException, InvalidPricePerUnitException, InvalidProductCodeException, InvalidProductIdException, InvalidQuantityException, InvalidOrderIdException, InvalidLocationException, InvalidRFIDException {
         assertThrows(UnauthorizedException.class, () -> ezShop.deleteProductType(1));
         ezShop.createUser("setare_manager", "asdf", "ShopManager");
         ezShop.createUser("setare_admin", "asdf", "Administrator");
@@ -110,6 +117,13 @@ public class FR3Test {
         ezShop.login("setare_admin", "asdf");
         Integer ID = ezShop.createProductType("pane", "654357879873", 100, "");
         assertTrue(ezShop.deleteProductType(ID));
+        id = ezShop.createProductType("anotherProduct", "543457879879", 27, "");
+        ezShop.recordBalanceUpdate(1000);
+        Integer o = ezShop.payOrderFor("543457879879", 1, 1);
+        ezShop.updatePosition(id, "1-a-1");
+        ezShop.recordOrderArrivalRFID(o, "111111111111");
+        assertTrue(ezShop.deleteProductType(id));
+        assertEquals(ezShop.getProductTypeRepository().getProductbyRFID("111111111111"),null);
     }
 
     @Test
