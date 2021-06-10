@@ -21,8 +21,6 @@ The design must satisfy the Official Requirements document, notably functional a
 
 ![](Images/design/high_level.png)
 
-Inside EZshopApplication package we divided logic, data and model
-
 # Low level design
 
 ![](Images/design/class_diagram.png)
