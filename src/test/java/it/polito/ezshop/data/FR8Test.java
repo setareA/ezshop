@@ -48,9 +48,8 @@ public class FR8Test {
 
 
     @Test
-    public void testRecordBalanceUpdate() {
+    public void testRecordBalanceUpdate() throws InvalidPasswordException, InvalidRoleException, InvalidUsernameException, UnauthorizedException {
         assertThrows("Unregistered user tries to record balance update", UnauthorizedException.class, () -> ezShop.recordBalanceUpdate(10));
-        try {
             ezShop.createUser("setare_manager", "asdf", "ShopManager");
             ezShop.createUser("setare_admin", "asdf", "Administrator");
             ezShop.createUser("setare_cashier", "asdf", "Cashier");
@@ -59,30 +58,18 @@ public class FR8Test {
             assertThrows("Unauthorized user tries to to record balance update", UnauthorizedException.class, () -> ezShop.recordBalanceUpdate(10));
 
             ezShop.login("setare_manager", "asdf");
-            try {
-                assertTrue(ezShop.recordBalanceUpdate(9));
-            } catch (UnauthorizedException e) {
-                e.printStackTrace();
-            }
 
+                assertTrue(ezShop.recordBalanceUpdate(9));
             ezShop.login("setare_admin", "asdf");
-            try {
+
                 assertTrue(ezShop.recordBalanceUpdate(7));
                 assertTrue(ezShop.recordBalanceUpdate(-1));
                 assertFalse(ezShop.recordBalanceUpdate(-17));
-            } catch (UnauthorizedException e) {
-                e.printStackTrace();
-            }
-        }
-        catch (InvalidUsernameException | InvalidPasswordException | InvalidRoleException e) {
-            e.printStackTrace();
-        }
     }
 
     @Test
-    public void testGetCreditsAndDebits() {
+    public void testGetCreditsAndDebits() throws InvalidPasswordException, InvalidRoleException, InvalidUsernameException, UnauthorizedException, SQLException {
         assertThrows("Unregistered user tries to get credits and debits", UnauthorizedException.class, () -> ezShop.getCreditsAndDebits(LocalDate.parse("2021-03-14"), LocalDate.parse("2021-04-14")));
-        try {
             ezShop.createUser("setare_manager", "asdf", "ShopManager");
             ezShop.createUser("setare_admin", "asdf", "Administrator");
             ezShop.createUser("setare_cashier", "asdf", "Cashier");
@@ -91,75 +78,39 @@ public class FR8Test {
             assertThrows("Unauthorized user tries to to get credits and debits", UnauthorizedException.class, () -> ezShop.getCreditsAndDebits(LocalDate.parse("2021-03-14"), LocalDate.parse("2021-04-14")));
 
             ezShop.login("setare_manager", "asdf");
-            try {
                 ezShop.getBalanceOperationRepository().addBalanceOperation(new BalanceOperationClass(ezShop.getBalanceOperationRepository().getHighestBalanceId() + 1,LocalDate.parse("2022-07-09"),10,"credit" ));
                 ezShop.getBalanceOperationRepository().addBalanceOperation(new BalanceOperationClass(ezShop.getBalanceOperationRepository().getHighestBalanceId() + 1,LocalDate.parse("2021-07-09"),14,"credit" ));
                 ezShop.getBalanceOperationRepository().addBalanceOperation(new BalanceOperationClass(ezShop.getBalanceOperationRepository().getHighestBalanceId() + 1,LocalDate.parse("2020-07-09"),-10,"debit" ));
-
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
-            }
-
-            try {
                 assertEquals(1, ezShop.getCreditsAndDebits(LocalDate.parse("2021-01-01"), LocalDate.parse("2021-11-29")).size());
                 assertEquals(1, ezShop.getCreditsAndDebits( LocalDate.parse("2021-11-29"), LocalDate.parse("2021-01-01")).size());
                 assertEquals(2, ezShop.getCreditsAndDebits(null, LocalDate.parse("2021-11-29")).size());
                 assertEquals(2, ezShop.getCreditsAndDebits(LocalDate.parse("2021-01-01"),null).size());
                 assertEquals(3, ezShop.getCreditsAndDebits(null, null).size());
-            } catch (UnauthorizedException e) {
-                e.printStackTrace();
-            }
-
             ezShop.login("setare_admin", "asdf");
-            try {
                 assertEquals(1, ezShop.getCreditsAndDebits(LocalDate.parse("2021-01-01"), LocalDate.parse("2021-11-29")).size());
                 assertEquals(1, ezShop.getCreditsAndDebits( LocalDate.parse("2021-11-29"), LocalDate.parse("2021-01-01")).size());
                 assertEquals(2, ezShop.getCreditsAndDebits(null, LocalDate.parse("2021-11-29")).size());
                 assertEquals(2, ezShop.getCreditsAndDebits(LocalDate.parse("2021-01-01"),null).size());
                 assertEquals(3, ezShop.getCreditsAndDebits(null, null).size());
-            } catch (UnauthorizedException e) {
-                e.printStackTrace();
-            }
-        }
-        catch (InvalidUsernameException | InvalidPasswordException | InvalidRoleException e) {
-            e.printStackTrace();
-        }
-
     }
 
     @Test
-    public void testComputeBalance() {
-        assertThrows("Unregistered user tries to compute balance",UnauthorizedException.class , () -> ezShop.computeBalance());
-        try {
-            ezShop.createUser("setare_manager", "asdf", "ShopManager");
-            ezShop.createUser("setare_admin", "asdf", "Administrator");
-            ezShop.createUser("setare_cashier", "asdf", "Cashier");
+    public void testComputeBalance() throws InvalidPasswordException, InvalidRoleException, InvalidUsernameException, UnauthorizedException {
+        assertThrows("Unregistered user tries to compute balance", UnauthorizedException.class, () -> ezShop.computeBalance());
+        ezShop.createUser("setare_manager", "asdf", "ShopManager");
+        ezShop.createUser("setare_admin", "asdf", "Administrator");
+        ezShop.createUser("setare_cashier", "asdf", "Cashier");
 
-            ezShop.login("setare_cashier", "asdf");
-            assertThrows("Unauthorized user tries to compute balance",UnauthorizedException.class , () -> ezShop.computeBalance());
+        ezShop.login("setare_cashier", "asdf");
+        assertThrows("Unauthorized user tries to compute balance", UnauthorizedException.class, () -> ezShop.computeBalance());
 
-            ezShop.login("setare_manager", "asdf");
-            ezShop.getBalanceOperationRepository().setBalance(9);
-            try {
-                System.out.println(ezShop.computeBalance());
-                assertEquals(9, ezShop.computeBalance(), 0.0);
-            } catch (UnauthorizedException e) {
-                e.printStackTrace();
-            }
+        ezShop.login("setare_manager", "asdf");
+        ezShop.getBalanceOperationRepository().setBalance(9);
+        assertEquals(9, ezShop.computeBalance(), 0.0);
 
-            ezShop.login("setare_admin", "asdf");
-            ezShop.getBalanceOperationRepository().setBalance(9);
-            try {
-                assertEquals(18, ezShop.computeBalance(), 0.0);
-            } catch (UnauthorizedException e) {
-                e.printStackTrace();
-            }
-
-
-        } catch (InvalidUsernameException | InvalidPasswordException | InvalidRoleException e) {
-            e.printStackTrace();
-        }
-
+        ezShop.login("setare_admin", "asdf");
+        ezShop.getBalanceOperationRepository().setBalance(9);
+        assertEquals(18, ezShop.computeBalance(), 0.0);
     }
 
 }
