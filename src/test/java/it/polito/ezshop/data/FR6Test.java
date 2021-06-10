@@ -35,7 +35,7 @@ public class FR6Test {
 
     @AfterClass
     public static void tearDownAfterClass() throws Exception {
-        ezshop.reset();
+       /* ezshop.reset();
         Connection con = DBCPDBConnectionPool.getConnection();
         Statement st = con.createStatement();
         String cleanUser = "DROP TABLE IF EXISTS user;";
@@ -43,7 +43,7 @@ public class FR6Test {
         st.executeUpdate(cleanUser + cleanCustomer);
         st.close();
         con.close();
-        ezshop.logout();
+        ezshop.logout();*/
 
     }
 
@@ -306,7 +306,7 @@ public class FR6Test {
     }
 
     @Test
-    public void testDeleteSaleTransaction() throws InvalidUsernameException, InvalidPasswordException, UnauthorizedException, InvalidTransactionIdException, InvalidProductDescriptionException, InvalidProductCodeException, InvalidPricePerUnitException, InvalidProductIdException, InvalidLocationException, InvalidQuantityException {
+    public void testDeleteSaleTransaction() throws InvalidUsernameException, InvalidPasswordException, UnauthorizedException, InvalidTransactionIdException, InvalidProductDescriptionException, InvalidProductCodeException, InvalidPricePerUnitException, InvalidProductIdException, InvalidLocationException, InvalidQuantityException, InvalidOrderIdException, InvalidRFIDException {
         assertThrows("no logged user", UnauthorizedException.class, () -> ezshop.deleteSaleTransaction(null));
         ezshop.login("eugenio1", "eugenio");
         assertThrows("null transactionId ", InvalidTransactionIdException.class, () -> ezshop.deleteSaleTransaction(null));
@@ -326,7 +326,13 @@ public class FR6Test {
         ezshop.updatePosition(p1, "121-szhs-11");
         ezshop.updateQuantity(p, 100);
         ezshop.updateQuantity(p1, 100);
+        ezshop.recordBalanceUpdate(1000);
+        Integer o = ezshop.payOrderFor("9574856111735", 1, 1);
+        ezshop.recordOrderArrivalRFID(o, "111111111111");
 
+        ezshop.addProductToSaleRFID(s, "111111111111");
+        System.out.println(ezshop.getProductTypeRepository().getProductbyRFID("111111111111").getTicketNumber() + "," + s);
+        assertEquals(ezshop.getProductTypeRepository().getProductbyRFID("111111111111").getTicketNumber(),String.valueOf(s));
         ezshop.addProductToSale(s, "9574856111735", 10);
         ezshop.addProductToSale(s, "9574856111735", 10);
         ezshop.addProductToSale(s, "957485611194", 10);
@@ -338,7 +344,7 @@ public class FR6Test {
         long endTime = Instant.now().toEpochMilli();
         long timeElapsed = endTime - startTime;
         System.out.println("Execution time in milliseconds: " + timeElapsed);
-        assertEquals("check if quantity is restored", Integer.valueOf(100), ezshop.getProductTypeByBarCode("9574856111735").getQuantity());
+        assertEquals("check if quantity is restored", Integer.valueOf(101), ezshop.getProductTypeByBarCode("9574856111735").getQuantity());
         assertEquals("check if quantity is restored", Integer.valueOf(100), ezshop.getProductTypeByBarCode("957485611194").getQuantity());
 
     }
