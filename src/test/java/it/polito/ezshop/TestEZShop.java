@@ -30,7 +30,7 @@ import org.junit.runners.Suite;
 
 
 @RunWith(Suite.class)
-@Suite.SuiteClasses({UserClassTest.class, CustomerClassTest.class, ProductTypeClassTest.class,
+@Suite.SuiteClasses({UserClassTest.class, CustomerClassTest.class, ProductTypeClassTest.class, ProductTest.class,
 	OrderClassTest.class,BalanceOperationClassTest.class,EZShopTest.class, ReturnTransactionTest.class, SaleTransactionTest.class, TicketEntryTest.class,
         CustomerRepositoryTest.class, UserRepositoryTest.class, ProductTypeRepositoryTest.class, BalanceOperationRepositoryTest.class,
         FR1Test.class, FR3Test.class, FR4Test.class, FR5Test.class, FR6Test.class, FR7Test.class, FR8Test.class,

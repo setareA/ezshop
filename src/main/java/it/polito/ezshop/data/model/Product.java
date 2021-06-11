@@ -2,11 +2,11 @@ package it.polito.ezshop.data.model;
 
 public class Product {
 	
-	Double RFID ;
-	String barCode;
-	Integer availability;
-	String ticketNumber;
-	String returnID;
+	private Double RFID ;
+	private String barCode;
+	private Integer availability;
+	private String ticketNumber;
+	private String returnID;
 	
 	public Product(Double rFID, String barCode, Integer availability, String ticketNumber, String returnID) {
 		super();
