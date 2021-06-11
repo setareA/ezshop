@@ -72,34 +72,34 @@ public class CustomerRepository {
     }
 
     public void initialize() {
-    	Connection con = null;
-    	try {
-        con = DBCPDBConnectionPool.getConnection();
-        Statement st = con.createStatement();
-        st.executeUpdate("CREATE TABLE IF NOT EXISTS " + "customer" + " " + "(id INTEGER PRIMARY KEY, customerName TEXT UNIQUE, customerCard TEXT, points INTEGER, CHECK (points>=0) )");
-        st.close();
-        con.close();
-	    }catch (SQLException e) {
-	        e.printStackTrace();
-	        try {
-	            con.close();
-			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-	    }
+        Connection con = null;
+        try {
+            con = DBCPDBConnectionPool.getConnection();
+            Statement st = con.createStatement();
+            st.executeUpdate("CREATE TABLE IF NOT EXISTS " + "customer" + " " + "(id INTEGER PRIMARY KEY, customerName TEXT UNIQUE, customerCard TEXT, points INTEGER, CHECK (points>=0) )");
+            st.close();
+            con.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            try {
+                con.close();
+            } catch (SQLException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            }
+        }
     }
-    
+
     public void deleteTables() throws SQLException {
         Logger.getLogger(CustomerRepository.class.getName()).log(Level.INFO, "deleting Customers");
         Connection con = DBCPDBConnectionPool.getConnection();
         PreparedStatement prp = con.prepareStatement("DELETE FROM customer;");
         prp.executeUpdate();
-    
+
         prp.close();
         con.close();
     }
-    
+
     public Integer addNewCustomer(CustomerClass customer) {
 
         Connection con = null;
@@ -125,10 +125,10 @@ public class CustomerRepository {
             return nextId;
         } catch (SQLException throwables) {
             throwables.printStackTrace();
-        } catch (NullPointerException exception){
+        } catch (NullPointerException exception) {
             exception.printStackTrace();
         }
-        if(con != null) {
+        if (con != null) {
             try {
                 con.close();
             } catch (SQLException throwables) {
@@ -152,7 +152,7 @@ public class CustomerRepository {
             return count > 0;
         } catch (SQLException throwables) {
             throwables.printStackTrace();
-        } catch (NullPointerException exception){
+        } catch (NullPointerException exception) {
             exception.printStackTrace();
         }
         if (con != null) {
@@ -165,7 +165,7 @@ public class CustomerRepository {
         return false;
     }
 
-    public Boolean changeDataOfACustomer(Integer id, String newCustomerName, String newCustomerCard){
+    public Boolean changeDataOfACustomer(Integer id, String newCustomerName, String newCustomerCard) {
         // This method assumes that the id that you are passing is already checked
         // This method assumes that the newCustomername and the newCustomerCard
         //that you are passing is already checked
@@ -178,11 +178,10 @@ public class CustomerRepository {
             int count = prp.executeUpdate();
             prp.close();
             con.close();
-            return count >0;
+            return count > 0;
         } catch (SQLException throwables) {
             throwables.printStackTrace();
-        }
-        catch (NullPointerException exception){
+        } catch (NullPointerException exception) {
             exception.printStackTrace();
         }
         if (con != null) {
@@ -195,7 +194,7 @@ public class CustomerRepository {
         return false;
     }
 
-    public boolean AssignCustomerCard(Integer id, String newCustomerCard)  {
+    public boolean AssignCustomerCard(Integer id, String newCustomerCard) {
         Connection con = null;
         try {
             con = DBCPDBConnectionPool.getConnection();
@@ -208,8 +207,7 @@ public class CustomerRepository {
             return count > 0;
         } catch (SQLException throwables) {
             throwables.printStackTrace();
-        }
-        catch (NullPointerException exception){
+        } catch (NullPointerException exception) {
             exception.printStackTrace();
         }
         if (con != null) {
@@ -222,7 +220,7 @@ public class CustomerRepository {
         return false;
     }
 
-    public boolean changePointsOfACustomer(String customerCard, int pointsToBeAdded){
+    public boolean changePointsOfACustomer(String customerCard, int pointsToBeAdded) {
         // This method assumes that the CustomerCard and poitsToBeAdded that you are passing is already checked
         Connection con = null;
         try {
@@ -243,8 +241,7 @@ public class CustomerRepository {
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();
-        }
-         catch (NullPointerException exception){
+        } catch (NullPointerException exception) {
             exception.printStackTrace();
         }
         if (con != null) {
@@ -302,8 +299,7 @@ public class CustomerRepository {
             return c;
         } catch (SQLException e) {
             e.printStackTrace();
-        }
-        catch (NullPointerException exception){
+        } catch (NullPointerException exception) {
             exception.printStackTrace();
         }
         if (con != null) {

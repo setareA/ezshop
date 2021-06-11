@@ -3,7 +3,6 @@ package it.polito.ezshop.data;
 import it.polito.ezshop.data.model.Product;
 import it.polito.ezshop.data.repository.DBCPDBConnectionPool;
 import it.polito.ezshop.exceptions.*;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -20,10 +19,6 @@ public class FR3Test {
     @Before
     public void setUp() throws Exception {
         resetTables();
-    }
-
-    @After
-    public void tearDown() throws Exception {
     }
 
     public void resetTables() throws SQLException {
@@ -95,7 +90,7 @@ public class FR3Test {
         assertTrue(ezShop.updateProduct(ID, "newDescription", "243457879878", 34, "newNote"));
         Product p = ezShop.getProductTypeRepository().getProductbyRFID("111111111111");
         System.out.println(p.getBarCode());
-        assertEquals(p.getBarCode(),"243457879878");
+        assertEquals(p.getBarCode(), "243457879878");
     }
 
     @Test
@@ -123,7 +118,7 @@ public class FR3Test {
         ezShop.updatePosition(id, "1-a-1");
         ezShop.recordOrderArrivalRFID(o, "111111111111");
         assertTrue(ezShop.deleteProductType(id));
-        assertEquals(ezShop.getProductTypeRepository().getProductbyRFID("111111111111"),null);
+        assertEquals(ezShop.getProductTypeRepository().getProductbyRFID("111111111111"), null);
     }
 
     @Test
@@ -156,9 +151,9 @@ public class FR3Test {
         assertThrows(InvalidProductCodeException.class, () -> ezShop.getProductTypeByBarCode(""));
         assertThrows(InvalidProductCodeException.class, () -> ezShop.getProductTypeByBarCode(null));
         ezShop.createProductType("newProduct", "123457879873", 10, "the best");
-        assertEquals(10, (double) ezShop.getProductTypeByBarCode("123457879873").getPricePerUnit(), 0.0);
+        assertEquals(10, ezShop.getProductTypeByBarCode("123457879873").getPricePerUnit(), 0.0);
         ezShop.login("setare_admin", "asdf");
-        assertEquals(10, (double) ezShop.getProductTypeByBarCode("123457879873").getPricePerUnit(), 0.0);
+        assertEquals(10, ezShop.getProductTypeByBarCode("123457879873").getPricePerUnit(), 0.0);
     }
 
     @Test

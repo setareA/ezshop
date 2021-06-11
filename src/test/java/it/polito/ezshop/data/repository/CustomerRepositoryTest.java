@@ -14,7 +14,7 @@ import static org.junit.Assert.*;
 
 public class CustomerRepositoryTest {
 
-    private static CustomerRepository customerRepository = CustomerRepository.getInstance();
+    private static final CustomerRepository customerRepository = CustomerRepository.getInstance();
 
     @Before
     public void setUp() throws Exception {

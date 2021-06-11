@@ -18,6 +18,7 @@ public class BalanceOperationRepository {
     private static final BalanceOperationRepository ourInstance = new BalanceOperationRepository();
     private static Integer nextTicketNumber = 0;
     private static Integer nextReturnId = 0;
+
     private BalanceOperationRepository() {
     }
 
@@ -97,7 +98,6 @@ public class BalanceOperationRepository {
         return "SELECT * FROM returnTable WHERE returnId = ?";
     }
 
-  
 
     public static Double getBalanceOfACreditCard(String creditCard) throws IOException {
         String filePath = new File("").getAbsolutePath();
@@ -111,7 +111,7 @@ public class BalanceOperationRepository {
         int n = 0;
         while ((st = br.readLine()) != null) {
             if (creditCard.equals(st.substring(0, 16))) {
-                return Double.parseDouble(st.substring(17, st.length() ));
+                return Double.parseDouble(st.substring(17));
             }
             n = n + 1;
         }
@@ -120,37 +120,37 @@ public class BalanceOperationRepository {
     }
 
     public void initialize() {
-    	Connection con = null;
-    	try {
-        con = DBCPDBConnectionPool.getConnection();
-        Statement st = con.createStatement();
-        st.executeUpdate("CREATE TABLE IF NOT EXISTS " + "orderTable" + " " + "(orderId INTEGER PRIMARY KEY, balanceId INTEGER, productCode TEXT, pricePerUnit DOUBLE, quantity INTEGER, status TEXT, money DOUBLE)");
-        st.executeUpdate("CREATE TABLE IF NOT EXISTS " + "sale" + " " + "(ticketNumber INTEGER PRIMARY KEY, discountRate DOUBLE, price DOUBLE, status TEXT)");
-        st.executeUpdate("CREATE TABLE IF NOT EXISTS " + "returnTable" + " " + "(returnId INTEGER PRIMARY KEY, price DOUBLE, status TEXT, ticketNumber INTEGER, FOREIGN KEY (ticketNumber) references sale(ticketNumber))");
-        st.executeUpdate("CREATE TABLE IF NOT EXISTS " + "ticket" + " " + "(id INTEGER PRIMARY KEY AUTOINCREMENT, barcode TEXT, productDescription TEXT, amount INTEGER , pricePerUnit DOUBLE, discountRate DOUBLE, saleId INTEGER, returnId INTEGER, FOREIGN KEY (saleId) references sale(ticketNumber), FOREIGN KEY (returnId) references returnTable(returnId))");
-        st.executeUpdate("CREATE TABLE IF NOT EXISTS " + "balanceTable" + " " + "(id INTEGER PRIMARY KEY , balance DOUBLE )");
-        st.executeUpdate("CREATE TABLE IF NOT EXISTS " + "balanceOperationTable" + " " + "(balanceId INTEGER PRIMARY KEY , localDate DATE , money DOUBLE , type TEXT)");
+        Connection con = null;
         try {
-            this.getBalance();
+            con = DBCPDBConnectionPool.getConnection();
+            Statement st = con.createStatement();
+            st.executeUpdate("CREATE TABLE IF NOT EXISTS " + "orderTable" + " " + "(orderId INTEGER PRIMARY KEY, balanceId INTEGER, productCode TEXT, pricePerUnit DOUBLE, quantity INTEGER, status TEXT, money DOUBLE)");
+            st.executeUpdate("CREATE TABLE IF NOT EXISTS " + "sale" + " " + "(ticketNumber INTEGER PRIMARY KEY, discountRate DOUBLE, price DOUBLE, status TEXT)");
+            st.executeUpdate("CREATE TABLE IF NOT EXISTS " + "returnTable" + " " + "(returnId INTEGER PRIMARY KEY, price DOUBLE, status TEXT, ticketNumber INTEGER, FOREIGN KEY (ticketNumber) references sale(ticketNumber))");
+            st.executeUpdate("CREATE TABLE IF NOT EXISTS " + "ticket" + " " + "(id INTEGER PRIMARY KEY AUTOINCREMENT, barcode TEXT, productDescription TEXT, amount INTEGER , pricePerUnit DOUBLE, discountRate DOUBLE, saleId INTEGER, returnId INTEGER, FOREIGN KEY (saleId) references sale(ticketNumber), FOREIGN KEY (returnId) references returnTable(returnId))");
+            st.executeUpdate("CREATE TABLE IF NOT EXISTS " + "balanceTable" + " " + "(id INTEGER PRIMARY KEY , balance DOUBLE )");
+            st.executeUpdate("CREATE TABLE IF NOT EXISTS " + "balanceOperationTable" + " " + "(balanceId INTEGER PRIMARY KEY , localDate DATE , money DOUBLE , type TEXT)");
+            try {
+                this.getBalance();
+            } catch (SQLException e) {
+                this.insertBalance();
+            }
+            st.close();
+            con.close();
         } catch (SQLException e) {
-            this.insertBalance();
+            e.printStackTrace();
+            try {
+                con.close();
+            } catch (SQLException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            }
         }
-        st.close();
-        con.close();
-    	}catch (SQLException e) {
-	        e.printStackTrace();
-	        try {
-	            con.close();
-			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-	    }
     }
 
     public boolean setBalance(double b) {
         Connection con = null;
-    	try {
+        try {
             con = DBCPDBConnectionPool.getConnection();
             String sqlCommand = "UPDATE balanceTable SET balance = balance + ? WHERE id = ?";
             PreparedStatement prp = con.prepareStatement(sqlCommand);
@@ -162,11 +162,11 @@ public class BalanceOperationRepository {
             return true;
         } catch (SQLException e) {
             try {
-				con.close();
-			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
+                con.close();
+            } catch (SQLException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            }
 
         }
         return false;
@@ -178,7 +178,7 @@ public class BalanceOperationRepository {
 
     public boolean resetBalance() {
         Connection con = null;
-    	try {
+        try {
             con = DBCPDBConnectionPool.getConnection();
             String sqlCommand = "UPDATE balanceTable SET balance = ?  WHERE id = ?";
             PreparedStatement prp = con.prepareStatement(sqlCommand);
@@ -190,11 +190,11 @@ public class BalanceOperationRepository {
             return true;
         } catch (SQLException e) {
             try {
-				con.close();
-			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
+                con.close();
+            } catch (SQLException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            }
 
         }
         return false;
@@ -218,7 +218,7 @@ public class BalanceOperationRepository {
 
     public boolean insertBalance() {
         Connection con = null;
-    	try {
+        try {
             con = DBCPDBConnectionPool.getConnection();
             String sqlCommand = insertCommand("balanceTable", new ArrayList<String>(Arrays.asList("id", "balance")));
             PreparedStatement prp = con.prepareStatement(sqlCommand);
@@ -230,14 +230,14 @@ public class BalanceOperationRepository {
             return true;
         } catch (SQLException e) {
             try {
-				con.close();
-			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
+                con.close();
+            } catch (SQLException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            }
 
         }
-    	return false;
+        return false;
     }
 
     public void addBalanceOperation(BalanceOperationClass b) throws SQLException {
@@ -263,7 +263,7 @@ public class BalanceOperationRepository {
     }
 
     public Integer addNewOrder(OrderClass order) throws SQLException {
-    	Integer nextOrderId = this.getHighestOrderId() + 1;
+        Integer nextOrderId = this.getHighestOrderId() + 1;
         HashMap<String, String> orderData = new HashMap<>();
         orderData.put("orderId", String.valueOf(nextOrderId));
         orderData.put("balanceId", order.getBalanceId().toString());
@@ -358,8 +358,8 @@ public class BalanceOperationRepository {
     }
 
     public boolean deleteRow(String tableName, String idName, String id) {
-    	 PreparedStatement prps = null;
-    	 Connection con = null;
+        PreparedStatement prps = null;
+        Connection con = null;
         try {
             String sqlCommand = getDeleteRowStatement(tableName, idName);
             con = DBCPDBConnectionPool.getConnection();
@@ -374,10 +374,10 @@ public class BalanceOperationRepository {
             e.printStackTrace();
             try {
                 con.close();
-			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
+            } catch (SQLException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            }
             return false;
         }
     }
@@ -390,9 +390,9 @@ public class BalanceOperationRepository {
      * @param newColumnVal the value of the column which is being updated
      **/
     public boolean updateRow(String tableName, String columnName, String idName, Integer id, String newColumnVal) {
-    	PreparedStatement prps = null;
-    	Connection con = null;
-    	try {
+        PreparedStatement prps = null;
+        Connection con = null;
+        try {
             String sqlCommand = getUpdateRowStatement(tableName, columnName, idName);
             con = DBCPDBConnectionPool.getConnection();
             prps = con.prepareStatement(sqlCommand);
@@ -406,18 +406,18 @@ public class BalanceOperationRepository {
             e.printStackTrace();
             try {
                 con.close();
-			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
+            } catch (SQLException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            }
         }
         return false;
     }
 
     public boolean updateState(String tableName, Integer id, String state) {
-    	PreparedStatement prps = null;
-    	Connection con = null;
-    	try {
+        PreparedStatement prps = null;
+        Connection con = null;
+        try {
             String sqlCommand = getUpdateStateStatement(tableName);
             con = DBCPDBConnectionPool.getConnection();
             prps = con.prepareStatement(sqlCommand);
@@ -431,10 +431,10 @@ public class BalanceOperationRepository {
             e.printStackTrace();
             try {
                 con.close();
-			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
+            } catch (SQLException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            }
         }
         return false;
     }
@@ -444,7 +444,6 @@ public class BalanceOperationRepository {
         return "UPDATE " + tableName + " SET status  = ? WHERE orderId = ?";
     }
 
- 
 
     private String getUpdateRowStatement(String tableName, String columnName, String idName) {
         return "UPDATE " + tableName + " SET " + columnName + " = ? WHERE " + idName + " = ?";
@@ -512,7 +511,6 @@ public class BalanceOperationRepository {
         return result;
     }
 
-  
 
     private ArrayList<TicketEntry> loadAllTickets(ResultSet rs) throws SQLException {
 
@@ -535,8 +533,8 @@ public class BalanceOperationRepository {
     }
 
     public ArrayList<OrderClass> getAllOrders() {
-    	Connection con = null;
-    	try {
+        Connection con = null;
+        try {
             String sqlCommand = geAllTransStatement("orderTable");
             con = DBCPDBConnectionPool.getConnection();
             PreparedStatement prps = con.prepareStatement(sqlCommand);
@@ -548,19 +546,19 @@ public class BalanceOperationRepository {
         } catch (SQLException e) {
             e.printStackTrace();
             try {
-				con.close();
-			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
+                con.close();
+            } catch (SQLException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            }
 
         }
         return null;
     }
 
     public ArrayList<BalanceOperationClass> getAllBalanceOperation() {
-    	Connection con = null;
-    	try {
+        Connection con = null;
+        try {
             String sqlCommand = geAllTransStatement("balanceOperationTable");
             con = DBCPDBConnectionPool.getConnection();
             PreparedStatement prps = con.prepareStatement(sqlCommand);
@@ -572,19 +570,19 @@ public class BalanceOperationRepository {
         } catch (SQLException e) {
             e.printStackTrace();
             try {
-				con.close();
-			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
+                con.close();
+            } catch (SQLException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            }
 
         }
         return null;
     }
 
     public ArrayList<TicketEntry> getTicketsBySaleId(Integer saleId) {
-    	Connection con = null;
-    	try {
+        Connection con = null;
+        try {
             String sqlCommand = getFindBySaleIdStatement();
             con = DBCPDBConnectionPool.getConnection();
             PreparedStatement prps = con.prepareStatement(sqlCommand);
@@ -597,19 +595,19 @@ public class BalanceOperationRepository {
         } catch (SQLException e) {
             e.printStackTrace();
             try {
-				con.close();
-			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
+                con.close();
+            } catch (SQLException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            }
 
         }
         return null;
     }
 
     public SaleTransactionClass getSalesByTicketNumber(Integer ticketNumber) {
-    	Connection con = null;
-    	try {
+        Connection con = null;
+        try {
             String sqlCommand = getFindByTicketNumberStatement();
             con = DBCPDBConnectionPool.getConnection();
             PreparedStatement prps = con.prepareStatement(sqlCommand);
@@ -624,19 +622,19 @@ public class BalanceOperationRepository {
         } catch (SQLException e) {
             e.printStackTrace();
             try {
-				con.close();
-			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
+                con.close();
+            } catch (SQLException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            }
 
         }
         return null;
     }
 
     public ReturnTransactionClass getReturnByReturnId(Integer returnId) {
-    	Connection con = null;
-    	try {
+        Connection con = null;
+        try {
             String sqlCommand = getFindByReturnIdFromReturnTableStatement();
             con = DBCPDBConnectionPool.getConnection();
             PreparedStatement prps = con.prepareStatement(sqlCommand);
@@ -651,19 +649,19 @@ public class BalanceOperationRepository {
         } catch (SQLException e) {
             e.printStackTrace();
             try {
-				con.close();
-			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
+                con.close();
+            } catch (SQLException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            }
 
         }
         return null;
     }
 
     public ArrayList<TicketEntry> getTicketsByReturnId(Integer returnId) {
-    	Connection con = null;
-    	try {
+        Connection con = null;
+        try {
             String sqlCommand = getFindByReturnIdStatement();
             con = DBCPDBConnectionPool.getConnection();
             PreparedStatement prps = con.prepareStatement(sqlCommand);
@@ -676,19 +674,19 @@ public class BalanceOperationRepository {
         } catch (SQLException e) {
             e.printStackTrace();
             try {
-				con.close();
-			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
+                con.close();
+            } catch (SQLException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            }
         }
         return null;
     }
 
     public TicketEntryClass getTicketsByForeignKeyAndBarcode(String foreignKey, Integer key, String barcode) {
-    	Connection con = null;
+        Connection con = null;
 
-    	try {
+        try {
             String sqlCommand = getFindByForeignKeyAndBarcodeStatement(foreignKey);
             con = DBCPDBConnectionPool.getConnection();
             PreparedStatement prps = con.prepareStatement(sqlCommand);
@@ -703,18 +701,18 @@ public class BalanceOperationRepository {
         } catch (SQLException e) {
             e.printStackTrace();
             try {
-				con.close();
-			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
+                con.close();
+            } catch (SQLException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            }
 
         }
         return null;
     }
 
     public Integer getHighestTicketNumber() {
-    	Connection con = null;
+        Connection con = null;
 
         try {
             String sqlCommand = getMaxTicketNumberStatement();
@@ -726,23 +724,23 @@ public class BalanceOperationRepository {
             prps.close();
             con.close();
             return highestId;
-           
+
         } catch (SQLException e) {
             e.printStackTrace();
             try {
-				con.close();
-			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
+                con.close();
+            } catch (SQLException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            }
 
         }
         return null;
     }
 
     public Integer getHighestTicketNumberInTicket() {
-    	Connection con = null;;
-    	try {
+        Connection con = null;
+        try {
             String sqlCommand = getMaxTicketNumberInTicketStatement();
             con = DBCPDBConnectionPool.getConnection();
             PreparedStatement prps = con.prepareStatement(sqlCommand);
@@ -752,20 +750,20 @@ public class BalanceOperationRepository {
             prps.close();
             con.close();
             return highestId;
-            
+
         } catch (SQLException e) {
             e.printStackTrace();
             try {
-				con.close();
-			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
+                con.close();
+            } catch (SQLException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            }
 
         }
         return null;
     }
-    
+
     public Integer getHighestOrderId() throws SQLException {
 
         String sqlCommand = getMaxOrderIdStatement();
@@ -777,14 +775,14 @@ public class BalanceOperationRepository {
         prps.close();
         con.close();
         return highestId;
-        
+
     }
 
     public Integer getHighestReturnId() {
-    	Connection con = null;
-    	try {
+        Connection con = null;
+        try {
             String sqlCommand = getMaxReturnIdStatement();
-             con = DBCPDBConnectionPool.getConnection();
+            con = DBCPDBConnectionPool.getConnection();
             PreparedStatement prps = con.prepareStatement(sqlCommand);
             ResultSet rs = prps.executeQuery();
             rs.next();
@@ -792,15 +790,15 @@ public class BalanceOperationRepository {
             prps.close();
             con.close();
             return highestId;
-           
+
         } catch (SQLException e) {
             e.printStackTrace();
             try {
-				con.close();
-			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
+                con.close();
+            } catch (SQLException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            }
 
         }
         return null;
@@ -808,49 +806,49 @@ public class BalanceOperationRepository {
     }
 
     public Integer getHighestBalanceId() throws SQLException {
-    	Connection con = null;
-    	try {
-	        String sqlCommand = getMaxBalanceIdStatement();
-	        con = DBCPDBConnectionPool.getConnection();
-	        PreparedStatement prps = con.prepareStatement(sqlCommand);
-	        ResultSet rs = prps.executeQuery();
-	        rs.next();
-	        Integer highestId = rs.getInt(1);
-	        prps.close();
-	        con.close();
-	        return highestId;
-    	}catch (SQLException e) {
+        Connection con = null;
+        try {
+            String sqlCommand = getMaxBalanceIdStatement();
+            con = DBCPDBConnectionPool.getConnection();
+            PreparedStatement prps = con.prepareStatement(sqlCommand);
+            ResultSet rs = prps.executeQuery();
+            rs.next();
+            Integer highestId = rs.getInt(1);
+            prps.close();
+            con.close();
+            return highestId;
+        } catch (SQLException e) {
             e.printStackTrace();
             try {
                 con.close();
-			} catch (SQLException e1) {
-				e1.printStackTrace();
-			}
+            } catch (SQLException e1) {
+                e1.printStackTrace();
+            }
             return 0;
         }
-      
+
     }
 
     public OrderClass getOrderByOrderId(String orderId) {
-    	Connection con = null;
-    	try {
-	        String sqlCommand = getOrderByOrderIdStatement();
-	        con = DBCPDBConnectionPool.getConnection();
-	        PreparedStatement prps = con.prepareStatement(sqlCommand);
-	        prps.setString(1, orderId);
-	        ResultSet rs = prps.executeQuery();
-	        rs.next();
-	        OrderClass o = this.convertResultSetOrderToDomainModel(rs);
-	        prps.close();
-	        con.close();
-	        return o;
-    	}catch (SQLException e) {
+        Connection con = null;
+        try {
+            String sqlCommand = getOrderByOrderIdStatement();
+            con = DBCPDBConnectionPool.getConnection();
+            PreparedStatement prps = con.prepareStatement(sqlCommand);
+            prps.setString(1, orderId);
+            ResultSet rs = prps.executeQuery();
+            rs.next();
+            OrderClass o = this.convertResultSetOrderToDomainModel(rs);
+            prps.close();
+            con.close();
+            return o;
+        } catch (SQLException e) {
             e.printStackTrace();
             try {
                 con.close();
-			} catch (SQLException e1) {
-				e1.printStackTrace();
-			}
+            } catch (SQLException e1) {
+                e1.printStackTrace();
+            }
             return null;
         }
     }
@@ -896,10 +894,12 @@ public class BalanceOperationRepository {
         String sqlCommand = "SELECT MAX(ticketNumber) FROM sale";
         return sqlCommand;
     }
+
     private String getMaxTicketNumberInTicketStatement() {
         String sqlCommand = "SELECT MAX(ticketNumber) FROM ticket";
         return sqlCommand;
     }
+
     private String getMaxReturnIdStatement() {
         String sqlCommand = "SELECT MAX(returnId) FROM returnTable";
         return sqlCommand;
@@ -920,14 +920,14 @@ public class BalanceOperationRepository {
         int n = 0;
         while ((st = br.readLine()) != null) {
             if (n > 4) {
-                creditCards.put(st.substring(0, 16), Double.parseDouble(st.substring(17, st.length())));
+                creditCards.put(st.substring(0, 16), Double.parseDouble(st.substring(17)));
             }
             n = n + 1;
-        } 
+        }
         br.close();
         return creditCards;
     }
- 
+
 
     public void changeCreditCardBalance(String creditCard, Double price) {
         try {

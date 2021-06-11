@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import static org.junit.Assert.*;
 
 public class UserRepositoryTest {
-    private static UserRepository userRepository = UserRepository.getInstance();
+    private static final UserRepository userRepository = UserRepository.getInstance();
 
     @Before
     public void setUp() throws Exception {

@@ -5,21 +5,13 @@ import it.polito.ezshop.data.TicketEntry;
 import java.util.ArrayList;
 
 public class ReturnTransactionClass {
-  
 
-	@Override
-	public String toString() {
-		return "ReturnTransactionClass [returnId=" + returnId + ", price=" + price + ", state=" + state
-				+ ", ticketNumber=" + ticketNumber + ", entries=" + entries + "]";
-	}
 
-	private  Integer returnId;
-    private  double price;
-    private  String state;
-    private  Integer ticketNumber;
+    private Integer returnId;
+    private double price;
+    private String state;
+    private Integer ticketNumber;
     private ArrayList<TicketEntry> entries;
-
-
     public ReturnTransactionClass(Integer returnId, double price, String state, Integer ticketNumber) {
         this.returnId = returnId;
         this.price = price;
@@ -27,12 +19,18 @@ public class ReturnTransactionClass {
         this.ticketNumber = ticketNumber;
     }
 
+    @Override
+    public String toString() {
+        return "ReturnTransactionClass [returnId=" + returnId + ", price=" + price + ", state=" + state
+                + ", ticketNumber=" + ticketNumber + ", entries=" + entries + "]";
+    }
+
     public Integer getReturnId() {
         return returnId;
     }
 
     public void setReturnId(Integer returnId) {
-    	this.returnId = returnId;
+        this.returnId = returnId;
     }
 
     public double getPrice() {
@@ -40,7 +38,7 @@ public class ReturnTransactionClass {
     }
 
     public void setPrice(double price) {
-    	this.price = price;
+        this.price = price;
     }
 
     public String getState() {
@@ -48,7 +46,7 @@ public class ReturnTransactionClass {
     }
 
     public void setState(String state) {
-    	this.state = state;
+        this.state = state;
     }
 
     public ArrayList<TicketEntry> getEntries() {
@@ -64,6 +62,6 @@ public class ReturnTransactionClass {
     }
 
     public void setTicketNumber(Integer ticketNumber) {
-    	this.ticketNumber = ticketNumber;
+        this.ticketNumber = ticketNumber;
     }
 }

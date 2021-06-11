@@ -8,7 +8,7 @@ import static org.junit.Assert.assertEquals;
 
 public class BalanceOperationClassTest {
 
-    private static BalanceOperationClass balance = new BalanceOperationClass(1, LocalDate.now(), 30.5, "order");
+    private static final BalanceOperationClass balance = new BalanceOperationClass(1, LocalDate.now(), 30.5, "order");
 
     @Test
     public void testSetBalanceId() {

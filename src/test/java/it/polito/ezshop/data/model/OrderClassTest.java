@@ -6,7 +6,7 @@ import static org.junit.Assert.assertEquals;
 
 public class OrderClassTest {
 
-    private static OrderClass productType = new OrderClass(1, 30, "0799439112766", 0.40, 70,
+    private static final OrderClass productType = new OrderClass(1, 30, "0799439112766", 0.40, 70,
             "payed", 100);
 
     @Test

@@ -1,7 +1,7 @@
 package it.polito.ezshop.data.model;
 
 import it.polito.ezshop.data.TicketEntry;
-import org.junit.*;
+import org.junit.Test;
 
 import java.util.ArrayList;
 
@@ -10,23 +10,8 @@ import static org.junit.Assert.assertEquals;
 
 public class ReturnTransactionTest {
 
-    private static ReturnTransactionClass returnTransaction = new ReturnTransactionClass(0, 0, "", 0);
+    private static final ReturnTransactionClass returnTransaction = new ReturnTransactionClass(0, 0, "", 0);
 
-    @BeforeClass
-    public static void setUpBeforeClass() throws Exception {
-    }
-
-    @AfterClass
-    public static void tearDownAfterClass() throws Exception {
-    }
-
-    @Before
-    public void setUp() throws Exception {
-    }
-
-    @After
-    public void tearDown() throws Exception {
-    }
 
     @Test
     public void testSetReturnId() {

@@ -157,12 +157,12 @@ public class FR5Test {
 
         userRepository.setLoggedUser(new UserClass(4, "Sara", "1234", "1234", "ShopManager"));
 
-        assertTrue(ezShop.onlyDigits(ezShop.createCard()) && ezShop.createCard().length() == 10);
-        assertTrue(ezShop.onlyDigits(ezShop.createCard()) && ezShop.createCard().length() == 10);
-        assertTrue(ezShop.onlyDigits(ezShop.createCard()) && ezShop.createCard().length() == 10);
-        assertTrue(ezShop.onlyDigits(ezShop.createCard()) && ezShop.createCard().length() == 10);
-        assertTrue(ezShop.onlyDigits(ezShop.createCard()) && ezShop.createCard().length() == 10);
-        assertTrue(ezShop.onlyDigits(ezShop.createCard()) && ezShop.createCard().length() == 10);
+        assertTrue(EZShop.onlyDigits(ezShop.createCard()) && ezShop.createCard().length() == 10);
+        assertTrue(EZShop.onlyDigits(ezShop.createCard()) && ezShop.createCard().length() == 10);
+        assertTrue(EZShop.onlyDigits(ezShop.createCard()) && ezShop.createCard().length() == 10);
+        assertTrue(EZShop.onlyDigits(ezShop.createCard()) && ezShop.createCard().length() == 10);
+        assertTrue(EZShop.onlyDigits(ezShop.createCard()) && ezShop.createCard().length() == 10);
+        assertTrue(EZShop.onlyDigits(ezShop.createCard()) && ezShop.createCard().length() == 10);
     }
 
 

@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import static org.junit.Assert.*;
 
 public class ProductTypeRepositoryTest {
-    private static ProductTypeRepository productTypeRepository = ProductTypeRepository.getInstance();
+    private static final ProductTypeRepository productTypeRepository = ProductTypeRepository.getInstance();
 
     @Before
     public void setUp() throws SQLException {

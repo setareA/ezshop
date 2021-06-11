@@ -6,7 +6,7 @@ import static org.junit.Assert.assertEquals;
 
 public class CustomerClassTest {
 
-    private static CustomerClass customer = new CustomerClass(1, "name", "1111111111", 10);
+    private static final CustomerClass customer = new CustomerClass(1, "name", "1111111111", 10);
 
     @Test
     public void testSetCustomerName() {

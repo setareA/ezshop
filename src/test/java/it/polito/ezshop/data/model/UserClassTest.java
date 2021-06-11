@@ -6,7 +6,7 @@ import static org.junit.Assert.assertEquals;
 
 public class UserClassTest {
 
-    private static UserClass user = new UserClass(1, "username", "password", "salt", "Administrator");
+    private static final UserClass user = new UserClass(1, "username", "password", "salt", "Administrator");
 
     @Test
     public void testSetId() {

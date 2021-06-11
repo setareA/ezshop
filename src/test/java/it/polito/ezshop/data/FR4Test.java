@@ -3,7 +3,6 @@ package it.polito.ezshop.data;
 import it.polito.ezshop.data.model.Product;
 import it.polito.ezshop.data.repository.DBCPDBConnectionPool;
 import it.polito.ezshop.exceptions.*;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -20,10 +19,6 @@ public class FR4Test {
     @Before
     public void setUp() throws Exception {
         resetTables();
-    }
-
-    @After
-    public void tearDown() throws Exception {
     }
 
     public void resetTables() throws SQLException {
@@ -204,13 +199,13 @@ public class FR4Test {
         ezShop.logout();
         assertThrows(UnauthorizedException.class, () -> ezShop.recordOrderArrivalRFID(o, RFID));
         ezShop.login("setare_manager", "asdf");
-        assertEquals(ezShop.recordOrderArrivalRFID(1000, RFID),false);
-        assertEquals(ezShop.recordOrderArrivalRFID(o, RFID),true);
-        assertEquals(true ,ezShop.recordOrderArrivalRFID(o, "333333333333"));
+        assertEquals(ezShop.recordOrderArrivalRFID(1000, RFID), false);
+        assertEquals(ezShop.recordOrderArrivalRFID(o, RFID), true);
+        assertEquals(true, ezShop.recordOrderArrivalRFID(o, "333333333333"));
         Integer o1 = ezShop.payOrderFor("6254356245859", 1, 10);
         assertThrows(InvalidRFIDException.class, () -> ezShop.recordOrderArrivalRFID(o1, RFID));
         Integer o2 = ezShop.issueOrder("6254356245859", 1, 10);
-        assertEquals(false ,ezShop.recordOrderArrivalRFID(o2, "333333333333"));
+        assertEquals(false, ezShop.recordOrderArrivalRFID(o2, "333333333333"));
         Product p1 = ezShop.getProductTypeRepository().getProductbyRFID(RFID);
         Double rfidPlus7 = Double.parseDouble(RFID) + 7;
         String newRFID = String.format("%.0f", rfidPlus7);

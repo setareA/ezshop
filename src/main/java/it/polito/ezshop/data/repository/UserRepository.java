@@ -36,36 +36,6 @@ public class UserRepository {
         return attrs;
     }
 
-    public void initialize() {
-    	Connection con = null;
-    	try {
-        con = DBCPDBConnectionPool.getConnection();
-        Statement st = con.createStatement();
-        st.executeUpdate("CREATE TABLE IF NOT EXISTS " + "user" + " " + "(id INTEGER PRIMARY KEY, username TEXT NOT NULL UNIQUE, password TEXT, salt TEXT, role TEXT)");
-        st.close();
-        con.close();
-    	} catch (SQLException e) {
-	        e.printStackTrace();
-	        try {
-	            con.close();
-			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-	    }
-    }
-
-    public void deleteTables() throws SQLException {
-        Logger.getLogger(UserRepository.class.getName()).log(Level.INFO, "deleting Users");
-        Connection con = DBCPDBConnectionPool.getConnection();
-        PreparedStatement prp = con.prepareStatement("DELETE FROM user;");
-        prp.executeUpdate();
-    
-        prp.close();
-        con.close();
-    }
-    
-
     private static String insertCommand(String tableName, ArrayList<String> attributes) {
         String sqlCommand = "INSERT INTO " + tableName + "(";
         for (String attr : attributes)
@@ -114,6 +84,35 @@ public class UserRepository {
         );
     }
 
+    public void initialize() {
+        Connection con = null;
+        try {
+            con = DBCPDBConnectionPool.getConnection();
+            Statement st = con.createStatement();
+            st.executeUpdate("CREATE TABLE IF NOT EXISTS " + "user" + " " + "(id INTEGER PRIMARY KEY, username TEXT NOT NULL UNIQUE, password TEXT, salt TEXT, role TEXT)");
+            st.close();
+            con.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            try {
+                con.close();
+            } catch (SQLException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            }
+        }
+    }
+
+    public void deleteTables() throws SQLException {
+        Logger.getLogger(UserRepository.class.getName()).log(Level.INFO, "deleting Users");
+        Connection con = DBCPDBConnectionPool.getConnection();
+        PreparedStatement prp = con.prepareStatement("DELETE FROM user;");
+        prp.executeUpdate();
+
+        prp.close();
+        con.close();
+    }
+
     public UserClass getUserByUsername(String username) {
         Connection con = null;
         PreparedStatement prps = null;
@@ -130,13 +129,13 @@ public class UserRepository {
             return u;
         } catch (SQLException e) {
             e.printStackTrace();
-                try {
-                    if(prps != null)
-                        prps.close();
-                    con.close();
-                } catch (SQLException throwables) {
-                    throwables.printStackTrace();
-                }
+            try {
+                if (prps != null)
+                    prps.close();
+                con.close();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
         }
         return null;
     }
@@ -187,20 +186,19 @@ public class UserRepository {
             return nextId;
         } catch (SQLException throwables) {
             throwables.printStackTrace();
-        }
-        catch (NullPointerException exception){
+        } catch (NullPointerException exception) {
             exception.printStackTrace();
         }
         try {
-            if(con != null)
-            con.close();
+            if (con != null)
+                con.close();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
         return -1;
     }
 
-    public boolean deleteUserFromDB(Integer id){
+    public boolean deleteUserFromDB(Integer id) {
         Connection con = null;
         try {
             con = DBCPDBConnectionPool.getConnection();
@@ -220,8 +218,7 @@ public class UserRepository {
                 e.printStackTrace();
             }
 
-        }
-        catch ( NullPointerException e){
+        } catch (NullPointerException e) {
             try {
                 con.close();
             } catch (SQLException exception) {
@@ -231,7 +228,7 @@ public class UserRepository {
         return false;
     }
 
-    public boolean changeRoleOfAUser(Integer id, String role){
+    public boolean changeRoleOfAUser(Integer id, String role) {
         // This method assumes that the role that you are passing is already checked
         Connection con = null;
         try {
@@ -245,7 +242,7 @@ public class UserRepository {
             return count > 0;
         } catch (SQLException throwables) {
             throwables.printStackTrace();
-        } catch (NullPointerException exception){
+        } catch (NullPointerException exception) {
             exception.printStackTrace();
         }
         if (con != null) {
@@ -283,8 +280,7 @@ public class UserRepository {
             return u;
         } catch (SQLException e) {
             e.printStackTrace();
-        }
-        catch (NullPointerException exception){
+        } catch (NullPointerException exception) {
             exception.printStackTrace();
         }
         try {

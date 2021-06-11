@@ -2,11 +2,11 @@ package it.polito.ezshop.data.model;
 
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class ProductTest {
 
-    private static Product product = new Product(123456789876D, "957485611187", 1, "1","1");
+    private static final Product product = new Product(123456789876D, "957485611187", 1, "1", "1");
 
     @Test
     public void testSetRFID() {
@@ -29,7 +29,7 @@ public class ProductTest {
     @Test
     public void testSetTicketNumber() {
         product.setTicketNumber("2");
-        assertEquals(product.getTicketNumber(),"2");
+        assertEquals(product.getTicketNumber(), "2");
     }
 
     @Test

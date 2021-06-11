@@ -3,7 +3,10 @@ package it.polito.ezshop.data;
 import it.polito.ezshop.data.model.Product;
 import it.polito.ezshop.data.repository.DBCPDBConnectionPool;
 import it.polito.ezshop.exceptions.*;
-import org.junit.*;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
 
 import java.sql.Connection;
 import java.sql.Statement;
@@ -34,19 +37,6 @@ public class FR6Test {
         ezshop.logout();
     }
 
-    @AfterClass
-    public static void tearDownAfterClass() throws Exception {
-       /* ezshop.reset();
-        Connection con = DBCPDBConnectionPool.getConnection();
-        Statement st = con.createStatement();
-        String cleanUser = "DROP TABLE IF EXISTS user;";
-        String cleanCustomer = "DROP TABLE IF EXISTS customer;";
-        st.executeUpdate(cleanUser + cleanCustomer);
-        st.close();
-        con.close();
-        ezshop.logout();*/
-
-    }
 
     @Before
     public void setUp() throws Exception {
@@ -185,32 +175,32 @@ public class FR6Test {
         ezshop.getBalanceOperationRepository().setBalance(1100);
         ezshop.payOrder(orderId);
         ezshop.recordOrderArrivalRFID(orderId, "123456789123");
-        
+
         assertFalse(ezshop.addProductToSaleRFID(1, "123456789123"));
-        
+
         Integer s = ezshop.startSaleTransaction();
-        
+
         assertTrue(ezshop.addProductToSaleRFID(s, "123456789123"));
-        
-        assertThrows(InvalidTransactionIdException.class, ()->ezshop.deleteProductFromSaleRFID(0, "123456789123"));
-        assertThrows(InvalidTransactionIdException.class, ()->ezshop.deleteProductFromSaleRFID(-1, "123456789123"));
-        assertThrows(InvalidTransactionIdException.class, ()->ezshop.deleteProductFromSaleRFID(null, "123456789123"));
-        
-        assertThrows(InvalidRFIDException.class, ()->ezshop.deleteProductFromSaleRFID(s, ""));
-        assertThrows(InvalidRFIDException.class, ()->ezshop.deleteProductFromSaleRFID(s, null));
-        assertThrows(InvalidRFIDException.class, ()->ezshop.deleteProductFromSaleRFID(s, "1dakfslj%%123"));
-        
+
+        assertThrows(InvalidTransactionIdException.class, () -> ezshop.deleteProductFromSaleRFID(0, "123456789123"));
+        assertThrows(InvalidTransactionIdException.class, () -> ezshop.deleteProductFromSaleRFID(-1, "123456789123"));
+        assertThrows(InvalidTransactionIdException.class, () -> ezshop.deleteProductFromSaleRFID(null, "123456789123"));
+
+        assertThrows(InvalidRFIDException.class, () -> ezshop.deleteProductFromSaleRFID(s, ""));
+        assertThrows(InvalidRFIDException.class, () -> ezshop.deleteProductFromSaleRFID(s, null));
+        assertThrows(InvalidRFIDException.class, () -> ezshop.deleteProductFromSaleRFID(s, "1dakfslj%%123"));
+
         ezshop.logout();
-        
-        assertThrows(UnauthorizedException.class,()->ezshop.deleteProductFromSaleRFID(s, "123456789123"));
-        
+
+        assertThrows(UnauthorizedException.class, () -> ezshop.deleteProductFromSaleRFID(s, "123456789123"));
+
         ezshop.login("eugenio", "eugenio");
-        
+
         assertTrue(ezshop.deleteProductFromSaleRFID(s, "123456789123"));
-        
+
         assertFalse(ezshop.deleteProductFromSaleRFID(s, "123456789888"));
-        
-        
+
+
         ezshop.endSaleTransaction(s);
         assertFalse(ezshop.deleteProductFromSaleRFID(s, "123456789124"));
     }
@@ -348,7 +338,7 @@ public class FR6Test {
         ezshop.getBalanceOperationRepository().updateRow("sale", "status", "ticketNumber", s, "open");
         Integer p = ezshop.createProductType("cannelloni", "9574856111735", 1.0, null);
         Integer p1 = ezshop.createProductType("cannelloni", "957485611194", 1.0, null);
-        ezshop.updatePosition(p, "11-szhs-11"); 
+        ezshop.updatePosition(p, "11-szhs-11");
         ezshop.updatePosition(p1, "121-szhs-11");
         ezshop.updateQuantity(p, 100);
         ezshop.updateQuantity(p1, 100);
@@ -358,7 +348,7 @@ public class FR6Test {
 
         ezshop.addProductToSaleRFID(s, "111111111111");
         System.out.println(ezshop.getProductTypeRepository().getProductbyRFID("111111111111").getTicketNumber() + "," + s);
-        assertEquals(ezshop.getProductTypeRepository().getProductbyRFID("111111111111").getTicketNumber(),String.valueOf(s));
+        assertEquals(ezshop.getProductTypeRepository().getProductbyRFID("111111111111").getTicketNumber(), String.valueOf(s));
         ezshop.addProductToSale(s, "9574856111735", 10);
         ezshop.addProductToSale(s, "9574856111735", 10);
         ezshop.addProductToSale(s, "957485611194", 10);
@@ -493,49 +483,49 @@ public class FR6Test {
         ezshop.getBalanceOperationRepository().setBalance(1100);
         ezshop.payOrder(orderId);
         ezshop.recordOrderArrivalRFID(orderId, "123456789123");
-        
+
         assertFalse(ezshop.addProductToSaleRFID(1, "123456789123"));
-        
+
         Integer s = ezshop.startSaleTransaction();
-        
+
         assertTrue(ezshop.addProductToSaleRFID(s, "123456789123"));
         assertTrue(ezshop.addProductToSaleRFID(s, "123456789124"));
         assertTrue(ezshop.addProductToSaleRFID(s, "123456789125"));
         assertTrue(ezshop.addProductToSaleRFID(s, "123456789126"));
-        
+
         assertTrue(ezshop.endSaleTransaction(s));
-        
+
         ezshop.receiveCashPayment(s, 100000.0);
-        
+
         Integer r = ezshop.startReturnTransaction(s);
-        
-        assertThrows(InvalidTransactionIdException.class, ()->ezshop.returnProductRFID(0, "123456789123"));
-        assertThrows(InvalidTransactionIdException.class, ()->ezshop.returnProductRFID(-1, "123456789123"));
-        assertThrows(InvalidTransactionIdException.class, ()->ezshop.returnProductRFID(null, "123456789123"));
-        
-        assertThrows(InvalidRFIDException.class, ()->ezshop.returnProductRFID(r, ""));
-        assertThrows(InvalidRFIDException.class, ()->ezshop.returnProductRFID(r, null));
-        assertThrows(InvalidRFIDException.class, ()->ezshop.returnProductRFID(r, "1dakfslj%%123"));
-        
+
+        assertThrows(InvalidTransactionIdException.class, () -> ezshop.returnProductRFID(0, "123456789123"));
+        assertThrows(InvalidTransactionIdException.class, () -> ezshop.returnProductRFID(-1, "123456789123"));
+        assertThrows(InvalidTransactionIdException.class, () -> ezshop.returnProductRFID(null, "123456789123"));
+
+        assertThrows(InvalidRFIDException.class, () -> ezshop.returnProductRFID(r, ""));
+        assertThrows(InvalidRFIDException.class, () -> ezshop.returnProductRFID(r, null));
+        assertThrows(InvalidRFIDException.class, () -> ezshop.returnProductRFID(r, "1dakfslj%%123"));
+
         ezshop.logout();
-        
-        assertThrows(UnauthorizedException.class,()->ezshop.returnProductRFID(r, "123456789123"));
-        
+
+        assertThrows(UnauthorizedException.class, () -> ezshop.returnProductRFID(r, "123456789123"));
+
         ezshop.login("eugenio", "eugenio");
-        
+
         assertTrue(ezshop.returnProductRFID(r, "123456789123"));
         assertTrue(ezshop.returnProductRFID(r, "123456789124"));
-        
-        
+
+
         assertFalse(ezshop.returnProductRFID(r, "123456789150"));
         assertFalse(ezshop.returnProductRFID(r, "123456789127"));
         assertFalse(ezshop.returnProductRFID(2, "123456789125"));
-        
+
         assertTrue(ezshop.returnProductRFID(r, "123456789124"));
-        
+
         ezshop.endReturnTransaction(r, false);
-        
-        
+
+
     }
 
     @Test
@@ -559,7 +549,7 @@ public class FR6Test {
         Integer o = ezshop.payOrderFor("9574856111445", 1, 1);
         ezshop.recordOrderArrivalRFID(o, "111111111111");
         ezshop.addProductToSaleRFID(s, "111111111111");
-        
+
         p = ezshop.createProductType("fagioli", "957485611187", 1.0, null);
         ezshop.updatePosition(p, "11-szahxs-11");
         ezshop.updateQuantity(p, 100);
@@ -573,12 +563,12 @@ public class FR6Test {
         ezshop.returnProduct(r, "957485611187", 20);
         ezshop.returnProductRFID(r, "111111111111");
         Product p3 = ezshop.getProductTypeRepository().getProductbyRFID("111111111111");
-        assertEquals(p3.getReturnID(),r.toString());
-        
+        assertEquals(p3.getReturnID(), r.toString());
+
         assertEquals("transaction closed and send ", true, ezshop.endReturnTransaction(r, true));
-        
+
         p3 = ezshop.getProductTypeRepository().getProductbyRFID("111111111111");
-        assertEquals(p3.getAvailability(),Integer.valueOf(1));
+        assertEquals(p3.getAvailability(), Integer.valueOf(1));
         System.out.println(ezshop.getReturnTransaction(r).getPrice());
         assertEquals(ezshop.getReturnTransaction(r).getPrice(), Double.valueOf(31), 0.001);
         assertEquals("it change quantity avaible in shelved", Integer.valueOf(96), ezshop.getProductTypeByBarCode("9574856111445").getQuantity());
@@ -616,34 +606,34 @@ public class FR6Test {
         Integer o = ezshop.payOrderFor("9574856111445", 1, 1);
         ezshop.recordOrderArrivalRFID(o, "111111111111");
         ezshop.addProductToSaleRFID(s, "111111111111");
-        
+
         p = ezshop.createProductType("fagioli", "957485611187", 1.0, null);
         ezshop.updatePosition(p, "11-szahxs-11");
         ezshop.updateQuantity(p, 100);
         ezshop.addProductToSale(s, "957485611187", 10);
         ezshop.addProductToSale(s, "957485611187", 10);
-        
+
         ezshop.getBalanceOperationRepository().updateRow("sale", "status", "ticketNumber", s, "payed");
         Integer r = ezshop.startReturnTransaction(s);
         ezshop.returnProduct(r, "9574856111445", 10);
         ezshop.returnProduct(r, "957485611187", 20);
         ezshop.returnProductRFID(r, "111111111111");
         ezshop.endReturnTransaction(r, true);
-        
+
         Product p3 = ezshop.getProductTypeRepository().getProductbyRFID("111111111111");
-        assertEquals(p3.getAvailability(),Integer.valueOf(1));
-        assertEquals(p3.getReturnID(),r.toString());
- 
+        assertEquals(p3.getAvailability(), Integer.valueOf(1));
+        assertEquals(p3.getReturnID(), r.toString());
+
         assertEquals("inexistent transactionId ", true, ezshop.deleteReturnTransaction(r));
-        
+
         p3 = ezshop.getProductTypeRepository().getProductbyRFID("111111111111");
-        assertEquals(p3.getAvailability(),Integer.valueOf(0));
-        assertEquals(p3.getReturnID(),null);
-        
+        assertEquals(p3.getAvailability(), Integer.valueOf(0));
+        assertEquals(p3.getReturnID(), null);
+
         assertEquals("check if we have all product ", Integer.valueOf(ezshop.getBalanceOperationRepository().getTicketsByForeignKeyAndBarcode("saleId", s, "9574856111445").getAmount()), Integer.valueOf(16));
         assertEquals("check if we have all product ", Integer.valueOf(ezshop.getBalanceOperationRepository().getTicketsByForeignKeyAndBarcode("saleId", s, "957485611187").getAmount()), Integer.valueOf(20));
         assertEquals("check if we have all product ", Integer.valueOf(ezshop.getProductTypeByBarCode("9574856111445").getQuantity()), Integer.valueOf(85));
         assertEquals("check if we have all product ", Integer.valueOf(ezshop.getProductTypeByBarCode("957485611187").getQuantity()), Integer.valueOf(80));
- 
+
     }
 }

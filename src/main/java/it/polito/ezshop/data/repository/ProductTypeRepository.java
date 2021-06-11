@@ -2,7 +2,6 @@ package it.polito.ezshop.data.repository;
 
 import it.polito.ezshop.data.model.Product;
 import it.polito.ezshop.data.model.ProductTypeClass;
-import it.polito.ezshop.data.model.TicketEntryClass;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -36,7 +35,7 @@ public class ProductTypeRepository {
                         "pricePerUnit"));
         return attrs;
     }
-    
+
     private static ArrayList<String> getAttrsRFID() {
         ArrayList<String> attrs = new ArrayList<String>(
                 Arrays.asList("RFID",
@@ -44,7 +43,7 @@ public class ProductTypeRepository {
                         "availability",
                         "ticketNumber",
                         "returnID"
-                        ));
+                ));
         return attrs;
     }
 
@@ -71,10 +70,12 @@ public class ProductTypeRepository {
         String sqlCommand = "DELETE FROM productType;";
         return sqlCommand;
     }
+
     private static String deleteTableCommandRFID() {
         String sqlCommand = "DELETE FROM productRFID;";
         return sqlCommand;
     }
+
     protected static String getFindByBarCodeStatement() {
         return "SELECT " + COLUMNS +
                 " FROM productType" +
@@ -88,23 +89,27 @@ public class ProductTypeRepository {
                 " LIKE ?";
     }
 
+    private static String getFindByForeignKeyAndBarcodeStatement(String foreignKey) {
+        return "SELECT * FROM productRFID WHERE " + foreignKey + " = ? AND RFID = ?";
+    }
+
     public void initialize() {
-    	Connection con = null;
-    	try {
-	        con = DBCPDBConnectionPool.getConnection();
-	        Statement st = con.createStatement();
-	        st.executeUpdate("CREATE TABLE IF NOT EXISTS " + "productType" + " " + "(id INTEGER PRIMARY KEY, quantity INTEGER , location TEXT, note TEXT, productDescription TEXT, barCode TEXT ,pricePerUnit DOUBLE);");
-	        st.executeUpdate("CREATE TABLE IF NOT EXISTS " + "productRFID" + " " + "(RFID TEXT PRIMARY KEY, barCode TEXT , availability INTEGER, ticketNumber INTEGER, returnID INTEGER, FOREIGN KEY (ticketNumber) references sale(ticketNumber), FOREIGN KEY (returnID) references returnTable(returnId), FOREIGN KEY (barCode) references productType(barCode));");
-	        st.close();
-	        con.close();
-    	}catch (SQLException e) {
+        Connection con = null;
+        try {
+            con = DBCPDBConnectionPool.getConnection();
+            Statement st = con.createStatement();
+            st.executeUpdate("CREATE TABLE IF NOT EXISTS " + "productType" + " " + "(id INTEGER PRIMARY KEY, quantity INTEGER , location TEXT, note TEXT, productDescription TEXT, barCode TEXT ,pricePerUnit DOUBLE);");
+            st.executeUpdate("CREATE TABLE IF NOT EXISTS " + "productRFID" + " " + "(RFID TEXT PRIMARY KEY, barCode TEXT , availability INTEGER, ticketNumber INTEGER, returnID INTEGER, FOREIGN KEY (ticketNumber) references sale(ticketNumber), FOREIGN KEY (returnID) references returnTable(returnId), FOREIGN KEY (barCode) references productType(barCode));");
+            st.close();
+            con.close();
+        } catch (SQLException e) {
             e.printStackTrace();
             try {
                 con.close();
-			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
+            } catch (SQLException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            }
         }
     }
 
@@ -119,13 +124,11 @@ public class ProductTypeRepository {
             }
         }
     }
-    
-    
+
     public boolean checkUniqueRFID(String RFID) {
-    	// TODO: It does not work yet, waiting for product RFIF class
+        //
         Product p = this.getProductbyRFID(RFID);
-        if (p == null) return true;
-        return false;
+        return p == null;
     }
 
     private String getMaxIdCommand(String tableName, String columnName) {
@@ -147,65 +150,65 @@ public class ProductTypeRepository {
                 " FROM productType" +
                 " WHERE id = ?";
     }//UPDATE Products SET Price = Price + 50 WHERE ProductID = 1
-    
+
     protected String getFindStatementRFID() {
         return "SELECT " + COLUMNSRFID +
                 " FROM productRFID" +
                 " WHERE RFID = ?";
     }
+
     private String getUpdateQuantityStatement() {
         return "UPDATE productType SET quantity = quantity + ? WHERE id = ?";
     }
 
-    
     @SuppressWarnings("unused")
-	public Integer getMaxId() {
-    	Connection con = null;
-    	try {
-	        con = DBCPDBConnectionPool.getConnection();
-	        String sqlCommand = getMaxIdCommand("productType", "id");
-	        PreparedStatement prps = con.prepareStatement(sqlCommand);
-	        ResultSet rs = prps.executeQuery();
-	        rs.next();
-	        Integer highestId = rs.getInt(1);
-	        prps.close();
-	        con.close();
-	        if (highestId != null) {
-	            return highestId;
-	        } else {
-	            return 0;
-	        }
-    	}catch (SQLException e) {
-	            e.printStackTrace();
-	            try {
-	                con.close();
-				} catch (SQLException e1) {
-					e1.printStackTrace();
-				}
-	            return 0;
-	        }
-    }
-
-    public boolean deleteProductTypeFromDB(Integer id) {
-    	PreparedStatement prp = null;
-    	Connection con = null;
-    	try {
-	        con = DBCPDBConnectionPool.getConnection();
-	        System.out.println("deleting a product type");
-	        String sqlCommand = deleteCommand("productType", "id");
-	        prp = con.prepareStatement(sqlCommand);
-	        prp.setString(1, id.toString());
-	        int count = prp.executeUpdate();
-	        prp.close();
-	        con.close();
-	        return count != 0;
-    	}catch (SQLException e) {
+    public Integer getMaxId() {
+        Connection con = null;
+        try {
+            con = DBCPDBConnectionPool.getConnection();
+            String sqlCommand = getMaxIdCommand("productType", "id");
+            PreparedStatement prps = con.prepareStatement(sqlCommand);
+            ResultSet rs = prps.executeQuery();
+            rs.next();
+            Integer highestId = rs.getInt(1);
+            prps.close();
+            con.close();
+            if (highestId != null) {
+                return highestId;
+            } else {
+                return 0;
+            }
+        } catch (SQLException e) {
             e.printStackTrace();
             try {
                 con.close();
-			} catch (SQLException e1) {
-				e1.printStackTrace();
-			}
+            } catch (SQLException e1) {
+                e1.printStackTrace();
+            }
+            return 0;
+        }
+    }
+
+    public boolean deleteProductTypeFromDB(Integer id) {
+        PreparedStatement prp = null;
+        Connection con = null;
+        try {
+            con = DBCPDBConnectionPool.getConnection();
+            System.out.println("deleting a product type");
+            String sqlCommand = deleteCommand("productType", "id");
+            prp = con.prepareStatement(sqlCommand);
+            prp.setString(1, id.toString());
+            int count = prp.executeUpdate();
+            prp.close();
+            con.close();
+            return count != 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            try {
+                con.close();
+            } catch (SQLException e1) {
+                e1.printStackTrace();
+            }
             return false;
         }
     }
@@ -223,7 +226,7 @@ public class ProductTypeRepository {
             prp.close();
             con.close();
             return count != 0;
-        }catch (SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
             try {
                 con.close();
@@ -234,106 +237,104 @@ public class ProductTypeRepository {
         }
     }
 
-
     public boolean deleteTable() {
-    	PreparedStatement prp = null;
-    	Connection con = null;
-    	try {
-	        Logger.getLogger(ProductTypeRepository.class.getName()).log(Level.INFO, "deleting product table");
-	        con = DBCPDBConnectionPool.getConnection();
-	        String sqlCommand = deleteTableCommand();
-	        prp = con.prepareStatement(sqlCommand);
-	        Integer count = prp.executeUpdate();
-	        sqlCommand = deleteTableCommandRFID();
-	        prp = con.prepareStatement(sqlCommand);
-	        Integer count2 = prp.executeUpdate();
-	        prp.close();
-	        con.close();
-	        return (count>0 && count2>0);
-		}catch (SQLException e) {
-	        e.printStackTrace();
-	        try {
-	            con.close();
-			} catch (SQLException e1) {
-				e1.printStackTrace();
-			}
-	    }
-    	return false;
+        PreparedStatement prp = null;
+        Connection con = null;
+        try {
+            Logger.getLogger(ProductTypeRepository.class.getName()).log(Level.INFO, "deleting product table");
+            con = DBCPDBConnectionPool.getConnection();
+            String sqlCommand = deleteTableCommand();
+            prp = con.prepareStatement(sqlCommand);
+            Integer count = prp.executeUpdate();
+            sqlCommand = deleteTableCommandRFID();
+            prp = con.prepareStatement(sqlCommand);
+            Integer count2 = prp.executeUpdate();
+            prp.close();
+            con.close();
+            return (count > 0 && count2 > 0);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            try {
+                con.close();
+            } catch (SQLException e1) {
+                e1.printStackTrace();
+            }
+        }
+        return false;
     }
-
 
     public boolean addNewProductType(ProductTypeClass pt) {
-    	PreparedStatement prp = null;
-    	Connection con = null;
-    	try {
-	        HashMap<String, String> userData = new HashMap<>();
-	        userData.put("id", pt.getId().toString());
-	        userData.put("quantity", pt.getQuantity().toString());
-	        userData.put("location", pt.getLocation());
-	        userData.put("note", pt.getNote());
-	        userData.put("productDescription", pt.getProductDescription());
-	        userData.put("barCode", pt.getBarCode());
-	        userData.put("pricePerUnit", pt.getPricePerUnit().toString());
-	
-	
-	        con = DBCPDBConnectionPool.getConnection();
-	        ArrayList<String> attrs = getAttrs();
-	        System.out.println("adding new product type");
-	        String sqlCommand = insertCommand("productType", attrs);
-	        prp = con.prepareStatement(sqlCommand);
-	        for (int j = 0; j < attrs.size(); j++) {
-	            prp.setString(j + 1, userData.get(attrs.get(j)));
-	        }
-	
-	        Integer count = prp.executeUpdate();
-	        prp.close();
-	        con.close();
-	        return count>0;
-		}catch (SQLException e) {
-	        e.printStackTrace();
-	        try {
-	            con.close();
-			} catch (SQLException e1) {
-				e1.printStackTrace();
-			}
-	    	return false;
-	    }
+        PreparedStatement prp = null;
+        Connection con = null;
+        try {
+            HashMap<String, String> userData = new HashMap<>();
+            userData.put("id", pt.getId().toString());
+            userData.put("quantity", pt.getQuantity().toString());
+            userData.put("location", pt.getLocation());
+            userData.put("note", pt.getNote());
+            userData.put("productDescription", pt.getProductDescription());
+            userData.put("barCode", pt.getBarCode());
+            userData.put("pricePerUnit", pt.getPricePerUnit().toString());
+
+
+            con = DBCPDBConnectionPool.getConnection();
+            ArrayList<String> attrs = getAttrs();
+            System.out.println("adding new product type");
+            String sqlCommand = insertCommand("productType", attrs);
+            prp = con.prepareStatement(sqlCommand);
+            for (int j = 0; j < attrs.size(); j++) {
+                prp.setString(j + 1, userData.get(attrs.get(j)));
+            }
+
+            Integer count = prp.executeUpdate();
+            prp.close();
+            con.close();
+            return count > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            try {
+                con.close();
+            } catch (SQLException e1) {
+                e1.printStackTrace();
+            }
+            return false;
+        }
     }
-    
+
     public boolean addNewProductRFID(String RFID, String barCode) {
-    	PreparedStatement prp = null;
-    	Connection con = null;
-    	try {
-    		HashMap<String, String> userData = new HashMap<>();
-	        userData.put("RFID",RFID );
-	        userData.put("barCode", barCode);
-	        userData.put("availability","1");
-	        userData.put("ticketNumber", null);
-	        userData.put("returnID", null);
-	
-	
-	        con = DBCPDBConnectionPool.getConnection();
-	        ArrayList<String> attrs = getAttrsRFID();
-	        System.out.println("adding new productRFID");
-	        String sqlCommand = insertCommand("productRFID", attrs);
-	        prp = con.prepareStatement(sqlCommand);
-	        for (int j = 0; j < attrs.size(); j++) {
-	            prp.setString(j + 1, userData.get(attrs.get(j)));
-	        }
-	
-	        Integer count = prp.executeUpdate();
-	        prp.close();
-	        con.close();
-	        return count>0;
-		}catch (SQLException e) {
-	        e.printStackTrace();
-	        try {
-	            con.close();
-			} catch (SQLException e1) {
-				e1.printStackTrace();
-			}
-	    	return false;
-	    }
+        PreparedStatement prp = null;
+        Connection con = null;
+        try {
+            HashMap<String, String> userData = new HashMap<>();
+            userData.put("RFID", RFID);
+            userData.put("barCode", barCode);
+            userData.put("availability", "1");
+            userData.put("ticketNumber", null);
+            userData.put("returnID", null);
+
+
+            con = DBCPDBConnectionPool.getConnection();
+            ArrayList<String> attrs = getAttrsRFID();
+            System.out.println("adding new productRFID");
+            String sqlCommand = insertCommand("productRFID", attrs);
+            prp = con.prepareStatement(sqlCommand);
+            for (int j = 0; j < attrs.size(); j++) {
+                prp.setString(j + 1, userData.get(attrs.get(j)));
+            }
+
+            Integer count = prp.executeUpdate();
+            prp.close();
+            con.close();
+            return count > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            try {
+                con.close();
+            } catch (SQLException e1) {
+                e1.printStackTrace();
+            }
+            return false;
+        }
     }
 
     public Product getProductsByForeignKeyAndRFID(String foreignKey, Integer key, String RFID) {
@@ -362,7 +363,6 @@ public class ProductTypeRepository {
         return null;
     }
 
-
     protected ProductTypeClass convertResultSetToDomainModel(ResultSet rs) throws SQLException {
         return new ProductTypeClass(Integer.parseInt(rs.getString(1)),
                 Integer.parseInt(rs.getString(2)),
@@ -373,14 +373,16 @@ public class ProductTypeRepository {
                 rs.getDouble(7)
         );
     }
+
     protected Product convertResultSetToDomainModelRFID(ResultSet rs) throws SQLException {
         return new Product(Double.parseDouble(rs.getString(1)),
                 rs.getString(2),
-        		Integer.parseInt(rs.getString(3)),
+                Integer.parseInt(rs.getString(3)),
                 rs.getString(4),
                 rs.getString(5)
         );
     }
+
     private ArrayList<ProductTypeClass> loadAll(ResultSet rs) throws SQLException {
 
         ArrayList<ProductTypeClass> result = new ArrayList<>();
@@ -391,9 +393,8 @@ public class ProductTypeRepository {
         return result;
     }
 
-
     public ProductTypeClass getProductTypebyLocation(String l) {
-    	Connection con = null;
+        Connection con = null;
         try {
             String sqlCommand = getFindByPositionStatement();
             con = DBCPDBConnectionPool.getConnection();
@@ -406,19 +407,19 @@ public class ProductTypeRepository {
             con.close();
             return u;
         } catch (SQLException e) {
-	        e.printStackTrace();
-	        try {
-	            con.close();
-			} catch (SQLException e1) {
-				e1.printStackTrace();
-			}
-	        return null;
-	    }
- 
+            e.printStackTrace();
+            try {
+                con.close();
+            } catch (SQLException e1) {
+                e1.printStackTrace();
+            }
+            return null;
+        }
+
     }
 
     public ProductTypeClass getProductTypebyId(String id) {
-    	Connection con = null;
+        Connection con = null;
         try {
             String sqlCommand = getFindStatement();
             con = DBCPDBConnectionPool.getConnection();
@@ -431,17 +432,18 @@ public class ProductTypeRepository {
             con.close();
             return u;
         } catch (SQLException e) {
-	        e.printStackTrace();
-	        try {
-	            con.close();
-			} catch (SQLException e1) {
-				e1.printStackTrace();
-			}
-	        return null;
-	    }
+            e.printStackTrace();
+            try {
+                con.close();
+            } catch (SQLException e1) {
+                e1.printStackTrace();
+            }
+            return null;
+        }
     }
+
     public Product getProductbyRFID(String rFID) {
-    	Connection con = null;
+        Connection con = null;
         try {
             String sqlCommand = getFindStatementRFID();
             System.out.println(sqlCommand);
@@ -455,19 +457,18 @@ public class ProductTypeRepository {
             con.close();
             return u;
         } catch (SQLException e) {
-	        e.printStackTrace();
-	        try {
-	            con.close();
-			} catch (SQLException e1) {
-				e1.printStackTrace();
-			}
-	        return null;
-	    }
+            e.printStackTrace();
+            try {
+                con.close();
+            } catch (SQLException e1) {
+                e1.printStackTrace();
+            }
+            return null;
+        }
     }
 
-
     public ArrayList<ProductTypeClass> getProductTypebyDescription(String description) {
-    	Connection con = null;
+        Connection con = null;
         try {
             String sqlCommand = getFindByDescriptionStatement();
             con = DBCPDBConnectionPool.getConnection();
@@ -480,18 +481,18 @@ public class ProductTypeRepository {
             con.close();
             return u;
         } catch (SQLException e) {
-	        e.printStackTrace();
-	        try {
-	            con.close();
-			} catch (SQLException e1) {
-				e1.printStackTrace();
-			}
-	        return null;
-	    }
+            e.printStackTrace();
+            try {
+                con.close();
+            } catch (SQLException e1) {
+                e1.printStackTrace();
+            }
+            return null;
+        }
     }
 
     public ProductTypeClass getProductTypebyBarCode(String barcode) {
-    	Connection con = null;
+        Connection con = null;
         try {
             String sqlCommand = getFindByBarCodeStatement();
             con = DBCPDBConnectionPool.getConnection();
@@ -504,18 +505,18 @@ public class ProductTypeRepository {
             con.close();
             return u;
         } catch (SQLException e) {
-	        e.printStackTrace();
-	        try {
-	            con.close();
-			} catch (SQLException e1) {
-				e1.printStackTrace();
-			}
-	        return null;
-	    }
+            e.printStackTrace();
+            try {
+                con.close();
+            } catch (SQLException e1) {
+                e1.printStackTrace();
+            }
+            return null;
+        }
     }
 
     public ArrayList<ProductTypeClass> getAllProductType() {
-    	Connection con = null;
+        Connection con = null;
         try {
             String sqlCommand = getAllProductTypeStatement();
             con = DBCPDBConnectionPool.getConnection();
@@ -526,19 +527,19 @@ public class ProductTypeRepository {
             con.close();
             return pts;
         } catch (SQLException e) {
-	        e.printStackTrace();
-	        try {
-	            con.close();
-			} catch (SQLException e1) {
-				e1.printStackTrace();
-			}
-	        return null;
-	    }
+            e.printStackTrace();
+            try {
+                con.close();
+            } catch (SQLException e1) {
+                e1.printStackTrace();
+            }
+            return null;
+        }
     }
 
     //UPDATE Products SET Price = Price + 50 WHERE ProductID = 1
     public boolean updateQuantity(Integer id, int quantity) {
-    	Connection con = null;
+        Connection con = null;
         try {
             String sqlCommand = getUpdateQuantityStatement();
             con = DBCPDBConnectionPool.getConnection();
@@ -550,42 +551,42 @@ public class ProductTypeRepository {
             con.close();
             return (returnVal == 1);
         } catch (SQLException e) {
-	        e.printStackTrace();
-	        try {
-	            con.close();
-			} catch (SQLException e1) {
-				e1.printStackTrace();
-			}
-	        return false;
-	    }
+            e.printStackTrace();
+            try {
+                con.close();
+            } catch (SQLException e1) {
+                e1.printStackTrace();
+            }
+            return false;
+        }
     }
 
     public boolean updateProductType(String id, String nd, String nc, String np, String nn) {
-    	Connection con = null;
-    	try {
-        con = DBCPDBConnectionPool.getConnection();
-        System.out.println("updating product type");
-        if (this.getProductTypebyId(id) == null) return false;
-        Logger.getLogger(ProductTypeRepository.class.getName()).log(Level.SEVERE, "updating product type");
-        String sqlCommand = updateCommand("productType", new ArrayList<String>(Arrays.asList("id", "productDescription", "barCode", "pricePerUnit", "note")), new ArrayList<String>(Arrays.asList(id, nd, nc, np, nn)));
-        PreparedStatement prp = con.prepareStatement(sqlCommand);
-        int count = prp.executeUpdate();
-        prp.close();
-        con.close();
-        return count != 0;
-    	} catch (SQLException e) {
-	        e.printStackTrace();
-	        try {
-	            con.close();
-			} catch (SQLException e1) {
-				e1.printStackTrace();
-			}
-	        return false;
-	    }
+        Connection con = null;
+        try {
+            con = DBCPDBConnectionPool.getConnection();
+            System.out.println("updating product type");
+            if (this.getProductTypebyId(id) == null) return false;
+            Logger.getLogger(ProductTypeRepository.class.getName()).log(Level.SEVERE, "updating product type");
+            String sqlCommand = updateCommand("productType", new ArrayList<String>(Arrays.asList("id", "productDescription", "barCode", "pricePerUnit", "note")), new ArrayList<String>(Arrays.asList(id, nd, nc, np, nn)));
+            PreparedStatement prp = con.prepareStatement(sqlCommand);
+            int count = prp.executeUpdate();
+            prp.close();
+            con.close();
+            return count != 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            try {
+                con.close();
+            } catch (SQLException e1) {
+                e1.printStackTrace();
+            }
+            return false;
+        }
     }
 
     public boolean updatePosition(String id, String np) {
-    	Connection con = null;
+        Connection con = null;
         try {
             con = DBCPDBConnectionPool.getConnection();
             System.out.println("updating position");
@@ -597,14 +598,14 @@ public class ProductTypeRepository {
             con.close();
             return count != 0;
         } catch (SQLException e) {
-	        e.printStackTrace();
-	        try {
-	            con.close();
-			} catch (SQLException e1) {
-				e1.printStackTrace();
-			}
-	        return false;
-	    }
+            e.printStackTrace();
+            try {
+                con.close();
+            } catch (SQLException e1) {
+                e1.printStackTrace();
+            }
+            return false;
+        }
     }
 
     private String updateCommand(String tableName, ArrayList<String> attributes, ArrayList<String> values) {
@@ -617,12 +618,11 @@ public class ProductTypeRepository {
         sqlCommand += " WHERE " + attributes.get(0) + " = " + values.get(0) + ";";
         return sqlCommand;
     }
-    
-    
+
     public boolean updateRow(String tableName, String columnName, String idName, String id, String newColumnVal) {
-    	PreparedStatement prps = null;
-    	Connection con = null;
-    	try {
+        PreparedStatement prps = null;
+        Connection con = null;
+        try {
             String sqlCommand = getUpdateRowStatement(tableName, columnName, idName);
             con = DBCPDBConnectionPool.getConnection();
             prps = con.prepareStatement(sqlCommand);
@@ -636,16 +636,12 @@ public class ProductTypeRepository {
             e.printStackTrace();
             try {
                 con.close();
-			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
+            } catch (SQLException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            }
         }
         return false;
-    }
-
-    private static String getFindByForeignKeyAndBarcodeStatement(String foreignKey) {
-        return "SELECT * FROM productRFID WHERE " + foreignKey + " = ? AND RFID = ?";
     }
 
     private String getUpdateRowStatement(String tableName, String columnName, String idName) {

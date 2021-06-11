@@ -6,7 +6,7 @@ import static org.junit.Assert.assertEquals;
 
 public class ProductTypeClassTest {
 
-    private static ProductTypeClass productType = new ProductTypeClass(1, 30, "1-A-3", "sth", "apples",
+    private static final ProductTypeClass productType = new ProductTypeClass(1, 30, "1-A-3", "sth", "apples",
             "0799439112766", 0.30);
 
     @Test
