@@ -1160,7 +1160,7 @@ public class EZShop implements EZShopInterface {
             }
             ReturnTransactionClass returnTransaction = balanceOperationRepository.getReturnByReturnId(returnId);
             if (returnTransaction == null || !"open".equals(returnTransaction.getState())) {
-                return false;
+                return false; 
             }
             if (!commit) { //the whole transaction is undone.
                 balanceOperationRepository.deleteRow("ticket", "returnId", String.valueOf(returnId));
@@ -1240,7 +1240,7 @@ public class EZShop implements EZShopInterface {
             balanceOperationRepository.updateRow("sale", "price", "ticketNumber", saleTransaction.getTicketNumber(), String.valueOf(price * (1 - saleTransaction.getDiscountRate())));
             //
             productTypeRepository.updateRow("productRFID", "availability", "returnID", returnId.toString(), "0");
-            productTypeRepository.updateRow("productRFID", "ticketNumber", "returnID", returnId.toString(), null);
+            productTypeRepository.updateRow("productRFID", "returnID", "returnID", returnId.toString(), null);
             return balanceOperationRepository.deleteRow("returnTable", "returnId", String.valueOf(returnId));
 
         } else {
@@ -1373,7 +1373,7 @@ public class EZShop implements EZShopInterface {
 
         // Check UnauthorizedException: check if there is a loggedUser and if its role is a "Administrator", "ShopManager" or "Cashier"
         if (userRepository.getLoggedUser() == null || !checkIfValidRole(userRepository.getLoggedUser().getRole())) {
-            throw new UnauthorizedException();
+            throw new UnauthorizedException(); 
         }
 
         ReturnTransactionClass returnTransaction = getReturnTransaction(returnId);
