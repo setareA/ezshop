@@ -8,24 +8,23 @@ import java.util.List;
 
 public class SaleTransactionClass implements SaleTransaction {
 
-    @Override
-	public String toString() {
-		return "SaleTransactionClass [ticketNumber=" + ticketNumber + ", entries=" + entries + ", discountRate="
-				+ discountRate + ", price=" + price + ", status=" + status + "]";
-	}
-
-	private Integer ticketNumber;
+    private Integer ticketNumber;
     private ArrayList<TicketEntry> entries;
     private double discountRate;
     private double price;
     private String status;
-
     public SaleTransactionClass(Integer ticketNumber, double discountRate,
                                 double price, String state) {
         this.ticketNumber = ticketNumber;
         this.discountRate = discountRate;
         this.price = price;
         this.status = state;
+    }
+
+    @Override
+    public String toString() {
+        return "SaleTransactionClass [ticketNumber=" + ticketNumber + ", entries=" + entries + ", discountRate="
+                + discountRate + ", price=" + price + ", status=" + status + "]";
     }
 
     @Override

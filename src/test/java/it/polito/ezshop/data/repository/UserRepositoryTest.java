@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import static org.junit.Assert.*;
 
 public class UserRepositoryTest {
-     private static UserRepository userRepository = UserRepository.getInstance();
+    private static final UserRepository userRepository = UserRepository.getInstance();
 
     @Before
     public void setUp() throws Exception {
@@ -47,23 +47,23 @@ public class UserRepositoryTest {
     public void testGetUserByUsername() {
         assertNull(userRepository.getUserByUsername(null));
         assertNull(userRepository.getUserByUsername("ss"));
-        userRepository.addNewUser(new UserClass(null,"ss","sdiyuasdf","","Cashier"));
+        userRepository.addNewUser(new UserClass(null, "ss", "sdiyuasdf", "", "Cashier"));
         assertEquals(UserClass.class, userRepository.getUserByUsername("ss").getClass());
     }
 
     @Test
     public void testSetLoggedUser() {
-        UserClass user = new UserClass(1,"ss","sdfsdf","","Cashier");
+        UserClass user = new UserClass(1, "ss", "sdfsdf", "", "Cashier");
         userRepository.setLoggedUser(user);
-        assertEquals(userRepository.getLoggedUser(),user);
+        assertEquals(userRepository.getLoggedUser(), user);
     }
 
 
     @Test
     public void testAddNewUser() {
-        assertEquals(Integer.valueOf(-1),userRepository.addNewUser(null));
-        assertEquals(Integer.class, userRepository.addNewUser(new UserClass(null,"username","ajsdfh","","Cashier")).getClass()) ;
-        assertEquals(Integer.valueOf(-1), userRepository.addNewUser(new UserClass(null,"username","khkjh","","Cashier")));
+        assertEquals(Integer.valueOf(-1), userRepository.addNewUser(null));
+        assertEquals(Integer.class, userRepository.addNewUser(new UserClass(null, "username", "ajsdfh", "", "Cashier")).getClass());
+        assertEquals(Integer.valueOf(-1), userRepository.addNewUser(new UserClass(null, "username", "khkjh", "", "Cashier")));
     }
 
     @Test
@@ -71,14 +71,14 @@ public class UserRepositoryTest {
         assertFalse(userRepository.deleteUserFromDB(null));
         userRepository.deleteUserFromDB(null);
         assertFalse(userRepository.deleteUserFromDB(1));
-        Integer id = userRepository.addNewUser(new UserClass(null,"user","pass3434","","Cashier"));
+        Integer id = userRepository.addNewUser(new UserClass(null, "user", "pass3434", "", "Cashier"));
         assertTrue(userRepository.deleteUserFromDB(id));
     }
 
     @Test
     public void testChangeRoleOfAUser() {
         assertFalse(userRepository.changeRoleOfAUser(null, "Cashier"));
-        Integer id = userRepository.addNewUser(new UserClass(null,"user","pass3434","","Cashier"));
+        Integer id = userRepository.addNewUser(new UserClass(null, "user", "pass3434", "", "Cashier"));
         assertTrue(userRepository.changeRoleOfAUser(id, "Administrator"));
 
     }
@@ -87,8 +87,8 @@ public class UserRepositoryTest {
     public void testGetUserById() {
         assertNull(userRepository.getUserById(null));
         assertNull(userRepository.getUserById(1));
-        Integer u = userRepository.addNewUser(new UserClass(null,"user","pass3434","","Cashier"));
-        assertEquals(UserClass.class,userRepository.getUserById(u).getClass());
+        Integer u = userRepository.addNewUser(new UserClass(null, "user", "pass3434", "", "Cashier"));
+        assertEquals(UserClass.class, userRepository.getUserById(u).getClass());
     }
 
     @Test

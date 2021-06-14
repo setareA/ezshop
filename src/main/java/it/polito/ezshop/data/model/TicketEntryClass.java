@@ -94,10 +94,10 @@ public class TicketEntryClass implements TicketEntry {
         this.discountRate = discountRate;
     }
 
-	@Override
-	public String toString() {
-		return "TicketEntryClass [id=" + id + ", barCode=" + barCode + ", productDescription=" + productDescription
-				+ ", amount=" + amount + ", pricePerUnit=" + pricePerUnit + ", discountRate=" + discountRate + "]";
-	}
+    @Override
+    public String toString() {
+        return "TicketEntryClass [id=" + id + ", barCode=" + barCode + ", productDescription=" + productDescription
+                + ", amount=" + amount + ", pricePerUnit=" + pricePerUnit + ", discountRate=" + discountRate + "]";
+    }
 
 }

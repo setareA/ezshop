@@ -4,22 +4,16 @@ import it.polito.ezshop.view.EZShopGUI;
 
 
 public class EZShop {
-	  public static void main(String[] args){
-     
-                                                                                                                                                                                                                                                                          
-        try {                              
-           it.polito.ezshop.data.EZShop ezShop = new it.polito.ezshop.data.EZShop();
-           EZShopGUI gui = new EZShopGUI(ezShop);
+    public static void main(String[] args) {
 
-        }catch(Exception e){           
-     	   e.printStackTrace();
+
+        try {
+            it.polito.ezshop.data.EZShop ezShop = new it.polito.ezshop.data.EZShop();
+            EZShopGUI gui = new EZShopGUI(ezShop);
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        
-        
-        
-       
-  
-
 
     }
 }
