@@ -556,7 +556,7 @@ public class Testezshop20210528 {
             Assert.fail(getErrorMsg("testGetAllUsersNotAuthorized2", "The inserted username should be valid"));
         }
     }
-
+/*
     @Test
     public void testGetUser() {
         try {
@@ -585,7 +585,7 @@ public class Testezshop20210528 {
             Assert.fail(getErrorMsg("testGetUser", "The logged user should be authorized"));
         }
     }
-
+*/
     @Test(expected = InvalidUserIdException.class)
     public void testGetUserZeroId() throws InvalidUserIdException {
         try {
